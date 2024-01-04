@@ -7,5 +7,14 @@ const envVars = process.env;
 
 export default {
   env: envVars.NODE_ENV,
-  port: envVars.PORT
+  port: envVars.PORT,
+  mongoose: {
+    url: envVars.MONGODB_URL,
+    options: {
+      useCreateIndex: true,
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useFindAndModify: false
+    }
+  },
 };
