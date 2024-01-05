@@ -7,6 +7,7 @@ import Home from './components/Home'
 import Projects from './components/Projects'
 import Templates from './components/Templates'
 import CreateDesign from "./components/CreateDesign.tsx";
+import Main from "./pages/Main.tsx";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
   {
     path: "/design/create",
     element: <CreateDesign />,
+  },
+  {
+    path: "/design/:id/edit",
+    element: <Main />,
   }
 ])
 
