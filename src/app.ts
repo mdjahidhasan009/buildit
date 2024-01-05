@@ -25,6 +25,10 @@ if(process.env.NODE_ENV === 'production') {
 
 const dbConnect = async () => {
   try {
+    if(!config.mongoose.url) {
+        throw new Error("MONGODB_URL not found");
+    }
+
     await mongoose.connect(config.mongoose.url);
     console.log("DB connected successfully");
   } catch (error) {
