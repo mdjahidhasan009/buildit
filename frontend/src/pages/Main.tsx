@@ -4,15 +4,35 @@ import {FaFolder, FaShapes} from "react-icons/fa";
 import {GoCloud} from "react-icons/go";
 import {TfiText} from "react-icons/tfi";
 import {RxTransparencyGrid} from "react-icons/rx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {MdKeyboardArrowLeft} from "react-icons/md";
 import TemplateDesign from "../components/main/TemplateDesign.tsx";
 import MyImages from "../components/MyImages.tsx";
 import Projects from "../components/Projects.tsx";
 import Image from "../components/Image.tsx";
+import CreateComponent from "../components/CreateComponent.tsx";
 
 const Main = () => {
   const [state, setState] = useState('');
+  const [currentComponent, setCurrentComponent] = useState('');
+  const [color, setColor] = useState('');
+  const [image, setImage] = useState('');
+  const [rotate, setRotate] = useState(0);
+  const [components, setComponents] = useState([
+    {
+      name: 'main_frame',
+      type: 'rect',
+      id: Math.floor((Math.random() * 100) + 1),
+      // height: state.height,
+      // width: state.width,
+      height: 450,
+      width: 650,
+      z_index: 1,
+      color: '#fff',
+      image: "",
+      setCurrentComponent: (a) => setCurrentComponent(a),
+    }
+  ]) as any[];
   const [show, setShow] = useState({
       status: true,
       name: ''
@@ -25,6 +45,68 @@ const Main = () => {
             name: name
         });
   }
+
+  const moveElement = () => {
+
+  }
+
+  const resizeElement = () => {
+
+  }
+
+  const rotateElement = () => {
+
+  }
+
+  const createShape = (name: string, type: string) => {
+    const style = {
+      id: components.length + 1,
+      name: name,
+      type: type,
+      left: 10,
+      top: 10,
+      opacity: 1,
+      width: 200,
+      height: 150,
+      rotate,
+      z_index: 2,
+      color: '#3c3c3d',
+      setCurrentComponent: (a) => setCurrentComponent(a),
+      removeBackground: () => setImage(''),
+      moveElement,
+      resizeElement,
+      rotateElement,
+    }
+    setComponents([...components, style]);
+  }
+
+  const removeComponent = (id: string) => {
+    const temp = components.filter(component => component.id !== id);
+    setComponents(temp);
+    setCurrentComponent('')
+  }
+
+  const removeBackground = () => {
+    const component = components.find(component => component.id === currentComponent.id);
+    const temp = components.filter(component => component.id !== currentComponent.id);
+    component.image = '';
+    setImage('');
+    setComponents([...temp, component]);
+  }
+
+  // useEffect(() => {
+  //   if(currentComponent) {
+  //     const index = components.findIndex(component => component.id === currentComponent.id);
+  //     const temp = components.filter(component => component.id !== currentComponent.id);
+  //
+  //     if(currentComponent.name === 'main_frame' && image) {
+  //       console.log(image);
+  //       components[index].image = image || currentComponent.image;
+  //     }
+  //     components[index].color = color || currentComponent.color;
+  //     setComponents([...temp, components[index]]);
+  //   }
+  // });
 
   return (
     <div className="min-w-screen h-screen bg-black">
@@ -96,10 +178,11 @@ const Main = () => {
                   </div>
               }
               {
-                state === 'shape' && <div className='grid grid-cols-3'>
-                  <div className='h-[90px] bg-[#3c3c3d] cursor-pointer'></div>
-                  <div className='h-[90px] bg-[#3c3c3d] cursor-pointer rounded-full'></div>
-                  <div style={{clipPath: 'polygon(50% 0, 100% 100%, 0 100%)'}} className='h-[90px] bg-[#3c3c3d] cursor-pointer'></div>
+                state === 'shape' &&
+                <div className='grid grid-cols-3'>
+                  <div onClick={() => createShape('shape', 'rect')} className='h-[90px] bg-[#3c3c3d] cursor-pointer'></div>
+                  <div onClick={() => createShape('shape', 'circle')} className='h-[90px] bg-[#3c3c3d] cursor-pointer rounded-full'></div>
+                  <div onClick={() => createShape('shape', 'trangle')} style={{clipPath: 'polygon(50% 0, 100% 100%, 0 100%)'}} className='h-[90px] bg-[#3c3c3d] cursor-pointer'></div>
                 </div>
               }
               {
@@ -145,6 +228,33 @@ const Main = () => {
                 </div>
             }
           </div>
+
+          <div className='w-full flex h-full'>
+            <div className={`flex justify-center relative items-center h-full ${!currentComponent? 'w-full' : 'w-[calc(100%-250px)] overflow-hidden'}`}>
+              <div className='m-w-[650px] m-h-[480px] flex justify-center items-center overflow-hidden'>
+                <div id='main_design' className='w-auto relative h-auto overflow-hidden'>
+                  {
+                    components.map((component, index) => (
+                      <CreateComponent
+                        key={index}
+                        info={component}
+                        currentComponent={currentComponent}
+                        removeComponent={removeComponent}
+                      />
+                    ))
+                  }
+                </div>
+              </div>
+            </div>
+            {
+              currentComponent && (
+                <div className='h-full w-[250px] text-gray-300 bg-[#252627] px-3 py-2'>
+                  username
+                </div>
+              )
+            }
+          </div>
+
         </div>
       </div>
     </div>
