@@ -109,8 +109,37 @@ const Main = () => {
     document.addEventListener('mouseup', mouseUp);
   }
 
-  const rotateElement = () => {
+  const rotateElement = (id, currentInfo) => {
+    setCurrentComponent(currentInfo);
 
+    const target = document.getElementById(id);
+    const mouseMove = (e) => {
+      const { movementX, movementY } = e;
+      const getStyle = window.getComputedStyle(target);
+      const trans = getStyle.transform;
+      const values = trans.split('(')[1].split(')')[0].split(',');
+      const angle = Math.round(Math.atan2(values[1], values[0]) * (180/Math.PI));
+      let deg = angle < 0 ? angle + 360 : angle;
+      if(movementX) {
+        deg = deg + movementX;
+      }
+      target.style.transform = `rotate(${deg}deg)`;
+    }
+
+    const mouseUp = (e) => {
+      window.removeEventListener('mousemove', mouseMove);
+      window.removeEventListener('mouseup', mouseUp);
+
+      const getStyle = window.getComputedStyle(target);
+      const trans = getStyle.transform;
+      const values = trans.split('(')[1].split(')')[0].split(',');
+      const angle = Math.round(Math.atan2(values[1], values[0]) * (180/Math.PI));
+      let deg = angle < 0 ? angle + 360 : angle;
+      setRotate(deg);
+    }
+
+    window.addEventListener('mousemove', mouseMove);
+    window.addEventListener('mouseup', mouseUp);
   }
 
   const createShape = (name: string, type: string) => {
@@ -157,6 +186,7 @@ const Main = () => {
       if(currentComponent !== 'text') {
         components[index].width = width || currentComponent?.width;
         components[index].height = height || currentComponent?.height;
+        components[index].rotate = rotate || currentComponent?.rotate;
       }
       if(currentComponent?.name === 'main_frame' && image) {
         components[index].image = image || currentComponent?.image;
@@ -171,9 +201,10 @@ const Main = () => {
       setHeight('');
       setLeft('');
       setTop('');
+      setRotate(0)
     }
     console.log(image)
-  }, [color, image, left, top, height, width]);
+  }, [color, image, left, top, height, width, rotate]);
 
   return (
     <div className="min-w-screen h-screen bg-black">
