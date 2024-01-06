@@ -64,6 +64,7 @@ const CreateComponent = ({ info, currentComponent, removeComponent }) => {
         }}
         className='absolute group hover:border-[2px] hover:border-indigo-500'
       >
+        <Element id={randValue} info={info} exId={`${randValue}c`} />
         <div
           id={`${randValue}c`}
           className='rounded-full'
@@ -99,8 +100,9 @@ const CreateComponent = ({ info, currentComponent, removeComponent }) => {
         }}
         className='absolute group hover:border-[2px] hover:border-indigo-500'
       >
+        <Element id={randValue} info={info} exId={`${randValue}t`} />
         <div
-          id={`${randValue}c`}
+          id={`${randValue}t`}
           style={{
             width: info.width + 'px',
             height: info.height + 'px',

@@ -18,6 +18,8 @@ const Main = () => {
   const [color, setColor] = useState('');
   const [image, setImage] = useState('');
   const [rotate, setRotate] = useState(0);
+  const [width, setWidth] = useState('');
+  const [height, setHeight] = useState('');
   const [left, setLeft] = useState('');
   const [top, setTop] = useState('');
 
@@ -78,8 +80,33 @@ const Main = () => {
     document.addEventListener('mouseup', mouseUp);
   }
 
-  const resizeElement = () => {
+  const resizeElement = (id, currentInfo) => {
+    setCurrentComponent(currentInfo);
 
+    let isMoving = true;
+    const currentDiv = document.getElementById(id);
+
+    const moveMouse = (e) => {
+      const { movementX, movementY } = e;
+      const getStyle = window.getComputedStyle(currentDiv);
+      const width = parseInt(getStyle.width);
+      const height = parseInt(getStyle.height);
+      if(isMoving) {
+        currentDiv.style.width = `${width + movementX}px`;
+        currentDiv.style.height = `${height + movementY}px`;
+      }
+    }
+
+    const mouseUp = (e) => {
+      isMoving = false;
+      document.removeEventListener('mousemove', moveMouse);
+      document.removeEventListener('mouseup', mouseUp);
+      setWidth(parseInt(currentDiv.style.width));
+      setHeight(parseInt(currentDiv.style.height));
+    }
+
+    document.addEventListener('mousemove', moveMouse);
+    document.addEventListener('mouseup', mouseUp);
   }
 
   const rotateElement = () => {
@@ -127,6 +154,10 @@ const Main = () => {
       const index = components.findIndex(component => component.id === currentComponent.id);
       const temp = components.filter(component => component.id !== currentComponent.id);
 
+      if(currentComponent !== 'text') {
+        components[index].width = width || currentComponent?.width;
+        components[index].height = height || currentComponent?.height;
+      }
       if(currentComponent?.name === 'main_frame' && image) {
         components[index].image = image || currentComponent?.image;
       }
@@ -135,11 +166,14 @@ const Main = () => {
         components[index].left = left || currentComponent?.left;
         components[index].top = top || currentComponent?.top;
       }
-
       setComponents([...temp, components[index]]);
+      setWidth('');
+      setHeight('');
+      setLeft('');
+      setTop('');
     }
     console.log(image)
-  }, [color, image, left, top]);
+  }, [color, image, left, top, height, width]);
 
   return (
     <div className="min-w-screen h-screen bg-black">
