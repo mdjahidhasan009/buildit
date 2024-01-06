@@ -94,19 +94,20 @@ const Main = () => {
     setComponents([...temp, component]);
   }
 
-  // useEffect(() => {
-  //   if(currentComponent) {
-  //     const index = components.findIndex(component => component.id === currentComponent.id);
-  //     const temp = components.filter(component => component.id !== currentComponent.id);
-  //
-  //     if(currentComponent.name === 'main_frame' && image) {
-  //       console.log(image);
-  //       components[index].image = image || currentComponent.image;
-  //     }
-  //     components[index].color = color || currentComponent.color;
-  //     setComponents([...temp, components[index]]);
-  //   }
-  // });
+  useEffect(() => {
+    if(currentComponent) {
+      const index = components.findIndex(component => component.id === currentComponent.id);
+      const temp = components.filter(component => component.id !== currentComponent.id);
+
+      if(currentComponent?.name === 'main_frame' && image) {
+        components[index].image = image || currentComponent?.image;
+      }
+
+      components[index].color = color || currentComponent?.color;
+      setComponents([...temp, components[index]]);
+    }
+    console.log(image)
+  }, [color, image]);
 
   return (
     <div className="min-w-screen h-screen bg-black">
@@ -213,6 +214,7 @@ const Main = () => {
                     {
                       [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14].map((item, index) =>
                         <div
+                          onClick={() => setImage('http://localhost:5173/project.jpg')}
                           key={index}
                           className='w-full h-[90px] overflow-hidden rounded-sm cursor-pointer'
                         >
@@ -249,7 +251,35 @@ const Main = () => {
             {
               currentComponent && (
                 <div className='h-full w-[250px] text-gray-300 bg-[#252627] px-3 py-2'>
-                  username
+                  <div className='flex gap-3 flex-col items-start h-full px-3 justify-start'>
+                    <div className='flex gap-4 justify-start items-start'>
+                      <span>Color: </span>
+                      <label
+                        className='w-[30px] h-[30px] cursor-pointer rounded-md'
+                        style={{background: `${currentComponent.color && currentComponent.color !== '#fff' ? currentComponent.color : 'gray'}`}}
+                        htmlFor='color'
+                      >
+                      </label>
+                      <input
+                        onChange={(e) => setColor(e.target.value)}
+                        type='color'
+                        id='color'
+                        className='invisible'
+                      />
+                    </div>
+                    {
+                      (currentComponent?.name === 'main_frame' && image) && (
+                        <div>
+                          <button className='p-[6px] bg-slate-700 text-white rounded-md'
+                            onClick={removeBackground}
+                          >
+                            Remove Background
+                          </button>
+                        </div>
+                      )
+                    }
+                  </div>
+
                 </div>
               )
             }
