@@ -18,6 +18,9 @@ const Main = () => {
   const [color, setColor] = useState('');
   const [image, setImage] = useState('');
   const [rotate, setRotate] = useState(0);
+  const [left, setLeft] = useState('');
+  const [top, setTop] = useState('');
+
   const [components, setComponents] = useState([
     {
       name: 'main_frame',
@@ -46,8 +49,33 @@ const Main = () => {
         });
   }
 
-  const moveElement = () => {
+  const moveElement = (id, currentInfo) => {
+    setCurrentComponent(currentInfo);
 
+    let isMoving = true;
+    const currentDiv = document.getElementById(id);
+
+    const moveMouse = (e) => {
+      const { movementX, movementY } = e;
+      const getStyle = window.getComputedStyle(currentDiv);
+      const left = parseInt(getStyle.left);
+      const top = parseInt(getStyle.top);
+      if(isMoving) {
+        currentDiv.style.left = `${left + movementX}px`;
+        currentDiv.style.top = `${top + movementY}px`;
+      }
+    }
+
+    const mouseUp = (e) => {
+      isMoving = false;
+      document.removeEventListener('mousemove', moveMouse);
+      document.removeEventListener('mouseup', mouseUp);
+      setLeft(parseInt(currentDiv.style.left));
+      setTop(parseInt(currentDiv.style.top));
+    }
+
+    document.addEventListener('mousemove', moveMouse);
+    document.addEventListener('mouseup', mouseUp);
   }
 
   const resizeElement = () => {
@@ -102,12 +130,16 @@ const Main = () => {
       if(currentComponent?.name === 'main_frame' && image) {
         components[index].image = image || currentComponent?.image;
       }
-
       components[index].color = color || currentComponent?.color;
+      if(currentComponent?.name !== 'main_frame') {
+        components[index].left = left || currentComponent?.left;
+        components[index].top = top || currentComponent?.top;
+      }
+
       setComponents([...temp, components[index]]);
     }
     console.log(image)
-  }, [color, image]);
+  }, [color, image, left, top]);
 
   return (
     <div className="min-w-screen h-screen bg-black">
