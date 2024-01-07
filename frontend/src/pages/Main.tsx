@@ -28,6 +28,7 @@ const Main = () => {
   const [opacity, setOpacity] = useState('');
   const [text, setText] = useState('');
   const [zIndex, setZIndex] = useState('');
+  const [radius, setRadius] = useState(0);
 
   const [components, setComponents] = useState([
     {
@@ -212,6 +213,29 @@ const Main = () => {
     setComponents([...components, style]);
   }
 
+  const addImage = (image) => {
+    const style ={
+      id: components.length + 1,
+      name: 'image',
+      type: 'image',
+      left: 10,
+      top: 10,
+      opacity: 1,
+      width: 200,
+      height: 150,
+      rotate,
+      zIndex: 2,
+      radius: 0,
+      image,
+      setCurrentComponent: (a) => setCurrentComponent(a),
+      moveElement,
+      resizeElement,
+      rotateElement
+    }
+    setCurrentComponent(style);
+    setComponents([...components, style]);
+  }
+
   useEffect(() => {
     if(currentComponent) {
       const index = components.findIndex(component => component.id === currentComponent.id);
@@ -227,6 +251,9 @@ const Main = () => {
         components[index].fontSize = fontSize || currentComponent?.fontSize;
         components[index].fontWeight = fontWeight || currentComponent?.fontWeight;
         components[index].title = text || currentComponent?.title;
+      }
+      if(currentComponent?.name === 'image') {
+        components[index].radius = radius || currentComponent?.radius;
       }
       if(currentComponent?.name === 'main_frame' && image) {
         components[index].image = image || currentComponent?.image;
@@ -251,8 +278,9 @@ const Main = () => {
       setFontSize('');
       setFontWeight('');
       setText('');
+      setRadius(0)
     }
-  }, [color, image, left, top, height, width, rotate, opacity, zIndex, padding, fontSize, fontWeight, text]);
+  }, [color, image, left, top, height, width, rotate, opacity, zIndex, padding, fontSize, fontWeight, text, radius]);
 
   return (
     <div className="min-w-screen h-screen bg-black">
@@ -352,7 +380,7 @@ const Main = () => {
               {
                 state === 'initImage' &&
                   <div className='h-[88vh] overflow-x-auto flex justify-start items-start scrollbar-hide'>
-                    <Image/>
+                    <Image addImage={addImage} />
                   </div>
               }
             {
@@ -452,6 +480,19 @@ const Main = () => {
                                 value={currentComponent?.zIndex}
                             />
                           </div>
+                          {
+                            currentComponent?.name === 'image' &&
+                              <div className='flex gap-1 justify-start items-start'>
+                                <span className='text-md w-[70px]'>Radius : </span>
+                                <input
+                                    onChange={(e) => setRadius(parseInt(e.target.value))}
+                                    className='w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md'
+                                    type='number'
+                                    step={1}
+                                    value={currentComponent?.radius}
+                                />
+                              </div>
+                          }
                           {
                             currentComponent?.name === 'text' &&
                               <>
