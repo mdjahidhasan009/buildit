@@ -12,7 +12,7 @@ const CreateDesign = () => {
     id: Math.floor(Math.random() * 100 + 1),
     height: state.height,
     width: state.width,
-    z_index: 1,
+    zIndex: 1,
     color: 'green',
     img: ""
   }

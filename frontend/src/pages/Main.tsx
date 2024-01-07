@@ -22,6 +22,12 @@ const Main = () => {
   const [height, setHeight] = useState('');
   const [left, setLeft] = useState('');
   const [top, setTop] = useState('');
+  const [padding, setPadding] = useState('');
+  const [fontSize, setFontSize] = useState('');
+  const [fontWeight, setFontWeight] = useState('');
+  const [opacity, setOpacity] = useState('');
+  const [text, setText] = useState('');
+  const [zIndex, setZIndex] = useState('');
 
   const [components, setComponents] = useState([
     {
@@ -32,7 +38,7 @@ const Main = () => {
       // width: state.width,
       height: 450,
       width: 650,
-      z_index: 1,
+      zIndex: 1,
       color: '#fff',
       image: "",
       setCurrentComponent: (a) => setCurrentComponent(a),
@@ -153,10 +159,9 @@ const Main = () => {
       width: 200,
       height: 150,
       rotate,
-      z_index: 2,
+      zIndex: 2,
       color: '#3c3c3d',
       setCurrentComponent: (a) => setCurrentComponent(a),
-      removeBackground: () => setImage(''),
       moveElement,
       resizeElement,
       rotateElement,
@@ -170,12 +175,41 @@ const Main = () => {
     setCurrentComponent('')
   }
 
+  const opacityHandler = (e) => {
+    setOpacity(parseFloat(e.target.value));
+  }
+
   const removeBackground = () => {
     const component = components.find(component => component.id === currentComponent.id);
     const temp = components.filter(component => component.id !== currentComponent.id);
     component.image = '';
     setImage('');
     setComponents([...temp, component]);
+  }
+
+  const addText = (name, type) => {
+    const style = {
+      id: components.length + 1,
+      name,
+      type,
+      left: 10,
+      top: 10,
+      opacity: 1,
+      rotate,
+      zIndex: 10,
+      padding: 6,
+      fontSize: 22,
+      title: 'Add text',
+      color: '#3c3c3d',
+      setCurrentComponent: (a) => setCurrentComponent(a),
+      moveElement,
+      resizeElement,
+      rotateElement,
+    }
+    setWidth('');
+    setFontSize('');
+    setCurrentComponent(style);
+    setComponents([...components, style]);
   }
 
   useEffect(() => {
@@ -188,6 +222,12 @@ const Main = () => {
         components[index].height = height || currentComponent?.height;
         components[index].rotate = rotate || currentComponent?.rotate;
       }
+      if(currentComponent?.name === 'text') {
+        components[index].padding = padding || currentComponent?.padding;
+        components[index].fontSize = fontSize || currentComponent?.fontSize;
+        components[index].fontWeight = fontWeight || currentComponent?.fontWeight;
+        components[index].title = text || currentComponent?.title;
+      }
       if(currentComponent?.name === 'main_frame' && image) {
         components[index].image = image || currentComponent?.image;
       }
@@ -195,16 +235,24 @@ const Main = () => {
       if(currentComponent?.name !== 'main_frame') {
         components[index].left = left || currentComponent?.left;
         components[index].top = top || currentComponent?.top;
+        components[index].opacity = opacity || currentComponent?.opacity;
+        components[index].zIndex = zIndex || currentComponent?.zIndex;
       }
       setComponents([...temp, components[index]]);
       setWidth('');
       setHeight('');
       setLeft('');
       setTop('');
-      setRotate(0)
+      setRotate(0);
+      setColor('');
+      setOpacity('');
+      setZIndex('');
+      setPadding('');
+      setFontSize('');
+      setFontWeight('');
+      setText('');
     }
-    console.log(image)
-  }, [color, image, left, top, height, width, rotate]);
+  }, [color, image, left, top, height, width, rotate, opacity, zIndex, padding, fontSize, fontWeight, text]);
 
   return (
     <div className="min-w-screen h-screen bg-black">
@@ -289,7 +337,10 @@ const Main = () => {
               {
                   state === 'text' && <div>
                     <div className='grid grid-cols-1 gap-2'>
-                      <div className='bg-[#3c3c3d] h-[90px] cursor-pointer font-bold p-3 text-white text-xl rounded-sm'>
+                      <div
+                          onClick={() => addText('text', 'title')}
+                          className='bg-[#3c3c3d] h-[90px] cursor-pointer font-bold p-3 text-white text-xl rounded-sm'
+                      >
                         <h2>Add a Text</h2>
                       </div>
                     </div>
@@ -348,8 +399,8 @@ const Main = () => {
             {
               currentComponent && (
                 <div className='h-full w-[250px] text-gray-300 bg-[#252627] px-3 py-2'>
-                  <div className='flex gap-3 flex-col items-start h-full px-3 justify-start'>
-                    <div className='flex gap-4 justify-start items-start'>
+                  <div className='flex gap-6 flex-col items-start h-full px-3 justify-start'>
+                    <div className='flex gap-4 justify-start items-start mt-4'>
                       <span>Color: </span>
                       <label
                         className='w-[30px] h-[30px] cursor-pointer rounded-md'
@@ -374,6 +425,96 @@ const Main = () => {
                           </button>
                         </div>
                       )
+                    }
+                    {
+                      currentComponent?.name !== 'main_frame' &&
+                        <div className='flex gap-6 flex-col'>
+                          <div className='flex gap-4 justify-start items-start'>
+                            <span className='text-md w-[70px]'>Opacity : </span>
+                            <input
+                                onChange={opacityHandler}
+                                className='w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md'
+                                type='number'
+                                step={0.1}
+                                min={0.1}
+                                max={1}
+                                value={currentComponent?.opacity}
+                            />
+                          </div>
+
+                          <div className='flex gap-1 justify-start items-start'>
+                            <span className='text-md w-[70px]'>Z-Index : </span>
+                            <input
+                                onChange={(e) => setZIndex(parseInt(e.target.value))}
+                                className='w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md'
+                                type='number'
+                                step={1}
+                                value={currentComponent?.zIndex}
+                            />
+                          </div>
+                          {
+                            currentComponent?.name === 'text' &&
+                              <>
+                                <div className='flex gap-1 justify-start items-start'>
+                                  <span className='text-md w-[70px]'>Padding : </span>
+                                  <input
+                                      onChange={(e) => setPadding(parseInt(e.target.value))}
+                                      className='w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md'
+                                      type='number'
+                                      step={1}
+                                      value={currentComponent?.padding}
+                                  />
+                                </div>
+                                <div className='flex gap-1 justify-start items-start'>
+                                  <span className='text-md w-[72px]'>Font Size : </span>
+                                  <input
+                                      onChange={(e) => {
+                                        console.log(parseInt(e.target.value));
+                                        setFontSize(parseInt(e.target.value))
+                                      }}
+                                      className='w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md'
+                                      type='number'
+                                      step={1}
+                                      value={currentComponent?.fontSize}
+                                  />
+                                </div>
+
+                                <div className='flex gap-1 justify-start items-start'>
+                                  <span className='text-md w-[72px]'>Font Weight : </span>
+                                  <input
+                                      onChange={(e) => setFontWeight(parseInt(e.target.value))}
+                                      className='w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md'
+                                      type='number'
+                                      step={100}
+                                      min={100}
+                                      max={900}
+                                      value={currentComponent?.fontWeight}
+                                  />
+                                </div>
+
+                                <div className='flex gap-2 flex-col justify-start items-start'>
+                                  <input
+                                      onChange={(e) => {
+                                        setCurrentComponent({
+                                          ...currentComponent,
+                                          title: e.target.value
+                                        });
+                                        // setText(e.target.value); //TODO: will add this
+                                      }}
+                                      className='border border-gray-700 bg-transparent outline-none p-2 rounded-md'
+                                      type='text'
+                                      value={currentComponent?.title}
+                                  />
+                                  <button
+                                      onClick={() => setText(currentComponent?.title)}
+                                      className='px-4 py-2 bg-purple-500 text-xs text-white rounded-sm'
+                                  >
+                                    Add
+                                  </button>
+                                </div>
+                              </>
+                          }
+                        </div>
                     }
                   </div>
 
