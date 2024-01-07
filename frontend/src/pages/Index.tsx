@@ -1,17 +1,65 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { IoMdClose } from 'react-icons/io'
 import { AiOutlineGoogle } from 'react-icons/ai'
 import { FaFacebookF } from 'react-icons/fa'
+import api from '../utils/api'
 
 const Index = () => {
 
-  const [type, setType] = useState('')
-  const [show, setShow] = useState(false)
+  const [type, setType] = useState('');
+  const [show, setShow] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [state, setState] = useState({
     name: '',
     email: '',
-    passsword: ''
-  })
+    password: ''
+  });
+
+  const inputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setState({
+      ...state,
+      [e.target.name]: e.target.value
+    })
+  };
+
+  const registerUser = async (e) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      const { data } = await api.post('/auth/register', state);
+      localStorage.setItem('buildit-token', data.token);
+      setState({
+        name: '',
+        email: '',
+        password: ''
+      });
+      setType('');
+      setShow(false);
+    } catch (e) {
+      console.error(e);
+    }
+    setLoading(false);
+  }
+
+  const loginUser = async (e) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      const { data } = await api.post('/auth/login', state);
+      localStorage.setItem('buildit-token', data.token);
+      setState({
+        name: '',
+        email: '',
+        password: ''
+      });
+      setType('');
+      setShow(false);
+    } catch (e) {
+      console.error(e);
+    }
+    setLoading(false);
+  }
+
   return (
     <div className='bg-[#18191b] min-h-screen w-full'>
       <div className={`w-screen ${show ? 'visible opacity-100' : 'invisible opacity-30'} transition-all duration-500 h-screen fixed bg-[#252627ad] flex justify-center items-center`}>
@@ -19,17 +67,41 @@ const Index = () => {
           <div onClick={() => setShow(false)} className='absolute right-4 top-4 text-xl cursor-pointer text-white'><IoMdClose /></div>
           <h2 className='text-white pb-4 text-center text-xl'>Login or sign up in seconds</h2>
           {
-            type === 'signin' && <form>
+            type === 'signin' &&
+              <form
+                  onSubmit={loginUser}
+              >
                 <div className='flex flex-col gap-3 mb-3 text-white'>
                   <label htmlFor="email">Email</label>
-                  <input type="email" name='email' id='email' placeholder='email' value={state.email} className='px-3 py-2 rounded-md border outline-none border-[#5c5c5e] focus:border-purple-500 bg-transparent' />
+                  <input
+                      type="email"
+                      onChange={inputHandler}
+                      name='email'
+                      id='email'
+                      placeholder='email'
+                      value={state.email}
+                      className='px-3 py-2 rounded-md border outline-none border-[#5c5c5e] focus:border-purple-500 bg-transparent'
+                  />
                 </div>
                 <div className='flex flex-col gap-3 mb-3 text-white'>
                   <label htmlFor="password">Password</label>
-                  <input type="password" name='password' id='password' placeholder='password' value={state.password} className='px-3 py-2 rounded-md border outline-none border-[#5c5c5e] focus:border-purple-500 bg-transparent' />
+                  <input
+                      type="password"
+                      onChange={inputHandler}
+                      name='password'
+                      id='password'
+                      placeholder='password'
+                      value={state.password}
+                      className='px-3 py-2 rounded-md border outline-none border-[#5c5c5e] focus:border-purple-500 bg-transparent'
+                  />
                 </div>
                 <div>
-                  <button className='px-3 py-2 rounded-md bg-purple-500 w-full ounline-none hover:bg-purple-600 text-white'>Sign in</button>
+                  <button
+                      disabled={loading}
+                      className='px-3 py-2 rounded-md bg-purple-500 w-full ounline-none hover:bg-purple-600 text-white'
+                  >
+                    {loading ? 'Loading...' : 'Sign in'}
+                  </button>
                 </div>
                 <div className='flex py-4 justify-between items-center px-3'>
                   <div className='w-[45%] h-[1px] bg-[#434449]'></div>
@@ -51,21 +123,56 @@ const Index = () => {
               </form>
           }
           {
-            type === 'signup' && <form>
+            type === 'signup' &&
+              <form
+                onSubmit={registerUser}
+              >
                 <div className='flex flex-col gap-3 mb-3 text-white'>
                   <label htmlFor="name">Name</label>
-                  <input type="text" name='name' id='name' placeholder='name' value={state.name} className='px-3 py-2 rounded-md border outline-none border-[#5c5c5e] focus:border-purple-500 bg-transparent' />
+                  <input
+                    required
+                    onChange={inputHandler}
+                    type="text"
+                    name='name'
+                    id='name'
+                    placeholder='name'
+                    value={state.name}
+                    className='px-3 py-2 rounded-md border outline-none border-[#5c5c5e] focus:border-purple-500 bg-transparent'
+                  />
                 </div>
                 <div className='flex flex-col gap-3 mb-3 text-white'>
                   <label htmlFor="email">Email</label>
-                  <input type="email" name='email' id='email' placeholder='email' value={state.email} className='px-3 py-2 rounded-md border outline-none border-[#5c5c5e] focus:border-purple-500 bg-transparent' />
+                  <input
+                    required
+                    onChange={inputHandler}
+                    type="email"
+                    name='email'
+                    id='email'
+                    placeholder='email'
+                    value={state.email}
+                    className='px-3 py-2 rounded-md border outline-none border-[#5c5c5e] focus:border-purple-500 bg-transparent'
+                  />
                 </div>
                 <div className='flex flex-col gap-3 mb-3 text-white'>
                   <label htmlFor="password">Password</label>
-                  <input type="password" name='password' id='password' placeholder='password' value={state.password} className='px-3 py-2 rounded-md border outline-none border-[#5c5c5e] focus:border-purple-500 bg-transparent' />
+                  <input
+                    required
+                    onChange={inputHandler}
+                    type="password"
+                    name='password'
+                    id='password'
+                    placeholder='password'
+                    value={state.password}
+                    className='px-3 py-2 rounded-md border outline-none border-[#5c5c5e] focus:border-purple-500 bg-transparent'
+                  />
                 </div>
                 <div>
-                  <button className='px-3 py-2 rounded-md bg-purple-500 w-full ounline-none hover:bg-purple-600 text-white'>Sign in</button>
+                  <button
+                      disabled={loading}
+                      className='px-3 py-2 rounded-md bg-purple-500 w-full ounline-none hover:bg-purple-600 text-white'
+                  >
+                    {loading ? 'Loading...' : 'Sign up'}
+                  </button>
                 </div>
                 <div className='flex py-4 justify-between items-center px-3'>
                   <div className='w-[45%] h-[1px] bg-[#434449]'></div>

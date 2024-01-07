@@ -8,11 +8,15 @@ import Projects from './components/Projects'
 import Templates from './components/Templates'
 import CreateDesign from "./components/CreateDesign.tsx";
 import Main from "./pages/Main.tsx";
+import Index from "./pages/Index.tsx";
+import {tokenDecode} from "./utils";
+
+const userInfo = tokenDecode(localStorage.getItem('buildit-token'));
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />,
+    element: userInfo ? <Layout/> : <Index />,
     children: [
       {
         path: '/',

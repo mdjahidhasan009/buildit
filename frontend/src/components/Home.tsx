@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { Link, useNavigate } from 'react-router-dom'
@@ -64,11 +64,23 @@ const Home = () => {
           Custom size
         </button>
 
-        <div className={`absolute top-16 right-3 gap-3 bg-[#252627] w-[250px] p-4 text-white ${show ? 'visible opacity-100' : 'invisible opacity-50'} transition-all duration-500`}>
+        <form
+          onSubmit={create}
+          className={
+            `absolute top-16 right-3 gap-3 bg-[#252627] w-[250px] p-4 text-white 
+              ${
+                show 
+                  ? 'visible opacity-100' 
+                  : 'invisible opacity-50'
+              } 
+              transition-all duration-500`
+          }
+        >
           <div className='grid grid-cols-2 pb-4 gap-3'>
             <div className='flex gap-2 justify-center items-start flex-col'>
               <label htmlFor="width">Width</label>
               <input
+                required
                 onChange={inputHandle}
                 type="number"
                 name='width'
@@ -79,6 +91,7 @@ const Home = () => {
             <div className='flex gap-2 justify-center items-start flex-col'>
               <label htmlFor="height">Height</label>
               <input
+                required
                 onChange={inputHandle}
                 type="number"
                 name='height'
@@ -88,12 +101,11 @@ const Home = () => {
             </div>
           </div>
           <button
-            onClick={create}
             className='px-4 py-2 text-[13px] overflow-hidden text-center bg-[#8b3dffad] text-white rounded-[3px] font-medium hover:bg-[#8b3dffd3] w-full'
           >
             Create new design
           </button>
-        </div>
+        </form>
         <div>
           <h2 className='text-3xl pb-10 pt-6 font-semibold text-white'>What will you design today?</h2>
         </div>

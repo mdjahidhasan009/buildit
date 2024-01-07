@@ -3,18 +3,24 @@ import mongoose from 'mongoose';
 import express, { Application } from 'express';
 import config from "./config";
 import path from "path";
+import routes from "../routes/routes";
+import dotenv from "dotenv";
 
 const app: Application = express();
 
 // app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+dotenv.config();
+app.use(express.json());
 
 if(process.env.NODE_ENV === 'local') {
-  app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+  app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
 } else {
   app.use(cors({ credentials: true }));
 }
 // app.use(express.urlencoded({ extended: true }));
 // app.use(express.json());
+
+app.use('/api/v1', routes);
 
 if(process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, './frontend/dist')));
