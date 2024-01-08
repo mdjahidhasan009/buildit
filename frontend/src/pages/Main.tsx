@@ -11,6 +11,8 @@ import MyImages from "../components/MyImages.tsx";
 import Projects from "../components/Projects.tsx";
 import Image from "../components/Image.tsx";
 import CreateComponent from "../components/CreateComponent.tsx";
+import {useParams} from "react-router-dom";
+import api from "../utils/api.ts";
 
 const Main = () => {
   const [state, setState] = useState('');
@@ -29,6 +31,8 @@ const Main = () => {
   const [text, setText] = useState('');
   const [zIndex, setZIndex] = useState('');
   const [radius, setRadius] = useState(0);
+
+  const { design_id } = useParams<{ design_id: string }>();
 
   const [components, setComponents] = useState([
     {
@@ -282,9 +286,31 @@ const Main = () => {
     }
   }, [color, image, left, top, height, width, rotate, opacity, zIndex, padding, fontSize, fontWeight, text, radius]);
 
+  useEffect(() => {
+    const getDesign = async () => {
+      try {
+        const { data } = await api.get(`/design/user-design/${design_id}`);
+        const { design } = data?.data;
+
+        for(let i = 0; i < design.length; i++) {
+          design[i].setCurrentComponent = (a) => setCurrentComponent(a);
+            design[i].moveElement = moveElement;
+            design[i].resizeElement = resizeElement;
+            design[i].rotateElement = rotateElement;
+            design[i].removeBackground = removeBackground;
+        }
+        setComponents(design);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
+    getDesign();
+  }, [design_id]);
+
   return (
     <div className="min-w-screen h-screen bg-black">
-      <Header />
+      <Header components={components} design_id={design_id} />
       <div className='flex h-[calc(100%-60px)] w-screen'>
         <div className={`w-[80px] bg-[#18191B] z-50 h-full text-gray-400 overflow-y-auto`}>
           <div

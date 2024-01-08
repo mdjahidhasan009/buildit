@@ -44,7 +44,9 @@ const Home = () => {
     }
   };
 
-  const create = () => {
+  const create = (e) => {
+    e.preventDefault();
+
     navigate(`/design/create`, {
       state: {
         type: 'create',

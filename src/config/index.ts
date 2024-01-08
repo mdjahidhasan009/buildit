@@ -17,4 +17,13 @@ export default {
       useFindAndModify: false
     }
   },
+    jwt: {
+        secret: envVars.JWT_SECRET,
+        expirationTime: envVars.JWT_EXPIRATION_TIME
+    },
+  cloudinary: {
+    cloudName: envVars.CLOUDINARY_CLOUD_NAME,
+    apiKey: envVars.CLOUDINARY_API_KEY,
+    apiSecret: envVars.CLOUDINARY_API_SECRET
+  }
 };
