@@ -2,8 +2,8 @@ import {useEffect, useRef, useState} from 'react';
 import { useLocation, useNavigate } from "react-router-dom";
 import * as htmlToImage from 'html-to-image';
 import RotateLoader from "react-spinners/RotateLoader";
-import api from "../utils/api";
 
+import api from "../utils/api";
 import CreateComponent from "./CreateComponent.tsx";
 
 const CreateDesign = () => {
@@ -42,9 +42,9 @@ const CreateDesign = () => {
       try {
         setLoading(true);
         const { data } = await api.post('/design/create', formData);
-        navigate(`/design/${data?.designId}/edit`);
+        navigate(`/design/${data?.data?.design?._id}/edit`);
       } catch (e) {
-        console.error(e?.response?.data);
+        console.error(e);
       }
       setLoading(false);
     }
@@ -59,7 +59,7 @@ const CreateDesign = () => {
       {
         loading &&
           <div
-            className='left-0 top-0 w-full flex justify-center items-center bg-black absolute'
+            className='left-0 top-0 w-full h-full flex justify-center items-center bg-black absolute'
           >
             <RotateLoader color='white' />
           </div>
