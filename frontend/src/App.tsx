@@ -1,6 +1,7 @@
 import {
   createBrowserRouter,
   RouterProvider,
+  Navigate,
 } from "react-router-dom";
 import Layout from "./pages/Layout";
 import Home from './components/Home'
@@ -34,11 +35,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/design/create",
-    element: <CreateDesign />,
+    element: userInfo ? <CreateDesign /> : <Navigate to='/' />,
   },
   {
     path: "/design/:design_id/edit",
-    element: <Main />,
+    element: userInfo ? <Main /> : <Navigate to='/' />,
   }
 ])
 

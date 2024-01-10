@@ -15,11 +15,11 @@ const CreateDesign = () => {
   const obj = {
     name: "main_frame",
     type: "rect",
-    id: Math.floor(Math.random() * 100 + 1),
+    id: Date.now(),
     height: state.height,
     width: state.width,
     zIndex: 1,
-    color: 'green',
+    color: '#fff',
     img: ""
   }
 

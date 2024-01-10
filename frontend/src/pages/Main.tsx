@@ -13,6 +13,8 @@ import Image from "../components/Image.tsx";
 import CreateComponent from "../components/CreateComponent.tsx";
 import {useParams} from "react-router-dom";
 import api from "../utils/api.ts";
+import InitialImage from "../components/InitialImage.tsx";
+import BackgroundImages from "../components/BackgroundImages.tsx";
 
 const Main = () => {
   const [state, setState] = useState('');
@@ -155,7 +157,7 @@ const Main = () => {
 
   const createShape = (name: string, type: string) => {
     const style = {
-      id: components.length + 1,
+      id: Date.now(),
       name: name,
       type: type,
       left: 10,
@@ -194,7 +196,7 @@ const Main = () => {
 
   const addText = (name, type) => {
     const style = {
-      id: components.length + 1,
+      id: Date.now(),
       name,
       type,
       left: 10,
@@ -219,7 +221,7 @@ const Main = () => {
 
   const addImage = (image) => {
     const style ={
-      id: components.length + 1,
+      id: Date.now(),
       name: 'image',
       type: 'image',
       left: 10,
@@ -372,9 +374,9 @@ const Main = () => {
               className='flex absolute justify-center items-center bg-[#252527] w-[20px] -right-2 text-slate-300 top-[40%] cursor-pointer h-[100px] rounded-full'><MdKeyboardArrowLeft /></div>
               {
                   state === 'design' && <div>
-                    <div className='grid grid-cols-2 gap-2'>
-                      <TemplateDesign />
-                    </div>
+                    {/*<div className='grid grid-cols-2 gap-2'>*/}
+                      <TemplateDesign type='main' />
+                    {/*</div>*/}
                   </div>
               }
               {
@@ -386,7 +388,7 @@ const Main = () => {
                 </div>
               }
               {
-                  state === 'image' && <div> <MyImages /></div>
+                  state === 'image' && <div> <MyImages addImage={addImage}/></div>
               }
               {
                   state === 'text' && <div>
@@ -401,34 +403,18 @@ const Main = () => {
                   </div>
               }
               {
-                  state === 'project' && <Projects />
+                  state === 'project' && <Projects type='main' designId={design_id} />
               }
               {
                 state === 'initImage' &&
                   <div className='h-[88vh] overflow-x-auto flex justify-start items-start scrollbar-hide'>
-                    <Image addImage={addImage} />
+                    <InitialImage addImage={addImage} />
                   </div>
               }
             {
               state === 'background' &&
                 <div className='h-[88vh] overflow-x-auto flex justify-start items-start scrollbar-hide'>
-                  <div className='grid grid-cols-2 gap-2'>
-                    {
-                      [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14].map((item, index) =>
-                        <div
-                          onClick={() => setImage('http://localhost:5173/project.jpg')}
-                          key={index}
-                          className='w-full h-[90px] overflow-hidden rounded-sm cursor-pointer'
-                        >
-                          <img
-                            className='w-full h-full object-fill'
-                            src='http://localhost:5173/project.jpg'
-                            alt='image'
-                          />
-                        </div>
-                      )
-                    }
-                  </div>
+                  <BackgroundImages type='background' setImage={setImage}/>
                 </div>
             }
           </div>
@@ -470,7 +456,8 @@ const Main = () => {
                       />
                     </div>
                     {
-                      (currentComponent?.name === 'main_frame' && image) && (
+                      // (currentComponent?.name === 'main_frame' && image) && (
+                      (currentComponent?.name === 'main_frame' && currentComponent?.image) && (
                         <div>
                           <button className='p-[6px] bg-slate-700 text-white rounded-md'
                             onClick={removeBackground}

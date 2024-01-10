@@ -1,15 +1,33 @@
-import { useState } from 'react'
+import {useEffect, useState} from 'react'
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { Link, useNavigate } from 'react-router-dom'
 import {FaTrash} from 'react-icons/fa'
+import Item from "./Home/Item.tsx";
+import api from "../utils/api.ts";
+import toast from "react-hot-toast";
 const Home = () => {
-
-  const navigate = useNavigate();
   const [state, setState] = useState({
     width: 0,
     height: 0
   });
+  const [designs, setDesigns] = useState([]);
+  const [show, setShow] = useState(false);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    getUserDesigns();
+  }, []);
+
+  const getUserDesigns = async () => {
+    try {
+      const { data } = await api.get('/design/user-designs');
+      setDesigns(data?.data?.designs);
+    } catch (e) {
+      console.error(e);
+    }
+  }
 
   const inputHandle = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -20,7 +38,6 @@ const Home = () => {
     })
   };
 
-  const [show, setShow] = useState(false)
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
@@ -54,6 +71,18 @@ const Home = () => {
         height: state.height
       }
     })
+  }
+
+  const deleteDesign = async (id) => {
+    try {
+      await api.delete(`/design/delete-user-image/${id}`);
+      setDesigns(designs.filter(design => design._id !== id));
+      toast.success('Design deleted successfully');
+      // getUserDesigns();
+    } catch (e) {
+      console.error(e);
+      toast.error('Something went wrong');
+    }
   }
 
   return (
@@ -122,12 +151,9 @@ const Home = () => {
             transitionDuration={500}
           >
             {
-              [1, 2, 3, 4, 5, 6, 7, 8].map((d, i) => <div className='relative group w-full h-[150px] px-2' key={i}>
-                <Link className='w-full h-full block bg-[#ffffff12] p-4 rounded-md'>
-                  <img className='w-full h-full rounded-md overflow-hidden' src="http://localhost:5173/project.png" alt="" />
-                </Link>
-                <div className='absolute hidden cursor-pointer top-1 right-2 text-red-500 p-2 transition-all duration-500 group-hover:block'><FaTrash/></div>
-              </div>)
+              designs.map((design, i) =>
+                  <Item design={design} key={i} deleteDesign={deleteDesign}/>
+              )
             }
           </Carousel>
         </div>

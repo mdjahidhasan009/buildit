@@ -3,6 +3,7 @@ import { IoMdClose } from 'react-icons/io'
 import { AiOutlineGoogle } from 'react-icons/ai'
 import { FaFacebookF } from 'react-icons/fa'
 import api from '../utils/api'
+import toast from "react-hot-toast";
 
 const Index = () => {
 
@@ -56,6 +57,7 @@ const Index = () => {
       setShow(false);
     } catch (e) {
       console.error(e);
+      toast.error(e?.response?.data.message);
     }
     setLoading(false);
   }

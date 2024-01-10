@@ -1,12 +1,30 @@
 import { useState } from 'react'
-import { Link, Outlet, useLocation } from 'react-router-dom'
+import {Link, Outlet, useLocation, useNavigate} from 'react-router-dom'
 import { FaHome } from 'react-icons/fa'
 import { BsFolder, BsGrid1X2 } from 'react-icons/bs'
+import { tokenDecode } from "../utils";
 
 const Layout = () => {
 
   const { pathname } = useLocation()
-  const [show, setShow] = useState(false)
+  const [show, setShow] = useState(false);
+
+  const navigate = useNavigate()
+
+  const createDesign = async () => {
+    navigate('/design/create', {
+      state: {
+        type: 'create',
+        width: 600,
+        height: 450,
+      }
+    })
+  }
+
+  const handleLogout = () => {
+    localStorage.removeItem('buildit-token');
+    window.localtion.href = '/';
+  }
 
   return (
     <div className='bg-[#18191b] min-h-screen w-full'>
@@ -17,7 +35,12 @@ const Layout = () => {
               <img className='w-full h-full' src="https://static.canva.com/web/images/12487a1e0770d29351bd4ce4f87ec8fe.svg" alt="" />
             </div>
             <div className='flex gap-4 justify-center items-center relative'>
-              <button className='py-2 px-6 overflow-hidden text-center bg-[#8b3dff] text-white rounded-[3px] font-medium hover:bg-[#9553f8]'>Create a Design</button>
+              <button
+                onClick={createDesign}
+                className='py-2 px-6 overflow-hidden text-center bg-[#8b3dff] text-white rounded-[3px] font-medium hover:bg-[#9553f8]'
+              >
+                Create a Design
+              </button>
               <div onClick={() => setShow(!show)} className='cursor-pointer'>
                 <img src="https://svgshare.com/i/7aS.svg" className='w-[45px] h-[45px] rounded-full' alt="prfile" />
               </div>
@@ -36,9 +59,12 @@ const Layout = () => {
                     </Link>
                   </li>
                   <li>
-                    <Link to="/" className='p-2 cursor-pointer'>
+                    <div
+                      onClick={handleLogout}
+                      className='p-2 cursor-pointer'
+                    >
                       <span>Logout</span>
-                    </Link>
+                    </div>
                   </li>
                 </ul>
               </div>
