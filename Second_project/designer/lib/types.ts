@@ -17,3 +17,10 @@ export type LanguageDefinition = {
   label: string;
   extension: () => Promise<Extension>;
 };
+
+export type FontDefinition = {
+  id: string;
+  label: string;
+  variable: string;
+  class: string;
+};

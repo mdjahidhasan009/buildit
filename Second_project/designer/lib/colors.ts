@@ -225,3 +225,19 @@ export function shiftHue(colors: string[]): string[] {
 
   return shiftedColors;
 }
+
+export function hslToHsla(color: string, a: number): string {
+  const values = color.match(/^hsl\((\d+),\s*([\d.]+)%,\s*([\d.]+)%\)$/);
+
+  if (!values) {
+    throw new Error(`Invalid HSL color: ${color}`);
+  }
+
+  const h = parseInt(values[1], 10);
+  const s = parseInt(values[2], 10);
+  const l = parseInt(values[3], 10);
+
+  a = Math.max(0, Math.min(1, a));
+
+  return `hsla(${h}, ${s}%, ${l}%, ${a})`;
+}
