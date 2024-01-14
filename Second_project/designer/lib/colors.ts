@@ -42,17 +42,17 @@ function hexToRgb(hex: string): number[] {
   return [r, g, b];
 }
 
-function componentToHex(c: number): string {
-  const hex = c.toString(16);
-  return hex.length === 1 ? "0" + hex : hex;
-}
-
 function rgbToHex(r: number, g: number, b: number): string {
   r = Math.max(0, Math.min(255, r));
   g = Math.max(0, Math.min(255, g));
   b = Math.max(0, Math.min(255, b));
 
   return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+}
+
+function componentToHex(c: number): string {
+  const hex = c.toString(16);
+  return hex.length === 1 ? "0" + hex : hex;
 }
 
 function modifyColors(

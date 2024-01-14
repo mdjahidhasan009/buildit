@@ -1,4 +1,4 @@
-import { cn } from "@/lib/cn";
+import { cn } from "../../lib/cn";
 
 export default function Loader({ extraClasses }: { extraClasses?: string }) {
   return (

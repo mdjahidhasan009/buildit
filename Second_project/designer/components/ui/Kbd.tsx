@@ -1,4 +1,4 @@
-import { cn } from "@/lib/cn";
+import { cn } from "../../lib/cn";
 import { Fragment } from "react";
 
 export default function Kbd({ keys }: { keys: string[] }) {
