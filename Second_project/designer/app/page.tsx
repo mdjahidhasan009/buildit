@@ -1,6 +1,6 @@
-// import Code from "@/components/Code";
-// import Settings from "@/components/Settings";
-// import Image from "next/image";
+import Code from "@/components/Code";
+import Settings from "@/components/Settings";
+import Image from "next/image";
 import {
   Fira_Code,
   IBM_Plex_Mono,

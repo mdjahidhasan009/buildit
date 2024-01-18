@@ -97,13 +97,13 @@ export default function Actions() {
 }
 
 function Button({
-                  id,
-                  label,
-                  icon,
-                  action,
-                  isDisabled = false,
-                  hotKey,
-                }: Button) {
+  id,
+  label,
+  icon,
+  action,
+  isDisabled = false,
+  hotKey,
+}: Button) {
   const [buttonState, setButtonState] = useState<ButtonType>("DEFAULT");
 
   async function wrappedAction() {

@@ -19,8 +19,8 @@ export default function ThemeBubble({
       style={
         style || {
           backgroundImage: `linear-gradient(${angle}deg, ${(useCustomColorsFromStore
-              ? customColors
-              : colors!
+            ? customColors
+            : colors!
           ).join(", ")})`,
         }
       }

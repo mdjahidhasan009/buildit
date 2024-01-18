@@ -56,6 +56,7 @@ export default function Button({ snippetCount }: { snippetCount: number }) {
   const handleAction = async () => {
     try {
       const { id } = await createSnippet();
+      console.log(snippetCount);
       setButtonState("SUCCESS");
 
       router.push(`/${id}`);

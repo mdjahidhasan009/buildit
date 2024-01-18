@@ -17,9 +17,9 @@ import { ChevronDown } from "lucide-react";
 export default memo(function Select<
   T extends LanguageDefinition | ThemeDefinition | FontDefinition
 >({
-    type,
-    options,
-  }: {
+  type,
+  options,
+}: {
   type: "language" | "theme" | "fontFamily";
   options: T[];
 }) {

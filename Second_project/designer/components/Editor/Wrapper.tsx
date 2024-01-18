@@ -31,9 +31,9 @@ export default function Wrapper({ children }: { children: React.ReactNode }) {
     return baseColors.length === 1
       ? [...baseColors, baseColors[0]]
       : chroma
-        .scale(baseColors)
-        .mode(colorMode)
-        .colors(baseColors.length + (baseColors.length - 1));
+          .scale(baseColors)
+          .mode(colorMode)
+          .colors(baseColors.length + (baseColors.length - 1));
   }, [baseColors, colorMode]);
 
   useEffect(() => {

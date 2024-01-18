@@ -99,11 +99,11 @@ export default function Settings() {
 }
 
 function DraggableHandle({
-                           dragControls,
-                           animationControls,
-                           hasMoved,
-                           isDragging,
-                         }: {
+  dragControls,
+  animationControls,
+  hasMoved,
+  isDragging,
+}: {
   dragControls: ReturnType<typeof useDragControls>;
   animationControls: ReturnType<typeof useAnimationControls>;
   hasMoved: boolean;
@@ -215,9 +215,9 @@ function BasicSnippetControls() {
 }
 
 function Control({
- htmlFor,
- label,
- children,
+  htmlFor,
+  label,
+  children,
 }: {
   htmlFor: string;
   label: string;

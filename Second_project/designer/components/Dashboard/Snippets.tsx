@@ -22,7 +22,7 @@ interface DialogProps {
 }
 
 export default function Snippets({
- snippets,
+  snippets,
 }: {
   snippets: (Snippet & { views: View | null })[];
 }) {
@@ -232,9 +232,9 @@ export default function Snippets({
                         <ThemeBubble
                           style={{
                             backgroundImage: `linear-gradient(${angle})deg,${(theme ===
-                              "custom"
-                                ? (customColors as string[])
-                                : find(SUPPORTED_THEMES, theme).baseColors
+                            "custom"
+                              ? (customColors as string[])
+                              : find(SUPPORTED_THEMES, theme).baseColors
                             ).join(" ,")}`,
                           }}
                         />

@@ -4,9 +4,9 @@ import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
 import { cn } from "@/lib/cn";
 
 export default memo(function Choices({
-                                       type,
-                                       choices,
-                                     }: {
+  type,
+  choices,
+}: {
   type: "fontSize" | "padding" | "colorMode";
   choices: string[];
 }) {

@@ -8,9 +8,9 @@ import ChangeListener from "./ChangeListener";
 import Settings from "@/components/Settings/index";
 
 export default function Editor({
- views,
- editable,
- isAuthenticated,
+  views,
+  editable,
+  isAuthenticated,
 }: {
   views?: number;
   editable: boolean;

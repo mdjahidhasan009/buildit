@@ -10,10 +10,10 @@ interface ChoicesProps {
 }
 
 export default memo(function Choices({
-                                       choices,
-                                       initialValue,
-                                       setValue,
-                                     }: ChoicesProps) {
+  choices,
+  initialValue,
+  setValue,
+}: ChoicesProps) {
   return (
     <RadioGroup value={initialValue} onChange={setValue}>
       <div className="flex gap-3 py-[7px] text-sm">

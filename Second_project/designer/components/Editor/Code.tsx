@@ -8,7 +8,7 @@ interface CodeProps {
 }
 
 import clsx from "clsx";
-// import { Highlight, themes } from "prism-react-renderer";
+import { Highlight, themes } from "prism-react-renderer";
 import { language } from "@codemirror/language";
 import { useSettingsContext } from "@/contexts/SettingsContext";
 import { EditorView } from "@codemirror/view";

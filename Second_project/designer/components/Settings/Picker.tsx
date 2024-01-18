@@ -77,8 +77,8 @@ export default function Picker() {
 }
 
 function SingleColor({
- color,
- setCustomColor,
+  color,
+  setCustomColor,
 }: {
   color: string;
   setCustomColor: (color: string) => void;

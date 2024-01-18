@@ -60,6 +60,7 @@ export async function PATCH(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
+  console.log('inside ldfsaf')
   const session = await getSession();
 
   const body = await req.json();

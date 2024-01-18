@@ -55,8 +55,8 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-                                     children,
-                                   }: {
+  children,
+}: {
   children: React.ReactNode;
 }) {
   return (
@@ -69,17 +69,17 @@ export default function RootLayout({
         fonts[2].variable
       )}
     >
-    <body
-      className={cn(
-        "grid min-h-screen grid-rows-[auto,1fr] text-sm",
-        "bg-almost-black text-greyish caret-fuchsia-500 selection:bg-fuchsia-500 selection:text-amlost-white"
-      )}
-    >
-    <Providers>
-      <Header />
-      <main className={cn("grid place-items-center")}>{children}</main>
-    </Providers>
-    </body>
+      <body
+        className={cn(
+          "grid min-h-screen grid-rows-[auto,1fr] text-sm",
+          "bg-almost-black text-greyish caret-fuchsia-500 selection:bg-fuchsia-500 selection:text-amlost-white"
+        )}
+      >
+        <Providers>
+          <Header />
+          <main className={cn("grid place-items-center")}>{children}</main>
+        </Providers>
+      </body>
     </html>
   );
 }
