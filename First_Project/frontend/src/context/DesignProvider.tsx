@@ -2,7 +2,13 @@ import {createContext, useEffect, useState} from "react";
 // import useCombinedDesignState from "../hooks/useCombinedDesignState.ts";
 import {initialStateOfDesignContext} from "./DesignProviderConstant.ts";
 import createComponentFactory from "../utils/createComponentFactory.ts";
+import {useComponentCreation} from "../hooks/useComponentCreation.ts";
+import {useComponentLifecycle} from "../hooks/useComponentLifecycle.ts";
+import {useComponentManipulation} from "../hooks/useComponentManipulation.ts";
+import {useComponentUpdate} from "../hooks/useComponentUpdate.ts";
+
 export const DesignContext = createContext(initialStateOfDesignContext);
+
 export const DesignProvider = ({ children }) => {
   const [state, setState] = useState('');
   const [currentComponent, setCurrentComponent] = useState(null);
@@ -31,6 +37,7 @@ export const DesignProvider = ({ children }) => {
     image: "",
   }]);
   const [show, setShow] = useState({ status: true, name: '' });
+
   const setElements = (type: string, name: string) => {
     setState(type);
     setShow({
@@ -44,10 +51,7 @@ export const DesignProvider = ({ children }) => {
     setOpacity(parseFloat(e.target.value));
   };
   const updateCurrentComponentProperties = () => {
-    console.log("currentComponent in useComponentUpdate:", currentComponent);
-    // console.log('updateCurrentComponentProperties111111111111111111');
     if(currentComponent) {
-      // console.log('updateCurrentComponentProperties222222222222222222222');
       const index = components.findIndex(component => component.id === currentComponent.id);
       const temp = components.filter(component => component.id !== currentComponent.id);
 
@@ -91,166 +95,10 @@ export const DesignProvider = ({ children }) => {
       setRadius(0);
     }
   }
-
-  const createShape = (name: string, type: string) => {
-    console.log('createShape')
-    const newComponent = componentFactory({
-      name,
-      type,
-      additionalProps: {
-        width: 200,
-        height: 150,
-      }
-    });
-    setComponents([...components, newComponent]);
-  }
-
-  const moveElement = (id, currentInfo) => {
-    setCurrentComponent(currentInfo);
-
-    let isMoving = true;
-    const currentDiv = document.getElementById(id);
-
-    const moveMouse = (e) => {
-      const { movementX, movementY } = e;
-      const getStyle = window.getComputedStyle(currentDiv);
-      const left = parseInt(getStyle.left);
-      const top = parseInt(getStyle.top);
-      if(isMoving) {
-        currentDiv.style.left = `${left + movementX}px`;
-        currentDiv.style.top = `${top + movementY}px`;
-      }
-    }
-
-    const mouseUp = (e) => {
-      isMoving = false;
-      document.removeEventListener('mousemove', moveMouse);
-      document.removeEventListener('mouseup', mouseUp);
-      setLeft(parseInt(currentDiv.style.left));
-      setTop(parseInt(currentDiv.style.top));
-    }
-
-    document.addEventListener('mousemove', moveMouse);
-    document.addEventListener('mouseup', mouseUp);
-  }
-
-  const resizeElement = (id, currentInfo) => {
-    setCurrentComponent(currentInfo);
-
-    let isMoving = true;
-    const currentDiv = document.getElementById(id);
-
-    const moveMouse = (e) => {
-      const { movementX, movementY } = e;
-      const getStyle = window.getComputedStyle(currentDiv);
-      const width = parseInt(getStyle.width);
-      const height = parseInt(getStyle.height);
-      if(isMoving) {
-        currentDiv.style.width = `${width + movementX}px`;
-        currentDiv.style.height = `${height + movementY}px`;
-      }
-    }
-
-    const mouseUp = (e) => {
-      isMoving = false;
-      document.removeEventListener('mousemove', moveMouse);
-      document.removeEventListener('mouseup', mouseUp);
-      setWidth(parseInt(currentDiv.style.width));
-      setHeight(parseInt(currentDiv.style.height));
-    }
-
-    document.addEventListener('mousemove', moveMouse);
-    document.addEventListener('mouseup', mouseUp);
-  }
-
-  const rotateElement = (id, currentInfo) => {
-    setCurrentComponent(currentInfo);
-
-    const target = document.getElementById(id);
-    const mouseMove = (e) => {
-      const { movementX, movementY } = e;
-      const getStyle = window.getComputedStyle(target);
-      const trans = getStyle.transform;
-      const values = trans.split('(')[1].split(')')[0].split(',');
-      const angle = Math.round(Math.atan2(values[1], values[0]) * (180/Math.PI));
-      let deg = angle < 0 ? angle + 360 : angle;
-      if(movementX) {
-        deg = deg + movementX;
-      }
-      target.style.transform = `rotate(${deg}deg)`;
-    }
-
-    const mouseUp = (e) => {
-      window.removeEventListener('mousemove', mouseMove);
-      window.removeEventListener('mouseup', mouseUp);
-
-      const getStyle = window.getComputedStyle(target);
-      const trans = getStyle.transform;
-      const values = trans.split('(')[1].split(')')[0].split(',');
-      const angle = Math.round(Math.atan2(values[1], values[0]) * (180/Math.PI));
-      let deg = angle < 0 ? angle + 360 : angle;
-      setRotate(deg);
-    }
-
-    window.addEventListener('mousemove', mouseMove);
-    window.addEventListener('mouseup', mouseUp);
-  }
-
-  const componentFactory = createComponentFactory(
-    setCurrentComponent, moveElement, resizeElement, rotateElement
-  );
-
-  const addImage = (image) => {
-    const newComponent = componentFactory(
-      {
-        name: 'image',
-        type: 'image',
-        additionalProps: {
-          width: 200,
-          height: 150,
-          radius: 0,
-          image
-        }
-      }
-    );
-    setCurrentComponent(newComponent);
-    setComponents([...components, newComponent]);
-  }
-
-  const addText = (name, type) => {
-    const newComponent = componentFactory(
-      {
-        name,
-        type,
-        additionalProps: {
-          width: 200,
-          height: 150,
-          text: 'Add text',
-          fontSize: 22,
-          padding: 6,
-          fontWeight: 400,
-        }
-      }
-    );
-    setWidth('');
-    setFontSize('');
-    setCurrentComponent(newComponent);
-    setComponents([...components, newComponent]);
-  }
-
-  const removeBackground = () => {
-    const component = components.find(component => component.id === currentComponent.id);
-    const temp = components.filter(component => component.id !== currentComponent.id);
-    component.image = '';
-    setImage('');
-    setComponents([...temp, component]);
-  }
-
-  const removeComponent = (id: string) => {
-    const temp = components.filter(component => component.id !== id);
-    setComponents(temp);
-    setCurrentComponent('')
-  }
+  const { removeComponent } = useComponentLifecycle(setCurrentComponent, components, setComponents);
+  const { moveElement, resizeElement, rotateElement } = useComponentManipulation(setLeft, setTop, setWidth, setHeight, setRotate, setCurrentComponent);
+  const { createShape, addImage, addText } = useComponentCreation(setCurrentComponent, setComponents, components, setWidth, setFontSize, moveElement, resizeElement, rotateElement);
+  const { removeBackground } = useComponentUpdate(currentComponent, setComponents, components, setImage);
 
   // Context value
   const contextValue = {
