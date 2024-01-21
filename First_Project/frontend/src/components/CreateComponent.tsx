@@ -8,7 +8,11 @@ const CreateComponent = ({ info, currentComponent, removeComponent }) => {
   if(info.name === 'main_frame') {
     html =
       <div
-        onClick={() => info.setCurrentComponent(info)}
+        onClick={() => {console.log('clicked');
+          console.log("Before setting currentComponent:", currentComponent);
+          info.setCurrentComponent(info)
+          console.log("After setting currentComponent:", info);
+        }}
         className="hover:border-[2px] hover:border-indigo-500 shadow-md"
         style={{
           width: info.width + 'px',
@@ -41,7 +45,7 @@ const CreateComponent = ({ info, currentComponent, removeComponent }) => {
         className='absolute group hover:border-[2px] hover:border-indigo-500'
       >
         <Element id={randValue} info={info} exId="" />
-        {currentComponent.id === info.id &&
+        {currentComponent?.id === info.id &&
             <div
                 onClick={() => removeComponent(info.id)}
                 className='px-3 py-2 bg-white absolute top-0 hidden group-hover:block cursor-pointer rounded-md'>
@@ -77,7 +81,7 @@ const CreateComponent = ({ info, currentComponent, removeComponent }) => {
         >
 
         </div>
-        {currentComponent.id === info.id &&
+        {currentComponent?.id === info.id &&
             <div
                 onClick={() => removeComponent(info.id)}
                 className='px-3 py-2 bg-white absolute top-0 hidden group-hover:block cursor-pointer rounded-md'>
@@ -113,7 +117,7 @@ const CreateComponent = ({ info, currentComponent, removeComponent }) => {
         >
 
         </div>
-        {currentComponent.id === info.id &&
+        {currentComponent?.id === info.id &&
             <div
                 onClick={() => removeComponent(info.id)}
                 className='px-3 py-2 bg-white absolute top-0 hidden group-hover:block cursor-pointer rounded-md'>
@@ -140,7 +144,7 @@ const CreateComponent = ({ info, currentComponent, removeComponent }) => {
       >
         <Element id={randValue} info={info} exId=''/>
         <h2 style={{ fontSize: info.fontSize + 'px', fontWeight: info.fontWeight }} className='w-full h-full'>{info?.title}</h2>
-        {currentComponent.id === info.id &&
+        {currentComponent?.id === info.id &&
             <div
                 onClick={() => removeComponent(info.id)}
                 className='px-3 py-2 bg-white absolute top-0 hidden group-hover:block cursor-pointer rounded-md'>
@@ -179,7 +183,7 @@ const CreateComponent = ({ info, currentComponent, removeComponent }) => {
           }}>
           <img className='w-full h-full' src={info.image} alt="image"/>
         </div>
-        {currentComponent.id === info.id &&
+        {currentComponent?.id === info.id &&
             <div
                 onClick={() => removeComponent(info.id)}
                 className='px-3 py-2 bg-white absolute top-0 hidden group-hover:block cursor-pointer rounded-md'>

@@ -4,6 +4,7 @@ import {DesignContext} from "../../context/DesignProvider.tsx";
 
 const DesignPlayground = () => {
   const { components, currentComponent, removeComponent } = useContext(DesignContext);
+
   return (
     <div
       className={`flex justify-center relative items-center h-full ${!currentComponent ? 'w-full' : 'w-[calc(100%-250px)] overflow-hidden'}`}>

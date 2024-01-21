@@ -1,8 +1,15 @@
-import {useContext} from "react";
+import {useContext, useEffect} from "react";
 import {DesignContext} from "../../context/DesignProvider.tsx";
 
 const ComponentPropertiesPanel = () => {
-  const {currentComponent, setCurrentComponent, setColor, setZIndex, setRadius, setPadding, setFontSize, setFontWeight, setText, removeBackground, opacityHandler} = useContext(DesignContext);
+  const {currentComponent, updateCurrentComponentProperties, setCurrentComponent, color, setColor, setZIndex,
+    setOpacity, setPadding, setFontSize, setFontWeight, setText, setRadius, left, top, height, width, rotate,
+    opacity, zIndex, padding, fontSize, fontWeight, text, radius, opacityHandler,
+    image, removeBackground} = useContext(DesignContext);
+
+  useEffect(() => {
+    updateCurrentComponentProperties();
+  }, [color, image, left, top, height, width, rotate, opacity, zIndex, padding, fontSize, fontWeight, text, radius]);
 
   return (
     <>
@@ -19,7 +26,7 @@ const ComponentPropertiesPanel = () => {
                 >
                 </label>
                 <input
-                  onChange={(e) => setColor(e.target.value)}
+                  onChange={(e) => {console.log('init color:', color); setColor(e.target.value); console.log('after color:', color);}}
                   type='color'
                   id='color'
                   className='invisible'
