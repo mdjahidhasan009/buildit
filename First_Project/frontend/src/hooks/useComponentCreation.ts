@@ -8,6 +8,7 @@ export const useComponentCreation = (setCurrentComponent, setComponents, compone
   const componentFactory = createComponentFactory(
     setCurrentComponent, moveElement, resizeElement, rotateElement
   );
+
   const createShape = (name: string, type: string) => {
     console.log('createShape')
     const newComponent = componentFactory({
