@@ -16,25 +16,25 @@ const SHORTCUTS = [
   },
   {
     key: "new-snippet",
-    scope: ["dashboard"],
+    scope: ["all_codes"],
     label: "New snippet",
     kbd: ["N"],
   },
   {
     key: "rename-snippet",
-    scope: ["dashboard"],
+    scope: ["all_codes"],
     label: "Rename snippet",
     kbd: ["hover", "R"],
   },
   {
     key: "copy-snippet-link",
-    scope: ["dashboard"],
+    scope: ["all_codes"],
     label: "Copy link",
     kbd: ["hover", "C"],
   },
   {
     key: "delete-snippet",
-    scope: ["dashboard"],
+    scope: ["all_codes"],
     label: "Delete snippet",
     kbd: ["hover", "D"],
   },
@@ -75,26 +75,26 @@ const SHORTCUTS = [
     kbd: ["command", "S"],
   },
   {
-    key: "dashboard",
+    key: "all_codes",
     scope: ["authenticated"],
     label: "Dashboard",
     kbd: ["B"],
   },
   {
     key: "user-menu",
-    scope: ["authenticated", "dashboard"],
+    scope: ["authenticated", "all_codes"],
     label: "Open user menu",
     kbd: ["U"],
   },
   {
     key: "sign-out",
-    scope: ["authenticated", "dashboard"],
+    scope: ["authenticated", "all_codes"],
     label: ["Sign out"],
     kbd: ["Q"],
   },
   {
     key: "help",
-    scope: ["authenticated", "unauthenticated", "dashboard"],
+    scope: ["authenticated", "unauthenticated", "all_codes"],
     label: "Open shortcuts dialog",
     kbd: ["?"],
   },
@@ -108,11 +108,11 @@ export default function Help() {
   const { status: sessionStatus } = useSession();
 
   const shortcuts = SHORTCUTS.filter((shortcut) => {
-    if (pathname === "/dashboard" && shortcut.scope.includes("dashboard")) {
+    if (pathname === "/all_codes" && shortcut.scope.includes("all_codes")) {
       return true;
     }
 
-    if (pathname !== "/dashboard" && shortcut.scope.includes(sessionStatus)) {
+    if (pathname !== "/all_codes" && shortcut.scope.includes(sessionStatus)) {
       return true;
     }
   });

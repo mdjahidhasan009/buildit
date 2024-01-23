@@ -49,8 +49,10 @@ export default async function Home() {
   const isAuthenticated = !!session;
 
   if (session) {
-    redirect("/dashboard");
+    redirect("/all_codes");
   }
+
+
 
   // return <Editor editable={true} isAuthenticated={isAuthenticated} />;
 

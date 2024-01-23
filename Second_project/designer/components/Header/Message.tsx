@@ -107,7 +107,7 @@ export default function Message() {
   }, [message, update]);
 
   useEffect(() => {
-    if (pathname === "/dashboard") {
+    if (pathname === "/all_codes") {
       update("message", "IDLE");
     }
   }, [pathname, update]);
