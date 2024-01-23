@@ -52,9 +52,11 @@ model User {
   image         String?
   createdAt     DateTime  @default(now()) @map(name: "created_at")
 
-  snippets Snippet[]
-  accounts Account[]
-  sessions Session[]
+  snippets  Snippet[]
+  accounts  Account[]
+  sessions  Session[]
+  Design    Design[]
+  UserImage UserImage[]
 
   @@map(name: "users")
 }
@@ -105,4 +107,46 @@ model View {
   snippetId String  @unique
 
   @@map(name: "views")
+}
+
+// from first project
+model BackgroundImage {
+  id        String   @id @default(cuid())
+  imageUrl  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model DesignImage {
+  id        String   @id @default(cuid())
+  imageUrl  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Design {
+  id         String   @id @default(cuid())
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String
+  components Json[]
+  imageUrl   String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Template {
+  id         String   @id @default(cuid())
+  components Json[]
+  imageUrl   String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model UserImage {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  imageUrl  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
