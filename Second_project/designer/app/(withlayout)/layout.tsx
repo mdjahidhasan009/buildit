@@ -7,7 +7,7 @@ import {
   JetBrains_Mono,
   Source_Code_Pro,
 } from "next/font/google";
-import "./globals.css";
+import "../globals.css";
 import { SettingsProvider } from "@/contexts/SettingsContext";
 import clsx from "clsx";
 import { motion } from "framer-motion";

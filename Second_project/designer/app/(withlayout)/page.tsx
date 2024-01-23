@@ -44,11 +44,15 @@ const sourceCodePro = Source_Code_Pro({
 
 export default async function Home() {
   const session = await getSession();
+  console.log(session);
 
   const isAuthenticated = !!session;
 
   if (session) {
     redirect("/dashboard");
   }
-  return <Editor editable={true} isAuthenticated={isAuthenticated} />;
+
+  // return <Editor editable={true} isAuthenticated={isAuthenticated} />;
+
+
 }

@@ -52,7 +52,6 @@ export default async function Page({ params }: { params: { id: string } }) {
   return (
     <>
       <SetupStore snippet={snippet} />
-
       <Editor
         views={views?.count}
         editable={editable}
