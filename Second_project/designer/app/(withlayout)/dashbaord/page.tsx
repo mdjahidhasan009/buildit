@@ -1,7 +1,7 @@
 // import Header from "../components/Header.tsx";
 import {useContext, useEffect} from "react";
 // import {useParams} from "react-router-dom";
-import api from "../utils/api.ts";
+import api from "../utils/useApi.ts";
 import SideBar from "../components/main/SideBar.tsx";
 import {DesignContext} from "../context/DesignProvider.tsx";
 import SideBarDrawer from "../components/main/SideBarDrawer.tsx";

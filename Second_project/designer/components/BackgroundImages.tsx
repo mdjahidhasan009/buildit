@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 
 import Image from './Image';
-import api from "../utils/api.ts";
+import api from "../utils/useApi.ts";
 
 const BackgroundImages = ({ setImage, type }) => {
   const [images, setImages] = useState([]);

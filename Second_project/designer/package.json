@@ -27,10 +27,14 @@
     "@uiw/codemirror-extensions-langs": "^4.21.21",
     "@uiw/codemirror-themes": "^4.21.21",
     "@uiw/react-codemirror": "^4.21.21",
+    "axios": "^1.6.7",
     "chroma-js": "^2.4.2",
+    "cloudinary": "^1.41.3",
     "clsx": "^2.1.0",
     "dom-to-image": "^2.6.0",
+    "dotenv": "^16.4.1",
     "file-saver": "^2.0.5",
+    "formidable": "^3.5.1",
     "framer-motion": "^10.18.0",
     "immer": "^10.0.3",
     "lodash.isequal": "^4.5.0",
@@ -53,6 +57,7 @@
     "zustand": "^4.4.7"
   },
   "devDependencies": {
+    "@types/formidable": "^3.4.5",
     "@types/lodash.isequal": "^4.5.8",
     "@types/node": "^20",
     "@types/react": "^18",

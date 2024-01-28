@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import Image from './Image';
-import api from "../utils/api.ts";
+import api from "../utils/useApi.ts";
 
 const InitialImage = ({ addImage }) => {
   const [images, setImages] = useState([]);

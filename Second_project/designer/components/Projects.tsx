@@ -1,7 +1,7 @@
 "use client";
 
 import {useEffect, useState} from "react";
-import api from "../utils/api.ts";
+import api from "../utils/useApi.ts";
 import Item from "./Home/Item.tsx";
 import toast from "react-hot-toast";
 

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 // import { useNavigate } from "react-router-dom";
 import { useRouter } from "next/router";
 
-import api from "../../utils/api.ts";
+import api from "../../utils/useApi.ts";
 import toast from "react-hot-toast";
 
 const TemplateDesign = ({ type }) => {

@@ -2,7 +2,7 @@ export const initialStateOfDesignContext = {
   state: '',
   setState: () => {},
   currentComponent: null,
-  setCurrentComponent: () => {},
+  setCurrentComponent: (currentComponent) => {},
   color: '',
   setColor: (value: string) => {},
   image: '',

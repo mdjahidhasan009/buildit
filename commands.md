@@ -1,6 +1,7 @@
+# Pisma
+
 npx prisma init
 npx prisma migrate dev --name init
-
 
 Commands
 
@@ -50,3 +51,34 @@ Examples
 
   Display Prisma debug info
   $ prisma debug
+
+
+# Postgres
+
+``
+sudo apt-get update
+sudo apt-get install postgresql-client
+``
+connect to postgres
+``
+psql <connection_string>
+``
+List of all databases
+``
+\l
+``
+List of all tables
+``
+\dt
+``
+Describe a table
+``
+\d <table_name>
+``
+
+connect to a database
+``
+\c <database_name>
+``
+
+seeding

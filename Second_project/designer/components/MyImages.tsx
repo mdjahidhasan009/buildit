@@ -1,5 +1,5 @@
 import Image from './Image';
-import api from "../utils/api.ts";
+import api from "../utils/useApi.ts";
 import toast from "react-hot-toast";
 import {useEffect, useState} from "react";
 import {BarLoader} from "react-spinners";
