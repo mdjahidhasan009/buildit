@@ -30,7 +30,6 @@ const Page = () => {
       try {
         if(!data) return;
         console.log('starting api');
-        debugger
         console.log('ending api')
         console.log(data);
 

@@ -5,10 +5,10 @@ import {FaTrash} from "react-icons/fa";
 const Item = ({ design, type, deleteDesign }) => {
   return (
       <div className={`relative group w-full ${type ? ' h-[100px] ' : ' h[170px] px-2 '}`}>
-        <Link href={`/design/${design?._id}/edit`}>
-          <a className={`w-full h-full block bg-[#ffffff12] rounded-md ${type ? '' : ' p-4 '}`}>
-              <img className='w-full h-full rounded-md overflow-hidden' src={design?.imageUrl} alt="" />
-          </a>
+        <Link
+          href={`/design/${design?._id}/edit`}
+          className={`w-full h-full block bg-[#ffffff12] rounded-md ${type ? '' : ' p-4 '}`}>
+            <img className='w-full h-full rounded-md overflow-hidden' src={design?.imageUrl} alt="" />
         </Link>
         <div
           onClick={() => deleteDesign(design?._id)}

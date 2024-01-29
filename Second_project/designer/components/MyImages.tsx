@@ -22,7 +22,6 @@ const MyImages = ({ addImage }) => {
   }, []);
 
   const imageUpload = async (e) => {
-    debugger
     e.preventDefault();
     if(e.target.files.length < 0) return toast.error('Please select an image');
 

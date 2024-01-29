@@ -17,6 +17,8 @@ import { v2 as cloudinary } from 'cloudinary';
 import config from '@/config/index';
 
 import { PrismaClient } from '@prisma/client';
+import {getSession} from "@/lib/auth";
+import {NextResponse} from "next/server";
 const prisma = new PrismaClient();
 
 class DesignController {
@@ -279,34 +281,62 @@ class DesignController {
   //   }
   // }
   //
-  // getUserDesigns = async (req: NextApiRequest, res: NextApiResponse) => {
-  //   const { _id } = req.userInfo;
-  //
-  //   try {
-  //     // const designs = await Design.find({ user: new ObjectId(_id) }).sort({ createdAt: -1 });
-  //     const designs = await prisma.design.findMany({
-  //       where: {
-  //         userId: _id
-  //       },
-  //       orderBy: {
-  //         createdAt: 'desc'
-  //       }
-  //     });
-  //     return res.status(200).json({
-  //       status: 'success',
-  //       data: {
-  //         designs
-  //       }
-  //     });
-  //   } catch (error) {
-  //     console.error(error);
-  //     return res.status(400).json({
-  //       status: 'fail',
-  //       message: 'Error getting designs'
-  //     });
-  //   }
-  // }
-  //
+  getUserDesigns = async (req: NextApiRequest, res: NextApiResponse) => {
+    const session = await getSession();
+    if (!session || !session?.user?.id) {
+      return NextResponse.json(
+        {
+          code: "UNAUTHORIZED",
+        },
+        {
+          status: 403,
+        }
+      );
+    }
+
+    const _id = session?.user?.id;
+    // const { _id } = req.userInfo;
+
+    try {
+      // const designs = await Design.find({ user: new ObjectId(_id) }).sort({ createdAt: -1 });
+      const designs = await prisma.design.findMany({
+        where: {
+          userId: _id
+        },
+        orderBy: {
+          createdAt: 'desc'
+        }
+      });
+
+      return NextResponse.json({
+        status: 'success',
+        data: {
+          designs
+        }
+
+      }, { status: 200 });
+      // return res.status(200).json({
+      //   status: 'success',
+      //   data: {
+      //     designs
+      //   }
+      // });
+    } catch (error) {
+      console.error(error);
+      return NextResponse.json(
+        {
+          status: 'fail',
+          message: 'Error getting designs'
+        },
+        { status: 400 }
+      );
+      // return res.status(400).json({
+      //   status: 'fail',
+      //   message: 'Error getting designs'
+      // });
+    }
+  }
+
   // deleteUserImage = async (req: NextApiRequest, res: NextApiResponse) => {
   //   // const { design_id } = req.params;
   //   const { design_id } = req.query; // Assuming design_id is passed as a query parameter
