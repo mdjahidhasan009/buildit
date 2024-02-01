@@ -4,7 +4,6 @@ import * as htmlToImage from 'html-to-image';
 import RotateLoader from "react-spinners/RotateLoader";
 
 import api from "../utils/api";
-import CreateComponent from "./CreateComponent.tsx";
 
 const CreateDesign = () => {
   const [loading, setLoading] = useState(false);

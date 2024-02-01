@@ -22,94 +22,96 @@ import {NextRequest, NextResponse} from "next/server";
 const prisma = new PrismaClient();
 
 class DesignController {
-  // createDesign = async (req: NextApiRequest, res: NextApiResponse) => {
-  //   const form = formidable();
-  //   const { _id } = req.userInfo;
-  //
-  //   try {
-  //     cloudinary.config({
-  //       cloud_name: config.default.cloudinary.cloudName,
-  //       api_key: config.default.cloudinary.apiKey,
-  //       api_secret: config.default.cloudinary.apiSecret
-  //     })
-  //
-  //     const [fields, files] = await form.parse(req);
-  //     const { image } = files;
-  //
-  //     try {
-  //       const { url } = await cloudinary.uploader.upload(image[0].filepath);
-  //       // const design = await Design.create({
-  //       //   user: _id,
-  //       //   components: [JSON.parse(fields.design[0])],
-  //       //   imageUrl: url
-  //       // });
-  //
-  //       const design = await prisma.design.create({
-  //         data: {
-  //           userId: _id,
-  //           components: JSON.parse(fields.design[0]),
-  //           imageUrl: url
-  //         }
-  //       });
-  //
-  //       res.status(201).json({
-  //         status: 'success',
-  //         data: {
-  //           design
-  //         }
-  //       });
-  //
-  //     } catch(e) {
-  //       console.error(e);
-  //       return res.status(400).json({
-  //         status: 'fail',
-  //         message: 'Error uploading image'
-  //       });
-  //     }
-  //
-  //   } catch (error) {
-  //     console.error(error);
-  //     return res.status(400).json({
-  //       status: 'fail',
-  //       message: 'Error creating design'
-  //     });
-  //   }
-  // }
-  //
-  updateDesign = async (req: NextRequest, res: NextResponse, params) => {
-    const form = formidable({});
-    // const { design_id } = req.params;
-    // const { design_id } = req.query; // Assuming design_id is a query parameter
-    const design_id  = params; // Assuming design_id is a query parameter
+  createDesign = async (req: NextApiRequest, res: NextApiResponse) => {
+    const session = await getSession();
+    if (!session || !session?.user?.id) {
+      return NextResponse.json(
+          {
+            code: "UNAUTHORIZED",
+          },
+          {
+            status: 403,
+          }
+      );
+    }
+
+    const _id = session?.user?.id;
+    const form = formidable();
+    // const { _id } = req.userInfo;
 
     try {
       cloudinary.config({
-      //   // cloud_name: config.default.cloudinary.cloudName,
-      //   // api_key: config.default.cloudinary.apiKey,
-      //   // api_secret: config.default.cloudinary.apiSecret
-      //
+        // cloud_name: config.default.cloudinary.cloudName,
+        // api_key: config.default.cloudinary.apiKey,
+        // api_secret: config.default.cloudinary.apiSecret
+
+        cloud_name: config.cloudinary.cloudName,
+        api_key: config.cloudinary.apiKey,
+        api_secret: config.cloudinary.apiSecret
+      })
+
+      const [fields, files] = await form.parse(req);
+      const { image } = files;
+
+      try {
+        const { url } = await cloudinary.uploader.upload(image[0].filepath);
+        // const design = await Design.create({
+        //   user: _id,
+        //   components: [JSON.parse(fields.design[0])],
+        //   imageUrl: url
+        // });
+
+        const design = await prisma.design.create({
+          data: {
+            userId: _id,
+            components: JSON.parse(fields.design[0]),
+            imageUrl: url
+          }
+        });
+
+        res.status(201).json({
+          status: 'success',
+          data: {
+            design
+          }
+        });
+
+      } catch(e) {
+        console.error(e);
+        return res.status(400).json({
+          status: 'fail',
+          message: 'Error uploading image'
+        });
+      }
+
+    } catch (error) {
+      console.error(error);
+      return res.status(400).json({
+        status: 'fail',
+        message: 'Error creating design'
+      });
+    }
+  }
+
+  updateDesign = async (req: NextRequest, res: NextResponse, params) => {
+    const form = formidable({});
+    const { params: { design_id } }  = params; // Assuming design_id is a query parameter
+
+    try {
+      cloudinary.config({
         cloud_name: config.cloudinary.cloudName,
         api_key: config.cloudinary.apiKey,
         api_secret: config.cloudinary.apiSecret
       });
 
       const data = await req.formData();
-      console.log(JSON.parse(<string>data.get('design')));
-      console.log(data.get('image'));
 
-      console.log('******************************************')
-      console.log('data');
-      // console.log(data);
-      const [fields, files] = data;
-      console.log('fields')
-      console.log(fields);
-      // console.log('files')
-      // console.log(files)
+      const image = data.get('image')
+      const components = JSON.parse(<string>data.get('design'))
 
-      const { image } = files;
-      const components = JSON.parse(fields)?.design;
-      console.log('components')
-
+      // console.log("params");
+      // console.log(params)
+      // console.log('design_id', design_id);
       // const oldDesign = await Design.findById(design_id);
       const oldDesign = await prisma.design.findUnique({
         where: { id: design_id }
@@ -122,6 +124,8 @@ class DesignController {
         });
       }
 
+
+
       if(oldDesign?.imageUrl) {
         const splitImage = oldDesign?.imageUrl.split('/');
         const imageFile = splitImage[splitImage.length - 1];
@@ -129,24 +133,63 @@ class DesignController {
         await cloudinary.uploader.destroy(imageName);
       }
 
-      const { url } = await cloudinary.uploader.upload(image[0].filepath);
+      try {
+        // const buffer = Buffer.from(image, 'base64');
+        // const result = await cloudinary.uploader.upload(`data:image/png;base64,${buffer.toString('base64')}`);
+            const result = await cloudinary.uploader.upload(image);
+
+        // console.log('result');
+        // console.log(result);
+        const url = result?.secure_url || "";
+        console.log(url)
+        console.log(result)
+        console.log('components')
+        console.log(components)
+        console.log(components?.design)
+
+        await prisma.design.update({
+          where: { id: design_id },
+          data: {
+            components: components,
+            imageUrl: url
+          }
+        });
+  
+        return res.status(200).json({
+          status: 'success',
+          message: 'Design updated successfully'
+        });
+      } catch(e) {
+        // console.log('image');
+        // console.log(image);
+        console.log('error while uploading');
+        console.log(e);
+      }
+      // const buffer = Buffer.from(image, 'base64');
+      // const result = await cloudinary.uploader.upload(`data:image/png;base64,${buffer.toString('base64')}`);
+      // console.log('result');
+      // console.log(result);
+      // const { url } = result?.secure_url;
+
+
+      // const { url } = await cloudinary.uploader.upload(image[0].filepath);
       // await Design.findByIdAndUpdate(design_id, {
       //   components,
       //   imageUrl: url
       // });
 
-      await prisma.design.update({
-        where: { id: design_id },
-        data: {
-          components: components,
-          imageUrl: url
-        }
-      });
+      // await prisma.design.update({
+      //   where: { id: design_id },
+      //   data: {
+      //     components: components,
+      //     imageUrl: url
+      //   }
+      // });
 
-      return res.status(200).json({
-        status: 'success',
-        message: 'Design updated successfully'
-      });
+      // return res.status(200).json({
+      //   status: 'success',
+      //   message: 'Design updated successfully'
+      // });
     } catch (e) {
       console.error(e);
       return res.status(400).json({

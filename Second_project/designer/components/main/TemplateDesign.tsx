@@ -2,20 +2,21 @@
 
 import { useEffect, useState } from "react";
 // import { useNavigate } from "react-router-dom";
-import { useRouter } from "next/router";
+import { useRouter } from 'next/navigation'
 
-import api from "../../utils/useApi.ts";
+import api from "@/utils/useApi.ts";
 import toast from "react-hot-toast";
+import useApi from "@/utils/useApi.ts";
 
 const TemplateDesign = ({ type }) => {
     const [templates, setTemplates] = useState([]);
     // const navigate = useNavigate();
-    const router = useRouter();
+    const router = useRouter()
 
     useEffect(() => {
         const getTemplates = async () => {
             try {
-                const { data } = await api.get('/design/templates');
+                const { data } =  useApi('/design/templates');
                 setTemplates(data?.data?.templates);
             } catch (e) {
                 console.error(e);
@@ -26,15 +27,15 @@ const TemplateDesign = ({ type }) => {
     }, []);
 
     const addTemplate = async (id) => {
-        try {
-            const { data } = await api.post(`/design/add-user-template/${id}`);
-            toast.success('Template added successfully');
-            // navigate(`/design/${data?.data?.design?._id}/edit`);
-            router.push(`/design/${data?.data?.design?._id}/edit`);
-        } catch (e) {
-            console.error(e);
-            toast.error('Something went wrong');
-        }
+        // try {
+        //     const { data } = await api.post(`/design/add-user-template/${id}`);
+        //     toast.success('Template added successfully');
+        //     // navigate(`/design/${data?.data?.design?._id}/edit`);
+        //     router.push(`/design/${data?.data?.design?._id}/edit`);
+        // } catch (e) {
+        //     console.error(e);
+        //     toast.error('Something went wrong');
+        // }
     }
 
     return (

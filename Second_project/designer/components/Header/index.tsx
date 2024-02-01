@@ -15,6 +15,7 @@ import Auth from "./Auth";
 import {DesignContext} from "@/contexts/DesignProvider";
 import useApi from "@/utils/useApi";
 import domtoimage from 'dom-to-image';
+import { useRouter } from 'next/navigation';
 
 export default function Header({ params }) {
   const { components } = useContext(DesignContext);
@@ -22,6 +23,7 @@ export default function Header({ params }) {
   const { status: sessionStatus } = useSession();
   const pathname = usePathname();
   let design_id = pathname.split('/design/')[1] || '';
+  const router = useRouter();
 
   // const { mutate, data, error } = useApi(`/design/update-design/${design_id}`, 'PUT');
   const { fetchData, data, loading, error } = useApi(`api/v1/design/update-design/${design_id}`, 'PUT', "multipart/form-data");
@@ -34,9 +36,7 @@ export default function Header({ params }) {
     let image;
     try {
       // image = await htmlToImage.toPng(getDiv);
-      console.log(document.getElementById('main_design'))
       image = await domtoimage.toPng(document.getElementById('main_design'));
-      console.log('image', image);
     } catch (e) {
       console.log('error while creating image')
       console.log(e);
@@ -86,6 +86,23 @@ export default function Header({ params }) {
     document.body.removeChild(link);
   }
 
+  const createDesign = async () => {
+
+    // await router.push({
+    //   pathname: '/design/create',
+    //   query: {type: 'create', width: 600, height: 450},
+    // });
+    router.push('/design/create?type=create&width=600&height=450')
+
+    // navigate('/design/create', {
+    //   state: {
+    //     type: 'create',
+    //     width: 600,
+    //     height: 450,
+    //   }
+    // })
+  }
+
   return (
     <header
       className={cn(
@@ -98,6 +115,14 @@ export default function Header({ params }) {
 
       {sessionStatus !== "loading" && (
         <div className={cn("flex items-center justify-center")}>
+          {pathname.includes('dashboard') && (
+            <button
+              onClick={createDesign}
+              className='py-2 px-6 overflow-hidden text-center bg-[#8b3dff] text-white rounded-[3px] font-medium hover:bg-[#9553f8]'>
+                Create a Design
+            </button>
+          )}
+
           {pathname.includes('design') && (
             <div className="flex justify-center items-center gap-2 text-gray-300">
               <button disabled={loading} onClick={saveImage}

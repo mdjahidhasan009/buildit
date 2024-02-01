@@ -1,3 +1,5 @@
+"use client";
+
 import {BsTrash} from "react-icons/bs";
 import Element from "./Element";
 
