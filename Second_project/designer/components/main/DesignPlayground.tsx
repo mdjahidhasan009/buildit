@@ -1,6 +1,6 @@
 "use client";
 
-import CreateComponent from "../CreateComponent.tsx";
+import CreateComponent from "@/components/CreateComponent.tsx";
 import {useContext} from "react";
 import {DesignContext} from "@/contexts/DesignProvider.tsx";
 

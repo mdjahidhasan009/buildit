@@ -8,108 +8,145 @@ import { v2 as cloudinary } from 'cloudinary';
 
 // const { mongo: { ObjectId } } = require('mongoose');
 
-// const Design = require('../models/designModal');
-// const DesignImage = require('../models/designImageModal');
-// const BackgroundImage = require('../models/backgroundImageModal');
-// const UserImage = require('../models/userImageModel');
-// const Template = require('../models/templateModel');
-// const config = require('../src/config/index');
 import config from '@/config/index';
 
 import { PrismaClient } from '@prisma/client';
 import {getSession} from "@/lib/auth";
 import {NextRequest, NextResponse} from "next/server";
 const prisma = new PrismaClient();
+const { Pool } = require('pg');
+const pool = new Pool({
+  connectionString: config.pgconnection
+});
 
 class DesignController {
-  // createDesign = async (req: NextApiRequest, res: NextApiResponse) => {
-  //   const form = formidable();
-  //   const { _id } = req.userInfo;
-  //
-  //   try {
-  //     cloudinary.config({
-  //       cloud_name: config.default.cloudinary.cloudName,
-  //       api_key: config.default.cloudinary.apiKey,
-  //       api_secret: config.default.cloudinary.apiSecret
-  //     })
-  //
-  //     const [fields, files] = await form.parse(req);
-  //     const { image } = files;
-  //
-  //     try {
-  //       const { url } = await cloudinary.uploader.upload(image[0].filepath);
-  //       // const design = await Design.create({
-  //       //   user: _id,
-  //       //   components: [JSON.parse(fields.design[0])],
-  //       //   imageUrl: url
-  //       // });
-  //
-  //       const design = await prisma.design.create({
-  //         data: {
-  //           userId: _id,
-  //           components: JSON.parse(fields.design[0]),
-  //           imageUrl: url
-  //         }
-  //       });
-  //
-  //       res.status(201).json({
-  //         status: 'success',
-  //         data: {
-  //           design
-  //         }
-  //       });
-  //
-  //     } catch(e) {
-  //       console.error(e);
-  //       return res.status(400).json({
-  //         status: 'fail',
-  //         message: 'Error uploading image'
-  //       });
-  //     }
-  //
-  //   } catch (error) {
-  //     console.error(error);
-  //     return res.status(400).json({
-  //       status: 'fail',
-  //       message: 'Error creating design'
-  //     });
-  //   }
-  // }
-  //
-  updateDesign = async (req: NextRequest, res: NextResponse, params) => {
-    const form = formidable({});
-    // const { design_id } = req.params;
-    // const { design_id } = req.query; // Assuming design_id is a query parameter
-    const design_id  = params; // Assuming design_id is a query parameter
+  createDesign = async (req: NextRequest, res: NextResponse) => {
+    const session = await getSession();
+    if (!session || !session?.user?.id) {
+      return NextResponse.json(
+          {
+            code: "UNAUTHORIZED",
+          },
+          {
+            status: 403,
+          }
+      );
+    }
+
+    const _id = session?.user?.id;
+    const form = formidable();
+    // const { _id } = req.userInfo;
 
     try {
       cloudinary.config({
-      //   // cloud_name: config.default.cloudinary.cloudName,
-      //   // api_key: config.default.cloudinary.apiKey,
-      //   // api_secret: config.default.cloudinary.apiSecret
-      //
+        // cloud_name: config.default.cloudinary.cloudName,
+        // api_key: config.default.cloudinary.apiKey,
+        // api_secret: config.default.cloudinary.apiSecret
+
+        cloud_name: config.cloudinary.cloudName,
+        api_key: config.cloudinary.apiKey,
+        api_secret: config.cloudinary.apiSecret
+      })
+
+      // const [fields, files] = await form.parse(req);
+      // const { image } = files;
+
+      const data = await req.formData();
+
+      // const image = data.get('image')
+      // const components = JSON.parse(<string>data.get('design'))
+
+      let componentsString = data.get('design');
+      let components;
+      try {
+        components = JSON.parse(componentsString); // Parse string to JSON
+      } catch (error) {
+        console.log('invalid json')
+        return res.status(400).json({ error: "Invalid JSON format for components." });
+      }
+
+      try {
+        // const result = await cloudinary.uploader.upload(image);
+        const url =  "88888";
+        // const { url } = await cloudinary.uploader.upload(image[0].filepath);
+        // const design = await Design.create({
+        //   user: _id,
+        //   components: [JSON.parse(fields.design[0])],
+        //   imageUrl: url
+        // });
+
+        console.log({
+          data: {
+            userId: _id,
+            components,
+            imageUrl: url
+          }
+        })
+//         const insertDesignSQL = `
+//   INSERT INTO Design (user_id, components, image_url)
+//   VALUES ($1, $2, $3)
+//   RETURNING *;  -- Returns the inserted row
+// `;
+//         const design = await pool.query(insertDesignSQL, [_id, {"Jahid": "iiiii"}, url]);
+
+        const design = await prisma.design.create({
+          data: {
+            userId: _id,
+            components:
+              [components],
+              // {
+              //   key: "value",
+              //   anotherKey: {
+              //     subKey: "subValue"
+              //   }
+              // },
+            imageUrl: url
+          }
+        });
+
+        return {
+          status: 'success',
+          data: {
+            design
+          }
+        }
+
+      } catch(e) {
+        console.error(e);
+        return res.status(400).json({
+          status: 'fail',
+          message: 'Error uploading image'
+        });
+      }
+
+    } catch (error) {
+      console.error(error);
+      return res.status(400).json({
+        status: 'fail',
+        message: 'Error creating design'
+      });
+    }
+  }
+
+  updateDesign = async (req: NextRequest, res: NextResponse, params) => {
+    const form = formidable({});
+    const { params: { design_id } }  = params; // Assuming design_id is a query parameter
+
+    try {
+      cloudinary.config({
         cloud_name: config.cloudinary.cloudName,
         api_key: config.cloudinary.apiKey,
         api_secret: config.cloudinary.apiSecret
       });
 
       const data = await req.formData();
-      console.log(JSON.parse(<string>data.get('design')));
-      console.log(data.get('image'));
 
-      console.log('******************************************')
-      console.log('data');
-      // console.log(data);
-      const [fields, files] = data;
-      console.log('fields')
-      console.log(fields);
-      // console.log('files')
-      // console.log(files)
+      const image = data.get('image')
+      const components = JSON.parse(<string>data.get('design'))
 
-      const { image } = files;
-      const components = JSON.parse(fields)?.design;
-      console.log('components')
-
+      // console.log("params");
+      // console.log(params)
+      // console.log('design_id', design_id);
       // const oldDesign = await Design.findById(design_id);
       const oldDesign = await prisma.design.findUnique({
         where: { id: design_id }
@@ -122,6 +159,8 @@ class DesignController {
         });
       }
 
+
+
       if(oldDesign?.imageUrl) {
         const splitImage = oldDesign?.imageUrl.split('/');
         const imageFile = splitImage[splitImage.length - 1];
@@ -129,24 +168,31 @@ class DesignController {
         await cloudinary.uploader.destroy(imageName);
       }
 
-      const { url } = await cloudinary.uploader.upload(image[0].filepath);
-      // await Design.findByIdAndUpdate(design_id, {
-      //   components,
-      //   imageUrl: url
-      // });
+      try {
+        const result = await cloudinary.uploader.upload(image);
+        const url = result?.secure_url || "";
 
-      await prisma.design.update({
-        where: { id: design_id },
-        data: {
-          components: components,
-          imageUrl: url
-        }
-      });
+        // console.log({data: {
+        //   components: [components],
+        //     imageUrl: url
+        // }})
 
-      return res.status(200).json({
-        status: 'success',
-        message: 'Design updated successfully'
-      });
+        await prisma.design.update({
+          where: { id: design_id },
+          data: {
+            components: components?.design,
+            imageUrl: url
+          }
+        });
+  
+        return res.status(200).json({
+          status: 'success',
+          message: 'Design updated successfully'
+        });
+      } catch(e) {
+        console.log('error while uploading');
+        console.log(e);
+      }
     } catch (e) {
       console.error(e);
       return res.status(400).json({

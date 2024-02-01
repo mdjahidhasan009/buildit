@@ -8,6 +8,7 @@ const envVars = process.env;
 export default {
   env: envVars.NODE_ENV,
   port: envVars.PORT,
+  pgconnection: envVars.DATABASE_URL,
   mongoose: {
     url: envVars.MONGODB_URL,
     options: {
