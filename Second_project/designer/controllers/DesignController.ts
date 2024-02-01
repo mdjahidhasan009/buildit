@@ -18,7 +18,7 @@ import config from '@/config/index';
 
 import { PrismaClient } from '@prisma/client';
 import {getSession} from "@/lib/auth";
-import {NextResponse} from "next/server";
+import {NextRequest, NextResponse} from "next/server";
 const prisma = new PrismaClient();
 
 class DesignController {
@@ -76,73 +76,88 @@ class DesignController {
   //   }
   // }
   //
-  // updateDesign = async (req: NextApiRequest, res: NextApiResponse) => {
-  //   const form = formidable({});
-  //   // const { design_id } = req.params;
-  //   const { design_id } = req.query; // Assuming design_id is a query parameter
-  //
-  //   try {
-  //     cloudinary.config({
-  //       cloud_name: config.default.cloudinary.cloudName,
-  //       api_key: config.default.cloudinary.apiKey,
-  //       api_secret: config.default.cloudinary.apiSecret
-  //     });
-  //
-  //     const [fields, files] = await form.parse(req);
-  //     const { image } = files;
-  //     const components = JSON.parse(fields.design[0])?.design;
-  //
-  //     // const oldDesign = await Design.findById(design_id);
-  //     const oldDesign = await prisma.design.findUnique({
-  //       where: { id: design_id }
-  //     });
-  //
-  //     if(!oldDesign) {
-  //       return res.status(400).json({
-  //         status: 'fail',
-  //         message: 'Design not found'
-  //       });
-  //     }
-  //
-  //     if(oldDesign?.imageUrl) {
-  //       const splitImage = oldDesign?.imageUrl.split('/');
-  //       const imageFile = splitImage[splitImage.length - 1];
-  //       const imageName = imageFile.split('.')[0];
-  //       await cloudinary.uploader.destroy(imageName);
-  //     }
-  //
-  //     const { url } = await cloudinary.uploader.upload(image[0].filepath);
-  //     // await Design.findByIdAndUpdate(design_id, {
-  //     //   components,
-  //     //   imageUrl: url
-  //     // });
-  //
-  //     await prisma.design.update({
-  //       where: { id: design_id },
-  //       data: {
-  //         components: components,
-  //         imageUrl: url
-  //       }
-  //     });
-  //
-  //     return res.status(200).json({
-  //       status: 'success',
-  //       message: 'Design updated successfully'
-  //     });
-  //   } catch (e) {
-  //     console.error(e);
-  //     return res.status(400).json({
-  //       status: 'fail',
-  //       message: 'Error updating design'
-  //     });
-  //   }
-  // }
+  updateDesign = async (req: NextRequest, res: NextResponse, params) => {
+    const form = formidable({});
+    // const { design_id } = req.params;
+    // const { design_id } = req.query; // Assuming design_id is a query parameter
+    const design_id  = params; // Assuming design_id is a query parameter
+
+    try {
+      cloudinary.config({
+      //   // cloud_name: config.default.cloudinary.cloudName,
+      //   // api_key: config.default.cloudinary.apiKey,
+      //   // api_secret: config.default.cloudinary.apiSecret
+      //
+        cloud_name: config.cloudinary.cloudName,
+        api_key: config.cloudinary.apiKey,
+        api_secret: config.cloudinary.apiSecret
+      });
+
+      const data = await req.formData();
+      console.log(JSON.parse(<string>data.get('design')));
+      console.log(data.get('image'));
+
+      console.log('******************************************')
+      console.log('data');
+      // console.log(data);
+      const [fields, files] = data;
+      console.log('fields')
+      console.log(fields);
+      // console.log('files')
+      // console.log(files)
+
+      const { image } = files;
+      const components = JSON.parse(fields)?.design;
+      console.log('components')
+
+      // const oldDesign = await Design.findById(design_id);
+      const oldDesign = await prisma.design.findUnique({
+        where: { id: design_id }
+      });
+
+      if(!oldDesign) {
+        return res.status(400).json({
+          status: 'fail',
+          message: 'Design not found'
+        });
+      }
+
+      if(oldDesign?.imageUrl) {
+        const splitImage = oldDesign?.imageUrl.split('/');
+        const imageFile = splitImage[splitImage.length - 1];
+        const imageName = imageFile.split('.')[0];
+        await cloudinary.uploader.destroy(imageName);
+      }
+
+      const { url } = await cloudinary.uploader.upload(image[0].filepath);
+      // await Design.findByIdAndUpdate(design_id, {
+      //   components,
+      //   imageUrl: url
+      // });
+
+      await prisma.design.update({
+        where: { id: design_id },
+        data: {
+          components: components,
+          imageUrl: url
+        }
+      });
+
+      return res.status(200).json({
+        status: 'success',
+        message: 'Design updated successfully'
+      });
+    } catch (e) {
+      console.error(e);
+      return res.status(400).json({
+        status: 'fail',
+        message: 'Error updating design'
+      });
+    }
+  }
 
   getUserDesign = async (req: Request, res: Response, params) => {
-    // const { design_id } = req.params;
-    console.log('inside getUserDesign');
     const design_id = params?.params?.design_id;
-    console.log('req.params', design_id);
 
     // const { design_id } = req.query; // Assuming design_id is a query parameter
 

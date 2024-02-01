@@ -129,7 +129,7 @@ const layout = ({ children }) => {
         </div>
         <div className='ml-[300px] w-[calc(100%-300px)]'>
           <div className='py-4 pr-4'>
-            {/*<main className={cn("grid place-items-center")}>{children}</main>*/}
+            {/*<design className={cn("grid place-items-center")}>{children}</design>*/}
             <main className={cn("grid")}>{children}</main>
           </div>
         </div>

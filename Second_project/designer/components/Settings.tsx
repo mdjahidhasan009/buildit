@@ -47,7 +47,7 @@ export default function Settings() {
   const animationControls = useAnimationControls();
 
   useEffect(() => {
-    const main = document.getElementById("main");
+    const main = document.getElementById("design");
     let timeoutId: NodeJS.Timeout;
 
     const handleResize = () => {

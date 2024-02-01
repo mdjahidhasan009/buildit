@@ -12,27 +12,24 @@ import ComponentPropertiesPanel from "@/components/main/ComponentPropertiesPanel
 import {useParams} from "next/navigation";
 import axios from "axios";
 
-const Page = () => {
+type Props = {
+  params: {
+    design_id: string
+  }
+}
 
-  // const { design_id } = useParams<{ design_id: string }>();
-  const  design_id  = "659e3e53b43dc5d3b9b998f0";
-
+const Page = ({ params } : Props) => {
+  const  design_id  = params?.design_id || '';
   const { data, error } = useApi(`api/v1/design/user-design/${design_id}`, 'GET');
 
 
   const { setCurrentComponent, components, setComponents, moveElement, resizeElement, rotateElement, removeBackground }
     = useContext(DesignContext);
-  // console.log(data);
 
   useEffect(() => {
-    console.log('string useEffect');
     const getDesign = async () => {
       try {
         if(!data) return;
-        console.log('starting api');
-        console.log('ending api')
-        console.log(data);
-
 
         const { design } = data?.data;
 
@@ -49,9 +46,7 @@ const Page = () => {
       }
     }
 
-    console.log('after get design')
     getDesign();
-    console.log('after get design')
   }, [data, design_id]);
 
   // useEffect(() => {
