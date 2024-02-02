@@ -7,24 +7,30 @@ import { useRouter } from 'next/navigation'
 import api from "@/utils/useApi.ts";
 import toast from "react-hot-toast";
 import useApi from "@/utils/useApi.ts";
+import Template from "@/components/shared/Template";
 
 const TemplateDesign = ({ type }) => {
     const [templates, setTemplates] = useState([]);
     // const navigate = useNavigate();
-    const router = useRouter()
+    // const router = useRouter()
+
+    const { data, error } = useApi('api/v1/design/templates');
 
     useEffect(() => {
-        const getTemplates = async () => {
-            try {
-                const { data } =  useApi('/design/templates');
-                setTemplates(data?.data?.templates);
-            } catch (e) {
-                console.error(e);
-            }
-        };
+        // const getTemplates = async () => {
+        //     try {
+        //         const { data } =  useApi('/design/templates');
+        if(data) {
+            setTemplates(data?.data?.templates);
+        }
 
-        getTemplates();
-    }, []);
+        //     } catch (e) {
+        //         console.error(e);
+        //     }
+        // };
+
+        // getTemplates();
+    }, [data]);
 
     const addTemplate = async (id) => {
         // try {
@@ -44,18 +50,19 @@ const TemplateDesign = ({ type }) => {
                 {
                     templates.map((template: any, index: number) =>
                         (
-                            <div
-                                key={index}
-                                onClick={() => addTemplate(template._id)}
-                                className={`relative cursor-pointer group w-full ${type ? ' h-[100px] ' : ' h[170px] px-2 '}`}>
-                                <div
-                                    className={`w-full h-full block bg-[#ffffff12] rounded-md ${type ? '' : ' p-4 '}`}
-                                >
-                                    <img className='w-full h-full rounded-md overflow-hidden' src={template?.imageUrl}
-                                         alt=""
-                                    />
-                                </div>
-                            </div>
+                          <Template index={index} template={template} type={type} />
+                            // <div
+                            //     key={index}
+                            //     onClick={() => addTemplate(template._id)}
+                            //     className={`relative cursor-pointer group w-full ${type ? ' h-[100px] ' : ' h[170px] px-2 '}`}>
+                            //     <div
+                            //         className={`w-full h-full block bg-[#ffffff12] rounded-md ${type ? '' : ' p-4 '}`}
+                            //     >
+                            //         <img className='w-full h-full rounded-md overflow-hidden' src={template?.imageUrl}
+                            //              alt=""
+                            //         />
+                            //     </div>
+                            // </div>
                         )
                     )
                 }

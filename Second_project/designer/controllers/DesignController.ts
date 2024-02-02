@@ -432,75 +432,102 @@ class DesignController {
     }
   }
 
-  // getTemplates = async (req: NextApiRequest, res: NextApiResponse) => {
-  //   try {
-  //     // const templates = await Template.find({}).sort({ createdAt: -1 });
-  //     const templates = await prisma.template.findMany({
-  //       orderBy: {
-  //         createdAt: 'desc'
-  //       }
-  //     });
-  //
-  //     return res.status(200).json({
-  //       status: 'success',
-  //       data: {
-  //         templates
-  //       }
-  //     });
-  //   } catch (error) {
-  //     console.error(error);
-  //     return res.status(400).json({
-  //       status: 'fail',
-  //       message: 'Error getting templates'
-  //     });
-  //   }
-  // }
-  //
-  // addUserTemplate = async (req: NextApiRequest, res: NextApiResponse) => {
-  //   // const { template_id } = req.params;
-  //   const { template_id } = req.query; // Assuming template_id is a query parameter
-  //   const { _id } = req.userInfo;
-  //
-  //   try {
-  //     // const template = await Template.findById(template_id);
-  //     const template = await prisma.template.findUnique({
-  //       where: { id: template_id }
-  //     });
-  //
-  //     if (!template) {
-  //       return res.status(404).json({
-  //         status: 'fail',
-  //         message: 'Template not found'
-  //       });
-  //     }
-  //
-  //     // const design = await Design.create({
-  //     //   user: _id,
-  //     //   components: template?.components,
-  //     //   imageUrl: template?.imageUrl
-  //     // });
-  //     const design = await prisma.design.create({
-  //       data: {
-  //         userId: _id,
-  //         components: template.components,
-  //         imageUrl: template.imageUrl
-  //       }
-  //     });
-  //
-  //     return res.status(201).json({
-  //       status: 'success',
-  //       data: {
-  //         design
-  //       }
-  //     });
-  //   } catch (e) {
-  //     console.error(e);
-  //     return res.status(400).json({
-  //       status: 'fail',
-  //       message: 'Error adding template'
-  //     });
-  //   }
-  // }
+  getTemplates = async (req: NextResponse, res: NextResponse) => {
+    try {
+      // const templates = await Template.find({}).sort({ createdAt: -1 });
+      const templates = await prisma.template.findMany({
+        orderBy: {
+          createdAt: 'desc'
+        }
+      });
+
+      return {
+        status: 'success',
+        data: {
+          templates
+        }
+      }
+      // return res.status(200).json({
+      //   status: 'success',
+      //   data: {
+      //     templates
+      //   }
+      // });
+    } catch (error) {
+      console.error(error);
+      return res.status(400).json({
+        status: 'fail',
+        message: 'Error getting templates'
+      });
+    }
+  }
+
+  addUserTemplate = async (req: NextResponse, res: NextResponse, params) => {
+    // const { template_id } = req.params;
+    // const { template_id } = req.query; // Assuming template_id is a query parameter
+    const { params: { template_id } }  = params;
+    // const { _id } = req.userInfo;
+    const session = await getSession();
+    if (!session || !session?.user?.id) {
+      return NextResponse.json(
+        {
+          code: "UNAUTHORIZED",
+        },
+        {
+          status: 403,
+        }
+      );
+    }
+
+    const _id = session?.user?.id;
+
+    try {
+      // const template = await Template.findById(template_id);
+      const template = await prisma.template.findUnique({
+        where: { id: template_id }
+      });
+
+      if (!template) {
+        return res.status(404).json({
+          status: 'fail',
+          message: 'Template not found'
+        });
+      }
+
+      // const design = await Design.create({
+      //   user: _id,
+      //   components: template?.components,
+      //   imageUrl: template?.imageUrl
+      // });
+      const design = await prisma.design.create({
+        data: {
+          userId: _id,
+          components: template?.components,
+          imageUrl: template?.imageUrl
+        }
+      });
+
+      return {
+        status: 'success',
+        data: {
+          design
+        }
+      }
+
+      // return res.status(201).json({
+      //   status: 'success',
+      //   data: {
+      //     design
+      //   }
+      // });
+    } catch (e) {
+      console.error(e);
+      return res.status(400).json({
+        status: 'fail',
+        message: 'Error adding template'
+      });
+    }
+  }
 }
 
 export default new DesignController();

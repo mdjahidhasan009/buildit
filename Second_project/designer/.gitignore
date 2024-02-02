@@ -33,7 +33,7 @@ yarn-error.log*
 .vercel
 
 # typescript
-*.tsbuildinfo
+*router.tsbuildinfo
 next-env.d.ts
 
 # seeding data
