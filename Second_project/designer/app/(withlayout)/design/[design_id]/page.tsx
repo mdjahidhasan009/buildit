@@ -49,49 +49,6 @@ const Page = ({ params } : Props) => {
     getDesign();
   }, [data, design_id]);
 
-  // useEffect(() => {
-  //     console.log('string useEffect');
-  //     if(data) {
-  //       const { design } = data?.data;
-  //
-  //       for(let i = 0; i < design.length; i++) {
-  //         design[i].setCurrentComponent = (a) => setCurrentComponent(a);
-  //         design[i].moveElement = moveElement;
-  //         design[i].resizeElement = resizeElement;
-  //         design[i].rotateElement = rotateElement;
-  //         design[i].removeBackground = removeBackground;
-  //       }
-  //       setComponents(design);
-  //     }
-  //     // const getDesign = async () => {
-  //     //   try {
-  //     //     console.log('start ing api');
-  //     //     const { data } = await useApi(`/design/user-design/${design_id}`, 'GET');
-  //     //     debugger
-  //     //     console.log('end ing api')
-  //     //     console.log(data);
-  //     //
-  //     //
-  //     //     const { design } = data?.data;
-  //     //
-  //     //     for(let i = 0; i < design.length; i++) {
-  //     //       design[i].setCurrentComponent = (a) => setCurrentComponent(a);
-  //     //       design[i].moveElement = moveElement;
-  //     //       design[i].resizeElement = resizeElement;
-  //     //       design[i].rotateElement = rotateElement;
-  //     //       design[i].removeBackground = removeBackground;
-  //     //     }
-  //     //     setComponents(design);
-  //     //   } catch (e) {
-  //     //     console.log(e);
-  //     //   }
-  //     // }
-  //
-  //     console.log('after get design')
-  //     // getDesign();
-  //     console.log('after get design')
-  //   }, [data, error, design_id]);
-
   return (
     <div className="min-w-screen h-screen bg-black">
       {/*<Header components={components} design_id={design_id} />*/}

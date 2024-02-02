@@ -1,22 +1,26 @@
 import {useEffect, useState} from "react";
 import Image from './Image';
 import api from "../utils/useApi.ts";
+import useApi from "../utils/useApi.ts";
 
 const InitialImage = ({ addImage }) => {
   const [images, setImages] = useState([]);
+  const { data } = useApi('api/v1/design/design-images', 'GET');
 
   useEffect(() => {
-    const getImages = async () => {
-      try {
-        const { data } = await api.get('/design/design-images');
-        setImages(data?.data?.images);
-      } catch (e) {
-        console.error(e);
-      }
+    // const getImages = async () => {
+    //   try {
+        // const { data } = await api.get('/design/design-images');
+    if(data) {
+      console.log(data)
+      setImages(data?.data?.images);
+      // } catch (e) {
+      //   console.error(e);
+      // }
     }
 
-    getImages();
-  }, []);
+    // getImages();
+  }, [data]);
 
   return (
     <div>

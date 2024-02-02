@@ -24,29 +24,12 @@ const Page = () => {
   // const navigate = useNavigate();
 
   useEffect(() => {
-    // getUserDesigns();
-
-    console.log('data')
-    console.log(data)
-
     if(data?.data?.designs) {
       let designs = data?.data?.designs;
       let firstTwo = designs.slice(0, 2);
       setDesigns(firstTwo);
-      console.log(data);
-      console.log(data?.data?.designs);
-      // setDesigns([]);
     }
   }, [data]);
-
-  // const getUserDesigns = async () => {
-  //   try {
-  //     const { data } = await useApi('/design/user-designs', 'GET');
-  //     setDesigns(data?.data?.designs);
-  //   } catch (e) {
-  //     console.error(e);
-  //   }
-  // }
 
   const inputHandle = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -83,31 +66,12 @@ const Page = () => {
   const create = async (e) => {
     e.preventDefault();
 
-    // navigate(`/design/create`, {
-    //   state: {
-    //     type: 'create',
-    //     width: state.width,
-    //     height: state.height
-    //   }
-    // })
-
     await router.push({
       pathname: '/design/create',
       query: {type: 'create', width: state.width, height: state.height},
     });
   }
 
-  // const deleteDesign = async (id) => {
-  //   try {
-  //     await useApi(`/design/delete-user-image/${id}`, 'DELETE');
-  //     setDesigns(designs.filter(design => design._id !== id));
-  //     toast.success('Design deleted successfully');
-  //     // getUserDesigns();
-  //   } catch (e) {
-  //     console.error(e);
-  //     toast.error('Something went wrong');
-  //   }
-  // }
 
   return (
     <div className='pt-5'>

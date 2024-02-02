@@ -47,7 +47,6 @@ export async function PATCH(req: NextRequest) {
 
     return NextResponse.json(updatedSnippet, { status: 200 });
   } catch (e) {
-    console.log(e);
     return NextResponse.json(
       {
         code: "INTERNAL_SERVER_ERROR",
@@ -168,7 +167,6 @@ export async function DELETE(req: NextRequest) {
 
     return NextResponse.json(deletedSnippet, { status: 200 });
   } catch (e) {
-    console.log(e);
     return NextResponse.json(
       {
         code: "INTERNAL_SERVER_ERROR",

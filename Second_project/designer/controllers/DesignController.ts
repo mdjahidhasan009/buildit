@@ -67,7 +67,14 @@ class DesignController {
 
       try {
 
-        const result = await cloudinary.uploader.upload(image);
+        // const result = await cloudinary.uploader.upload(image);
+        const result = await cloudinary.uploader.upload(image, {
+          use_filename: true,
+          folder: "buildit",
+          unique_filename: false, // Set to true if you want Cloudinary to append random characters for uniqueness
+        });
+
+
         // const { url } = await cloudinary.uploader.upload(image[0].filepath);
         // const design = await Design.create({
         //   user: _id,
@@ -202,25 +209,28 @@ class DesignController {
     }
   }
 
-  // getInitialImages = async (req: NextApiRequest, res: NextApiResponse) => {
-  //   try {
-  //     // const images = await DesignImage.find({});
-  //     const images = await prisma.designImage.findMany({});
-  //     return res.status(200).json({
-  //       status: 'success',
-  //       data: {
-  //         images
-  //       }
-  //     });
-  //   } catch (error) {
-  //     console.error(error);
-  //     return res.status(400).json({
-  //       status: 'fail',
-  //       message: 'Error getting images'
-  //     });
-  //   }
-  // }
-  //
+  getInitialImages = async (req: NextRequest, res: NextResponse) => {
+    try {
+      // const images = await DesignImage.find({});
+      const images = await prisma.designImage.findMany({});
+
+      console.log(images)
+
+      return {
+        status: 'success',
+        data: {
+          images
+        }
+      }
+    } catch (error) {
+      console.error(error);
+      return res.status(400).json({
+        status: 'fail',
+        message: 'Error getting images'
+      });
+    }
+  }
+
   // getBackgroundImages = async (req: NextApiRequest, res: NextApiResponse) => {
   //   try {
   //     // const images = await BackgroundImage.find({});
@@ -329,13 +339,20 @@ class DesignController {
         }
       });
 
-      return NextResponse.json({
+      // return NextResponse.json({
+      //   status: 'success',
+      //   data: {
+      //     designs
+      //   }
+      //
+      // }, { status: 200 });
+
+      return {
         status: 'success',
         data: {
           designs
         }
-
-      }, { status: 200 });
+      }
       // return res.status(200).json({
       //   status: 'success',
       //   data: {

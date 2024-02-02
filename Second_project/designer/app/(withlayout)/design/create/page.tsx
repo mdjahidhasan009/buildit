@@ -45,7 +45,6 @@ const CreateDesign = () => {
 
     const createDesign = async () => {
         // const image = await htmlToImage.toBlob(ref.current);
-        console.log(ref?.current);
         const image = await domtoimage.toPng(ref.current);
         const design = JSON.stringify(obj);
 
@@ -56,7 +55,6 @@ const CreateDesign = () => {
             try {
                 setLoading(true);
                 await fetchData(formData);
-                console.log(data);
                 // router.push(`/design/${data?.data?.design?._id}/edit`);
                 // navigate(`/design/${data?.data?.design?._id}/edit`);
             } catch (e) {
