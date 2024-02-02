@@ -128,7 +128,7 @@ model Design {
   id         String   @id @default(cuid())
   user       User     @relation(fields: [userId], references: [id])
   userId     String
-  components Json?
+  components Json?    @db.Json
   imageUrl   String?
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt

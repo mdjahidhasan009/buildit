@@ -134,7 +134,7 @@
 
 import {useEffect, useState} from "react";
 
-const useApi = (url, method = 'GET', contentType) => {
+const useApi = (url, method = 'GET') => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);

@@ -11,7 +11,7 @@ import {NextRequest, NextResponse} from "next/server";
 //   return res.status(405).end();
 // }
 
-export async function GET(req: NextRequest, params, res: NextResponse){
+export async function POST(req: NextRequest, params, res: NextResponse){
   const data = await designController.createDesign(req, res, params);
   return NextResponse.json(data, { status: 200 });
 }
