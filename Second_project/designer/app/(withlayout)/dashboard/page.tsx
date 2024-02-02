@@ -25,22 +25,28 @@ const Page = () => {
 
   useEffect(() => {
     // getUserDesigns();
+
+    console.log('data')
+    console.log(data)
+
     if(data?.data?.designs) {
-      setDesigns(data?.data?.designs);
+      let designs = data?.data?.designs;
+      let firstTwo = designs.slice(0, 2);
+      setDesigns(firstTwo);
       console.log(data);
       console.log(data?.data?.designs);
       // setDesigns([]);
     }
   }, [data]);
 
-  const getUserDesigns = async () => {
-    try {
-      const { data } = await useApi('/design/user-designs', 'GET');
-      setDesigns(data?.data?.designs);
-    } catch (e) {
-      console.error(e);
-    }
-  }
+  // const getUserDesigns = async () => {
+  //   try {
+  //     const { data } = await useApi('/design/user-designs', 'GET');
+  //     setDesigns(data?.data?.designs);
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
+  // }
 
   const inputHandle = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -91,17 +97,17 @@ const Page = () => {
     });
   }
 
-  const deleteDesign = async (id) => {
-    try {
-      await useApi(`/design/delete-user-image/${id}`, 'DELETE');
-      setDesigns(designs.filter(design => design._id !== id));
-      toast.success('Design deleted successfully');
-      // getUserDesigns();
-    } catch (e) {
-      console.error(e);
-      toast.error('Something went wrong');
-    }
-  }
+  // const deleteDesign = async (id) => {
+  //   try {
+  //     await useApi(`/design/delete-user-image/${id}`, 'DELETE');
+  //     setDesigns(designs.filter(design => design._id !== id));
+  //     toast.success('Design deleted successfully');
+  //     // getUserDesigns();
+  //   } catch (e) {
+  //     console.error(e);
+  //     toast.error('Something went wrong');
+  //   }
+  // }
 
   return (
     <div className='pt-5'>
@@ -162,6 +168,7 @@ const Page = () => {
       <div>
         <h2 className='text-xl py-6 font-semibold text-white'>Your recent designs</h2>
         <div>
+          {console.log(designs.length)}
           <Carousel
             autoPlay={true}
             infinite={true}
@@ -170,7 +177,7 @@ const Page = () => {
           >
             {
               designs.map((design, i) =>
-                <Item design={design} key={i} deleteDesign={deleteDesign}/>
+                <Item design={design} key={i}/>
               )
             }
           </Carousel>

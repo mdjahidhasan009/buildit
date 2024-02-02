@@ -132,6 +132,7 @@
 //
 // export default useApi;
 
+
 import {useEffect, useState} from "react";
 
 const useApi = (url, method = 'GET') => {
@@ -179,8 +180,6 @@ const useApi = (url, method = 'GET') => {
         }
       }
 
-      console.log('fetchOptions', fetchOptions)
-      console.log('body', body)
       const response = await fetch(apiUrl, fetchOptions);
       const jsonData = await response.json();
       if (!response.ok) throw new Error(jsonData.message || 'API request failed');

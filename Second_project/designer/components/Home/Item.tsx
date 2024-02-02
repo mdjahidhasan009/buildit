@@ -1,9 +1,23 @@
-// import {Link} from "react-router-dom";
 import Link from "next/link";
 import {FaTrash} from "react-icons/fa";
+import useApi from "@/utils/useApi";
+import toast from "react-hot-toast";
 
-const Item = ({ design, type, deleteDesign }) => {
-  console.log(design)
+const Item = ({ design, type, setDesigns }) => {
+    const { fetchData } = useApi(`api/v1/design/delete-user-image/${design?.id}`, 'DELETE');
+    const deleteDesign = async (id) => {
+        try {
+            await fetchData();
+            // setDesigns(designs.filter(design => design._id !== id));////TODO: will fix this later
+            toast.success('Design deleted successfully');
+            // getUserDesigns();
+        } catch (e) {
+            console.error(e);
+            toast.error('Something went wrong');
+        }
+    }
+
+
   return (
       <div className={`relative group w-full ${type ? ' h-[100px] ' : ' h[170px] px-2 '}`}>
         <Link

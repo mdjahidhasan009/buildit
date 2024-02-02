@@ -39,7 +39,7 @@ const Projects = ({ type, designId }) => {
         {
           designs.map((design, index) =>
               design._id !== designId &&
-                <Item key={index} design={design} type={type} deleteDesign={deleteDesign} />
+                <Item key={index} design={design} type={type} setDesigns={setDesigns} />
           )
         }
       </div>

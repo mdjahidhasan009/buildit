@@ -66,41 +66,20 @@ class DesignController {
       }
 
       try {
-        const result = await cloudinary.uploader.upload(image, {
-          upload_preset: 'buildit'
-        });
+
+        const result = await cloudinary.uploader.upload(image);
         // const { url } = await cloudinary.uploader.upload(image[0].filepath);
         // const design = await Design.create({
         //   user: _id,
         //   components: [JSON.parse(fields.design[0])],
         //   imageUrl: url
         // });
-
-        console.log({
-          data: {
-            userId: _id,
-            components,
-            imageUrl: url
-          }
-        })
-//         const insertDesignSQL = `
-//   INSERT INTO Design (user_id, components, image_url)
-//   VALUES ($1, $2, $3)
-//   RETURNING *;  -- Returns the inserted row
-// `;
-//         const design = await pool.query(insertDesignSQL, [_id, {"Jahid": "iiiii"}, url]);
+        const url = result?.secure_url || "";
 
         const design = await prisma.design.create({
           data: {
             userId: _id,
-            components:
-              [components],
-              // {
-              //   key: "value",
-              //   anotherKey: {
-              //     subKey: "subValue"
-              //   }
-              // },
+            components: [components],
             imageUrl: url
           }
         });
@@ -145,10 +124,6 @@ class DesignController {
       const image = data.get('image')
       const components = JSON.parse(<string>data.get('design'))
 
-      // console.log("params");
-      // console.log(params)
-      // console.log('design_id', design_id);
-      // const oldDesign = await Design.findById(design_id);
       const oldDesign = await prisma.design.findUnique({
         where: { id: design_id }
       });
@@ -160,8 +135,6 @@ class DesignController {
         });
       }
 
-
-
       if(oldDesign?.imageUrl) {
         const splitImage = oldDesign?.imageUrl.split('/');
         const imageFile = splitImage[splitImage.length - 1];
@@ -172,11 +145,6 @@ class DesignController {
       try {
         const result = await cloudinary.uploader.upload(image);
         const url = result?.secure_url || "";
-
-        // console.log({data: {
-        //   components: [components],
-        //     imageUrl: url
-        // }})
 
         await prisma.design.update({
           where: { id: design_id },
@@ -206,13 +174,10 @@ class DesignController {
   getUserDesign = async (req: Request, res: Response, params) => {
     const design_id = params?.params?.design_id;
 
-    // const { design_id } = req.query; // Assuming design_id is a query parameter
-
     try {
-      // const design = await Design.findById(design_id);
       const design = await prisma.design.findUnique({
         where: { id: design_id },
-        include: { user: true } // Optional: include related user data if needed
+        include: { user: true }
       });
 
       if (!design) {
@@ -228,12 +193,6 @@ class DesignController {
           design: design?.components
         }
       }
-      // return res.status(200).json({
-      //   status: 'success',
-      //   data: {
-      //     design: design?.components
-      //   }
-      // });
     } catch (error) {
       console.error(error);
       return res.status(400).json({
@@ -399,55 +358,63 @@ class DesignController {
     }
   }
 
-  // deleteUserImage = async (req: NextApiRequest, res: NextApiResponse) => {
-  //   // const { design_id } = req.params;
-  //   const { design_id } = req.query; // Assuming design_id is passed as a query parameter
-  //
-  //   try {
-  //     // const design = await Design.findById(design_id);
-  //     const design = await prisma.design.findUnique({
-  //       where: { id: design_id }
-  //     });
-  //
-  //     if(!design) {
-  //       return res.status(400).json({
-  //         status: 'fail',
-  //         message: 'Design not found'
-  //       });
-  //     }
-  //
-  //     if(design?.imageUrl) {
-  //       cloudinary.config({
-  //         cloud_name: config.default.cloudinary.cloudName,
-  //         api_key: config.default.cloudinary.apiKey,
-  //         api_secret: config.default.cloudinary.apiSecret
-  //       });
-  //
-  //       const splitImage = design?.imageUrl.split('/');
-  //       const imageFile = splitImage[splitImage.length - 1];
-  //       const imageName = imageFile.split('.')[0];
-  //       await cloudinary.uploader.destroy(imageName);
-  //     }
-  //
-  //     // await Design.findByIdAndDelete(design_id);
-  //     await prisma.design.delete({
-  //       where: { id: design_id }
-  //     });
-  //
-  //     return res.status(200).json({
-  //       status: 'success',
-  //       message: 'Design deleted successfully'
-  //     });
-  //   } catch (error) {
-  //     console.log('error', error);
-  //     console.error(error);
-  //     return res.status(400).json({
-  //       status: 'fail',
-  //       message: 'Error deleting design'
-  //     });
-  //   }
-  // }
-  //
+  deleteUserImage = async (req: NextRequest, res: NextResponse, params) => {
+    // const { design_id } = req.params;
+    // const { design_id } = req.query; // Assuming design_id is passed as a query parameter
+    const { params: { design_id } }  = params;
+
+    try {
+      // const design = await Design.findById(design_id);
+      const design = await prisma.design.findUnique({
+        where: { id: design_id }
+      });
+
+      if(!design) {
+        return res.status(400).json({
+          status: 'fail',
+          message: 'Design not found'
+        });
+      }
+
+      if(design?.imageUrl) {
+        cloudinary.config({
+          cloud_name: config.cloudinary.cloudName,
+          api_key: config.cloudinary.apiKey,
+          api_secret: config.cloudinary.apiSecret
+        });
+
+        const splitImage = design?.imageUrl.split('/');
+        const imageFile = splitImage[splitImage.length - 1];
+        const imageName = imageFile.split('.')[0];
+        await cloudinary.uploader.destroy(imageName);
+      }
+
+      // await Design.findByIdAndDelete(design_id);
+      await prisma.design.delete({
+        where: { id: design_id }
+      });
+
+      // return res.status(200).json({
+      //   status: 'success',
+      //   message: 'Design deleted successfully'
+      // });
+
+      return {
+        status: 'success',
+        data: {
+          message: 'Design deleted successfully'
+        }
+      }
+    } catch (error) {
+      console.log('error', error);
+      console.error(error);
+      return res.status(400).json({
+        status: 'fail',
+        message: 'Error deleting design'
+      });
+    }
+  }
+
   // getTemplates = async (req: NextApiRequest, res: NextApiResponse) => {
   //   try {
   //     // const templates = await Template.find({}).sort({ createdAt: -1 });
