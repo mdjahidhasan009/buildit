@@ -231,87 +231,158 @@ class DesignController {
     }
   }
 
-  // getBackgroundImages = async (req: NextApiRequest, res: NextApiResponse) => {
-  //   try {
-  //     // const images = await BackgroundImage.find({});
-  //     const images = await prisma.backgroundImage.findMany({});
-  //     return res.status(200).json({
-  //       status: 'success',
-  //       data: {
-  //         images
-  //       }
-  //     });
-  //   } catch (error) {
-  //     console.error(error);
-  //     return res.status(400).json({
-  //       status: 'fail',
-  //       message: 'Error getting images'
-  //     });
-  //   }
-  // }
-  //
-  // //a user can upload an image to use in their design
-  // uploadImage = async (req: NextApiRequest, res: NextApiResponse) => {
-  //   const { _id } = req.userInfo;
-  //
-  //   const form = formidable({});
-  //   cloudinary.config({
-  //     cloud_name: config.default.cloudinary.cloudName,
-  //     api_key: config.default.cloudinary.apiKey,
-  //     api_secret: config.default.cloudinary.apiSecret
-  //   });
-  //
-  //   try {
-  //     const [_, files] = await form.parse(req);
-  //     const { image } = files;
-  //     const { url } = await cloudinary.uploader.upload(image[0].filepath);
-  //     // const userImage = await UserImage.create({
-  //     //   user: _id,
-  //     //   imageUrl: url
-  //     // });
-  //     const userImage = await prisma.userImage.create({
-  //       data: {
-  //         user: { connect: { id: _id } },
-  //         imageUrl: url
-  //       }
-  //     });
-  //
-  //     return res.status(201).json({
-  //       status: 'success',
-  //       data: {
-  //         image: userImage
-  //       }
-  //     });
-  //   } catch (error) {
-  //
-  //   }
-  // }
-  //
-  // getUserImages = async (req: NextApiRequest, res: NextApiResponse) => {
-  //   const { _id } = req.userInfo;
-  //
-  //   try {
-  //     // const images = await UserImage.find({ user: new ObjectId(_id) });
-  //     const images = await prisma.userImage.findMany({
-  //       where: {
-  //         userId: _id
-  //       }
-  //     });
-  //     return res.status(200).json({
-  //       status: 'success',
-  //       data: {
-  //         images
-  //       }
-  //     });
-  //   } catch (error) {
-  //     console.error(error);
-  //     return res.status(400).json({
-  //       status: 'fail',
-  //       message: 'Error getting images'
-  //     });
-  //   }
-  // }
-  //
+  getBackgroundImages = async (req: NextRequest, res: NextResponse) => {
+    try {
+      // const images = await BackgroundImage.find({});
+      const images = await prisma.backgroundImage.findMany({});
+
+      return {
+        status: 'success',
+        data: {
+          images
+        }
+      }
+      // return res.status(200).json({
+      //   status: 'success',
+      //   data: {
+      //     images
+      //   }
+      // });
+    } catch (error) {
+      console.error(error);
+      return res.status(400).json({
+        status: 'fail',
+        message: 'Error getting images'
+      });
+    }
+  }
+
+  //a user can upload an image to use in their design
+  uploadImage = async (req: NextRequest, res: NextResponse) => {
+    const session = await getSession();
+    if (!session || !session?.user?.id) {
+      return NextResponse.json(
+        {
+          code: "UNAUTHORIZED",
+        },
+        {
+          status: 403,
+        }
+      );
+    }
+
+    const _id = session?.user?.id;
+    // const { _id } = req.userInfo;
+
+    const data = await req.formData();
+    cloudinary.config({
+      cloud_name: config.cloudinary.cloudName,
+      api_key: config.cloudinary.apiKey,
+      api_secret: config.cloudinary.apiSecret
+    });
+
+    try {
+      // const [_, files] = await form.parse(req);
+      // const { image } = files;
+      // const { url } = await cloudinary.uploader.upload(image[0].filepath);
+      // const userImage = await UserImage.create({
+      //   user: _id,
+      //   imageUrl: url
+      // });
+
+
+      const image = data.get('image')
+      console.log('image')
+      console.log(image)
+      let url = '';
+      try {
+        const result = await cloudinary.uploader.upload(image,
+          {
+            use_filename: true,
+            folder: "buildit",
+            unique_filename: false, // Set to true if you want Cloudinary to append random characters for uniqueness
+          });
+        url = result?.secure_url || "";
+      } catch(e) {
+        console.log('error while uploading');
+        console.log(e);
+      }
+
+
+      const userImage = await prisma.userImage.create({
+        data: {
+          user: { connect: { id: _id } },
+          imageUrl: url
+        }
+      });
+
+      return {
+        status: 'success',
+        data: {
+          image: userImage
+        }
+      }
+
+      // return res.status(201).json({
+      //   status: 'success',
+      //   data: {
+      //     image: userImage
+      //   }
+      // });
+    } catch (error) {
+      console.error(error);
+      return res.status(400).json({
+        status: 'fail',
+        message: 'Error uploading image'
+      });
+    }
+  }
+
+  getUserImages = async (req: NextRequest, res: NextResponse) => {
+    const session = await getSession();
+    if (!session || !session?.user?.id) {
+      return NextResponse.json(
+        {
+          code: "UNAUTHORIZED",
+        },
+        {
+          status: 403,
+        }
+      );
+    }
+
+    const _id = session?.user?.id;
+    // const { _id } = req.userInfo;
+
+    try {
+      // const images = await UserImage.find({ user: new ObjectId(_id) });
+      const images = await prisma.userImage.findMany({
+        where: {
+          userId: _id
+        }
+      });
+
+      return {
+        status: 'success',
+        data: {
+          images
+        }
+      }
+      // return res.status(200).json({
+      //   status: 'success',
+      //   data: {
+      //     images
+      //   }
+      // });
+    } catch (error) {
+      console.error(error);
+      return res.status(400).json({
+        status: 'fail',
+        message: 'Error getting images'
+      });
+    }
+  }
+
   getUserDesigns = async (req: NextApiRequest, res: NextApiResponse) => {
     const session = await getSession();
     if (!session || !session?.user?.id) {

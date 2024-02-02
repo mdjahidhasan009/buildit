@@ -4,6 +4,5 @@ import designController from "@/controllers/DesignController";
 
 export async function GET(req: NextRequest, params, res: NextResponse){
   const data = await designController.getUserDesign(req, res, params);
-  console.log(data, 'data')
   return NextResponse.json(data, { status: 200 });
 }

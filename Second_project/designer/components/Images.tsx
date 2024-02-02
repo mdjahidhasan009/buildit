@@ -1,4 +1,4 @@
-const Image = ({ addImage, images, type, setImage }) => {
+const Images = ({ addImage, images, type, setImage }) => {
 
   return (
     <div className='grid grid-cols-2 gap-2'>
@@ -22,4 +22,4 @@ const Image = ({ addImage, images, type, setImage }) => {
   );
 }
 
-export default Image;
+export default Images;

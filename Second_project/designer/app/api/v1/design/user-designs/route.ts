@@ -5,7 +5,6 @@ import {NextResponse} from "next/server";
 export async function GET(req: NextApiRequest, res: NextApiResponse){
   if(req.method === 'GET') {
     const data = await designController.getUserDesigns(req, res);
-    console.log(data, 'data')
     return NextResponse.json(data, { status: 200 });
   }
 

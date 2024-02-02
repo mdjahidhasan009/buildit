@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import Image from './Image';
+import Image from './Images';
 import api from "../utils/useApi.ts";
 import useApi from "../utils/useApi.ts";
 
