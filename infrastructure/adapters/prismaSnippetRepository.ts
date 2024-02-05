@@ -43,7 +43,12 @@ export class PrismaSnippetRepository implements ISnippetRepository {
     });
   }
 
-  async delete(id: string): Promise<boolean> {
+  async delete(id: string, userId: string): Promise<boolean> {
+    return await prisma.snippet.delete({
+      where: { id, userId },
+      select: { id: true },
+    });
+
     await prisma.snippet.delete({
       where: { id },
     });

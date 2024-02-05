@@ -16,5 +16,6 @@ function createRequestHandler({ requireAuth = false, expectBody = false } = {}) 
 
 export const postHandler = createRequestHandler({ requireAuth: true, expectBody: true });
 export const patchHandler = createRequestHandler({ requireAuth: true, expectBody: true });
+export const deleteHandler = createRequestHandler({ requireAuth: true });
 export const getPublicHandler = createRequestHandler();
 export const getPrivateHandler = createRequestHandler();
