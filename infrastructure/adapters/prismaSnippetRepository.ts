@@ -35,9 +35,11 @@ export class PrismaSnippetRepository implements ISnippetRepository {
   }
 
   async update(id: string, snippetData: Partial<Snippet>): Promise<Snippet | null> {
-    return prisma.snippet.update({
-      where: { id },
-      data: snippetData,
+    const { userId, ...body } = snippetData;
+
+    return await prisma.snippet.update({
+      where: { id, userId },
+      data: prepare(body),
     });
   }
 
