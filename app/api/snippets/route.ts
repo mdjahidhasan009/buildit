@@ -1,179 +1,65 @@
-import { getSession } from "@/lib/auth";
 import { NextRequest, NextResponse } from "next/server";
-import { limiter } from "@/lib/limiter";
-import { prisma } from "@/lib/prisma";
-import { prepare } from "@/lib/prepare";
-import { DEFAULT_VALUES } from "@/lib/values";
+import {deleteHandler, patchHandler, postHandler} from "@/utils/requestHandlerFactory";
+import {SnippetUseCases} from "@/core/application/use-cases/snippetUseCases";
+import {PrismaSnippetRepository} from "@/infrastructure/adapters/prismaSnippetRepository";
 
-const ratelimit = limiter();
-
-export async function PATCH(req: NextRequest) {
-  const session = await getSession();
-
-  const body = await req.json();
-
-  const { allowed } = await ratelimit.check(30, "UPDATE_SNIPPET");
-
-  if (!session || !session.user.id) {
-    return NextResponse.json(
-      {
-        code: "UNAUTHORIZED",
-      },
-      {
-        status: 403,
-      }
-    );
-  }
-
-  if (!allowed) {
-    return NextResponse.json(
-      {
-        code: "TOO_MANY_REQUESTS",
-      },
-      {
-        status: 429,
-      }
-    );
-  }
-
+export const PATCH = async (req: NextRequest) => {
   try {
-    const updatedSnippet = await prisma.snippet.update({
-      where: {
-        id: body.id,
-        userId: session.user.id,
-      },
-      data: prepare(body),
-    });
+    const [ body, userId, earlyAbortResponse ] = await patchHandler(req);
+    // If commonMiddleware produced a NextResponse(error response), terminate early
+    if (earlyAbortResponse) return earlyAbortResponse;
+    if (body.snippetCount >= 10) {
+      return new NextResponse(JSON.stringify({ code: "LIMIT_REACHED" }), { status: 403 });
+    }
 
-    return NextResponse.json(updatedSnippet, { status: 200 });
+    const snippetRepository = new PrismaSnippetRepository();
+    const snippetUseCases = new SnippetUseCases(snippetRepository);
+    const updatedSnippet = await snippetUseCases.updateSnippet(body.id, { ...body, userId } );
+
+    return new NextResponse(JSON.stringify(updatedSnippet), { status: 200 });
   } catch (e) {
-    return NextResponse.json(
-      {
-        code: "INTERNAL_SERVER_ERROR",
-      },
-      {
-        status: 500,
-      }
-    );
+    console.error(e)
+    return new NextResponse(JSON.stringify({ code: "INTERNAL_SERVER_ERROR", detail: e.message }), { status: 500 });
   }
 }
 
-export async function POST(req: NextRequest) {
-  const session = await getSession();
-
-  const body = await req.json();
-
-  const { allowed } = await ratelimit.check(30, "CREATE_SNIPPET");
-
-  if (!session || !session.user.id) {
-    return NextResponse.json(
-      {
-        code: "UNAUTHORIZED",
-      },
-      {
-        status: 403,
-      }
-    );
-  }
-
-  if (!allowed) {
-    return NextResponse.json(
-      {
-        code: "TOO_MANY_REQUESTS",
-      },
-      {
-        status: 429,
-      }
-    );
-  }
-
-  if (body.snippetCount >= 10) {
-    return NextResponse.json(
-      {
-        code: "LIMIT_REACHED",
-      },
-      { status: 403 }
-    );
-  }
-
+export const POST = async (req: NextRequest) => {
   try {
-    const createdSnippet = await prisma.snippet.create({
-      data: {
-        userId: session.user.id,
-        customColors: DEFAULT_VALUES.customColors,
-        views: {
-          create: {
-            count: 0,
-          },
-        },
-      },
-      include: {
-        views: true,
-      },
-    });
+    const [ body, userId, earlyAbortResponse ] = await postHandler(req);
+    // If commonMiddleware produced a NextResponse(error response), terminate early
+    if (earlyAbortResponse) return earlyAbortResponse;
+    if (body.snippetCount >= 10) {
+      return new NextResponse(JSON.stringify({ code: "LIMIT_REACHED" }), { status: 403 });
+    }
 
-    return NextResponse.json(createdSnippet, { status: 200 });
+    const snippetRepository = new PrismaSnippetRepository();
+    const snippetUseCases = new SnippetUseCases(snippetRepository);
+
+    const createdSnippet = await snippetUseCases.createSnippet({ ...body, userId } );
+
+    return new NextResponse(JSON.stringify(createdSnippet), { status: 200 });
   } catch (e) {
-    return NextResponse.json(
-      {
-        code: "INTERNAL_SERVER_ERROR",
-      },
-      {
-        status: 500,
-      }
-    );
+    console.error(e)
+    return new NextResponse(JSON.stringify({ code: "INTERNAL_SERVER_ERROR", detail: e.message }), { status: 500 });
   }
 }
 
-export async function DELETE(req: NextRequest) {
-  const { searchParams } = new URL(req.url);
-
-  const id = searchParams.get("id");
-
-  const session = await getSession();
-
-  if (!session || !session.user.id) {
-    return NextResponse.json(
-      {
-        code: "UNAUTHORIZED",
-      },
-      {
-        status: 403,
-      }
-    );
-  }
-
-  if (!id) {
-    return NextResponse.json(
-      {
-        code: "SNIPPET_NOT_FOUND",
-      },
-      {
-        status: 404,
-      }
-    );
-  }
-
+export const DELETE = async (req: NextRequest) => {
   try {
-    const deletedSnippet = await prisma.snippet.delete({
-      where: {
-        id: id,
-        userId: session.user.id,
-      },
-      select: {
-        id: true,
-      },
-    });
+    const [ , userId, earlyAbortResponse ] = await deleteHandler(req);
+    // If commonMiddleware produced a NextResponse(error response), terminate early
+    if (earlyAbortResponse) return earlyAbortResponse;
 
-    return NextResponse.json(deletedSnippet, { status: 200 });
+    const snippetRepository = new PrismaSnippetRepository();
+    const snippetUseCases = new SnippetUseCases(snippetRepository);
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+    const deletedSnippet = await snippetUseCases.deleteSnippet(id as string, userId as string);
+
+
+    return new NextResponse(JSON.stringify(deletedSnippet), { status: 200 });
   } catch (e) {
-    return NextResponse.json(
-      {
-        code: "INTERNAL_SERVER_ERROR",
-      },
-      {
-        status: 500,
-      }
-    );
+    console.error(e);
+    return new NextResponse(JSON.stringify({ code: "INTERNAL_SERVER_ERROR", detail: e.message }), { status: 500 });
   }
 }
