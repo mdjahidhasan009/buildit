@@ -2,7 +2,7 @@ import { cn } from "@/lib/cn";
 import { useStore } from "@/lib/store";
 import { useRef } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import Tooltip from "../ui/Tooltip";
+import Tooltip from "@/components/shared/ui/Tooltip";
 import { Info } from "lucide-react";
 
 export default function TitleBar({ editable = false }: { editable: boolean }) {

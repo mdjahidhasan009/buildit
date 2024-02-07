@@ -2,7 +2,7 @@ import { cn } from "@/lib/cn";
 import { debounce } from "@/lib/debounce";
 import { useStore } from "@/lib/store";
 import { HexColorInput, HexColorPicker } from "react-colorful";
-import Popover from "../ui/Popover";
+import Popover from "@/components/shared/ui/Popover";
 import { Minus, Plus } from "lucide-react";
 import chroma from "chroma-js";
 

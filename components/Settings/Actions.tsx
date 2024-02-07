@@ -1,6 +1,6 @@
 import { Check, X, Link, Copy, ImageIcon } from "lucide-react";
 import { useSession } from "next-auth/react";
-import Loader from "../ui/Loader";
+import Loader from "@/components/shared/ui/Loader";
 import { snap } from "@/lib/snap";
 import { useState } from "react";
 import { cn } from "@/lib/cn";

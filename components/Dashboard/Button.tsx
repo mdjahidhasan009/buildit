@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import useSWRMutation from "swr/mutation";
-import Loader from "../ui/Loader";
+import Loader from "@/components/shared/ui/Loader";
 
 type ButtonType = "DEFAULT" | "SUCCESS" | "ERROR";
 

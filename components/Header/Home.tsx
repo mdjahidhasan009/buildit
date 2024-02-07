@@ -4,7 +4,7 @@ import { ArrowLeft } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import Kbd from "../ui/Kbd";
+import Kbd from "@/components/shared/ui/Kbd";
 
 export default function Home() {
   const router = useRouter();

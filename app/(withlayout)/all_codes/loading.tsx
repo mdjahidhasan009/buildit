@@ -1,4 +1,4 @@
-import Skeleton from "@/components/ui/Skeleton";
+import Skeleton from "@/components/shared/ui/Skeleton";
 import { cn } from "@/lib/cn";
 
 export default function Loading() {

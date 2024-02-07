@@ -1,7 +1,7 @@
 import { memo } from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { cn } from "@/lib/cn";
-import Loader from "../ui/Loader";
+import Loader from "@/components/shared/ui/Loader";
 import { Trash } from "lucide-react";
 
 export default memo(function DeleteDialog({

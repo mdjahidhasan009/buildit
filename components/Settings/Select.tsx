@@ -9,7 +9,7 @@ import {
   ThemeDefinition,
 } from "@/lib/types";
 import { memo } from "react";
-import ThemeBubble from "../ui/ThemeBubble";
+import ThemeBubble from "@/components/shared/ui/ThemeBubble";
 import { SUPPORTED_THEMES } from "@/lib/themes";
 import { SUPPORTED_FONT_STYLES } from "@/lib/fonts";
 import { ChevronDown } from "lucide-react";

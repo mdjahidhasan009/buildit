@@ -5,7 +5,7 @@ import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 // import { Link, useNavigate } from 'react-router-dom'
 import {FaTrash} from 'react-icons/fa'
-import Item from "@/components/Home/Item.tsx";
+import DesignCard from "@/components/shared/DesignCard.tsx";
 import useApi from "@/utils/useApi.ts";
 import toast from "react-hot-toast";
 import router from "next/router";
@@ -141,7 +141,7 @@ const Page = () => {
           >
             {
               designs.map((design, i) =>
-                <Item design={design} key={i}/>
+                <DesignCard design={design} key={i}/>
               )
             }
           </Carousel>

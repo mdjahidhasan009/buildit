@@ -9,11 +9,11 @@ import { cn } from "@/lib/cn";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import * as ContextMenuPrimitive from "@radix-ui/react-context-menu";
 import Link from "next/link";
-import ThemeBubble from "../ui/ThemeBubble";
+import ThemeBubble from "@/components/shared/ui/ThemeBubble";
 import { find } from "@/lib/find";
 import { SUPPORTED_THEMES } from "@/lib/themes";
 import { Edit3, LinkIcon, Trash } from "lucide-react";
-import Kbd from "../ui/Kbd";
+import Kbd from "@/components/shared/ui/Kbd";
 
 interface DialogProps {
   type: "RENAME" | "DELETE";

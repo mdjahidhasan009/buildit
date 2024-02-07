@@ -9,8 +9,8 @@ import BackgroundImages from "../BackgroundImages.tsx";
 import {useContext} from "react";
 import {DesignContext} from "../../contexts/DesignProvider.tsx";
 
-const SideBarDrawer = () => {
-  const { show, setShow, state, createShape, design_id, addImage, addText, setImage } = useContext(DesignContext);
+const SideBarDrawer = ({ design_id = '' }) => {
+  const { show, setShow, state, createShape, addImage, addText, setImage } = useContext(DesignContext);
 
   return (
     <div

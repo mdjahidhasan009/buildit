@@ -3,9 +3,9 @@ import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import Tooltip from "../ui/Tooltip";
+import Tooltip from "@/components/shared/ui/Tooltip";
 import { Keyboard } from "lucide-react";
-import Kbd from "../ui/Kbd";
+import Kbd from "@/components/shared/ui/Kbd";
 
 const SHORTCUTS = [
   {

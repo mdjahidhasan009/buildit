@@ -55,7 +55,7 @@ const Page = ({ params } : Props) => {
       <div className='flex h-[calc(100%-60px)] w-screen'>
         <SideBar/>
         <div className='h-full w-[calc(100%-75px)]'>
-          <SideBarDrawer />
+          <SideBarDrawer design_id={design_id}/>
           <div className='w-full flex h-full'>
             <DesignPlayground />
             <ComponentPropertiesPanel />

@@ -7,9 +7,9 @@ import { useHotkeys } from "react-hotkeys-hook";
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
 import * as AvatarPrimitive from "@radix-ui/react-avatar";
 import { cn } from "@/lib/cn";
-import Tooltip from "../ui/Tooltip";
+import Tooltip from "@/components/shared/ui/Tooltip";
 import { Github, LogOut } from "lucide-react";
-import Kbd from "../ui/Kbd";
+import Kbd from "@/components/shared/ui/Kbd";
 
 export default function Auth() {
   const [localOpen, setLocalOpen] = useState(false);
