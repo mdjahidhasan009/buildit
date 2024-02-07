@@ -3,7 +3,6 @@
 import {useEffect, useState} from "react";
 
 import useApi from "@/utils/useApi";
-import ProjectItem from "@/components/projects/ProjectItem";
 import DesignCard from "@/components/shared/DesignCard";
 
 const Projects = ({ type, designId }) => {
