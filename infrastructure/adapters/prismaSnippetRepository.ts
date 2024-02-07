@@ -9,10 +9,6 @@ const prisma = new PrismaClient();
 
 export class PrismaSnippetRepository implements ISnippetRepository {
   async create(snippetData: Partial<Snippet>): Promise<Snippet> {
-    // return prisma.snippet.create({
-    //   data: snippetData,
-    // });
-
     const { userId, ...body } = snippetData;
 
     const createdSnippet = await prisma.snippet.create({
