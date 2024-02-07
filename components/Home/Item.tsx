@@ -3,7 +3,7 @@ import {FaTrash} from "react-icons/fa";
 import useApi from "@/utils/useApi";
 import toast from "react-hot-toast";
 
-const Item = ({ design, type, setDesigns }) => {
+const Item = ({ design, type }) => {
     const { fetchData } = useApi(`api/v1/design/delete-user-image/${design?.id}`, 'DELETE');
     const deleteDesign = async (id) => {
         try {

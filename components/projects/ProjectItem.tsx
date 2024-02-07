@@ -2,7 +2,7 @@ import toast from "react-hot-toast";
 import useApi from "@/utils/useApi";
 import Item from "@/components/Home/Item";
 
-const ProjectItem = ({ design, type, index }) => {
+const ProjectItem = ({ design, type, index, designId = "" }) => {
   const { fetchData, data, error } = useApi(`api/v1/design/delete-user-image/${design?.id}`, 'DELETE');
   const deleteDesign = async (id) => {
     try {
@@ -19,8 +19,7 @@ const ProjectItem = ({ design, type, index }) => {
 
   return (
     <>
-      design._id !== designId &&
-        <Item key={index} design={design} type={type} deleteDesign={deleteDesign} />
+      {design._id !== designId && <Item key={index} design={design} type={type} />}
     </>
   )
 }

@@ -38,3 +38,6 @@ next-env.d.ts
 
 # seeding data
 seed-data.md
+
+.next
+.idea
