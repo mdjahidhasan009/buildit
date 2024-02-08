@@ -20,7 +20,7 @@ type Props = {
 
 const Page = ({ params } : Props) => {
   const  design_id  = params?.design_id || '';
-  const { data, error } = useApi(`api/v1/design/user-design/${design_id}`, 'GET');
+  const { data, error } = useApi(`api/v1/design/user/${design_id}`, 'GET');
 
 
   const { setCurrentComponent, components, setComponents, moveElement, resizeElement, rotateElement, removeBackground }

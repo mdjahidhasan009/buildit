@@ -512,7 +512,7 @@ class DesignController {
     }
   }
 
-  addUserTemplate = async (req: NextResponse, res: NextResponse, params) => {
+  createDesignFromTemplate = async (req: NextResponse, res: NextResponse, params) => {
     // const { template_id } = req.params;
     // const { template_id } = req.query; // Assuming template_id is a query parameter
     const { params: { template_id } }  = params;
@@ -532,16 +532,21 @@ class DesignController {
     const _id = session?.user?.id;
 
     try {
+      console.log('template_id', template_id)
       // const template = await Template.findById(template_id);
       const template = await prisma.template.findUnique({
         where: { id: template_id }
       });
 
       if (!template) {
-        return res.status(404).json({
+        return {
           status: 'fail',
           message: 'Template not found'
-        });
+        }
+        // return res.status(404).json({
+        //   status: 'fail',
+        //   message: 'Template not found'
+        // });
       }
 
       // const design = await Design.create({

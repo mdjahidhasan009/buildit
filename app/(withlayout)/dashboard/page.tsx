@@ -18,7 +18,7 @@ const Page = () => {
   const [designs, setDesigns] = useState([]);
   const [show, setShow] = useState(false);
 
-  const { data } = useApi('api/v1/design/user-designs', 'GET');
+  const { data } = useApi('api/v1/design/user/designs', 'GET');
 
 
   // const navigate = useNavigate();
@@ -132,7 +132,6 @@ const Page = () => {
       <div>
         <h2 className='text-xl py-6 font-semibold text-white'>Your recent designs</h2>
         <div>
-          {console.log(designs.length)}
           <Carousel
             autoPlay={true}
             infinite={true}

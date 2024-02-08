@@ -8,7 +8,7 @@ import DesignCard from "@/components/shared/DesignCard";
 const Projects = ({ type, designId }) => {
   const [designs, setDesigns] = useState([]);
 
-  const { data: fetchedPropjects } = useApi('api/v1/design/user-designs');
+  const { data: fetchedPropjects } = useApi('api/v1/design/user/designs');
 
   useEffect(() => {
     if(fetchedPropjects) {

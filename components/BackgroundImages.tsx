@@ -8,7 +8,7 @@ import useApi from "../utils/useApi.ts";
 
 const BackgroundImages = ({ setImage, type }) => {
   const [images, setImages] = useState([]);
-  const { data, error } = useApi('api/v1/design/background-images', 'GET');
+  const { data, error } = useApi('api/v1/design/design-item/background-images', 'GET');
 
   useEffect(() => {
     // const getImages = async () => {

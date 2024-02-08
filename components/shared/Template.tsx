@@ -8,7 +8,7 @@ import {useEffect} from "react";
 const Template = ({ index, template, type }) => {
   const router = useRouter()
 
-  const {fetchData, data } = useApi(`api/v1/design/add-user-template/${template?.id}`, 'POST');
+  const {fetchData, data } = useApi(`api/v1/design/user/create/${template?.id}`, 'POST');
 
 
   useEffect(() => {
