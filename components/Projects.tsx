@@ -8,7 +8,7 @@ import useApi from "../utils/useApi.ts";
 
 const Projects = ({ type, designId }) => {
   const [designs, setDesigns] = useState([]);
-  const { data } = useApi('api/v1/design/user-designs', 'GET');
+  const { data } = useApi('api/v1/design/user/designs', 'GET');
 
   useEffect(() => {
     if(data) {

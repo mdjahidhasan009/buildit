@@ -26,7 +26,7 @@ export default function Header({ params }) {
   const router = useRouter();
 
   // const { mutate, data, error } = useApi(`/design/update-design/${design_id}`, 'PUT');
-  const { fetchData, data, loading, error } = useApi(`api/v1/design/update-design/${design_id}`, 'PUT', "multipart/form-data");
+  const { fetchData, data, loading, error } = useApi(`api/v1/design/user/${design_id}`, 'PUT', "multipart/form-data");
   // const { mutate, data, error } = returned;
 
   const saveImage = async () => {

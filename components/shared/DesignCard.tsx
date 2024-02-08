@@ -4,7 +4,7 @@ import useApi from "@/utils/useApi";
 import toast from "react-hot-toast";
 
 const DesignCard = ({ design, type }) => {
-    const { fetchData } = useApi(`api/v1/design/delete-user-image/${design?.id}`, 'DELETE');
+    const { fetchData } = useApi(`api/v1/design/user/${design?.id}`, 'DELETE');
     const deleteDesign = async (id) => {
         try {
             await fetchData({});

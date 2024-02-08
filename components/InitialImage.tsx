@@ -5,7 +5,7 @@ import useApi from "../utils/useApi.ts";
 
 const InitialImage = ({ addImage }) => {
   const [images, setImages] = useState([]);
-  const { data } = useApi('api/v1/design/design-images', 'GET');
+  const { data } = useApi('api/v1/design/design-item/design-images', 'GET');
 
   useEffect(() => {
     // const getImages = async () => {

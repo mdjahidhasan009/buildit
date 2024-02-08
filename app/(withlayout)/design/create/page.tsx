@@ -21,7 +21,7 @@ const CreateDesign = () => {
     const width = searchParams.get('width');
     const height = searchParams.get('height');
 
-    const { fetchData, data, error } = useApi('api/v1/design/create', 'POST');
+    const { fetchData, data, error } = useApi('api/v1/design/user/create', 'POST');
 
     const obj = {
         name: "main_frame",

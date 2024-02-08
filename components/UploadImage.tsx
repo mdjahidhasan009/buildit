@@ -7,7 +7,7 @@ import {readFileAsDataURL} from "@/lib/readFileAsDataUrl";
 
 const UploadImage = ({ images, setImages }) => {
 
-  const { fetchData, data, error, loading } = useApi('api/v1/design/upload-user-image', 'POST');
+  const { fetchData, data, error, loading } = useApi('api/v1/design/user/images', 'POST');
 
   useEffect(() => {
     if(data) {

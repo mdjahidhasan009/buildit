@@ -12,7 +12,7 @@ const MyImages = ({ addImage }) => {
   const [images, setImages] = useState([]);
   // const [loading, setLoading] = useState(false);
 
-  const { data, error, loading } = useApi('api/v1/design/user-images', 'GET');
+  const { data, error, loading } = useApi('api/v1/design/user/images', 'GET');
 
   useEffect(() => {
     // const getImages = async () => {
