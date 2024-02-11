@@ -230,83 +230,83 @@ class DesignController {
   // }
 
   //a user can upload an image to use in their design
-  uploadImage = async (req: NextRequest, res: NextResponse) => {
-    const session = await getSession();
-    if (!session || !session?.user?.id) {
-      return NextResponse.json(
-        {
-          code: "UNAUTHORIZED",
-        },
-        {
-          status: 403,
-        }
-      );
-    }
-
-    const _id = session?.user?.id;
-    // const { _id } = req.userInfo;
-
-    const data = await req.formData();
-    cloudinary.config({
-      cloud_name: config.cloudinary.cloudName,
-      api_key: config.cloudinary.apiKey,
-      api_secret: config.cloudinary.apiSecret
-    });
-
-    try {
-      // const [_, files] = await form.parse(req);
-      // const { image } = files;
-      // const { url } = await cloudinary.uploader.upload(image[0].filepath);
-      // const userImage = await UserImage.create({
-      //   user: _id,
-      //   imageUrl: url
-      // });
-
-
-      const image = data.get('image')
-      let url = '';
-      try {
-        const result = await cloudinary.uploader.upload(image,
-          {
-            use_filename: true,
-            folder: "buildit",
-            unique_filename: false, // Set to true if you want Cloudinary to append random characters for uniqueness
-          });
-        url = result?.secure_url || "";
-      } catch(e) {
-        console.error('error while uploading');
-        console.error(e);
-      }
-
-
-      const userImage = await prisma.userImage.create({
-        data: {
-          user: { connect: { id: _id } },
-          imageUrl: url
-        }
-      });
-
-      return {
-        status: 'success',
-        data: {
-          image: userImage
-        }
-      }
-
-      // return res.status(201).json({
-      //   status: 'success',
-      //   data: {
-      //     image: userImage
-      //   }
-      // });
-    } catch (error) {
-      console.error(error);
-      return res.status(400).json({
-        status: 'fail',
-        message: 'Error uploading image'
-      });
-    }
-  }
+  // uploadImage = async (req: NextRequest, res: NextResponse) => {
+  //   const session = await getSession();
+  //   if (!session || !session?.user?.id) {
+  //     return NextResponse.json(
+  //       {
+  //         code: "UNAUTHORIZED",
+  //       },
+  //       {
+  //         status: 403,
+  //       }
+  //     );
+  //   }
+  //
+  //   const _id = session?.user?.id;
+  //   // const { _id } = req.userInfo;
+  //
+  //   const data = await req.formData();
+  //   cloudinary.config({
+  //     cloud_name: config.cloudinary.cloudName,
+  //     api_key: config.cloudinary.apiKey,
+  //     api_secret: config.cloudinary.apiSecret
+  //   });
+  //
+  //   try {
+  //     // const [_, files] = await form.parse(req);
+  //     // const { image } = files;
+  //     // const { url } = await cloudinary.uploader.upload(image[0].filepath);
+  //     // const userImage = await UserImage.create({
+  //     //   user: _id,
+  //     //   imageUrl: url
+  //     // });
+  //
+  //
+  //     const image = data.get('image')
+  //     let url = '';
+  //     try {
+  //       const result = await cloudinary.uploader.upload(image,
+  //         {
+  //           use_filename: true,
+  //           folder: "buildit",
+  //           unique_filename: false, // Set to true if you want Cloudinary to append random characters for uniqueness
+  //         });
+  //       url = result?.secure_url || "";
+  //     } catch(e) {
+  //       console.error('error while uploading');
+  //       console.error(e);
+  //     }
+  //
+  //
+  //     const userImage = await prisma.userImage.create({
+  //       data: {
+  //         user: { connect: { id: _id } },
+  //         imageUrl: url
+  //       }
+  //     });
+  //
+  //     return {
+  //       status: 'success',
+  //       data: {
+  //         image: userImage
+  //       }
+  //     }
+  //
+  //     // return res.status(201).json({
+  //     //   status: 'success',
+  //     //   data: {
+  //     //     image: userImage
+  //     //   }
+  //     // });
+  //   } catch (error) {
+  //     console.error(error);
+  //     return res.status(400).json({
+  //       status: 'fail',
+  //       message: 'Error uploading image'
+  //     });
+  //   }
+  // }
 
   // getUserImages = async (req: NextRequest, res: NextResponse) => {
   //   const session = await getSession();
@@ -502,77 +502,77 @@ class DesignController {
   //   }
   // }
 
-  createDesignFromTemplate = async (req: NextResponse, res: NextResponse, params) => {
-    // const { template_id } = req.params;
-    // const { template_id } = req.query; // Assuming template_id is a query parameter
-    const { params: { template_id } }  = params;
-    // const { _id } = req.userInfo;
-    const session = await getSession();
-    if (!session || !session?.user?.id) {
-      return NextResponse.json(
-        {
-          code: "UNAUTHORIZED",
-        },
-        {
-          status: 403,
-        }
-      );
-    }
-
-    const _id = session?.user?.id;
-
-    try {
-      console.log('template_id', template_id)
-      // const template = await Template.findById(template_id);
-      const template = await prisma.template.findUnique({
-        where: { id: template_id }
-      });
-
-      if (!template) {
-        return {
-          status: 'fail',
-          message: 'Template not found'
-        }
-        // return res.status(404).json({
-        //   status: 'fail',
-        //   message: 'Template not found'
-        // });
-      }
-
-      // const design = await Design.create({
-      //   user: _id,
-      //   components: template?.components,
-      //   imageUrl: template?.imageUrl
-      // });
-      const design = await prisma.design.create({
-        data: {
-          userId: _id,
-          components: template?.components,
-          imageUrl: template?.imageUrl
-        }
-      });
-
-      return {
-        status: 'success',
-        data: {
-          design
-        }
-      }
-
-      // return res.status(201).json({
-      //   status: 'success',
-      //   data: {
-      //     design
-      //   }
-      // });
-    } catch (e) {
-      console.error(e);
-      return res.status(400).json({
-        status: 'fail',
-        message: 'Error adding template'
-      });
-    }
-  }
+  // createDesignFromTemplate = async (req: NextResponse, res: NextResponse, params) => {
+  //   // const { template_id } = req.params;
+  //   // const { template_id } = req.query; // Assuming template_id is a query parameter
+  //   const { params: { template_id } }  = params;
+  //   // const { _id } = req.userInfo;
+  //   const session = await getSession();
+  //   if (!session || !session?.user?.id) {
+  //     return NextResponse.json(
+  //       {
+  //         code: "UNAUTHORIZED",
+  //       },
+  //       {
+  //         status: 403,
+  //       }
+  //     );
+  //   }
+  //
+  //   const _id = session?.user?.id;
+  //
+  //   try {
+  //     console.log('template_id', template_id)
+  //     // const template = await Template.findById(template_id);
+  //     const template = await prisma.template.findUnique({
+  //       where: { id: template_id }
+  //     });
+  //
+  //     if (!template) {
+  //       return {
+  //         status: 'fail',
+  //         message: 'Template not found'
+  //       }
+  //       // return res.status(404).json({
+  //       //   status: 'fail',
+  //       //   message: 'Template not found'
+  //       // });
+  //     }
+  //
+  //     // const design = await Design.create({
+  //     //   user: _id,
+  //     //   components: template?.components,
+  //     //   imageUrl: template?.imageUrl
+  //     // });
+  //     const design = await prisma.design.create({
+  //       data: {
+  //         userId: _id,
+  //         components: template?.components,
+  //         imageUrl: template?.imageUrl
+  //       }
+  //     });
+  //
+  //     return {
+  //       status: 'success',
+  //       data: {
+  //         design
+  //       }
+  //     }
+  //
+  //     // return res.status(201).json({
+  //     //   status: 'success',
+  //     //   data: {
+  //     //     design
+  //     //   }
+  //     // });
+  //   } catch (e) {
+  //     console.error(e);
+  //     return res.status(400).json({
+  //       status: 'fail',
+  //       message: 'Error adding template'
+  //     });
+  //   }
+  // }
 }
 
 export default new DesignController();

@@ -27,9 +27,9 @@ export class PrismaTemplateRepository implements ITemplateRepository {
     return true;
   }
 
-  async getById(id: string): Promise<Template | null> {
+  async getById(template_id: string): Promise<Template | null> {
     return prisma.template.findUnique({
-      where: { id },
+      where: { id: template_id },
     });
   }
 

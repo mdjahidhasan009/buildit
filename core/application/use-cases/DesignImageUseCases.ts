@@ -1,5 +1,5 @@
 import { IDesignImageRepository } from '../ports/IDesignImageRepository';
-import { DesignImage } from '../domain/entities/DesignImage';
+import { DesignImage } from '@/core/domain/entities/DesignImage';
 
 export class DesignImageUseCases {
   constructor(private designImageRepository: IDesignImageRepository) {}
