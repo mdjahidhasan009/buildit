@@ -6,31 +6,24 @@ import {PrismaTemplateRepository} from "@/infrastructure/adapters/PrismaTemplate
 import {CloudinaryService} from "@/infrastructure/services/CloudinaryService";
 
 export async function POST(req: NextRequest, params, res: NextResponse){
-
   const [_, userId, earlyAbortRequest] = await postHandler({ requireAuth: true, expectBody: false })(req);
   if (earlyAbortRequest || !userId) return earlyAbortRequest;
 
   const data = await req.formData();
   const base64Image = data.get('image')
-  let componentsString = data.get('design') || "";
-  let components;
-  try {
-    if (componentsString) {
-      if (componentsString) {
-        components = JSON.parse(componentsString);
-      }
-    }
-  } catch (error) {
-    console.error('Invalid Json', error);
-    return NextResponse.json({ message: "Image must be a base64 string" }, { status: 400 });
-  }
-
+  let componentsString: string | File = data.get('design') || "";
 
   const designRepository = new PrismaDesignRepository();
   const templateRepository = new PrismaTemplateRepository();
   const cloudinaryService = new CloudinaryService();
   const designUseCases = new DesignUseCases(designRepository, templateRepository, cloudinaryService);
 
-  const createdDesign = await designUseCases.createDesign(userId, components, base64Image as string);
-  return NextResponse.json({ message: createdDesign }, { status: 201 });
+  try {
+    const createdDesign = await designUseCases.createDesign(userId, componentsString, base64Image as string);
+    return NextResponse.json({ message: createdDesign }, { status: 201 });
+  } catch (error) {
+    console.error(error);
+    // Adjust error handling as needed
+    return NextResponse.json({ message: "Error processing request", detail: error.message }, { status: 400 });
+  }
 }

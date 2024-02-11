@@ -2,6 +2,7 @@ import { IDesignRepository } from '../ports/IDesignRepository';
 import { ITemplateRepository } from '../ports/ITemplateRepository';
 import { IImageStorageService } from '../ports/IImageStorageService';
 import { Design } from '@/core/domain/entities/Design';
+import {NextResponse} from "next/server";
 
 export class DesignUseCases {
   constructor(
@@ -10,7 +11,20 @@ export class DesignUseCases {
     private imageStorageService: IImageStorageService
   ) {}
 
-  async createDesign(userId: string, components: object, base64Image: string): Promise<Design> {
+  async createDesign(userId: string, componentsString: string | File, base64Image: string): Promise<Design> {
+    let components;
+    try {
+      if (componentsString) {
+        if (typeof componentsString === "string") {
+          components = JSON.parse(componentsString);
+        } else {
+          throw new Error("Components must be a JSON string.");
+        }
+      }
+    } catch (error) {
+      console.error('Invalid Json', error);
+      throw new Error("Invalid JSON format for components.");
+    }
     // Assuming components is already an object; adjust if it's a JSON string that needs parsing.
     // The base64Image parameter is expected to be a base64 string of the image.
     const imageUrl = await this.imageStorageService.uploadImage(base64Image, { folder: "designs", uniqueFilename: true });
@@ -23,16 +37,41 @@ export class DesignUseCases {
   }
 
 
-  async updateDesign(id: string, userId: string, components: object, imageFile?: File): Promise<Design> {
-    let imageUrl;
-    if (imageFile) {
-      imageUrl = await this.imageStorageService.uploadImage(imageFile);
+  async updateDesign(design_id: string, componentsString: string | File, base64Image: string): Promise<Design> {
+    let components;
+    try {
+      if (componentsString) {
+        if (typeof componentsString === "string") {
+          components = JSON.parse(componentsString);
+        } else {
+          throw new Error("Components must be a JSON string.");
+        }
+      }
+    } catch (error) {
+      console.error('Invalid Json', error);
+      throw new Error("Invalid JSON format for components.");
     }
-    return this.designRepository.update(id, {
-      userId,
-      components,
-      ...(imageUrl && { imageUrl }),
+
+    const oldDesign = await this.designRepository.getById(design_id);
+    if(!oldDesign) {
+      throw new Error('Design not found');
+    }
+
+    let oldDesignImageUrl = oldDesign?.imageUrl;
+    if(oldDesignImageUrl) {
+      await this.imageStorageService.deleteImage(oldDesignImageUrl);
+    }
+
+    const imageUrl = await this.imageStorageService.uploadImage(base64Image, { folder: "designs", uniqueFilename: true });
+    if(!imageUrl) {
+      throw new Error('Error uploading image');
+    }
+    const design = await this.designRepository.update(design_id, {
+      components: components?.design,
+      imageUrl,
     });
+
+    return design;
   }
 
   async getDesignById(id: string): Promise<Design | null> {

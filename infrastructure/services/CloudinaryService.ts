@@ -42,18 +42,31 @@ export class CloudinaryService implements IImageStorageService {
   /**
    * Deletes an image from Cloudinary.
    *
-   * @param {string} publicId - The public ID of the image to delete.
+   * @param {string} imageUrl - The imageUrl of the image to delete.
    */
-  async deleteImage(publicId: string): Promise<void> {
+  async deleteImage(imageUrl: string): Promise<void> {
     return new Promise((resolve, reject) => {
-      cloudinary.uploader.destroy(publicId, {}, (error, result) => {
-        if (error) {
-          console.error('Cloudinary Delete Error:', error);
-          reject(error);
-        } else {
-          resolve();
-        }
-      });
+      // cloudinary.uploader.destroy(publicId, {}, (error, result) => {
+      //   if (error) {
+      //     console.error('Cloudinary Delete Error:', error);
+      //     reject(error);
+      //   } else {
+      //     resolve();
+      //   }
+      // });
+      const splitImage = imageUrl.split('/');
+      const imageFile = splitImage[splitImage.length - 1];
+      const imageName = imageFile.split('.')[0];
+      if(imageName) {
+        cloudinary.uploader.destroy(imageName, {}, (error, result) => {
+          if (error) {
+            console.error('Cloudinary Delete Error:', error);
+            reject(error);
+          } else {
+            resolve();
+          }
+        });
+      }
     });
   }
 }

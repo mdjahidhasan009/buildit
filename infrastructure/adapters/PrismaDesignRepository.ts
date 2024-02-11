@@ -58,9 +58,9 @@ export class PrismaDesignRepository implements IDesignRepository {
     });
   }
 
-  async update(id: string, designData: Partial<Design>): Promise<Design> {
+  async update(design_id: string, designData: Partial<Design>): Promise<Design> {
     return prisma.design.update({
-      where: { id },
+      where: { id: design_id },
       data: designData,
     });
   }
@@ -72,9 +72,9 @@ export class PrismaDesignRepository implements IDesignRepository {
     return true;
   }
 
-  async getById(id: string): Promise<Design | null> {
+  async getById(design_id: string): Promise<Design | null> {
     return prisma.design.findUnique({
-      where: { id },
+      where: { id: design_id },
     });
   }
 
