@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import {deleteHandler, patchHandler, requestHandler} from "@/utils/requestHandlerFactory";
+import { requestHandler } from "@/utils/requestHandlerFactory";
 import {SnippetUseCases} from "@/core/application/use-cases/snippetUseCases";
 import {PrismaSnippetRepository} from "@/infrastructure/adapters/prismaSnippetRepository";
 
 export const PATCH = async (req: NextRequest) => {
   try {
-    const [ body, userId, earlyAbortResponse ] = await patchHandler(req);
+    const [ body, userId, earlyAbortResponse ] = await requestHandler({ requireAuth: true, expectBody: true })(req);
     // If commonMiddleware produced a NextResponse(error response), terminate early
     if (earlyAbortResponse) return earlyAbortResponse;
     if (body.snippetCount >= 10) {
@@ -25,7 +25,7 @@ export const PATCH = async (req: NextRequest) => {
 
 export const POST = async (req: NextRequest) => {
   try {
-    const [ body, userId, earlyAbortResponse ] = await requestHandler(req);
+    const [ body, userId, earlyAbortResponse ] = await requestHandler({ requireAuth: true, expectBody: true })(req);
     // If commonMiddleware produced a NextResponse(error response), terminate early
     if (earlyAbortResponse) return earlyAbortResponse;
     if (body.snippetCount >= 10) {
@@ -46,7 +46,7 @@ export const POST = async (req: NextRequest) => {
 
 export const DELETE = async (req: NextRequest) => {
   try {
-    const [ , userId, earlyAbortResponse ] = await deleteHandler(req);
+    const [ , userId, earlyAbortResponse ] = await requestHandler({ requireAuth: true, expectBody: false })(req);
     // If commonMiddleware produced a NextResponse(error response), terminate early
     if (earlyAbortResponse) return earlyAbortResponse;
 

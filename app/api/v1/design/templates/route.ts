@@ -15,7 +15,7 @@ export async function GET(req: NextRequest, res: NextResponse){
   const templateRepository = new PrismaTemplateRepository();
   const templateUseCases = new TemplateUseCases(templateRepository);
 
-try {
+  try {
     const templates = await templateUseCases.getAllTemplates();
     return NextResponse.json(
       {
