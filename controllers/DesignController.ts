@@ -1,23 +1,13 @@
-// import {Schema} from "mongoose";
 import {NextApiRequest, NextApiResponse} from "next";
-
-// const { formidable } = require('formidable');
 import { formidable } from 'formidable';
-// const cloudinary = require('cloudinary').v2;
 import { v2 as cloudinary } from 'cloudinary';
 
 // const { mongo: { ObjectId } } = require('mongoose');
 
 import config from '@/config/index';
 
-import { PrismaClient } from '@prisma/client';
 import {getSession} from "@/lib/auth";
 import {NextRequest, NextResponse} from "next/server";
-const prisma = new PrismaClient();
-const { Pool } = require('pg');
-const pool = new Pool({
-  connectionString: config.pgconnection
-});
 
 class DesignController {
   createDesign = async (req: NextRequest, res: NextResponse) => {
