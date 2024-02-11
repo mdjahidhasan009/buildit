@@ -203,31 +203,31 @@ class DesignController {
   //   }
   // }
 
-  getBackgroundImages = async (req: NextRequest, res: NextResponse) => {
-    try {
-      // const images = await BackgroundImage.find({});
-      const images = await prisma.backgroundImage.findMany({});
-
-      return {
-        status: 'success',
-        data: {
-          images
-        }
-      }
-      // return res.status(200).json({
-      //   status: 'success',
-      //   data: {
-      //     images
-      //   }
-      // });
-    } catch (error) {
-      console.error(error);
-      return res.status(400).json({
-        status: 'fail',
-        message: 'Error getting images'
-      });
-    }
-  }
+  // getBackgroundImages = async (req: NextRequest, res: NextResponse) => {
+  //   try {
+  //     // const images = await BackgroundImage.find({});
+  //     const images = await prisma.backgroundImage.findMany({});
+  //
+  //     return {
+  //       status: 'success',
+  //       data: {
+  //         images
+  //       }
+  //     }
+  //     // return res.status(200).json({
+  //     //   status: 'success',
+  //     //   data: {
+  //     //     images
+  //     //   }
+  //     // });
+  //   } catch (error) {
+  //     console.error(error);
+  //     return res.status(400).json({
+  //       status: 'fail',
+  //       message: 'Error getting images'
+  //     });
+  //   }
+  // }
 
   //a user can upload an image to use in their design
   uploadImage = async (req: NextRequest, res: NextResponse) => {
@@ -308,113 +308,113 @@ class DesignController {
     }
   }
 
-  getUserImages = async (req: NextRequest, res: NextResponse) => {
-    const session = await getSession();
-    if (!session || !session?.user?.id) {
-      return NextResponse.json(
-        {
-          code: "UNAUTHORIZED",
-        },
-        {
-          status: 403,
-        }
-      );
-    }
+  // getUserImages = async (req: NextRequest, res: NextResponse) => {
+  //   const session = await getSession();
+  //   if (!session || !session?.user?.id) {
+  //     return NextResponse.json(
+  //       {
+  //         code: "UNAUTHORIZED",
+  //       },
+  //       {
+  //         status: 403,
+  //       }
+  //     );
+  //   }
+  //
+  //   const _id = session?.user?.id;
+  //   // const { _id } = req.userInfo;
+  //
+  //   try {
+  //     // const images = await UserImage.find({ user: new ObjectId(_id) });
+  //     const images = await prisma.userImage.findMany({
+  //       where: {
+  //         userId: _id
+  //       }
+  //     });
+  //
+  //     return {
+  //       status: 'success',
+  //       data: {
+  //         images
+  //       }
+  //     }
+  //     // return res.status(200).json({
+  //     //   status: 'success',
+  //     //   data: {
+  //     //     images
+  //     //   }
+  //     // });
+  //   } catch (error) {
+  //     console.error(error);
+  //     return res.status(400).json({
+  //       status: 'fail',
+  //       message: 'Error getting images'
+  //     });
+  //   }
+  // }
 
-    const _id = session?.user?.id;
-    // const { _id } = req.userInfo;
-
-    try {
-      // const images = await UserImage.find({ user: new ObjectId(_id) });
-      const images = await prisma.userImage.findMany({
-        where: {
-          userId: _id
-        }
-      });
-
-      return {
-        status: 'success',
-        data: {
-          images
-        }
-      }
-      // return res.status(200).json({
-      //   status: 'success',
-      //   data: {
-      //     images
-      //   }
-      // });
-    } catch (error) {
-      console.error(error);
-      return res.status(400).json({
-        status: 'fail',
-        message: 'Error getting images'
-      });
-    }
-  }
-
-  getUserDesigns = async (req: NextApiRequest, res: NextApiResponse) => {
-    const session = await getSession();
-    if (!session || !session?.user?.id) {
-      return NextResponse.json(
-        {
-          code: "UNAUTHORIZED",
-        },
-        {
-          status: 403,
-        }
-      );
-    }
-
-    const _id = session?.user?.id;
-    // const { _id } = req.userInfo;
-
-    try {
-      // const designs = await Design.find({ user: new ObjectId(_id) }).sort({ createdAt: -1 });
-      const designs = await prisma.design.findMany({
-        where: {
-          userId: _id
-        },
-        orderBy: {
-          createdAt: 'desc'
-        }
-      });
-
-      // return NextResponse.json({
-      //   status: 'success',
-      //   data: {
-      //     designs
-      //   }
-      //
-      // }, { status: 200 });
-
-      return {
-        status: 'success',
-        data: {
-          designs
-        }
-      }
-      // return res.status(200).json({
-      //   status: 'success',
-      //   data: {
-      //     designs
-      //   }
-      // });
-    } catch (error) {
-      console.error(error);
-      return NextResponse.json(
-        {
-          status: 'fail',
-          message: 'Error getting designs'
-        },
-        { status: 400 }
-      );
-      // return res.status(400).json({
-      //   status: 'fail',
-      //   message: 'Error getting designs'
-      // });
-    }
-  }
+  // getUserDesigns = async (req: NextApiRequest, res: NextApiResponse) => {
+  //   const session = await getSession();
+  //   if (!session || !session?.user?.id) {
+  //     return NextResponse.json(
+  //       {
+  //         code: "UNAUTHORIZED",
+  //       },
+  //       {
+  //         status: 403,
+  //       }
+  //     );
+  //   }
+  //
+  //   const _id = session?.user?.id;
+  //   // const { _id } = req.userInfo;
+  //
+  //   try {
+  //     // const designs = await Design.find({ user: new ObjectId(_id) }).sort({ createdAt: -1 });
+  //     const designs = await prisma.design.findMany({
+  //       where: {
+  //         userId: _id
+  //       },
+  //       orderBy: {
+  //         createdAt: 'desc'
+  //       }
+  //     });
+  //
+  //     // return NextResponse.json({
+  //     //   status: 'success',
+  //     //   data: {
+  //     //     designs
+  //     //   }
+  //     //
+  //     // }, { status: 200 });
+  //
+  //     return {
+  //       status: 'success',
+  //       data: {
+  //         designs
+  //       }
+  //     }
+  //     // return res.status(200).json({
+  //     //   status: 'success',
+  //     //   data: {
+  //     //     designs
+  //     //   }
+  //     // });
+  //   } catch (error) {
+  //     console.error(error);
+  //     return NextResponse.json(
+  //       {
+  //         status: 'fail',
+  //         message: 'Error getting designs'
+  //       },
+  //       { status: 400 }
+  //     );
+  //     // return res.status(400).json({
+  //     //   status: 'fail',
+  //     //   message: 'Error getting designs'
+  //     // });
+  //   }
+  // }
 
   // deleteUserImage = async (req: NextRequest, res: NextResponse, params) => {
   //   // const { design_id } = req.params;
@@ -472,35 +472,35 @@ class DesignController {
   //   }
   // }
 
-  getTemplates = async (req: NextResponse, res: NextResponse) => {
-    try {
-      // const templates = await Template.find({}).sort({ createdAt: -1 });
-      const templates = await prisma.template.findMany({
-        orderBy: {
-          createdAt: 'desc'
-        }
-      });
-
-      return {
-        status: 'success',
-        data: {
-          templates
-        }
-      }
-      // return res.status(200).json({
-      //   status: 'success',
-      //   data: {
-      //     templates
-      //   }
-      // });
-    } catch (error) {
-      console.error(error);
-      return res.status(400).json({
-        status: 'fail',
-        message: 'Error getting templates'
-      });
-    }
-  }
+  // getTemplates = async (req: NextResponse, res: NextResponse) => {
+  //   try {
+  //     // const templates = await Template.find({}).sort({ createdAt: -1 });
+  //     const templates = await prisma.template.findMany({
+  //       orderBy: {
+  //         createdAt: 'desc'
+  //       }
+  //     });
+  //
+  //     return {
+  //       status: 'success',
+  //       data: {
+  //         templates
+  //       }
+  //     }
+  //     // return res.status(200).json({
+  //     //   status: 'success',
+  //     //   data: {
+  //     //     templates
+  //     //   }
+  //     // });
+  //   } catch (error) {
+  //     console.error(error);
+  //     return res.status(400).json({
+  //       status: 'fail',
+  //       message: 'Error getting templates'
+  //     });
+  //   }
+  // }
 
   createDesignFromTemplate = async (req: NextResponse, res: NextResponse, params) => {
     // const { template_id } = req.params;

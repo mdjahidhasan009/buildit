@@ -79,9 +79,16 @@ export class PrismaDesignRepository implements IDesignRepository {
   }
 
   async findByUserId(userId: string): Promise<Design[]> {
-    return prisma.design.findMany({
-      where: { userId },
+    const desgins = await prisma.design.findMany({
+      where: {
+        userId
+      },
+      orderBy: {
+        createdAt: 'desc'
+      }
     });
+
+    return desgins;
   }
 
   async getUserDesignById(userId: string, design_id: string): Promise<Design | null> {
