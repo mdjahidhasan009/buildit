@@ -1,17 +1,29 @@
-import {NextApiRequest, NextApiResponse} from "next";
-
-import designController from "@/controllers/DesignController";
 import {NextRequest, NextResponse} from "next/server";
-
-// export default async function handler(req: NextApiRequest, res: NextApiResponse){
-//   if(req.method === 'POST') {
-//     return designController.createDesign(req, res);
-//   }
-//
-//   return res.status(405).end();
-// }
+import {requestHandler} from "@/utils/requestHandlerFactory";
+import {PrismaDesignRepository} from "@/infrastructure/adapters/PrismaDesignRepository";
+import {DesignUseCases} from "@/core/application/use-cases/DesignUseCases";
+import {PrismaTemplateRepository} from "@/infrastructure/adapters/PrismaTemplateRepository";
+import {CloudinaryService} from "@/infrastructure/services/CloudinaryService";
 
 export async function POST(req: NextRequest, params, res: NextResponse){
-  const data = await designController.createDesign(req, res, params);
-  return NextResponse.json(data, { status: 200 });
+  const [_, userId, earlyAbortRequest] = await requestHandler({ requireAuth: true, expectBody: false })(req);
+  if (earlyAbortRequest || !userId) return earlyAbortRequest;
+
+  const data = await req.formData();
+  const base64Image = data.get('image')
+  let componentsString: string | File = data.get('design') || "";
+
+  const designRepository = new PrismaDesignRepository();
+  const templateRepository = new PrismaTemplateRepository();
+  const cloudinaryService = new CloudinaryService();
+  const designUseCases = new DesignUseCases(designRepository, templateRepository, cloudinaryService);
+
+  try {
+    const createdDesign = await designUseCases.createDesign(userId, componentsString, base64Image as string);
+    return NextResponse.json({ message: createdDesign }, { status: 201 });
+  } catch (error) {
+    console.error(error);
+    // Adjust error handling as needed
+    return NextResponse.json({ message: "Error processing request", detail: error.message }, { status: 400 });
+  }
 }

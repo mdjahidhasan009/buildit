@@ -11,11 +11,15 @@ const checkAuthAndRateLimit = async (req: NextRequest): Promise<NextResponse<unk
 
   let sessionOrResponse: NextResponse<unknown> | Session = await authMiddleware(req);
   if (sessionOrResponse instanceof NextResponse) {
+    console.error('authMiddleware produced a NextResponse(error response)', sessionOrResponse);
     return sessionOrResponse;
   }
 
   const rateLimitResponse: NextResponse | null = await rateLimitMiddleware(req);
-  if (rateLimitResponse instanceof NextResponse) return rateLimitResponse;
+  if (rateLimitResponse instanceof NextResponse) {
+    console.error('rateLimitMiddleware produced a NextResponse(error response)', rateLimitResponse);
+    return rateLimitResponse;
+  }
 
   return sessionOrResponse;
 }

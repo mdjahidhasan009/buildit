@@ -4,8 +4,6 @@ import {Session} from "next-auth";
 
 export async function authMiddleware(req: NextRequest) {
   const session: Session = await getSession(req);
-  console.log('session')
-  console.log(session)
   if (!session || !session.user.id) {
     return new NextResponse(JSON.stringify({ code: "UNAUTHORIZED" }), { status: 403 });
   }
