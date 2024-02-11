@@ -183,25 +183,25 @@ class DesignController {
   //   }
   // }
 
-  getInitialImages = async (req: NextRequest, res: NextResponse) => {
-    try {
-      // const images = await DesignImage.find({});
-      const images = await prisma.designImage.findMany({});
-
-      return {
-        status: 'success',
-        data: {
-          images
-        }
-      }
-    } catch (error) {
-      console.error(error);
-      return res.status(400).json({
-        status: 'fail',
-        message: 'Error getting images'
-      });
-    }
-  }
+  // getInitialImages = async (req: NextRequest, res: NextResponse) => {
+  //   try {
+  //     // const images = await DesignImage.find({});
+  //     const images = await prisma.designImage.findMany({});
+  //
+  //     return {
+  //       status: 'success',
+  //       data: {
+  //         images
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //     return res.status(400).json({
+  //       status: 'fail',
+  //       message: 'Error getting images'
+  //     });
+  //   }
+  // }
 
   getBackgroundImages = async (req: NextRequest, res: NextResponse) => {
     try {
@@ -416,61 +416,61 @@ class DesignController {
     }
   }
 
-  deleteUserImage = async (req: NextRequest, res: NextResponse, params) => {
-    // const { design_id } = req.params;
-    // const { design_id } = req.query; // Assuming design_id is passed as a query parameter
-    const { params: { design_id } }  = params;
-
-    try {
-      // const design = await Design.findById(design_id);
-      const design = await prisma.design.findUnique({
-        where: { id: design_id }
-      });
-
-      if(!design) {
-        return res.status(400).json({
-          status: 'fail',
-          message: 'Design not found'
-        });
-      }
-
-      if(design?.imageUrl) {
-        cloudinary.config({
-          cloud_name: config.cloudinary.cloudName,
-          api_key: config.cloudinary.apiKey,
-          api_secret: config.cloudinary.apiSecret
-        });
-
-        const splitImage = design?.imageUrl.split('/');
-        const imageFile = splitImage[splitImage.length - 1];
-        const imageName = imageFile.split('.')[0];
-        await cloudinary.uploader.destroy(imageName);
-      }
-
-      // await Design.findByIdAndDelete(design_id);
-      await prisma.design.delete({
-        where: { id: design_id }
-      });
-
-      // return res.status(200).json({
-      //   status: 'success',
-      //   message: 'Design deleted successfully'
-      // });
-
-      return {
-        status: 'success',
-        data: {
-          message: 'Design deleted successfully'
-        }
-      }
-    } catch (error) {
-      console.error(error);
-      return res.status(400).json({
-        status: 'fail',
-        message: 'Error deleting design'
-      });
-    }
-  }
+  // deleteUserImage = async (req: NextRequest, res: NextResponse, params) => {
+  //   // const { design_id } = req.params;
+  //   // const { design_id } = req.query; // Assuming design_id is passed as a query parameter
+  //   const { params: { design_id } }  = params;
+  //
+  //   try {
+  //     // const design = await Design.findById(design_id);
+  //     const design = await prisma.design.findUnique({
+  //       where: { id: design_id }
+  //     });
+  //
+  //     if(!design) {
+  //       return res.status(400).json({
+  //         status: 'fail',
+  //         message: 'Design not found'
+  //       });
+  //     }
+  //
+  //     if(design?.imageUrl) {
+  //       cloudinary.config({
+  //         cloud_name: config.cloudinary.cloudName,
+  //         api_key: config.cloudinary.apiKey,
+  //         api_secret: config.cloudinary.apiSecret
+  //       });
+  //
+  //       const splitImage = design?.imageUrl.split('/');
+  //       const imageFile = splitImage[splitImage.length - 1];
+  //       const imageName = imageFile.split('.')[0];
+  //       await cloudinary.uploader.destroy(imageName);
+  //     }
+  //
+  //     // await Design.findByIdAndDelete(design_id);
+  //     await prisma.design.delete({
+  //       where: { id: design_id }
+  //     });
+  //
+  //     // return res.status(200).json({
+  //     //   status: 'success',
+  //     //   message: 'Design deleted successfully'
+  //     // });
+  //
+  //     return {
+  //       status: 'success',
+  //       data: {
+  //         message: 'Design deleted successfully'
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //     return res.status(400).json({
+  //       status: 'fail',
+  //       message: 'Error deleting design'
+  //     });
+  //   }
+  // }
 
   getTemplates = async (req: NextResponse, res: NextResponse) => {
     try {
