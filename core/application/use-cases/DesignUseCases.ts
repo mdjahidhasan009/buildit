@@ -82,6 +82,10 @@ export class DesignUseCases {
     return this.designRepository.findByUserId(userId);
   }
 
+  async getUserDesignById(userId: string, designId: string): Promise<Design | null> {
+    return this.designRepository.getUserDesignById(userId, designId);
+  }
+
   async createDesignFromTemplate(userId: string, templateId: string): Promise<Design> {
     const template = await this.templateRepository.getById(templateId);
     if (!template) {

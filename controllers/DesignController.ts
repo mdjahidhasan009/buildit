@@ -152,36 +152,36 @@ class DesignController {
   //   }
   // }
 
-  getUserDesign = async (req: Request, res: Response, params) => {
-    const design_id = params?.params?.design_id;
-
-    try {
-      const design = await prisma.design.findUnique({
-        where: { id: design_id },
-        include: { user: true }
-      });
-
-      if (!design) {
-        return res.status(400).json({
-          status: 'fail',
-          message: 'Design not found'
-        });
-      }
-
-      return {
-        status: 'success',
-        data: {
-          design: design?.components
-        }
-      }
-    } catch (error) {
-      console.error(error);
-      return res.status(400).json({
-        status: 'fail',
-        message: 'Error getting design'
-      });
-    }
-  }
+  // getUserDesign = async (req: Request, res: Response, params) => {
+  //   const design_id = params?.params?.design_id;
+  //
+  //   try {
+  //     const design = await prisma.design.findUnique({
+  //       where: { id: design_id },
+  //       include: { user: true }
+  //     });
+  //
+  //     if (!design) {
+  //       return res.status(400).json({
+  //         status: 'fail',
+  //         message: 'Design not found'
+  //       });
+  //     }
+  //
+  //     return {
+  //       status: 'success',
+  //       data: {
+  //         design: design?.components
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //     return res.status(400).json({
+  //       status: 'fail',
+  //       message: 'Error getting design'
+  //     });
+  //   }
+  // }
 
   getInitialImages = async (req: NextRequest, res: NextResponse) => {
     try {

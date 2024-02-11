@@ -1,12 +1,12 @@
 import {NextRequest, NextResponse} from "next/server";
-import {postHandler} from "@/utils/requestHandlerFactory";
+import {requestHandler} from "@/utils/requestHandlerFactory";
 import {PrismaDesignRepository} from "@/infrastructure/adapters/PrismaDesignRepository";
 import {DesignUseCases} from "@/core/application/use-cases/DesignUseCases";
 import {PrismaTemplateRepository} from "@/infrastructure/adapters/PrismaTemplateRepository";
 import {CloudinaryService} from "@/infrastructure/services/CloudinaryService";
 
 export async function POST(req: NextRequest, params, res: NextResponse){
-  const [_, userId, earlyAbortRequest] = await postHandler({ requireAuth: true, expectBody: false })(req);
+  const [_, userId, earlyAbortRequest] = await requestHandler({ requireAuth: true, expectBody: false })(req);
   if (earlyAbortRequest || !userId) return earlyAbortRequest;
 
   const data = await req.formData();

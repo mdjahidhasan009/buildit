@@ -83,4 +83,13 @@ export class PrismaDesignRepository implements IDesignRepository {
       where: { userId },
     });
   }
+
+  async getUserDesignById(userId: string, design_id: string): Promise<Design | null> {
+    return prisma.design.findFirst({
+      where: {
+        userId,
+        id: design_id,
+      },
+    });
+  }
 }
