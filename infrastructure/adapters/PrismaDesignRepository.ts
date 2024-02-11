@@ -85,11 +85,23 @@ export class PrismaDesignRepository implements IDesignRepository {
   }
 
   async getUserDesignById(userId: string, design_id: string): Promise<Design | null> {
-    return prisma.design.findFirst({
+    const design = await prisma.design.findFirst({
       where: {
         userId,
         id: design_id,
       },
     });
+
+    return design;
+  }
+
+  async deleteUserDesign(userId: string, design_id: string): Promise<boolean> {
+    await prisma.design.delete({
+      where: {
+        userId,
+        id: design_id,
+      },
+    });
+    return true;
   }
 }

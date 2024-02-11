@@ -70,6 +70,32 @@ export async function PUT (req: NextRequest, params, res: NextResponse){
 }
 
 export async function DELETE(req: NextRequest, params, res: NextResponse){
-  const data = await designController.deleteUserImage(req, res, params);
-  return NextResponse.json(data, { status: 200 });
+  // const data = await designController.deleteUserImage(req, res, params);
+  // return NextResponse.json(data, { status: 200 });
+
+  const [_, userId, earlyAbortRequest] = await requestHandler({ requireAuth: true, expectBody: false })(req);
+  if (earlyAbortRequest || !userId) return earlyAbortRequest;
+
+  const { params: { design_id } }  = params;
+  if(!design_id) return NextResponse.json({ message: "Design id is required" }, { status: 400 });
+
+  const designRepository = new PrismaDesignRepository();
+  const templateRepository = new PrismaTemplateRepository();
+  const cloudinaryService = new CloudinaryService();
+  const designUseCases = new DesignUseCases(designRepository, templateRepository, cloudinaryService);
+
+  try {
+    const userDesign = await designUseCases.deleteUserDesign(userId, design_id);
+    return NextResponse.json(
+      {
+        status: 'success',
+        data: {
+          design: userDesign?.components
+        }
+      }, { status: 200 }
+    );
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ message: "Error processing request", detail: error.message }, { status: 400 });
+  }
 }

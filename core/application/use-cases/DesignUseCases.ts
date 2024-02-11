@@ -98,9 +98,7 @@ export class DesignUseCases {
     });
   }
 
-  async deleteDesign(id: string, userId: string): Promise<boolean> {
-    return this.designRepository.delete(id, userId);
+  async deleteUserDesign(id: string, userId: string): Promise<boolean> {
+    return this.designRepository.deleteUserDesign(id, userId);
   }
-
-  // Additional methods as needed...
 }

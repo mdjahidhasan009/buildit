@@ -7,4 +7,5 @@ export interface IDesignRepository {
   getById(id: string): Promise<Design | null>;
   findByUserId(userId: string): Promise<Design[]>;
   getUserDesignById(userId: string, design_id: string): Promise<Design | null>;
+  deleteUserDesign(userId: string, design_id: string): Promise<boolean>;
 }
