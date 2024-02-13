@@ -64,7 +64,7 @@ const ComponentPropertiesPanel = () => {
     <>
       {
         currentComponent && (
-          <div className='h-full w-[250px] text-gray-300 bg-[#252627] px-3 py-2'>
+          <div className='w-[250px] text-gray-300 bg-[#252627] px-3 py-2'>
             <div className='flex gap-6 flex-col items-start h-full px-3 justify-start'>
               <div className='flex gap-4 justify-start items-start mt-4'>
                 <span>Color: </span>

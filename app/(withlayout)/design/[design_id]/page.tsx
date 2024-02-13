@@ -11,6 +11,7 @@ import DesignPlayground from "@/components/main/DesignPlayground.tsx";
 import ComponentPropertiesPanel from "@/components/main/ComponentPropertiesPanel.tsx";
 import {useParams} from "next/navigation";
 import axios from "axios";
+import RotateLoader from "react-spinners/RotateLoader";
 
 type Props = {
   params: {
@@ -20,7 +21,7 @@ type Props = {
 
 const Page = ({ params } : Props) => {
   const  design_id  = params?.design_id || '';
-  const { data, error } = useApi(`api/v1/design/user/${design_id}`, 'GET');
+  const { data, loading, error } = useApi(`api/v1/design/user/${design_id}`, 'GET');
 
 
   const { setCurrentComponent, components, setComponents, moveElement, resizeElement, rotateElement, removeBackground }
@@ -50,18 +51,25 @@ const Page = ({ params } : Props) => {
   }, [data, design_id]);
 
   return (
-    <div className="min-w-screen h-screen bg-black">
+    <div className="min-w-screen h-full bg-black">
       {/*<Header components={components} design_id={design_id} />*/}
-      <div className='flex h-[calc(100%-60px)] w-screen'>
-        <SideBar/>
-        <div className='h-full w-[calc(100%-75px)]'>
-          <SideBarDrawer design_id={design_id}/>
-          <div className='w-full flex h-full'>
-            <DesignPlayground />
-            <ComponentPropertiesPanel />
+      {loading ? (
+        <div className='left-0 top-0 w-full h-full flex justify-center items-center bg-black absolute'>
+            <RotateLoader color='white' />
+        </div>
+      ) : (
+        <div className='flex h-full w-screen'>
+          <SideBar/>
+          <div className='h-full w-[calc(100%-75px)]'>
+            <SideBarDrawer design_id={design_id}/>
+            <div className='w-full flex h-full'>
+              <DesignPlayground/>
+              <ComponentPropertiesPanel/>
+            </div>
           </div>
         </div>
-      </div>
+      )}
+
     </div>
   );
 }

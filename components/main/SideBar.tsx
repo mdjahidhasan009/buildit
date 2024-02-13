@@ -12,7 +12,7 @@ const SideBar = () => {
   const {setElements, show } = useContext(DesignContext);
 
   return (
-    <div className={`w-[80px] bg-[#18191B] z-50 h-full text-gray-400 overflow-y-auto`}>
+    <div className={`w-[80px] bg-[#18191B] z-50 text-gray-400 overflow-y-auto`}>
       <div
         onClick={() => setElements('design', 'design')}
         className={`${show.name === 'design' ? 'bg-[#252627]' : ''} w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-100`}>
