@@ -5,16 +5,12 @@ import Element from "./Element";
 
 const CreateComponent = ({ info, currentComponent, removeComponent }) => {
   const randValue = Math.floor(Math.random() * 100);
-  let html: React.JSX.Element = '';
+  let html: React.JSX.Element = <div></div>;
 
   if(info.name === 'main_frame') {
     html =
       <div
-        onClick={() => {console.log('clicked');
-          console.log("Before setting currentComponent:", currentComponent);
-          info.setCurrentComponent(info)
-          console.log("After setting currentComponent:", info);
-        }}
+        onClick={() => info.setCurrentComponent(info)}
         className="hover:border-[2px] hover:border-indigo-500 shadow-md"
         style={{
           width: info.width + 'px',
@@ -33,6 +29,7 @@ const CreateComponent = ({ info, currentComponent, removeComponent }) => {
     html =
       <div
         id={randValue.toString()}
+        onMouseDown={(e) => { e.stopPropagation(); info.moveElement(randValue.toString(), info) }}
         onClick={() => info.setCurrentComponent(info)}
         style={{
           width: info.width + 'px',
@@ -43,6 +40,7 @@ const CreateComponent = ({ info, currentComponent, removeComponent }) => {
           top: info.top + 'px',
           zIndex: info.zIndex,
           transform: info.rotate ? `rotate(${info.rotate}deg)` : `rotate(0deg)`,
+          cursor: "move"
         }}
         className='absolute group hover:border-[2px] hover:border-indigo-500'
       >
@@ -61,12 +59,14 @@ const CreateComponent = ({ info, currentComponent, removeComponent }) => {
     html =
       <div
         id={randValue.toString()}
+        onMouseDown={(e) => { e.stopPropagation(); info.moveElement(randValue.toString(), info) }}
         onClick={() => info.setCurrentComponent(info)}
         style={{
           left: info.left + 'px',
           top: info.top + 'px',
           zIndex: info.zIndex,
           transform: info.rotate ? `rotate(${info.rotate}deg)` : `rotate(0deg)`,
+          cursor: "move"
         }}
         className='absolute group hover:border-[2px] hover:border-indigo-500'
       >
@@ -97,12 +97,14 @@ const CreateComponent = ({ info, currentComponent, removeComponent }) => {
     html =
       <div
         id={randValue.toString()}
+        onMouseDown={(e) => { e.stopPropagation(); info.moveElement(randValue.toString(), info) }}
         onClick={() => info.setCurrentComponent(info)}
         style={{
           left: info.left + 'px',
           top: info.top + 'px',
           zIndex: info.zIndex,
           transform: info.rotate ? `rotate(${info.rotate}deg)` : `rotate(0deg)`,
+          cursor: "move"
         }}
         className='absolute group hover:border-[2px] hover:border-indigo-500'
       >
@@ -132,6 +134,7 @@ const CreateComponent = ({ info, currentComponent, removeComponent }) => {
     html =
       <div
         id={randValue.toString()}
+        onMouseDown={(e) => { e.stopPropagation(); info.moveElement(randValue.toString(), info) }}
         onClick={() => info.setCurrentComponent(info)}
         style={{
           left: info.left + 'px',
@@ -141,6 +144,7 @@ const CreateComponent = ({ info, currentComponent, removeComponent }) => {
           padding: info.padding + 'px',
           color: info.color,
           opacity: info.opacity,
+          cursor: "move"
         }}
         className='absolute group hover:border-[2px] hover:border-indigo-500'
       >
@@ -160,6 +164,7 @@ const CreateComponent = ({ info, currentComponent, removeComponent }) => {
     html =
       <div
         id={randValue.toString()}
+        onMouseDown={(e) => { e.stopPropagation(); info.moveElement(randValue.toString(), info) }}
         onClick={() => info.setCurrentComponent(info)}
         style={{
           left: info.left + 'px',
@@ -167,6 +172,7 @@ const CreateComponent = ({ info, currentComponent, removeComponent }) => {
           zIndex: info.zIndex,
           transform: info.rotate ? `rotate(${info.rotate}deg)` : `rotate(0deg)`,
           opacity: info.opacity,
+          cursor: "move"
         }}
         className='absolute group hover:border-[2px] hover:border-indigo-500'
       >
