@@ -2,10 +2,13 @@
 
 import {BsTrash} from "react-icons/bs";
 import Element from "./Element";
+import {useRef} from "react";
 
 const CreateComponent = ({ info, currentComponent, removeComponent }) => {
   const randValue = Math.floor(Math.random() * 100);
   let html: React.JSX.Element = <div></div>;
+  const elementWrapperDivRef = useRef(null);
+  const extraElementRef = useRef(null);
 
   if(info.name === 'main_frame') {
     html =
@@ -28,8 +31,9 @@ const CreateComponent = ({ info, currentComponent, removeComponent }) => {
   if(info.name === 'shape' && info.type === 'rect') {
     html =
       <div
+        ref={elementWrapperDivRef}
         id={randValue.toString()}
-        onMouseDown={(e) => { e.stopPropagation(); info.moveElement(randValue.toString(), info) }}
+        onMouseDown={(e) => { e.stopPropagation(); info.moveElement(elementWrapperDivRef, info) }}
         onClick={() => info.setCurrentComponent(info)}
         style={{
           width: info.width + 'px',
@@ -44,7 +48,7 @@ const CreateComponent = ({ info, currentComponent, removeComponent }) => {
         }}
         className='absolute group hover:border-[2px] hover:border-indigo-500'
       >
-        <Element id={randValue} info={info} exId="" />
+        <Element elementWrapperDivRef={elementWrapperDivRef} info={info} exId="" />
         {currentComponent?.id === info.id &&
             <div
                 onClick={() => removeComponent(info.id)}
@@ -58,8 +62,9 @@ const CreateComponent = ({ info, currentComponent, removeComponent }) => {
   if(info.name === 'shape' && info.type === 'circle') {
     html =
       <div
+        ref={elementWrapperDivRef}
         id={randValue.toString()}
-        onMouseDown={(e) => { e.stopPropagation(); info.moveElement(randValue.toString(), info) }}
+        onMouseDown={(e) => { e.stopPropagation(); info.moveElement(elementWrapperDivRef, info) }}
         onClick={() => info.setCurrentComponent(info)}
         style={{
           left: info.left + 'px',
@@ -70,9 +75,10 @@ const CreateComponent = ({ info, currentComponent, removeComponent }) => {
         }}
         className='absolute group hover:border-[2px] hover:border-indigo-500'
       >
-        <Element id={randValue} info={info} exId={`${randValue}c`} />
+        <Element elementWrapperDivRef={elementWrapperDivRef} info={info} extraElementRef={extraElementRef} />
         <div
           id={`${randValue}c`}
+          ref={extraElementRef}
           className='rounded-full'
           style={{
             width: info.width + 'px',
@@ -96,8 +102,9 @@ const CreateComponent = ({ info, currentComponent, removeComponent }) => {
   if(info.name === 'shape' && info.type === 'trangle') {
     html =
       <div
+        ref={elementWrapperDivRef}
         id={randValue.toString()}
-        onMouseDown={(e) => { e.stopPropagation(); info.moveElement(randValue.toString(), info) }}
+        onMouseDown={(e) => { e.stopPropagation(); info.moveElement(elementWrapperDivRef, info) }}
         onClick={() => info.setCurrentComponent(info)}
         style={{
           left: info.left + 'px',
@@ -108,9 +115,10 @@ const CreateComponent = ({ info, currentComponent, removeComponent }) => {
         }}
         className='absolute group hover:border-[2px] hover:border-indigo-500'
       >
-        <Element id={randValue} info={info} exId={`${randValue}t`} />
+        <Element elementWrapperDivRef={elementWrapperDivRef} info={info} extraElementRef={extraElementRef} />
         <div
           id={`${randValue}t`}
+          ref={extraElementRef}
           style={{
             width: info.width + 'px',
             height: info.height + 'px',
@@ -133,8 +141,9 @@ const CreateComponent = ({ info, currentComponent, removeComponent }) => {
   if(info.name === 'text') {
     html =
       <div
+        ref={elementWrapperDivRef}
         id={randValue.toString()}
-        onMouseDown={(e) => { e.stopPropagation(); info.moveElement(randValue.toString(), info) }}
+        onMouseDown={(e) => { e.stopPropagation(); info.moveElement(elementWrapperDivRef, info) }}
         onClick={() => info.setCurrentComponent(info)}
         style={{
           left: info.left + 'px',
@@ -148,7 +157,7 @@ const CreateComponent = ({ info, currentComponent, removeComponent }) => {
         }}
         className='absolute group hover:border-[2px] hover:border-indigo-500'
       >
-        <Element id={randValue} info={info} exId=''/>
+        <Element elementWrapperDivRef={elementWrapperDivRef} info={info} exId=''/>
         <h2 style={{ fontSize: info.fontSize + 'px', fontWeight: info.fontWeight }} className='w-full h-full'>{info?.title}</h2>
         {currentComponent?.id === info.id &&
             <div
@@ -163,8 +172,9 @@ const CreateComponent = ({ info, currentComponent, removeComponent }) => {
   if(info.name === 'image') {
     html =
       <div
+        ref={elementWrapperDivRef}
         id={randValue.toString()}
-        onMouseDown={(e) => { e.stopPropagation(); info.moveElement(randValue.toString(), info) }}
+        onMouseDown={(e) => { e.stopPropagation(); info.moveElement(elementWrapperDivRef, info) }}
         onClick={() => info.setCurrentComponent(info)}
         style={{
           left: info.left + 'px',
@@ -177,12 +187,13 @@ const CreateComponent = ({ info, currentComponent, removeComponent }) => {
         className='absolute group hover:border-[2px] hover:border-indigo-500'
       >
         <Element
-          id={randValue}
+          elementWrapperDivRef={elementWrapperDivRef}
           info={info}
-          exId={`${randValue}img`}
+          extraElementRef={extraElementRef}
         />
         <div
           id={`${randValue}img`}
+          ref={extraElementRef}
           className='overflow-hidden'
           style={{
             width: info.width + 'px',

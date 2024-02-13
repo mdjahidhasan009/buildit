@@ -1,13 +1,10 @@
-import {useContext} from "react";
-import {DesignContext} from "../context/DesignProvider.tsx";
-
 export const useComponentManipulation = (setLeft, setTop, setWidth, setHeight, setRotate, setCurrentComponent) => {
-  // const { setLeft, setTop, setWidth, setHeight, setRotate, setCurrentComponent } = useContext(DesignContext); // This approach not working
-  const moveElement = (id, currentInfo) => {
+  const moveElement = (componentRef, currentInfo) => {
     setCurrentComponent(currentInfo);
 
     let isMoving = true;
-    const currentDiv = document.getElementById(id);
+    const currentDiv = componentRef.current;
+    if(!currentDiv) return;
 
     const moveMouse = (e) => {
       const { movementX, movementY } = e;
@@ -32,11 +29,12 @@ export const useComponentManipulation = (setLeft, setTop, setWidth, setHeight, s
     document.addEventListener('mouseup', mouseUp);
   }
 
-  const resizeElement = (id, currentInfo) => {
+  const resizeElement = (currentDivRef, currentInfo) => {
     setCurrentComponent(currentInfo);
 
     let isMoving = true;
-    const currentDiv = document.getElementById(id);
+    const currentDiv = currentDivRef.current;
+    if(!currentDiv) return;
 
     const moveMouse = (e) => {
       const { movementX, movementY } = e;
@@ -61,10 +59,12 @@ export const useComponentManipulation = (setLeft, setTop, setWidth, setHeight, s
     document.addEventListener('mouseup', mouseUp);
   }
 
-  const rotateElement = (id, currentInfo) => {
+  const rotateElement = (currentElementRef, currentInfo) => {
     setCurrentComponent(currentInfo);
 
-    const target = document.getElementById(id);
+    const target = currentElementRef?.current;
+    if(!target) return;
+
     const mouseMove = (e) => {
       const { movementX, movementY } = e;
       const getStyle = window.getComputedStyle(target);

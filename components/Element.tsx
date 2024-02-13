@@ -1,30 +1,30 @@
 import {BsArrowsMove} from "react-icons/bs";
 
-const Element = ({ id, info, exId }) => {
+const Element = ({ elementWrapperDivRef, info, extraElementRef }) => {
   return (
     <>
       {
-        exId
+        extraElementRef?.current
           ? <>
             <div
-              onMouseDown={(e) => { e.stopPropagation(); info.resizeElement(exId, info)}}
+              onMouseDown={(e) => { e.stopPropagation(); info.resizeElement(extraElementRef, info)}}
               className='hidden absolute group-hover:block -bottom-[3px] -right-[3px] w-[10px] h-[10px] cursor-nwse-resize bg-green-500 z-[9999]'></div>
             <div
-              onMouseDown={(e) => { e.stopPropagation(); info.resizeElement(exId, info)}}
+              onMouseDown={(e) => { e.stopPropagation(); info.resizeElement(extraElementRef, info)}}
               className='hidden absolute group-hover:block -top-[3px] -right-[3px] w-[10px] h-[10px] cursor-nwse-resize bg-green-500 z-[9999]'></div>
             <div
-              onMouseDown={(e) => { e.stopPropagation(); info.resizeElement(exId, info)}}
+              onMouseDown={(e) => { e.stopPropagation(); info.resizeElement(extraElementRef, info)}}
               className='hidden absolute group-hover:block -bottom-[3px] -left-[3px] w-[10px] h-[10px] cursor-nwse-resize bg-green-500 z-[9999]'></div>
           </>
           : <>
             <div
-              onMouseDown={(e) => { e.stopPropagation(); info.resizeElement(id, info)}}
+              onMouseDown={(e) => { e.stopPropagation(); info.resizeElement(elementWrapperDivRef, info)}}
               className='hidden absolute group-hover:block -bottom-[3px] -right-[3px] w-[10px] h-[10px] cursor-nwse-resize bg-green-500 z-[9999]'></div>
             <div
-              onMouseDown={(e) => { e.stopPropagation(); info.resizeElement(id, info)}}
+              onMouseDown={(e) => { e.stopPropagation(); info.resizeElement(elementWrapperDivRef, info)}}
               className='hidden absolute group-hover:block -top-[3px] -right-[3px] w-[10px] h-[10px] cursor-nwse-resize bg-green-500 z-[9999]'></div>
             <div
-              onMouseDown={(e) => { e.stopPropagation(); info.resizeElement(id, info)}}
+              onMouseDown={(e) => { e.stopPropagation(); info.resizeElement(elementWrapperDivRef, info)}}
               className='hidden absolute group-hover:block -bottom-[3px] -left-[3px] w-[10px] h-[10px] cursor-nwse-resize bg-green-500 z-[9999]'></div>
           </>
       }
@@ -34,7 +34,7 @@ const Element = ({ id, info, exId }) => {
 
       <div className="absolute -top-[3px] -left-[3px] hidden group-hover:block">
         <div
-          onMouseDown={(e) => { e.stopPropagation(); info.rotateElement(id, info) }}
+          onMouseDown={(e) => { e.stopPropagation(); info.rotateElement(elementWrapperDivRef, info) }}
             className="w-[15px] h-[15px] bg-green-500 z-[9999] flex justify-center items-center">
           <BsArrowsMove className="text-white" /> {/* Rotate icon */}
         </div>

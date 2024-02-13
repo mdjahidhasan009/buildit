@@ -31,8 +31,6 @@ export default function Header({ params }) {
 
   const saveImage = async () => {
 
-    const getDiv = document.getElementById('main_design');
-    // console.log('getDiv', getDiv);
     let image;
     try {
       // image = await htmlToImage.toPng(getDiv);
