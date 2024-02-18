@@ -24,6 +24,17 @@ export class PrismaSnippetRepository implements ISnippetRepository {
     return createdSnippet;
   }
 
+  async getAllByUserId(userId: string): Promise<Snippet[]> {
+    return prisma.snippet.findMany({
+      where: {
+        userId,
+      },
+      include: {
+        views: true,
+      },
+    });
+  }
+
   async getById(id: string): Promise<Snippet | null> {
     return prisma.snippet.findUnique({
       where: { id },

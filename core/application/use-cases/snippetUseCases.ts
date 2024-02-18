@@ -12,13 +12,15 @@ export class SnippetUseCases {
     return this.snippetRepository.create(snippetData);
   }
 
+  async getSnippets(userId: string): Promise<Snippet[]> {
+    return this.snippetRepository.getAllByUserId(userId);
+  }
+
   async getSnippetById(snippetId: string, userId: string): Promise<Snippet | null> {
     let snippet = await this.snippetRepository.getById(snippetId);
     if(!snippet) {
       return null;
     }
-
-    console.log(userId, snippet?.userId, snippet?.userId.toString() !== userId.toString())
 
     if (snippet?.userId.toString() !== userId.toString()) {
       await this.viewRepository.increaseViewCount(snippetId);

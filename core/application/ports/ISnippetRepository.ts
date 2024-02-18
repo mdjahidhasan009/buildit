@@ -5,4 +5,5 @@ export interface ISnippetRepository {
   getById(id: string): Promise<Snippet | null>;
   update(id: string, snippetData: Partial<Snippet>): Promise<Snippet | null>;
   delete(id: string, userId: string): Promise<boolean>;
+  getAllByUserId(userId: string): Promise<Snippet[]>;
 }

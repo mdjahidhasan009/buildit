@@ -7,22 +7,15 @@ import {PrismaViewRepository} from "@/infrastructure/adapters/prismaViewReposito
 export const GET = async (req: NextRequest, params) => {
   try {
     const [_, userId ='', earlyAbortResponse] = await requestHandler({ requireAuth: true, expectBody: false })(req);
-    // if(earlyAbortResponse) return earlyAbortResponse; //as it can be use publically also
+    if(earlyAbortResponse && earlyAbortResponse.status !== 403) return earlyAbortResponse; //as it can be use publicly also
 
-    // console.log(params);
     const snippetId = params?.params?.snippet_id as string;
-    // console.log(snippetId)
     if(!snippetId) throw new Error("Snippet ID is required");
 
     const snippetRepository = new PrismaSnippetRepository();
     const viewRepository = new PrismaViewRepository();
     const snippetUseCases = new SnippetUseCases(snippetRepository, viewRepository);
     const snippet = await snippetUseCases.getSnippetById(snippetId, userId);
-
-    // if(snippet?.userId !== userId) {
-    //   return new NextResponse(JSON.stringify({ code: "UNAUTHORIZED" }), { status: 403 });
-    // }
-    // console.log(snippet);
 
     return new NextResponse(JSON.stringify(snippet), { status: 200 });
   } catch (e) {

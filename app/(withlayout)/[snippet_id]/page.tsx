@@ -9,8 +9,6 @@ export default async function Page({ params }: { params: { snippet_id: string } 
   const { data, loading, error } = useApi(`/api/v1/snippets/${params.snippet_id}`);
   const { data: session, status } = useSession();
 
-  console.log(data)
-  console.log(session)
   if(!data) return;
 
   const isEditable: boolean = session?.user?.id === data?.userId;
