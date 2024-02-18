@@ -1,30 +1,22 @@
-import { getSession } from "@/lib/auth";
+'use client';
+
 import { redirect } from "next/navigation";
-import { prisma } from "@/lib/prisma";
 import { cn } from "@/lib/cn";
 import Button from "@/components/Dashboard/Button";
 import Snippets from "@/components/Dashboard/Snippets";
 import { serialize } from "@/lib/serialize";
-
-async function getSnippets(userId: string) {
-  return await prisma.snippet.findMany({
-    where: {
-      userId,
-    },
-    include: {
-      views: true,
-    },
-  });
-}
+import { useSession } from "next-auth/react";
+import useApi from "@/utils/useApi";
 
 export default async function Page() {
-  const session = await getSession();
+  const { data: snippets, error, loading } = useApi('/api/v1/snippets');
+  const { data: session, status: sessionStatus } = useSession();
 
-  if (!session) {
-    redirect("/");
+  if (!session && sessionStatus === "authenticated") {
+    redirect("/dashboard");
   }
 
-  const snippets = await getSnippets(session.user.id);
+  if(!snippets) return;
 
   return (
     <div
