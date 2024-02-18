@@ -27,6 +27,9 @@ export class PrismaSnippetRepository implements ISnippetRepository {
   async getById(id: string): Promise<Snippet | null> {
     return prisma.snippet.findUnique({
       where: { id },
+      include: {
+        views: true,
+      },
     });
   }
 

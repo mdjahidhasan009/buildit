@@ -17,7 +17,7 @@ export default function ChangeListener() {
     error: updateError,
     data: updatedSnippet,
   } = useSWRMutation(
-    "/api/snippets",
+    "/api/v1/snippets",
     (url, { arg }: { arg: AppState }) =>
       fetcher(url, {
         method: "PATCH",

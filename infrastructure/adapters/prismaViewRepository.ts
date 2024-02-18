@@ -23,4 +23,17 @@ export class PrismaViewRepository implements IViewRepository {
       data: viewData,
     });
   }
+
+  async increaseViewCount(snippetId: string): Promise<View> {
+    return prisma.view.update({
+    where: {
+      snippetId: snippetId,
+    },
+    data: {
+      count: {
+        increment: 1,
+      },
+    },
+  });
+  }
 }

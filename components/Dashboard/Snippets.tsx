@@ -115,7 +115,7 @@ export default function Snippets({
   }, [handleEvent, handleKeyDown]);
 
   const { trigger: renameSnippet, isMutating: renameLoading } = useSWRMutation(
-    "/api/snippets",
+    "/api/v1/snippets",
     (url, { arg }: { arg: { id: string; title: string } }) =>
       fetcher(url, {
         method: "PATCH",
@@ -142,7 +142,7 @@ export default function Snippets({
   );
 
   const { trigger: deleteSnippet, isMutating: deleteLoading } = useSWRMutation(
-    "/api/snippets",
+    "/api/v1/snippets",
     (url, { arg }: { arg: { id: string } }) =>
       fetcher(`${url}?id=${arg.id}`, {
         method: "DELETE",

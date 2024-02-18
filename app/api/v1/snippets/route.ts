@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { requestHandler } from "@/utils/requestHandlerFactory";
 import {SnippetUseCases} from "@/core/application/use-cases/snippetUseCases";
 import {PrismaSnippetRepository} from "@/infrastructure/adapters/prismaSnippetRepository";
+import {PrismaViewRepository} from "@/infrastructure/adapters/prismaViewRepository";
 
 export const PATCH = async (req: NextRequest) => {
   try {
@@ -13,7 +14,8 @@ export const PATCH = async (req: NextRequest) => {
     }
 
     const snippetRepository = new PrismaSnippetRepository();
-    const snippetUseCases = new SnippetUseCases(snippetRepository);
+    const viewRepository = new PrismaViewRepository();
+    const snippetUseCases = new SnippetUseCases(snippetRepository, viewRepository);
     const updatedSnippet = await snippetUseCases.updateSnippet(body.id, { ...body, userId } );
 
     return new NextResponse(JSON.stringify(updatedSnippet), { status: 200 });
@@ -33,7 +35,8 @@ export const POST = async (req: NextRequest) => {
     }
 
     const snippetRepository = new PrismaSnippetRepository();
-    const snippetUseCases = new SnippetUseCases(snippetRepository);
+    const viewRepository = new PrismaViewRepository();
+    const snippetUseCases = new SnippetUseCases(snippetRepository, viewRepository);
 
     const createdSnippet = await snippetUseCases.createSnippet({ ...body, userId } );
 
@@ -51,7 +54,8 @@ export const DELETE = async (req: NextRequest) => {
     if (earlyAbortResponse) return earlyAbortResponse;
 
     const snippetRepository = new PrismaSnippetRepository();
-    const snippetUseCases = new SnippetUseCases(snippetRepository);
+    const viewRepository = new PrismaViewRepository();
+    const snippetUseCases = new SnippetUseCases(snippetRepository, viewRepository);
     const { searchParams } = new URL(req.url);
     const id = searchParams.get("id");
     const deletedSnippet = await snippetUseCases.deleteSnippet(id as string, userId as string);

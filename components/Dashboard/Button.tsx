@@ -45,7 +45,7 @@ export default function Button({ snippetCount }: { snippetCount: number }) {
   const router = useRouter();
 
   const { trigger: createSnippet, isMutating: createLoading } = useSWRMutation(
-    "/api/snippets",
+    "/api/v1/snippets",
     (url) =>
       fetcher(url, {
         method: "POST",
