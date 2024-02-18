@@ -7,6 +7,7 @@ import {useRef} from "react";
 const CreateComponent = ({ info, currentComponent, removeComponent }) => {
   const randValue = Math.floor(Math.random() * 100);
   let html: React.JSX.Element = <div></div>;
+
   const elementWrapperDivRef = useRef(null);
   const extraElementRef = useRef(null);
 

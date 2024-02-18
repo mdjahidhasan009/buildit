@@ -14,8 +14,6 @@ const CreateDesign = () => {
     const searchParams = useSearchParams()
 
     const ref = useRef();
-    // const { state } = useLocation();
-    // const navigate = useNavigate();
     const router = useRouter();
     const type = searchParams.get('type');
     const width = searchParams.get('width');
@@ -43,8 +41,14 @@ const CreateDesign = () => {
         }
     }, [type, ref]);
 
+    useEffect(() => {
+        console.log(data)
+        if(data?.data?.design?.id) {
+            router.push(`/design/${data?.data?.design?.id}`);
+        }
+    }, [data]);
+
     const createDesign = async () => {
-        // const image = await htmlToImage.toBlob(ref.current);
         const image = await domtoimage.toPng(ref.current);
         const design = JSON.stringify(obj);
 
@@ -55,8 +59,6 @@ const CreateDesign = () => {
             try {
                 setLoading(true);
                 await fetchData(formData);
-                // router.push(`/design/${data?.data?.design?._id}/edit`);
-                // navigate(`/design/${data?.data?.design?._id}/edit`);
             } catch (e) {
                 console.error(e);
             }

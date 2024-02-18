@@ -20,7 +20,7 @@ export async function POST(req: NextRequest, params, res: NextResponse){
 
   try {
     const createdDesign = await designUseCases.createDesign(userId, componentsString, base64Image as string);
-    return NextResponse.json({ message: createdDesign }, { status: 201 });
+    return NextResponse.json({ message: "Design Created" ,data: { design: createdDesign } }, { status: 201 });
   } catch (error) {
     console.error(error);
     // Adjust error handling as needed
