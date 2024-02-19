@@ -26,7 +26,7 @@ const Page = () => {
   useEffect(() => {
     if(data?.data?.designs) {
       let designs = data?.data?.designs;
-      let firstTwo = designs.slice(0, 2);
+      let firstTwo = designs.slice(0, 3);
       setDesigns(firstTwo);
     }
   }, [data]);
