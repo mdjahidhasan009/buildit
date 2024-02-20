@@ -5,13 +5,12 @@ import {useEffect, useState} from "react";
 import useApi from "@/utils/useApi";
 import DesignCard from "@/components/shared/DesignCard";
 
-const Projects = ({ type, designId }) => {
+const Projects = ({ type }) => {
   const [designs, setDesigns] = useState([]);
-
   const { data: fetchedPropjects } = useApi('api/v1/design/user/designs');
 
   useEffect(() => {
-    if(fetchedPropjects) {
+    if(fetchedPropjects?.data?.designs) {
       setDesigns(fetchedPropjects?.data?.designs);
     }
   }, [fetchedPropjects]);
@@ -21,7 +20,7 @@ const Projects = ({ type, designId }) => {
       <div className={`grid  ${type ? ' grid-cols-2 ' : ' grid-cols-4 ' } gap-2 mt-5 w-full`}>
         {
           designs.map((design, index) =>
-            <DesignCard key={index} design={design} type={type} />
+            <DesignCard key={design.id || index} design={design} type={type} />
           )
         }
       </div>

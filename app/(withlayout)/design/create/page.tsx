@@ -15,6 +15,7 @@ const CreateDesign = () => {
 
     const ref = useRef();
     const router = useRouter();
+
     const type = searchParams.get('type');
     const width = searchParams.get('width');
     const height = searchParams.get('height');
@@ -42,7 +43,6 @@ const CreateDesign = () => {
     }, [type, ref]);
 
     useEffect(() => {
-        console.log(data)
         if(data?.data?.design?.id) {
             router.push(`/design/${data?.data?.design?.id}`);
         }
