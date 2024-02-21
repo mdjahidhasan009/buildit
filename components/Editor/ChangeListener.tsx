@@ -1,9 +1,8 @@
-import { fetcher } from "@/lib/fetcher";
 import { useStore } from "@/lib/store";
 import { AppState } from "@/lib/types";
 import { useEffect, useRef } from "react";
-import useSWRMutation from "swr/mutation";
 import isEqual from "lodash.isequal";
+import useApi from "@/utils/useApi";
 
 export default function ChangeListener() {
   const prevState = useRef<AppState | null>(null);
@@ -12,21 +11,7 @@ export default function ChangeListener() {
   const state = useStore((state) => state.getAppState());
   const update = useStore((state) => state.update);
 
-  const {
-    trigger: updateSnippet,
-    error: updateError,
-    data: updatedSnippet,
-  } = useSWRMutation(
-    "/api/v1/snippets",
-    (url, { arg }: { arg: AppState }) =>
-      fetcher(url, {
-        method: "PATCH",
-        body: JSON.stringify(arg),
-      }),
-    {
-      revalidate: false,
-    }
-  );
+  const { fetchData: updateSnippet, data: updatedSnippet, error: updateError } = useApi("/api/v1/snippets", "PATCH");
 
   const handleStateChange = () => {
     if (!isEqual(prevState.current, state)) {
