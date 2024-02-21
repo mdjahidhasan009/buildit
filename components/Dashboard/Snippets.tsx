@@ -2,7 +2,6 @@
 import { fetcher } from "@/lib/fetcher";
 import { Snippet, View } from "@prisma/client";
 import { useCallback, useEffect, useRef, useState } from "react";
-import useSWRMutation from "swr/mutation";
 import RenameDialog from "./RenameDialog";
 import DeleteDialog from "./DeleteDialog";
 import { cn } from "@/lib/cn";
@@ -14,6 +13,7 @@ import { find } from "@/lib/find";
 import { SUPPORTED_THEMES } from "@/lib/themes";
 import { Edit3, LinkIcon, Trash } from "lucide-react";
 import Kbd from "@/components/shared/ui/Kbd";
+import useApi from "@/utils/useApi";
 
 interface DialogProps {
   type: "RENAME" | "DELETE";
@@ -35,6 +35,9 @@ export default function Snippets({
 
   const listContainerRef = useRef<HTMLUListElement>(null);
   const activeElementRef = useRef<HTMLAnchorElement | null>(null);
+
+  const { fetchData: renameSnippet, loading: renameLoading } = useApi('/api/v1/snippets', 'PATCH');
+  const { fetchData: deleteSnippet, loading: deleteLoading } = useApi('/api/v1/snippets', 'DELETE');
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
@@ -114,50 +117,25 @@ export default function Snippets({
     }
   }, [handleEvent, handleKeyDown]);
 
-  const { trigger: renameSnippet, isMutating: renameLoading } = useSWRMutation(
-    "/api/v1/snippets",
-    (url, { arg }: { arg: { id: string; title: string } }) =>
-      fetcher(url, {
-        method: "PATCH",
-        body: JSON.stringify(arg),
-      }),
-    {
-      revalidate: false,
-      onSuccess: (res: any) => {
-        console.log(res);
+  function handleRename(payload) {
+    renameSnippet(payload)
+      .then(res => {
         if (res.id) {
-          setLocalSnippets((prev) =>
-            prev.map((snippet) => {
-              if (snippet.id === res.id) {
-                return { ...snippet, title: res.title };
-              }
-              return snippet;
-            })
-          );
-
-          setLocalDialogOpen(false);
-        }
-      },
-    }
-  );
-
-  const { trigger: deleteSnippet, isMutating: deleteLoading } = useSWRMutation(
-    "/api/v1/snippets",
-    (url, { arg }: { arg: { id: string } }) =>
-      fetcher(`${url}?id=${arg.id}`, {
-        method: "DELETE",
-      }),
-    {
-      revalidate: false,
-      onSuccess: (res: any) => {
-        if (res.id) {
-          setLocalSnippets((prev) =>
-            prev.filter((snippet) => snippet.id !== res.id)
+          setLocalSnippets(prev =>
+            prev.map(snippet => snippet.id === payload?.id ? { ...snippet, title: res.title } : snippet)
           );
         }
-      },
-    }
-  );
+      });
+  }
+
+  function handleDelete(payload) {
+    deleteSnippet(payload, `?id=${payload?.id}`)
+      .then(res => {
+        if (res.id) {
+          setLocalSnippets(prev => prev.filter(snippet => snippet.id !== payload?.id));
+        }
+      });
+  }
 
   function renderDialog() {
     if (dialogProps?.type === "RENAME") {
@@ -165,7 +143,7 @@ export default function Snippets({
         <RenameDialog
           id={dialogProps.id}
           title={dialogProps.title}
-          action={renameSnippet}
+          action={handleRename}
           isLoading={renameLoading}
         />
       );
@@ -176,7 +154,7 @@ export default function Snippets({
         <DeleteDialog
           id={dialogProps.id}
           title={dialogProps.title}
-          action={deleteSnippet}
+          action={handleDelete}
           isLoading={deleteLoading}
         />
       );

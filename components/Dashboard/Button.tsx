@@ -5,8 +5,8 @@ import { Check, Plus, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import useSWRMutation from "swr/mutation";
 import Loader from "@/components/shared/ui/Loader";
+import useApi from "@/utils/useApi";
 
 type ButtonType = "DEFAULT" | "SUCCESS" | "ERROR";
 
@@ -43,25 +43,16 @@ export default function Button({ snippetCount }: { snippetCount: number }) {
   const [buttonState, setButtonState] = useState<ButtonType>("DEFAULT");
 
   const router = useRouter();
-
-  const { trigger: createSnippet, isMutating: createLoading } = useSWRMutation(
-    "/api/v1/snippets",
-    (url) =>
-      fetcher(url, {
-        method: "POST",
-        body: JSON.stringify({ snippetCount }),
-      })
-  );
+  const { fetchData: createSnippet, data, error, loading: createLoading } = useApi("/api/v1/snippets", 'POST');
 
   const handleAction = async () => {
     try {
-      const { id } = await createSnippet();
-      console.log(snippetCount);
+      const result = await createSnippet({ snippetCount });
+      const { id } = result;
       setButtonState("SUCCESS");
-
       router.push(`/${id}`);
     } catch (e) {
-      console.log(e);
+      console.error(e);
       setButtonState("ERROR");
     } finally {
       const timer = setTimeout(() => setButtonState("DEFAULT"), 2500);
