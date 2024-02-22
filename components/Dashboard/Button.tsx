@@ -1,6 +1,5 @@
 "use client";
 import { cn } from "@/lib/cn";
-import { fetcher } from "@/lib/fetcher";
 import { Check, Plus, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";

@@ -8,9 +8,6 @@ import {
   Source_Code_Pro,
 } from "next/font/google";
 import "../globals.css";
-import { SettingsProvider } from "@/contexts/SettingsContext";
-import clsx from "clsx";
-import { motion } from "framer-motion";
 import { cn } from "@/lib/cn";
 import { SUPPORTED_FONT_STYLES as fonts } from "@/lib/fonts";
 import Providers from "@/contexts/Providers";

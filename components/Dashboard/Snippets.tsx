@@ -1,5 +1,4 @@
 "use client";
-import { fetcher } from "@/lib/fetcher";
 import { Snippet, View } from "@prisma/client";
 import { useCallback, useEffect, useRef, useState } from "react";
 import RenameDialog from "./RenameDialog";
