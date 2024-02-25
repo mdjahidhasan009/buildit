@@ -87,13 +87,11 @@ export class DesignUseCases {
   }
 
   async createDesignFromTemplateForUser(userId: string, templateId: string): Promise<Design> {
-    console.log(templateId)
-    console.log(userId)
     const template = await this.templateRepository.getById(templateId);
     if (!template) {
       throw new Error('Template not found');
     }
-    console.log(template)
+
     return this.designRepository.create({
       userId,
       components: template?.components,

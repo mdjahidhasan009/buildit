@@ -1,4 +1,4 @@
-const createComponentFactory = (setCurrentComponent, moveElement, resizeElement, rotateElement) => {
+const createComponentFactory = () => {
   return ({ name, type, additionalProps = {} }) => {
     return {
       id: Date.now(),
@@ -10,10 +10,6 @@ const createComponentFactory = (setCurrentComponent, moveElement, resizeElement,
       rotate: 0,
       zIndex: 2,
       color: '#3c3c3d',
-      setCurrentComponent: (a) => setCurrentComponent(a),
-      moveElement,
-      resizeElement,
-      rotateElement,
       ...additionalProps,
     };
   };

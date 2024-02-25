@@ -1,16 +1,42 @@
 import createComponentFactory from "../utils/createComponentFactory.ts";
-import {useContext} from "react";
-import {DesignContext} from "../context/DesignProvider.tsx";
+import {useDispatch} from "react-redux";
+import {
+  updateComponentPosition,
+  updateComponentRotation,
+  updateComponentSize
+} from "@/lib/features/components/componentsSlice";
+import {AppDispatch} from "@/lib/reduxStore";
 
-export const useComponentCreation = (setCurrentComponent, setComponents, components, setWidth, setFontSize, moveElement, resizeElement, rotateElement) => {
-  // const {setCurrentComponent, setComponents, components, setWidth, setFontSize, moveElement, resizeElement, rotateElement} = useContext(DesignContext); // This approach not working
+export const useComponentCreation = (setCurrentComponent, setComponents, components, setWidth, setFontSize) => {
+  const dispatch: AppDispatch  = useDispatch();
+
+  const moveElement = (componentId, componentRef) => {
+    // Logic to move element...
+    // Once movement is complete:
+    dispatch(updateComponentPosition({ id: componentId, left: newLeft, top: newTop }));
+  };
+
+  const resizeElement = (componentId, componentRef) => {
+    // Logic to resize element...
+    // Once resizing is complete:
+    dispatch(updateComponentSize({ id: componentId, width: newWidth, height: newHeight }));
+  };
+
+  const rotateElement = (componentId, componentRef) => {
+    // Logic to rotate element...
+    // Once rotation is complete:
+    dispatch(updateComponentRotation({ id: componentId, rotate: newRotate }));
+  };
+
+  // const componentFactory = createComponentFactory(
+  //   setCurrentComponent, moveElement, resizeElement, rotateElement
+  // );
 
   const componentFactory = createComponentFactory(
     setCurrentComponent, moveElement, resizeElement, rotateElement
   );
 
   const createShape = (name: string, type: string) => {
-    console.log('createShape')
     const newComponent = componentFactory({
       name,
       type,
