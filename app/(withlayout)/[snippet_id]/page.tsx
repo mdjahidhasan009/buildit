@@ -7,7 +7,7 @@ import {useStore} from "@/lib/store";
 import {useEffect, useState} from "react";
 import Loading from "@/app/(withlayout)/[snippet_id]/loading";
 
-const page = ({ params }: { params: { snippet_id: string } }) => {
+const Page = ({ params }: { params: { snippet_id: string } }) => {
   const [isEditable, setIsEditable] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const { data, loading, error } = useApi(`/api/v1/snippets/${params.snippet_id}`);
@@ -39,4 +39,4 @@ const page = ({ params }: { params: { snippet_id: string } }) => {
   );
 }
 
-export default page;
+export default Page;

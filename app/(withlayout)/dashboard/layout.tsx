@@ -8,7 +8,7 @@ import { usePathname } from 'next/navigation';
 import router from "next/router";
 
 
-const layout = ({ children }) => {
+const Layout = ({ children }) => {
   const pathname = usePathname();
 
   const SidebarLink = ({ href, icon, children }) => {
@@ -50,4 +50,4 @@ const layout = ({ children }) => {
   );
 }
 
-export default layout
+export default Layout
