@@ -5,9 +5,10 @@ import {useEffect, useState} from "react";
 import useApi from "@/utils/useApi";
 import DesignCard from "@/components/shared/DesignCard";
 
-const Projects = ({ type }) => {
+const Projects = () => {
   const [designs, setDesigns] = useState([]);
   const { data: fetchedPropjects } = useApi('api/v1/design/user/designs');
+  let type = '';
 
   useEffect(() => {
     if(fetchedPropjects?.data?.designs) {
