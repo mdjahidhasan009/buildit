@@ -21,9 +21,11 @@ const Layout = ({ children }) => {
 
     return (
       <li>
-        <Link href={href} className={linkClass}>
-          <span className='text-xl'>{icon}</span>
-          <span className='font-medium'>{children}</span>
+        <Link href={href} >
+          <div className={linkClass}>
+            <span className='text-xl'>{icon}</span>
+            <span className='font-medium'>{children}</span>
+          </div>
         </Link>
       </li>
     );
