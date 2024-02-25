@@ -1,13 +1,15 @@
 "use client";
 
-import {useContext, useEffect} from "react";
+import {useEffect} from "react";
 import useApi from "@/utils/useApi.ts";
 import SideBar from "@/components/main/SideBar.tsx";
-import {DesignContext} from "@/contexts/DesignProvider.tsx";
 import SideBarDrawer from "@/components/main/SideBarDrawer.tsx";
 import DesignPlayground from "@/components/main/DesignPlayground.tsx";
 import ComponentPropertiesPanel from "@/components/main/ComponentPropertiesPanel.tsx";
 import RotateLoader from "react-spinners/RotateLoader";
+import {useDispatch} from "react-redux";
+import {setComponents} from "@/lib/features/components/componentsSlice.ts";
+import {AppDispatch} from "@/lib/reduxStore";
 
 type Props = {
   params: {
@@ -18,22 +20,11 @@ type Props = {
 const Page = ({ params } : Props) => {
   const  design_id  = params?.design_id || '';
   const { data, loading } = useApi(`api/v1/design/user/${design_id}`);
-
-
-  const { setCurrentComponent, components, setComponents, moveElement, resizeElement, rotateElement, removeBackground }
-    = useContext(DesignContext);
+  const dispatch: AppDispatch  = useDispatch();
 
   useEffect(() => {
     if(data?.data?.design) {
-      const enhancedComponents = data.data.design.map((design) => {
-        design.setCurrentComponent = (a) => setCurrentComponent(a);
-        design.moveElement = moveElement;
-        design.resizeElement = resizeElement;
-        design.rotateElement = rotateElement;
-        design.removeBackground = removeBackground;
-        return design;
-      });
-      setComponents(enhancedComponents);
+      dispatch(setComponents(data.data.design));
     }
   }, [data, design_id]);
 

@@ -2,7 +2,6 @@
 
 import { usePathname } from 'next/navigation'
 import { useSession } from "next-auth/react";
-import {useContext, useState} from "react";
 import toast from "react-hot-toast";
 import * as htmlToImage from 'html-to-image';
 
@@ -12,35 +11,30 @@ import Message from "./Message";
 import Social from "./Social";
 import Help from "./Help";
 import Auth from "./Auth";
-import {DesignContext} from "@/contexts/DesignProvider";
 import useApi from "@/utils/useApi";
 import domtoimage from 'dom-to-image';
 import { useRouter } from 'next/navigation';
+import {useSelector} from "react-redux";
 
 export default function Header({ params }) {
-  const { components } = useContext(DesignContext);
-  // const [loading, setLoading] = useState(false);
+  const components = useSelector((state) => state.components.components);
+
   const { status: sessionStatus } = useSession();
   const pathname = usePathname();
   let design_id = pathname.split('/design/')[1] || '';
   const router = useRouter();
 
-  // const { mutate, data, error } = useApi(`/design/update-design/${design_id}`, 'PUT');
   const { fetchData, data, loading, error } = useApi(`api/v1/design/user/${design_id}`, 'PUT', "multipart/form-data");
-  // const { mutate, data, error } = returned;
 
   const saveImage = async () => {
 
     let image;
     try {
-      // image = await htmlToImage.toPng(getDiv);
       image = await domtoimage.toPng(document.getElementById('main_design'));
     } catch (e) {
-      console.log('error while creating image')
-      console.log(e);
+      console.error('error while creating image')
+      console.error(e);
     }
-    // const image = await htmlToImage.toBlob(getDiv);
-    // console.log('image', image);
 
     if(image) {
       const obj = {
@@ -50,21 +44,12 @@ export default function Header({ params }) {
       formData.append('design', JSON.stringify(obj));
       formData.append('image', image);
       try {
-        // setLoading(true);
-        // const { data } = await useApi(`/design/update-design/${design_id}`, 'PUT', formData);
-        // console.log('formData', formData)
-        // for (let [key, value] of formData.entries()) {
-        //   console.log(key, value);
-        // }
         await fetchData(formData);
-        // console.log('data', apiData);
-        // console.log('error', error);
         toast.success('Design saved successfully');
       } catch (e) {
         console.error(e);
         toast.error('Something went wrong')
       }
-      // setLoading(false);
     }
   }
 
@@ -85,20 +70,7 @@ export default function Header({ params }) {
   }
 
   const createDesign = async () => {
-
-    // await router.push({
-    //   pathname: '/design/create',
-    //   query: {type: 'create', width: 600, height: 450},
-    // });
-    router.push('/design/create?type=create&width=600&height=450')
-
-    // navigate('/design/create', {
-    //   state: {
-    //     type: 'create',
-    //     width: 600,
-    //     height: 450,
-    //   }
-    // })
+    router.push('/design/create?type=create&width=600&height=450');
   }
 
   return (

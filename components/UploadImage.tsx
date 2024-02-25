@@ -29,7 +29,6 @@ const UploadImage = ({ images, setImages }) => {
 
     try {
       await fetchData(formData);
-      console.log(data);
     } catch (e) {
       console.error(e);
       toast.error('Something went wrong');

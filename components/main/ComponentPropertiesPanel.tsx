@@ -1,63 +1,51 @@
 "use client";
 
-import {useContext, useEffect} from "react";
-import {DesignContext} from "../../contexts/DesignProvider.tsx";
+import {useDispatch, useSelector} from "react-redux";
+import { updateComponent } from "@/lib/features/components/componentsSlice";
+import {AppDispatch, RootState} from "@/lib/reduxStore";
+import {DesignProperty} from "@/lib/features/components/IComponent";
 
 const ComponentPropertiesPanel = () => {
-  const {currentComponent, setCurrentComponent, color, setColor, setZIndex,
-    setOpacity, setPadding, setFontSize, setFontWeight, setText, setRadius, left, top, height, width, rotate,
-    opacity, zIndex, padding, fontSize, fontWeight, text, radius, opacityHandler,
-    image, removeBackground, components, setComponents, setWidth, setHeight, setShow,
-    setLeft, setTop, setRotate, setImage} = useContext(DesignContext);
+  const dispatch: AppDispatch = useDispatch();
+  const currentComponent = useSelector((state: RootState) => state.components.currentComponent);
 
-  useEffect(() => {
-    updateCurrentComponentProperties();
-  }, [color, image, left, top, height, width, rotate, opacity, zIndex, padding, fontSize, fontWeight, text, radius]);
-
-  const updateCurrentComponentProperties = () => {
-    if(currentComponent) {
-      const index = components.findIndex(component => component.id === currentComponent.id);
-      const temp = components.filter(component => component.id !== currentComponent.id);
-
-      if(currentComponent !== 'text') {
-        components[index].width = width || currentComponent?.width;
-        components[index].height = height || currentComponent?.height;
-        components[index].rotate = rotate || currentComponent?.rotate;
-      }
-      if(currentComponent?.name === 'text') {
-        components[index].padding = padding || currentComponent?.padding;
-        components[index].fontSize = fontSize || currentComponent?.fontSize;
-        components[index].fontWeight = fontWeight || currentComponent?.fontWeight;
-        components[index].title = text || currentComponent?.title;
-      }
-      if(currentComponent?.name === 'image') {
-        components[index].radius = radius || currentComponent?.radius;
-      }
-      if(currentComponent?.name === 'main_frame' && image) {
-        components[index].image = image || currentComponent?.image;
-      }
-      components[index].color = color || currentComponent?.color;
-      if(currentComponent?.name !== 'main_frame') {
-        components[index].left = left || currentComponent?.left;
-        components[index].top = top || currentComponent?.top;
-        components[index].opacity = opacity || currentComponent?.opacity;
-        components[index].zIndex = zIndex || currentComponent?.zIndex;
-      }
-      setComponents([...temp, components[index]]);
-      setWidth('');
-      setHeight('');
-      setLeft('');
-      setTop('');
-      setRotate(0);
-      setColor('');
-      setOpacity('');
-      setZIndex('');
-      setPadding('');
-      setFontSize('');
-      setFontWeight('');
-      setText('');
-      setRadius(0);
+  const removeBackground = () => {
+    if (currentComponent && currentComponent?.id) {
+      dispatch(updateComponent({
+        id: currentComponent?.id,
+        changes: { image: '' }
+      }));
+      updateCurrComponentProperties('image', '');
     }
+  };
+
+  const updateCurrComponentProperties = (propertyName: DesignProperty, value: any) => {
+    if (!currentComponent) return;
+
+    let updates: Partial<Component> = {};
+
+    const generalUpdates = ['width', 'height', 'rotate', 'color', 'left', 'top', 'opacity', 'zIndex'];
+    if (generalUpdates.includes(propertyName)) {
+      updates[propertyName] = value;
+    }
+
+    const textUpdates = ['padding', 'fontSize', 'fontWeight', 'title'];
+    if (currentComponent.name === 'text' && textUpdates.includes(propertyName)) {
+      updates[propertyName] = value;
+    }
+
+    const imageUpdates = ['radius'];
+    if (currentComponent.name === 'image' && imageUpdates.includes(propertyName)) {
+      updates[propertyName] = value;
+    }
+
+    if (currentComponent.name === 'main_frame' && propertyName === 'image') {
+      updates['image'] = value;
+    }
+
+    const componentId: number = currentComponent?.id || 0;
+    dispatch(updateComponent({ id: componentId, changes: updates }));
+
   }
 
   return (
@@ -75,14 +63,13 @@ const ComponentPropertiesPanel = () => {
                 >
                 </label>
                 <input
-                  onChange={(e) => {console.log('init color:', color); setColor(e.target.value); console.log('after color:', color);}}
+                  onChange={(e) => updateCurrComponentProperties('color', e.target.value)}
                   type='color'
                   id='color'
                   className='invisible'
                 />
               </div>
               {
-                // (currentComponent?.name === 'main_frame' && image) && (
                 (currentComponent?.name === 'main_frame' && currentComponent?.image) && (
                   <div>
                     <button className='p-[6px] bg-slate-700 text-white rounded-md'
@@ -99,7 +86,7 @@ const ComponentPropertiesPanel = () => {
                     <div className='flex gap-4 justify-start items-start'>
                       <span className='text-md w-[70px]'>Opacity : </span>
                       <input
-                          onChange={opacityHandler}
+                          onChange={(e) => updateCurrComponentProperties('opacity', parseFloat(e.target.value))}
                           className='w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md'
                           type='number'
                           step={0.1}
@@ -112,7 +99,7 @@ const ComponentPropertiesPanel = () => {
                     <div className='flex gap-1 justify-start items-start'>
                       <span className='text-md w-[70px]'>Z-Index : </span>
                       <input
-                          onChange={(e) => setZIndex(parseInt(e.target.value))}
+                          onChange={(e) => updateCurrComponentProperties('zIndex', parseInt(e.target.value))}
                           className='w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md'
                           type='number'
                           step={1}
@@ -124,7 +111,7 @@ const ComponentPropertiesPanel = () => {
                         <div className='flex gap-1 justify-start items-start'>
                           <span className='text-md w-[70px]'>Radius : </span>
                           <input
-                              onChange={(e) => setRadius(parseInt(e.target.value))}
+                              onChange={(e) => updateCurrComponentProperties('radius', parseInt(e.target.value))}
                               className='w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md'
                               type='number'
                               step={1}
@@ -138,7 +125,7 @@ const ComponentPropertiesPanel = () => {
                           <div className='flex gap-1 justify-start items-start'>
                             <span className='text-md w-[70px]'>Padding : </span>
                             <input
-                                onChange={(e) => setPadding(parseInt(e.target.value))}
+                                onChange={(e) => updateCurrComponentProperties('padding' , parseInt(e.target.value))}
                                 className='w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md'
                                 type='number'
                                 step={1}
@@ -148,10 +135,7 @@ const ComponentPropertiesPanel = () => {
                           <div className='flex gap-1 justify-start items-start'>
                             <span className='text-md w-[72px]'>Font Size : </span>
                             <input
-                                onChange={(e) => {
-                                  console.log(parseInt(e.target.value));
-                                  setFontSize(parseInt(e.target.value))
-                                }}
+                                onChange={(e) => updateCurrComponentProperties('fontSize', parseInt(e.target.value))}
                                 className='w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md'
                                 type='number'
                                 step={1}
@@ -162,7 +146,7 @@ const ComponentPropertiesPanel = () => {
                           <div className='flex gap-1 justify-start items-start'>
                             <span className='text-md w-[72px]'>Font Weight : </span>
                             <input
-                                onChange={(e) => setFontWeight(parseInt(e.target.value))}
+                                onChange={(e) => updateCurrComponentProperties('fontWeight', parseInt(e.target.value))}
                                 className='w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md'
                                 type='number'
                                 step={100}
@@ -174,30 +158,17 @@ const ComponentPropertiesPanel = () => {
 
                           <div className='flex gap-2 flex-col justify-start items-start'>
                             <input
-                                onChange={(e) => {
-                                  setCurrentComponent({
-                                    ...currentComponent,
-                                    title: e.target.value
-                                  });
-                                  // setText(e.target.value); //TODO: will add this
-                                }}
+                                onChange={(e) => updateCurrComponentProperties('title', e.target.value)}
                                 className='border border-gray-700 bg-transparent outline-none p-2 rounded-md'
                                 type='text'
                                 value={currentComponent?.title}
                             />
-                            <button
-                                onClick={() => setText(currentComponent?.title)}
-                                className='px-4 py-2 bg-purple-500 text-xs text-white rounded-sm'
-                            >
-                              Add
-                            </button>
                           </div>
                         </>
                     }
                   </div>
               }
             </div>
-
           </div>
         )
       }

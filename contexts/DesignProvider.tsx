@@ -47,7 +47,6 @@ export const DesignProvider = ({ children }) => {
   }
 
   const opacityHandler = (e) => {
-    console.log('e.target.value:', parseFloat(e.target.value))
     setOpacity(parseFloat(e.target.value));
   };
 

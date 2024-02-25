@@ -1,11 +1,12 @@
 "use client";
 
 import CreateComponent from "@/components/CreateComponent.tsx";
-import {useContext} from "react";
-import {DesignContext} from "@/contexts/DesignProvider.tsx";
+import {useSelector} from "react-redux";
+import {RootState} from "@/lib/reduxStore";
 
 const DesignPlayground = () => {
-  const { components, currentComponent, removeComponent } = useContext(DesignContext);
+  const components = useSelector((state: RootState) => state.components.components);
+  const currentComponent = useSelector((state: RootState) => state.components.currentComponent);
 
   return (
     <div
@@ -16,9 +17,7 @@ const DesignPlayground = () => {
             components.map((component, index) => (
               <CreateComponent
                 key={index}
-                info={component}
-                currentComponent={currentComponent}
-                removeComponent={removeComponent}
+                component={component}
               />
             ))
           }

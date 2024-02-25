@@ -6,7 +6,6 @@ export async function fetcher(url: RequestInfo, init?: RequestInit) {
     ...init,
   });
 
-  console.log("res", res);
   const body = await res.json();
 
   const update = useStore.getState().update;
