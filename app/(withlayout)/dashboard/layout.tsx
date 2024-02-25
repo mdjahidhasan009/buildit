@@ -11,7 +11,7 @@ import router from "next/router";
 const Layout = ({ children }) => {
   const pathname = usePathname();
 
-  const SidebarLink = ({ href, icon, children }) => {
+  const SidebarLink = ({ href, icon, text }) => {
     const pathname = usePathname();
 
     const linkClass = cn(
@@ -24,7 +24,7 @@ const Layout = ({ children }) => {
         <Link href={href} >
           <div className={linkClass}>
             <span className='text-xl'>{icon}</span>
-            <span className='font-medium'>{children}</span>
+            <span className='font-medium'>{text}</span>
           </div>
         </Link>
       </li>
@@ -36,10 +36,10 @@ const Layout = ({ children }) => {
       <div className='w-full flex mt-16'>
         <div className='sidebar w-[300px] p-5 h-[calc(100vh-70px)] fixed'>
           <ul className='px-4 flex flex-col gap-2'>
-            <SidebarLink href="/" icon={<FaHome/>} children="Home"/>
-            <SidebarLink href="/projects" icon={<BsFolder/>} children="Projects"/>
-            <SidebarLink href="/templates" icon={<BsGrid1X2/>} children="Templates"/>
-            <SidebarLink href="/all_codes" icon={<FaFileCode/>} children="Code Snippets"/>
+            <SidebarLink href="/" icon={<FaHome/>} text="Home"/>
+            <SidebarLink href="/projects" icon={<BsFolder/>} text="Projects"/>
+            <SidebarLink href="/templates" icon={<BsGrid1X2/>} text="Templates"/>
+            <SidebarLink href="/all_codes" icon={<FaFileCode/>} text="Code Snippets"/>
           </ul>
         </div>
         <div className='ml-[300px] w-[calc(100%-300px)]'>
