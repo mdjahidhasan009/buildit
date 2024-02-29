@@ -5,7 +5,7 @@ export interface ShowState {
 
 export interface DesignState {
   state: string;
-  currentComponent: Component | null;
+  currentComponent: IComponent | null;
   color: string;
   image: string;
   rotate: number;
@@ -20,7 +20,7 @@ export interface DesignState {
   text: string;
   zIndex: string;
   radius: number;
-  components: Component[];
+  components: IComponent[];
   show: ShowState;
 }
 
@@ -43,7 +43,7 @@ export type DesignProperty =
   | 'radius'
   | 'title';
 
-export interface Component {
+export interface IComponent {
   name: string;
   type: string;
   id: number;
@@ -52,8 +52,25 @@ export interface Component {
   zIndex: number;
   color: string;
   image: string;
+
+  left?: number;
+  top?: number;
+  opacity?: number;
+  rotate?: number;
+  radius?: number;
+
+  padding?: number;
+  fontSize?: number;
+  fontWeight?: number;
+  text?: string;
+  title?: string;
 }
 
-export const initialState: Pick<DesignState, 'components'> = {
+// export const initialState: Pick<DesignState, 'components'> = {
+//   components: [],
+// };
+
+export const initialState: { components: IComponent[] | [], currentComponent: IComponent | null } = {
   components: [],
+  currentComponent: null,
 };

@@ -5,13 +5,15 @@ import { BsFolder, BsGrid1X2 } from 'react-icons/bs'
 import {cn} from "@/lib/cn";
 import Link from "next/link";
 import { usePathname } from 'next/navigation';
-import router from "next/router";
 
+interface LayoutProps {
+  children: React.ReactNode; // Use React.ReactNode for typing 'children'
+}
 
-const Layout = ({ children }) => {
+const Layout: React.FC<LayoutProps> = ({ children }) => {
   const pathname = usePathname();
 
-  const SidebarLink = ({ href, icon, text }) => {
+  const SidebarLink = ({ href, icon, text }: { href: string; icon: JSX.Element; text: string }) => {
     const pathname = usePathname();
 
     const linkClass = cn(

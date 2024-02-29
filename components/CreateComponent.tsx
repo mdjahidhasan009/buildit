@@ -10,8 +10,9 @@ import {
   setCurrentComponent,
   updateComponentPosition
 } from "@/lib/features/components/componentsSlice";
+import {IComponent} from "@/lib/features/components/IComponent";
 
-const CreateComponent = ({ component }) => {
+const CreateComponent = ({ component } : { component: IComponent }) => {
   const randValue = Math.floor(Math.random() * 100);
   let html: React.JSX.Element = <div></div>;
 
@@ -20,22 +21,23 @@ const CreateComponent = ({ component }) => {
 
   const dispatch: AppDispatch = useDispatch();
   const currentComponent = useSelector((state: RootState) => state.components.currentComponent);
-  const currentComponentId = currentComponent?.id;
 
   const handleRemoveComponent = (id: number) => {
     dispatch(removeComponent(id));
   };
 
-  const handleSetCurrentComponent = (component) => {
+  const handleSetCurrentComponent = (component: IComponent) => {
     dispatch(setCurrentComponent(component));
   }
 
-  const moveElement = (componentRef) => {
+  const moveElement = (componentRef: React.RefObject<HTMLElement>) => {
     let isMoving = true;
     const currentDiv = componentRef.current;
     if(!currentDiv) return;
 
-    const moveMouse = (e) => {
+    const moveMouse = (e: MouseEvent) => {
+      if(!componentRef.current) return;
+
       let newLeft = 0, newTop = 0;
       const { movementX, movementY } = e;
       const getStyle = window.getComputedStyle(componentRef.current);
@@ -53,7 +55,7 @@ const CreateComponent = ({ component }) => {
       }
     }
 
-    const mouseUp = (e) => {
+    const mouseUp = () => {
       isMoving = false;
       document.removeEventListener('mousemove', moveMouse);
       document.removeEventListener('mouseup', mouseUp);
@@ -104,7 +106,7 @@ const CreateComponent = ({ component }) => {
         }}
         className='absolute group hover:border-[2px] hover:border-indigo-500'
       >
-        <Element elementWrapperDivRef={elementWrapperDivRef} component={component} exId="" />
+        <Element elementWrapperDivRef={elementWrapperDivRef} component={component} />
         {currentComponent?.id === component.id &&
             <div
                 onClick={() => handleRemoveComponent(component.id)}
@@ -214,7 +216,7 @@ const CreateComponent = ({ component }) => {
         }}
         className='absolute group hover:border-[2px] hover:border-indigo-500'
       >
-        <Element elementWrapperDivRef={elementWrapperDivRef} component={component} exId=''/>
+        <Element elementWrapperDivRef={elementWrapperDivRef} component={component} />
         <h2 style={{ fontSize: component.fontSize + 'px', fontWeight: component.fontWeight }} className='w-full h-full'>{component?.title}</h2>
         {currentComponent?.id === component.id &&
             <div

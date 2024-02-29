@@ -68,22 +68,26 @@ export default function Auth() {
                   "bg-almost-black"
                 )}
               >
-                <AvatarPrimitive.Image
-                  src={session.user.image!}
-                  alt={session.user.name ?? "img"}
-                  className={cn("aspect-square h-full w-full")}
-                />
-                <AvatarPrimitive.Fallback
-                  delayMs={600}
-                  className={cn(
-                    "flex h-full w-full items-center justify-center rounded-full"
-                  )}
-                >
-                  {session.user.name
-                    ?.split(" ")
-                    .map((p: string) => p[0])
-                    .join("") ?? "User"}
-                </AvatarPrimitive.Fallback>
+                {session?.user ? (
+                  <>
+                    <AvatarPrimitive.Image
+                      src={session.user.image!}
+                      alt={session.user.name ?? "img"}
+                      className={cn("aspect-square h-full w-full")}
+                    />
+                    <AvatarPrimitive.Fallback
+                      delayMs={600}
+                      className={cn(
+                        "flex h-full w-full items-center justify-center rounded-full"
+                      )}
+                    >
+                      {session.user.name
+                        ?.split(" ")
+                        .map((p: string) => p[0])
+                        .join("") ?? "User"}
+                    </AvatarPrimitive.Fallback>
+                  </>
+                ) : ''}
               </AvatarPrimitive.Root>
             </Tooltip>
           </button>

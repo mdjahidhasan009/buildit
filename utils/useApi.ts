@@ -1,9 +1,23 @@
 import {useEffect, useState} from "react";
 
-const useApi = (url, method = 'GET') => {
-  const [data, setData] = useState(null);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+interface UseApiOptions {
+  method?: "GET" | "POST" | "PUT" | "DELETE";
+  body?: BodyInit | object | FormData | null;
+  headers?: HeadersInit;
+}
+
+interface UseApiResponse<T> {
+  data: T | null;
+  error: Error | null;
+  loading: boolean;
+  fetchData: (body, urlParams?: string) => Promise<any>;
+}
+
+// const useApi = (url, method = 'GET') => {
+const useApi = <T = any>(url: string, method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH" = "GET", contentType = 'application/json'): UseApiResponse<T> => {
+  const [data, setData] = useState<T | null>(null);
+  const [error, setError] = useState<Error | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const fetchData = async (body, urlParams = '') => {
     const baseURL = process.env.NODE_ENV === 'production' ? 'https://api.example.com/api/v1' : 'http://localhost:3000/';
@@ -23,7 +37,7 @@ const useApi = (url, method = 'GET') => {
           // The browser will automatically set it with the proper boundary parameter.
           fetchOptions.body = body;
         } else {
-          fetchOptions.headers['Content-Type'] = 'application/json';
+          fetchOptions.headers['Content-Type'] = contentType;
           fetchOptions.body = JSON.stringify(body);
         }
       }

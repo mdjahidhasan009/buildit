@@ -4,9 +4,10 @@ import {useEffect, useState} from "react";
 
 import useApi from "@/utils/useApi";
 import DesignCard from "@/components/shared/DesignCard";
+import {IComponent} from "@/lib/features/components/IComponent";
 
 const Projects = () => {
-  const [designs, setDesigns] = useState([]);
+  const [designs, setDesigns] = useState<IComponent[]>([]);
   const { data: fetchedPropjects } = useApi('api/v1/design/user/designs');
   let type = '';
 

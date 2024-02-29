@@ -2,17 +2,26 @@ import {BsArrowsMove} from "react-icons/bs";
 import {useDispatch} from "react-redux";
 import {updateComponentRotation, updateComponentSize} from "@/lib/features/components/componentsSlice";
 import {AppDispatch} from "@/lib/reduxStore";
+import {IComponent} from "@/lib/features/components/IComponent";
 
-const Element = ({ elementWrapperDivRef, component, extraElementRef }) => {
+interface ElementProps {
+  elementWrapperDivRef: React.RefObject<HTMLElement>;
+  component: IComponent;
+  extraElementRef?: React.RefObject<HTMLElement>;
+}
+
+const Element: React.FC<ElementProps> = ({ elementWrapperDivRef, component, extraElementRef = null }) => {
   const dispatch: AppDispatch  = useDispatch();
 
-  const handleResize = (event, elementRef) => {
+  const handleResize = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, elementRef: React.RefObject<HTMLElement>) => {
+    if (!elementRef.current) return;
+
     let isResizing = true;
     const initialMouseX = event.clientX;
     const initialMouseY = event.clientY;
     const initialDimensions = elementRef.current.getBoundingClientRect();
 
-    const moveMouse = (e) => {
+    const moveMouse = (e: MouseEvent) => {
       if (!isResizing || !elementRef.current) return;
 
       // Calculate the difference between the current mouse position and the initial mouse position
@@ -53,7 +62,7 @@ const Element = ({ elementWrapperDivRef, component, extraElementRef }) => {
   };
 
 
-  const handleRotate = (event, elementRef) => {
+  const handleRotate = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, elementRef: React.RefObject<HTMLElement>) => {
     if (!elementRef.current) return;
     const componentId = elementRef.current ? elementRef.current.id : null;
 
@@ -65,7 +74,9 @@ const Element = ({ elementWrapperDivRef, component, extraElementRef }) => {
 
     let initialAngle = Math.atan2(startPos.y - centerY, startPos.x - centerX) * (180 / Math.PI);
 
-    const moveMouse = (e) => {
+    const moveMouse = (e: MouseEvent) => {
+      if (!elementRef.current) return;
+
       const currentMouseAngle = Math.atan2(e.clientY - centerY, e.clientX - centerX) * (180 / Math.PI);
       let angleDiff = currentMouseAngle - initialAngle;
 

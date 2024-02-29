@@ -1,5 +1,3 @@
-import {NextApiRequest, NextApiResponse} from "next";
-import designController from "@/controllers/DesignController";
 import {NextRequest, NextResponse} from "next/server";
 import {requestHandler} from "@/utils/requestHandlerFactory";
 import {PrismaBackgroundImageRepository} from "@/infrastructure/adapters/PrismaBackgroundImageRepository";
@@ -10,23 +8,29 @@ export async function GET(req: NextRequest, res: NextResponse){
   // return NextResponse.json(data, { status: 200 });
 
   const [_, userId, earlyAbortRequest] = await requestHandler({ requireAuth: true, expectBody: false })(req);
-  if (earlyAbortRequest || !userId) return earlyAbortRequest;
+  if (earlyAbortRequest) return earlyAbortRequest;
+
+  if (!userId) {
+    return new Response(JSON.stringify({ message: "Authentication required" }), { status: 401, headers: { 'Content-Type': 'application/json' } });
+  }
 
   const backgroundImageRepository = new PrismaBackgroundImageRepository();
   const backgroundImageUseCases = new BackgroundImageUseCases(backgroundImageRepository);
 
   try {
     const images = await backgroundImageUseCases.getBackgroundImages();
-    return NextResponse.json(
-      {
-        status: 'success',
-        data: {
-            images
-        }
-      }, { status: 200 }
-    );
+    return new Response(JSON.stringify({ status: 'success', data: { images } }), { status: 200, headers: { 'Content-Type': 'application/json' } });
+    // return NextResponse.json(
+    //   {
+    //     status: 'success',
+    //     data: {
+    //         images
+    //     }
+    //   }, { status: 200 }
+    // );
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ message: "Error processing request", detail: error.message }, { status: 400 });
+    return new Response(JSON.stringify({ message: "Error processing request" }), { status: 400, headers: { 'Content-Type': 'application/json' } });
+    // return NextResponse.json({ message: "Error processing request", detail: error.message }, { status: 400 });
   }
 }

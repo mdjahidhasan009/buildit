@@ -1,5 +1,4 @@
 "use client";
-import { Snippet, View } from "@prisma/client";
 import { useCallback, useEffect, useRef, useState } from "react";
 import RenameDialog from "./RenameDialog";
 import DeleteDialog from "./DeleteDialog";
@@ -13,6 +12,7 @@ import { SUPPORTED_THEMES } from "@/lib/themes";
 import { Edit3, LinkIcon, Trash } from "lucide-react";
 import Kbd from "@/components/shared/ui/Kbd";
 import useApi from "@/utils/useApi";
+import {ISnippet} from "@/components/Snippet/ISnippet";
 
 interface DialogProps {
   type: "RENAME" | "DELETE";
@@ -20,10 +20,21 @@ interface DialogProps {
   title: string | null;
 }
 
+interface RenamePayload {
+  id: string;
+  title: string;
+}
+
+interface DeletePayload {
+  id: string;
+}
+
+
 export default function Snippets({
   snippets,
 }: {
-  snippets: (Snippet & { views: View | null })[];
+  // snippets: (Snippet & { views: View | null })[];
+  snippets: (ISnippet)[];
 }) {
   const [localSnippets, setLocalSnippets] = useState(snippets);
   const [localDialogOpen, setLocalDialogOpen] = useState(false);
@@ -116,7 +127,7 @@ export default function Snippets({
     }
   }, [handleEvent, handleKeyDown]);
 
-  function handleRename(payload) {
+  function handleRename(payload: RenamePayload) {
     renameSnippet(payload)
       .then(res => {
         if (res.id) {
@@ -127,7 +138,7 @@ export default function Snippets({
       });
   }
 
-  function handleDelete(payload) {
+  function handleDelete(payload: DeletePayload) {
     deleteSnippet(payload, `?id=${payload?.id}`)
       .then(res => {
         if (res.id) {

@@ -7,16 +7,18 @@ import Snippets from "@/components/Dashboard/Snippets";
 import { serialize } from "@/lib/serialize";
 import { useSession } from "next-auth/react";
 import useApi from "@/utils/useApi";
+import {ISnippet} from "@/components/Snippet/ISnippet";
 
 export default async function Page() {
-  const { data: snippets, error, loading } = useApi('/api/v1/snippets');
+  const { data, error, loading } = useApi('/api/v1/snippets');
   const { data: session, status: sessionStatus } = useSession();
 
-  if (!session && sessionStatus !== "authenticated") {
+  if (sessionStatus === "unauthenticated") {
     redirect("/dashboard");
   }
 
-  if(!snippets) return;
+  if(!data) return;
+  const snippets = data as ISnippet[]; // Type assertion here
 
   return (
     <div

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {initialState, Component} from "@/lib/features/components/IComponent";
+import {initialState, IComponent} from "@/lib/features/components/IComponent";
 
 export const componentsSlice = createSlice({
   name: 'components',
@@ -14,7 +14,7 @@ export const componentsSlice = createSlice({
     setComponents: (state, action) => {
       state.components = action.payload;
     },
-    updateComponent: (state, action: PayloadAction<{ id: number; changes: Partial<Component> }>) => {
+    updateComponent: (state, action: PayloadAction<{ id: number; changes: Partial<IComponent> }>) => {
       const { id, changes } = action.payload;
       const index = state.components.findIndex(component => component.id === id);
       if (index !== -1) {
