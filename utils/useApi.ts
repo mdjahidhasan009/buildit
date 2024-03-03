@@ -10,34 +10,45 @@ interface UseApiResponse<T> {
   data: T | null;
   error: Error | null;
   loading: boolean;
-  fetchData: (body, urlParams?: string) => Promise<any>;
+  fetchData: (body: BodyInit | object | FormData | null, urlParams?: string) => Promise<any>;
 }
 
 // const useApi = (url, method = 'GET') => {
-const useApi = <T = any>(url: string, method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH" = "GET", contentType = 'application/json'): UseApiResponse<T> => {
+const useApi = <T = any>(
+  url: string,
+  method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH" = "GET",
+  contentType = 'application/json'
+): UseApiResponse<T> => {
   const [data, setData] = useState<T | null>(null);
   const [error, setError] = useState<Error | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const fetchData = async (body, urlParams = '') => {
+  const fetchData = async (body: any, urlParams = '') => {
+    // if(!body) return null;
+
     const baseURL = process.env.NODE_ENV === 'production' ? 'https://api.example.com/api/v1' : 'http://localhost:3000/';
     let tempUrl = urlParams !== '' ? url + urlParams : url;
     const apiUrl = `${baseURL}${tempUrl}`;
     setLoading(true);
     try {
-      const fetchOptions = {
+      const fetchOptions: RequestInit = {
         method,
-        headers: {},
-        body: null,
+        headers: {}, // Initialize headers object
+        body,
       };
 
       if (method !== 'GET') {
+        if (!body) throw new Error('Body is required for non-GET requests');
+
         if (body instanceof FormData) {
           // When body is FormData, we don't set the Content-Type header.
           // The browser will automatically set it with the proper boundary parameter.
           fetchOptions.body = body;
         } else {
-          fetchOptions.headers['Content-Type'] = contentType;
+          fetchOptions.headers = {
+            ...(fetchOptions.headers as Record<string, string>),
+            'Content-Type': contentType
+          };
           fetchOptions.body = JSON.stringify(body);
         }
       }
@@ -47,7 +58,7 @@ const useApi = <T = any>(url: string, method: "GET" | "POST" | "PUT" | "DELETE" 
       if (!response.ok) throw new Error(jsonData.message || 'API request failed');
       setData(jsonData);
       return jsonData;
-    } catch (e) {
+    } catch (e: any) {
       setError(e);
       return null;
     } finally {
@@ -57,7 +68,7 @@ const useApi = <T = any>(url: string, method: "GET" | "POST" | "PUT" | "DELETE" 
 
   // Automatically fetch data for GET requests
   useEffect(() => {
-    if (method === 'GET') fetchData();
+    if (method === 'GET') fetchData(null);
   }, [url]);
 
   return { data, error, loading, fetchData };

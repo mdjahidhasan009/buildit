@@ -1,5 +1,5 @@
 import { IUserImageRepository } from '../ports/IUserImageRepository';
-import { UserImage } from '../domain/entities/UserImage';
+import { UserImage } from '@/core/domain/entities/UserImage';
 import {IImageStorageService} from "@/core/application/ports/IImageStorageService";
 
 export class UserImageUseCases {

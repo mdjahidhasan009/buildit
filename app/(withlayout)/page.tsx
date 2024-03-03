@@ -1,6 +1,4 @@
-import Code from "@/components/Code";
-import Settings from "@/components/Settings";
-import Image from "next/image";
+export const dynamic = "force-dynamic";
 import {
   Fira_Code,
   IBM_Plex_Mono,
@@ -10,9 +8,10 @@ import {
   Source_Code_Pro,
 } from "next/font/google";
 import clsx from "clsx";
-import { getSession } from "@/lib/auth";
+// import { getSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import Editor from "@/components/Editor";
+import { useSession } from "next-auth/react";
+
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -43,7 +42,8 @@ const sourceCodePro = Source_Code_Pro({
 // });
 
 export default async function Home() {
-  const session = await getSession();
+  // const session = await getSession();
+  const { data: session, status } = useSession();
 
   const isAuthenticated = !!session;
 

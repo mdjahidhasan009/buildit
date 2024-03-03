@@ -1,17 +1,16 @@
 "use client";
 
-import {useEffect, useState} from "react";
+import { useEffect, useState, FC } from "react";
 
-import Image from './Images';
+import ImagesElement from './ImagesElement';
 import useApi from "../utils/useApi";
 
 interface BackgroundImagesProps {
   setImage: (image: string) => void;
-  type: string;
 }
 
-const BackgroundImages: React.FC<BackgroundImagesProps>  = ({ setImage, type }) => {
-  const [images, setImages] = useState<string[]>([]);
+const BackgroundImages: FC<BackgroundImagesProps>  = ({ setImage }) => {
+  const [images, setImages] = useState<{ imageUrl: string }[]>([]);
   const { data, error } = useApi('api/v1/design/design-item/background-images', 'GET');
 
   useEffect(() => {
@@ -23,7 +22,7 @@ const BackgroundImages: React.FC<BackgroundImagesProps>  = ({ setImage, type }) 
 
   return (
       <div>
-        <Image images={images} type={type} setImage={setImage} alt='image' />
+        <ImagesElement images={images} setImage={setImage} alt='image' />
       </div>
   );
 }

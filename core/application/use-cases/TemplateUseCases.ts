@@ -1,5 +1,5 @@
 import { ITemplateRepository } from '../ports/ITemplateRepository';
-import { Template } from '../domain/entities/Template';
+import { Template } from '@/core/domain/entities/Template';
 
 export class TemplateUseCases {
   constructor(private templateRepository: ITemplateRepository) {}

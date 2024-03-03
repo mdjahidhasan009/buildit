@@ -1,5 +1,5 @@
 import { IBackgroundImageRepository } from '../ports/IBackgroundImageRepository';
-import { BackgroundImage } from '../domain/entities/BackgroundImage';
+import { BackgroundImage } from '@/core/domain/entities/BackgroundImage';
 
 export class BackgroundImageUseCases {
   constructor(private backgroundImageRepository: IBackgroundImageRepository) {}

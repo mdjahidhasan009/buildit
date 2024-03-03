@@ -1,11 +1,10 @@
 interface CommonImageProps {
   images: { imageUrl: string }[];
-  type?: string; // You might want to redefine this to be more specific, like type?: 'background' | 'other';
+  setImage: (image: string) => void;
   alt?: string;
 }
 
 interface BackgroundImageProps extends CommonImageProps {
-  type: 'background';
   setImage: (image: string) => void;
 }
 
@@ -15,21 +14,21 @@ interface OtherImageProps extends CommonImageProps {
 
 type ImageProps = BackgroundImageProps | OtherImageProps;
 
-const Images: React.FC<ImageProps> = ({ addImage, images, type, setImage }) => {
-
+const ImagesElement: React.FC<CommonImageProps> = ({ images, setImage, alt }) => {
   return (
     <div className='grid grid-cols-2 gap-2'>
       {
         images.map((image, index) =>
           <div
             key={index}
-            onClick={() => type === 'background' ? setImage(image?.imageUrl) : addImage(image?.imageUrl)}
+            // onClick={() => type === 'background' ? setImage(image?.imageUrl) : addImage(image?.imageUrl)}
+            onClick={() => setImage(image?.imageUrl)}
             className='w-full h-[90px] overflow-hidden rounded-sm cursor-pointer'
           >
             <img
               className='w-full h-full object-fill'
               src={image?.imageUrl}
-              alt='image'
+              alt={alt}
             />
           </div>
         )
@@ -38,4 +37,4 @@ const Images: React.FC<ImageProps> = ({ addImage, images, type, setImage }) => {
   );
 }
 
-export default Images;
+export default ImagesElement;

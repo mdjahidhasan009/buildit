@@ -13,6 +13,8 @@ export default async function Page() {
   const { data, error, loading } = useApi('/api/v1/snippets');
   const { data: session, status: sessionStatus } = useSession();
 
+  console.log(data)
+
   if (sessionStatus === "unauthenticated") {
     redirect("/dashboard");
   }

@@ -1,5 +1,5 @@
 const createComponentFactory = () => {
-  return ({ name, type, additionalProps = {} }) => {
+  return ({ name, type, additionalProps = {} }: { name: string, type: string, additionalProps?: Record<string, any> }) => {
     return {
       id: Date.now(),
       name,

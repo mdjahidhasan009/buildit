@@ -49,7 +49,7 @@ export interface IComponent {
   id: number;
   height: number;
   width: number;
-  zIndex: number;
+  zIndex?: number;
   color: string;
   image: string;
 
@@ -70,7 +70,17 @@ export interface IComponent {
 //   components: [],
 // };
 
-export const initialState: { components: IComponent[] | [], currentComponent: IComponent | null } = {
+interface ComponentState {
+  components: IComponent[];
+  currentComponent: Partial<IComponent> | null;
+}
+
+// export const initialState: { components: IComponent[] | [], currentComponent: IComponent | null } = {
+//   components: [],
+//   currentComponent: null,
+// };
+
+export const initialState: ComponentState = {
   components: [],
   currentComponent: null,
 };

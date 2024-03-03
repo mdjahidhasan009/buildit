@@ -1,22 +1,22 @@
 "use client";
 
 import {MdKeyboardArrowLeft} from "react-icons/md";
-import TemplateDesign from "./TemplateDesign.tsx";
-import MyImages from "../MyImages.tsx";
-import Projects from "../Projects.tsx";
-import InitialImage from "../InitialImage.tsx";
-import BackgroundImages from "../BackgroundImages.tsx";
+import TemplateDesign from "./TemplateDesign";
+import MyImages from "../MyImages";
+import Projects from "../Projects";
+import InitialImage from "../InitialImage";
+import BackgroundImages from "../BackgroundImages";
 import {useDispatch, useSelector} from "react-redux";
 import {addComponent, setCurrentComponent, updateComponent} from "@/lib/features/components/componentsSlice";
 import createComponentFactory from "@/utils/createComponentFactory";
 import {closeSidebar} from "@/lib/features/ui/uiSlice";
-import {AppDispatch} from "@/lib/reduxStore";
+import {AppDispatch, RootState} from "@/lib/reduxStore";
 
 const SideBarDrawer = ({ design_id = '' }) => {
   const dispatch: AppDispatch  = useDispatch();
-  const components = useSelector((state) => state.components.components);
-  const isSidebarOpen = useSelector((state) => state.ui.isSidebarOpen);
-  const selectedSidebarItemName = useSelector((state) => state.ui.selectedSidebarItemName);
+  const components = useSelector((state: RootState) => state.components.components);
+  const isSidebarOpen = useSelector((state: RootState) => state.ui.isSidebarOpen);
+  const selectedSidebarItemName = useSelector((state: RootState) => state.ui.selectedSidebarItemName);
 
   const handleOnClick = () => {
     dispatch(closeSidebar());
@@ -24,7 +24,7 @@ const SideBarDrawer = ({ design_id = '' }) => {
 
   const componentFactory = createComponentFactory();
 
-  const createShape = (name, type) => {
+  const createShape = (name: string, type: string) => {
     const newComponent = componentFactory({
       name,
       type,
@@ -36,7 +36,7 @@ const SideBarDrawer = ({ design_id = '' }) => {
     dispatch(addComponent(newComponent));
   };
 
-  const addImage = (image) => {
+  const addImage = (image: string) => {
     const newComponent = componentFactory(
       {
         name: 'image',
@@ -53,12 +53,13 @@ const SideBarDrawer = ({ design_id = '' }) => {
     dispatch(setCurrentComponent(newComponent));
   };
 
-  const addBackgroundImage = (image) => {
+  const addBackgroundImage = (image: string) => {
     const main_frame = components.find(comp => comp.name === 'main_frame');
+    if(!main_frame) return;
     dispatch(updateComponent({ id: main_frame.id, changes: { image } }));
   }
 
-  const addText = (name, type) => {
+  const addText = (name: string, type: string) => {
     const newComponent = componentFactory(
       {
         name,
@@ -129,7 +130,7 @@ const SideBarDrawer = ({ design_id = '' }) => {
       {
         selectedSidebarItemName === 'background' &&
           <div className='h-[88vh] overflow-x-auto flex justify-start items-start scrollbar-hide'>
-            <BackgroundImages type='background' setImage={addBackgroundImage}/>
+            <BackgroundImages setImage={addBackgroundImage}/>
           </div>
       }
     </div>

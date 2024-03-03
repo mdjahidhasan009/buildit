@@ -41,7 +41,7 @@ export default memo(function RenameDialog({
           "transition-all duration-100 ease-in-out",
           "placeholder:text-almost-white/50",
           "focus:placeholder:text-transparent",
-          !localInputValue && "italic"
+          { "italic": !localInputValue } // Correctly formatted conditional class
         )}
       />
       {localInputValue && (

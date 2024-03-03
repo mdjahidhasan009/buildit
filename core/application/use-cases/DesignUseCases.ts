@@ -2,7 +2,6 @@ import { IDesignRepository } from '../ports/IDesignRepository';
 import { ITemplateRepository } from '../ports/ITemplateRepository';
 import { IImageStorageService } from '../ports/IImageStorageService';
 import { Design } from '@/core/domain/entities/Design';
-import {NextResponse} from "next/server";
 
 export class DesignUseCases {
   constructor(
@@ -12,7 +11,7 @@ export class DesignUseCases {
   ) {}
 
   async createDesign(userId: string, componentsString: string | File, base64Image: string): Promise<Design> {
-    let components;
+    let components: JSON | undefined;
     try {
       if (componentsString) {
         if (typeof componentsString === "string") {
@@ -29,20 +28,21 @@ export class DesignUseCases {
     // The base64Image parameter is expected to be a base64 string of the image.
     const imageUrl = await this.imageStorageService.uploadImage(base64Image, { folder: "designs", uniqueFilename: true });
     const design = await this.designRepository.create({
+      id: "",
       userId,
       components: [components],
-      imageUrl,
+      imageUrl
     });
     return design;
   }
 
 
   async updateDesign(design_id: string, componentsString: string | File, base64Image: string): Promise<Design> {
-    let components;
+    let components: any | undefined;
     try {
       if (componentsString) {
         if (typeof componentsString === "string") {
-          components = JSON.parse(componentsString);
+          components = JSON.parse(componentsString) ;
         } else {
           throw new Error("Components must be a JSON string.");
         }
@@ -66,8 +66,9 @@ export class DesignUseCases {
     if(!imageUrl) {
       throw new Error('Error uploading image');
     }
+    const componentsDesign: JSON = components?.design || {};
     const design = await this.designRepository.update(design_id, {
-      components: components?.design,
+      components: componentsDesign,
       imageUrl,
     });
 

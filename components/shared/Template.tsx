@@ -2,11 +2,27 @@
 
 import toast from "react-hot-toast";
 import useApi from "@/utils/useApi";
-import { useRouter } from 'next/navigation'
-import {useEffect} from "react";
+import {redirect, useRouter} from 'next/navigation'
+import {FC, useEffect} from "react";
+import {IComponent} from "@/lib/features/components/IComponent";
 
-const Template = ({ index, template, type }) => {
-  const router = useRouter()
+interface TemplateData {
+  id: string;
+  components: IComponent[];
+  imageUrl: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface TemplateProps {
+  index: number;
+  template: TemplateData;
+  type: "main" | "";
+}
+
+const Template: FC<TemplateProps> = ({ index, template, type }) => {
+  const router = useRouter();
+console.log(template)
 
   const {fetchData, data } = useApi(`api/v1/design/user/create/${template?.id}`, 'POST');
 
@@ -21,17 +37,19 @@ const Template = ({ index, template, type }) => {
     }
   }, [data]);
 
-  const addTemplate = async (id) => {
+  const createUserDesignFromTemplate = async () => {
     try {
         // const { data } = await api.post(`/design/add-user-template/${id}`);
         // toast.success('Template added successfully');
         await fetchData({});
         // debugger
         // navigate(`/design/${data?.data?.design?._id}/edit`);
-        await router.push({
-          pathname: `/design/${data?.data?.design?._id}/edit`,
-          // query: {type: 'create', width: 600, height: 450},
-        });
+        // await router.push({
+        //   pathname: `/design/${data?.data?.design?._id}/edit`,
+        //   // query: {type: 'create', width: 600, height: 450},
+        // });
+        redirect(`/design/${data?.data?.design?._id}`);
+
         // router.push(`/design/${data?.data?.design?._id}/edit`);
     } catch (e) {
         console.error(e);
@@ -42,7 +60,7 @@ const Template = ({ index, template, type }) => {
   return (
     <div
       key={index}
-      onClick={() => addTemplate(template._id)}
+      onClick={createUserDesignFromTemplate}
       className={`relative cursor-pointer group w-full ${type ? ' h-[100px] ' : ' h[170px] px-2 '}`}>
       <div
         className={`w-full h-full block bg-[#ffffff12] rounded-md ${type ? '' : ' p-4 '}`}

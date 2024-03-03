@@ -5,8 +5,8 @@ export const componentsSlice = createSlice({
   name: 'components',
   initialState,
   reducers: {
-    addComponent: (state, action) => {
-      state.components.push(action.payload);
+    addComponent: (state, action: PayloadAction<Partial<IComponent>>) => {
+      state.components.push(action.payload as IComponent);
     },
     setCurrentComponent: (state, action) => {
       state.currentComponent = action.payload;

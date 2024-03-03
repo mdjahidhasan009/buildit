@@ -7,7 +7,7 @@ export default function Loader({ extraClasses }: { extraClasses?: string }) {
         "h-3.5 w-3.5 rounded-full",
         "border-2 border-greyish border-t-transparent",
         "animate-spin",
-        extraClasses
+        extraClasses || "" // Provide an empty string as a fallback
       )}
       aria-hidden="true"
     />

@@ -7,11 +7,11 @@ import {TfiText} from "react-icons/tfi";
 import {RxTransparencyGrid} from "react-icons/rx";
 import {useDispatch, useSelector} from "react-redux";
 import {setSidebarItemAndItemNameOfSelectedSidebarAndIsSidebarOpen} from "@/lib/features/ui/uiSlice";
-import {AppDispatch} from "@/lib/reduxStore";
+import {AppDispatch, RootState} from "@/lib/reduxStore";
 
 const SideBar = () => {
   const dispatch: AppDispatch  = useDispatch();
-  const selectedSidebarItemName = useSelector((state) => state.ui.selectedSidebarItemName);
+  const selectedSidebarItemName = useSelector((state: RootState) => state.ui.selectedSidebarItemName);
 
   const handleOnClick = (type: string, name: string) => {
     dispatch(setSidebarItemAndItemNameOfSelectedSidebarAndIsSidebarOpen({ selectedSidebarItemName: type, selectedItemNameOfSidebar: name }));

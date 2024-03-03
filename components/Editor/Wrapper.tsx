@@ -103,7 +103,7 @@ export default function Wrapper({ children }: { children: React.ReactNode }) {
           className={cn(
             "invisible absolute inset-0",
             "bg-noise bg-contain opacity-30",
-            grain && "visible"
+            { "visible": grain } // Correct way to conditionally apply "visible" class
           )}
         />
 

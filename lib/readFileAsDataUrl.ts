@@ -1,7 +1,7 @@
-export function readFileAsDataURL(file) {
-  return new Promise((resolve, reject) => {
+export function readFileAsDataURL(file: File) {
+  return new Promise<string>((resolve, reject) => {
     const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
+    reader.onload = () => resolve(reader.result as string);
     reader.onerror = error => reject(error);
     reader.readAsDataURL(file);
   });

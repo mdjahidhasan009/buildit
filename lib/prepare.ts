@@ -16,7 +16,8 @@ type PreparedAppState = {
   updatedAt: string;
 };
 
-export function prepare(body: Partial<AppState>): Partial<PreparedAppState> {
+// export function prepare(body: Partial<AppState>): Partial<PreparedAppState> {
+export function prepare(body: any): Partial<PreparedAppState> {
   let data: Partial<PreparedAppState> = {};
 
   if (body.title !== undefined) {
