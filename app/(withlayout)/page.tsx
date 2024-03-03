@@ -1,4 +1,3 @@
-export const dynamic = "force-dynamic";
 import {
   Fira_Code,
   IBM_Plex_Mono,
@@ -10,7 +9,8 @@ import {
 import clsx from "clsx";
 // import { getSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { getServerSession } from "next-auth";
+import {authOptions} from "@/app/api/auth/authOptions";
 
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -42,18 +42,9 @@ const sourceCodePro = Source_Code_Pro({
 // });
 
 export default async function Home() {
-  // const session = await getSession();
-  const { data: session, status } = useSession();
-
-  const isAuthenticated = !!session;
+  const session = await getServerSession(authOptions);
 
   if (session) {
     redirect("/all_codes");
   }
-
-
-
-  // return <Editor editable={true} isAuthenticated={isAuthenticated} />;
-
-
 }
