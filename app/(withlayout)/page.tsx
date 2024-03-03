@@ -45,6 +45,6 @@ export default async function Home() {
   const session = await getServerSession(authOptions);
 
   if (session) {
-    redirect("/all_codes");
+    redirect("/dashboard");
   }
 }

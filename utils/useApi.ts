@@ -26,7 +26,7 @@ const useApi = <T = any>(
   const fetchData = async (body: any, urlParams = '') => {
     // if(!body) return null;
 
-    const baseURL = process.env.NODE_ENV === 'production' ? 'https://api.example.com/api/v1' : 'http://localhost:3000/';
+    const baseURL = process.env.NODE_ENV === 'production' ? `${process.env.PRODUCTION_URL}/` : 'http://localhost:3000/';
     let tempUrl = urlParams !== '' ? url + urlParams : url;
     const apiUrl = `${baseURL}${tempUrl}`;
     setLoading(true);
