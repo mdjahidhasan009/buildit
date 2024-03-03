@@ -1,14 +1,14 @@
 "use client";
 
 import {useEffect} from "react";
-import useApi from "@/utils/useApi.ts";
-import SideBar from "@/components/main/SideBar.tsx";
-import SideBarDrawer from "@/components/main/SideBarDrawer.tsx";
-import DesignPlayground from "@/components/main/DesignPlayground.tsx";
-import ComponentPropertiesPanel from "@/components/main/ComponentPropertiesPanel.tsx";
+import useApi from "@/utils/useApi";
+import SideBar from "@/components/main/SideBar";
+import SideBarDrawer from "@/components/main/SideBarDrawer";
+import DesignPlayground from "@/components/main/DesignPlayground";
+import ComponentPropertiesPanel from "@/components/main/ComponentPropertiesPanel";
 import RotateLoader from "react-spinners/RotateLoader";
 import {useDispatch} from "react-redux";
-import {setComponents} from "@/lib/features/components/componentsSlice.ts";
+import {setComponents} from "@/lib/features/components/componentsSlice";
 import {AppDispatch} from "@/lib/reduxStore";
 
 type Props = {

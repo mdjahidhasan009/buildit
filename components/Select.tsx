@@ -6,7 +6,6 @@ import {
 import { Listbox, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
 
-import type { LanguageName } from "@uiw/codemirror-extensions-langs";
 import clsx from "clsx";
 import { Fragment, memo } from "react";
 
@@ -17,10 +16,11 @@ interface SelectProps<T> {
   options: T[];
 }
 
-function ThemeBubble({ color }: { color: string }) {
+function ThemeBubble({ color }: { color: string | undefined }) {
+  const bubbleColor = color || "gray"; // You can choose any default color here
   return (
     <span
-      className={clsx("block h-4 w-4 rounded-full bg-gradient-to-br", color)}
+      className={clsx("block h-4 w-4 rounded-full bg-gradient-to-br", bubbleColor)}
     />
   );
 }

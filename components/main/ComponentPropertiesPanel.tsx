@@ -3,7 +3,7 @@
 import {useDispatch, useSelector} from "react-redux";
 import { updateComponent } from "@/lib/features/components/componentsSlice";
 import {AppDispatch, RootState} from "@/lib/reduxStore";
-import {DesignProperty} from "@/lib/features/components/IComponent";
+import {DesignProperty, IComponent} from "@/lib/features/components/IComponent";
 
 const ComponentPropertiesPanel = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -22,21 +22,27 @@ const ComponentPropertiesPanel = () => {
   const updateCurrComponentProperties = (propertyName: DesignProperty, value: any) => {
     if (!currentComponent) return;
 
-    let updates: Partial<Component> = {};
+    let updates: Partial<IComponent> = {};
 
     const generalUpdates = ['width', 'height', 'rotate', 'color', 'left', 'top', 'opacity', 'zIndex'];
     if (generalUpdates.includes(propertyName)) {
-      updates[propertyName] = value;
+      // updates[propertyName] = value;
+      updates[propertyName as keyof IComponent] = value;
+
     }
 
     const textUpdates = ['padding', 'fontSize', 'fontWeight', 'title'];
     if (currentComponent.name === 'text' && textUpdates.includes(propertyName)) {
-      updates[propertyName] = value;
+      // updates[propertyName] = value;
+      updates[propertyName as keyof IComponent] = value;
+
     }
 
     const imageUpdates = ['radius'];
     if (currentComponent.name === 'image' && imageUpdates.includes(propertyName)) {
-      updates[propertyName] = value;
+      // updates[propertyName] = value;
+      updates[propertyName as keyof IComponent] = value;
+
     }
 
     if (currentComponent.name === 'main_frame' && propertyName === 'image') {

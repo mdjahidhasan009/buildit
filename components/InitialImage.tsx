@@ -1,8 +1,12 @@
-import {useEffect, useState} from "react";
-import Image from './Images';
-import useApi from "../utils/useApi.ts";
+import {FC, useEffect, useState} from "react";
+import ImagesElement from './ImagesElement';
+import useApi from "../utils/useApi";
 
-const InitialImage = ({ addImage }) => {
+interface InitialImageProps {
+  addImage: (image: string) => void;
+}
+
+const InitialImage: FC<InitialImageProps> = ({ addImage }) => {
   const [images, setImages] = useState([]);
   const { data } = useApi('api/v1/design/design-item/design-images', 'GET');
 
@@ -14,7 +18,7 @@ const InitialImage = ({ addImage }) => {
 
   return (
     <div>
-      <Image images={images} addImage={addImage} alt='image' />
+      <ImagesElement images={images} setImage={addImage} />
     </div>
   );
 }

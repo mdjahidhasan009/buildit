@@ -15,9 +15,10 @@ import useApi from "@/utils/useApi";
 import domtoimage from 'dom-to-image';
 import { useRouter } from 'next/navigation';
 import {useSelector} from "react-redux";
+import {RootState} from "@/lib/reduxStore";
 
-export default function Header({ params }) {
-  const components = useSelector((state) => state.components.components);
+export default function Header() {
+  const components = useSelector((state: RootState) => state.components.components);
 
   const { status: sessionStatus } = useSession();
   const pathname = usePathname();
@@ -27,10 +28,17 @@ export default function Header({ params }) {
   const { fetchData, data, loading, error } = useApi(`api/v1/design/user/${design_id}`, 'PUT', "multipart/form-data");
 
   const saveImage = async () => {
+    if(components.length === 0) return toast.error('Please add some components to save the design');
+    let htmlElement = document.getElementById('main_design');
+    if(!htmlElement) {
+      toast.error('Something went wrong');
+      return;
+    }
 
     let image;
     try {
-      image = await domtoimage.toPng(document.getElementById('main_design'));
+      image = await domtoimage.toPng(htmlElement);
+      if(!image) return toast.error('Something went wrong');
     } catch (e) {
       console.error('error while creating image')
       console.error(e);
@@ -54,7 +62,11 @@ export default function Header({ params }) {
   }
 
   const downloadImage = async () => {
+    if(components.length === 0) return toast.error('Please add some components to save the design');
+
     const getDiv = document.getElementById('main_design');
+    if(!getDiv) return toast.error('Something went wrong');
+
     const dataUrl = await htmlToImage.toPng(getDiv, {
       style: {
         transform: 'scale(1)'

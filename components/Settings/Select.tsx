@@ -103,12 +103,12 @@ export default memo(function Select<
           "transition-all duration-100 ease-in-out",
           "hover:bg-white/20 hover:text-amlost-white",
           "focus:text-amlost-white focus:ring-1 focus:ring-amlost-white focus:ring-offset-2 focus:ring-offset-black",
-          type === "language" && "w-32",
-          type === "fontFamily" && "w-44"
+          { "w-32": type === "language", "w-44": type === "fontFamily" } // Correctly formatted conditional classes
         )}
         aria-label={`${type}-select`}
       >
-        <SelectPrimitive.Value>{get[type].initialValue}</SelectPrimitive.Value>
+
+      <SelectPrimitive.Value>{get[type].initialValue}</SelectPrimitive.Value>
         <SelectPrimitive.Icon>
           <ChevronDown size={16} aria-hidden="true" />
         </SelectPrimitive.Icon>

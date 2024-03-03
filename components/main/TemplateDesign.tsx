@@ -1,11 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import {FC, useEffect, useState} from "react";
 
-import useApi from "@/utils/useApi.ts";
+import useApi from "@/utils/useApi";
 import Template from "@/components/shared/Template";
 
-const TemplateDesign = ({ type }) => {
+interface TemplateDesignProps {
+    type: "main" | ""; // 'type' can be "main" or an empty string
+}
+
+const TemplateDesign: FC<TemplateDesignProps> = ({ type }) => {
     const [templates, setTemplates] = useState([]);
 
     const { data, error } = useApi('api/v1/design/templates');

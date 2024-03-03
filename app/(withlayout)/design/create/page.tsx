@@ -13,12 +13,12 @@ const CreateDesign = () => {
     const [loading, setLoading] = useState(false);
     const searchParams = useSearchParams()
 
-    const ref = useRef();
+    const divRef = useRef<HTMLDivElement>(null);
     const router = useRouter();
 
     const type = searchParams.get('type');
-    const width = searchParams.get('width');
-    const height = searchParams.get('height');
+    const width = parseInt((searchParams.get('width') || '0'));
+    const height = parseInt((searchParams.get('height') || '0'));
 
     const { fetchData, data, error } = useApi('api/v1/design/user/create', 'POST');
 
@@ -30,17 +30,17 @@ const CreateDesign = () => {
         width: width,
         zIndex: 1,
         color: '#fff',
-        img: ""
+        image: ""
     }
 
     useEffect(() => {
-        if(type && ref.current) {
+        if(type && divRef.current) {
             createDesign();
         } else {
             // navigate('/');
             router.push('/');
         }
-    }, [type, ref]);
+    }, [type, divRef]);
 
     useEffect(() => {
         if(data?.data?.design?.id) {
@@ -49,7 +49,9 @@ const CreateDesign = () => {
     }, [data]);
 
     const createDesign = async () => {
-        const image = await domtoimage.toPng(ref.current);
+        if(!divRef.current) return;
+
+        const image = await domtoimage.toPng(divRef.current as HTMLElement);
         const design = JSON.stringify(obj);
 
         if(image) {
@@ -69,7 +71,7 @@ const CreateDesign = () => {
 
     return (
         <div className="w-screen h-screen flex justify-center items-center relative">
-            <div ref={ref} className="relative w-auto h-auto overflow-auto">
+            <div ref={divRef} className="relative w-auto h-auto overflow-auto">
                 <CreateComponent component={obj} />
             </div>
             {

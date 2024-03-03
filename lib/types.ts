@@ -1,4 +1,6 @@
 import {Extension} from "@codemirror/state";
+import {Snippet} from "@/core/domain/entities/Snippet";
+import {ISnippet} from "@/components/Snippet/ISnippet";
 
 export type ChoiceDefinition = {
   id: string;
@@ -10,6 +12,7 @@ export type ThemeDefinition = {
   id: string;
   label: string;
   baseColors: string[];
+  class?: string;
 };
 
 export type LanguageDefinition = {
@@ -74,7 +77,7 @@ export interface Store extends AppStatus, AppState {
     type: T,
     value: V
   ) => void;
-  setAppState: (snippet: Snippet) => void;
+  setAppState: (snippet: Partial<ISnippet>) => void;
   getAppState: () => AppState;
   setCustomColor: (c: string, i: number) => void;
   addCustomColor: (c: string) => void;

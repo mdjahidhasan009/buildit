@@ -4,7 +4,7 @@ import {PrismaSnippetRepository} from "@/infrastructure/adapters/prismaSnippetRe
 import {SnippetUseCases} from "@/core/application/use-cases/snippetUseCases";
 import {PrismaViewRepository} from "@/infrastructure/adapters/prismaViewRepository";
 
-export const GET = async (req: NextRequest, params) => {
+export const GET = async (req: NextRequest, params: {params: { snippet_id: string }}) => {
   try {
     const [_, userId ='', earlyAbortResponse] = await requestHandler({ requireAuth: true, expectBody: false })(req);
     if(earlyAbortResponse && earlyAbortResponse.status !== 403) return earlyAbortResponse; //as it can be use publicly also

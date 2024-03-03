@@ -3,10 +3,11 @@
 import {useEffect, useState} from 'react'
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-import DesignCard from "@/components/shared/DesignCard.tsx";
-import useApi from "@/utils/useApi.ts";
+import DesignCard from "@/components/shared/DesignCard";
+import useApi from "@/utils/useApi";
 import router from "next/router";
 import {cn} from "@/lib/cn";
+import {IComponent} from "@/lib/features/components/IComponent";
 
 const Page = () => {
   const [state, setState] = useState({
@@ -20,6 +21,7 @@ const Page = () => {
 
   useEffect(() => {
     if(data?.data?.designs) {
+      console.log(data)
       let firstThreeDesigns = data.data.designs.slice(0, 3);
       setDesigns(firstThreeDesigns);
     }
@@ -57,14 +59,14 @@ const Page = () => {
     }
   };
 
-  const create = async (e) => {
-    e.preventDefault();
-
-    await router.push({
-      pathname: '/design/create',
-      query: {type: 'create', width: state.width, height: state.height},
-    });
-  }
+  // const create = async (e) => {
+  //   e.preventDefault();
+  //
+  //   await router.push({
+  //     pathname: '/design/create',
+  //     query: {type: 'create', width: state.width, height: state.height},
+  //   });
+  // }
 
   // const formClass = cn(
   //   "absolute top-16 right-3 gap-3 bg-[#252627] w-[250px] p-4 text-white transition-all duration-500",
@@ -121,7 +123,7 @@ const Page = () => {
       <div>
         <h2 className='text-xl py-6 font-semibold text-white'>Your recent designs</h2>
         <Carousel autoPlay={true} infinite={true} responsive={responsive} transitionDuration={500}>
-          {designs.map((design, i) => <DesignCard design={design} key={i}/>)}
+          {designs.map((design, i) => <DesignCard design={design} key={i} type=""/>)}
         </Carousel>
       </div>
     </div>

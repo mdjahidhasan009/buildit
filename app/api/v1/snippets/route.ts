@@ -18,7 +18,8 @@ export const GET = async (req: NextRequest) => {
     return new NextResponse(JSON.stringify(snippet), { status: 200 });
   } catch (e) {
     console.error(e);
-    return new NextResponse(JSON.stringify({ code: "INTERNAL_SERVER_ERROR", detail: e.message }), { status: 500 });
+    return new Response(JSON.stringify({ code: "INTERNAL_SERVER_ERROR" }), { status: 400, headers: { 'Content-Type': 'application/json' } });
+    // return new NextResponse(JSON.stringify({ code: "INTERNAL_SERVER_ERROR", detail: e.message }), { status: 500 });
   }
 
 }
@@ -39,7 +40,8 @@ export const PATCH = async (req: NextRequest) => {
     return new NextResponse(JSON.stringify(updatedSnippet), { status: 200 });
   } catch (e) {
     console.error(e)
-    return new NextResponse(JSON.stringify({ code: "INTERNAL_SERVER_ERROR", detail: e.message }), { status: 500 });
+    return new Response(JSON.stringify({ code: "INTERNAL_SERVER_ERROR" }), { status: 400, headers: { 'Content-Type': 'application/json' } });
+    // return new NextResponse(JSON.stringify({ code: "INTERNAL_SERVER_ERROR", detail: e.message }), { status: 500 });
   }
 }
 
@@ -61,7 +63,8 @@ export const POST = async (req: NextRequest) => {
     return new NextResponse(JSON.stringify(createdSnippet), { status: 200 });
   } catch (e) {
     console.error(e)
-    return new NextResponse(JSON.stringify({ code: "INTERNAL_SERVER_ERROR", detail: e.message }), { status: 500 });
+    return new Response(JSON.stringify({ code: "INTERNAL_SERVER_ERROR" }), { status: 400, headers: { 'Content-Type': 'application/json' } });
+    // return new NextResponse(JSON.stringify({ code: "INTERNAL_SERVER_ERROR", detail: e.message }), { status: 500 });
   }
 }
 
@@ -82,6 +85,7 @@ export const DELETE = async (req: NextRequest) => {
     return new NextResponse(JSON.stringify(deletedSnippet), { status: 200 });
   } catch (e) {
     console.error(e);
-    return new NextResponse(JSON.stringify({ code: "INTERNAL_SERVER_ERROR", detail: e.message }), { status: 500 });
+    return new Response(JSON.stringify({ code: "INTERNAL_SERVER_ERROR" }), { status: 400, headers: { 'Content-Type': 'application/json' } });
+    // return new NextResponse(JSON.stringify({ code: "INTERNAL_SERVER_ERROR", detail: e.message }), { status: 500 });
   }
 }

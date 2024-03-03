@@ -4,13 +4,13 @@ import { cn } from "@/lib/cn";
 import Kbd from "./Kbd";
 
 export default function Tooltip({
-  children: trigger,
-  content,
-  side = "top",
-  sideOffset = 4,
-  kbd,
-  disabled = false,
-}: {
+                                  children: trigger,
+                                  content,
+                                  side = "top",
+                                  sideOffset = 4,
+                                  kbd,
+                                  disabled = false,
+                                }: {
   children: React.ReactNode;
   content?: React.ReactNode;
   side?: "top" | "right" | "bottom" | "left";
@@ -31,7 +31,7 @@ export default function Tooltip({
           "select-none outline-none",
           "bg-black",
           "animate-in fade-in zoom-in-90 duration-100 ease-in-out",
-          content && "rounded-lg border border-white/20 p-1"
+          { "rounded-lg border border-white/20 p-1": !!content } // Correctly format conditional class
         )}
       >
         {content}

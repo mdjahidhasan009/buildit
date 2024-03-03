@@ -3,7 +3,7 @@ import TemplateDesign from "@/components/main/TemplateDesign";
 const Templates = () => {
   return (
     <div>
-      <TemplateDesign />
+      <TemplateDesign type=""/>
     </div>
   )
 }

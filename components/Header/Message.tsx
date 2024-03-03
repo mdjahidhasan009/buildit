@@ -133,7 +133,7 @@ function Wrapper({ content }: { content: ContentState }) {
       className={cn(
         "flex items-center justify-between gap-2 p-2 text-xs",
         "select-none",
-        content.additionalClasses
+        content.additionalClasses || "" // Provide an empty string as a fallback
       )}
     >
       {content.icon}
@@ -141,3 +141,4 @@ function Wrapper({ content }: { content: ContentState }) {
     </motion.div>
   );
 }
+

@@ -7,15 +7,11 @@ interface CodeProps {
   initialValue?: string;
 }
 
-import clsx from "clsx";
-import { Highlight, themes } from "prism-react-renderer";
-import { language } from "@codemirror/language";
-import { useSettingsContext } from "@/contexts/SettingsContext";
 import { EditorView } from "@codemirror/view";
 import createTheme from "@uiw/codemirror-themes";
 import { hslToHsla as adjustLightness, generateColors } from "@/lib/colors";
 import { tags as t } from "@lezer/highlight";
-import ReactCodeMirror, { useCodeMirror } from "@uiw/react-codemirror";
+import { useCodeMirror } from "@uiw/react-codemirror";
 import { useStore } from "@/lib/store";
 import { debounce } from "@/lib/debounce";
 import { useHotkeys } from "react-hotkeys-hook";
