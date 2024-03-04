@@ -22,7 +22,7 @@ export default function Code({ editable = false }: { editable: boolean }) {
 
   const [localEditable, setLocalEditable] = useState(editable);
 
-  const editorRef = useRef<HTMLDivElement>(null);
+  const editorRef = useRef<HTMLDivElement | null>(null);
 
   const hasCustomTheme = useStore((state) => state.hasCustomTheme);
   const code = useStore((state) => state.code);

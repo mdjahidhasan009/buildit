@@ -22,7 +22,6 @@ interface TemplateProps {
 
 const Template: FC<TemplateProps> = ({ index, template, type }) => {
   const router = useRouter();
-console.log(template)
 
   const {fetchData, data } = useApi(`api/v1/design/user/create/${template?.id}`, 'POST');
 

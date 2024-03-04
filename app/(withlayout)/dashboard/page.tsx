@@ -21,7 +21,6 @@ const Page = () => {
 
   useEffect(() => {
     if(data?.data?.designs) {
-      console.log(data)
       let firstThreeDesigns = data.data.designs.slice(0, 3);
       setDesigns(firstThreeDesigns);
     }
