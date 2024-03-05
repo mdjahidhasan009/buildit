@@ -63,23 +63,23 @@ export type AppState = {
   grain: boolean;
 };
 
-export interface Store extends AppStatus, AppState {
-  update: <
-    T extends string,
-    V extends
-        | string
-      | number
-      | boolean
-      | LanguageDefinition
-      | ThemeDefinition
-      | FontDefinition
-  >(
-    type: T,
-    value: V
-  ) => void;
-  setAppState: (snippet: Partial<ISnippet>) => void;
-  getAppState: () => AppState;
-  setCustomColor: (c: string, i: number) => void;
-  addCustomColor: (c: string) => void;
-  removeCustomColor: (i: number) => void;
-}
+// export interface Store extends AppStatus, AppState {
+//   update: <
+//     T extends string,
+//     V extends
+//         | string
+//       | number
+//       | boolean
+//       | LanguageDefinition
+//       | ThemeDefinition
+//       | FontDefinition
+//   >(
+//     type: T,
+//     value: V
+//   ) => void;
+//   setAppState: (snippet: Partial<ISnippet>) => void;
+//   getAppState: () => AppState;
+//   setCustomColor: (c: string, i: number) => void;
+//   addCustomColor: (c: string) => void;
+//   removeCustomColor: (i: number) => void;
+// }

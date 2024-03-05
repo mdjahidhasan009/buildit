@@ -12,27 +12,52 @@ import createTheme from "@uiw/codemirror-themes";
 import { hslToHsla as adjustLightness, generateColors } from "@/lib/colors";
 import { tags as t } from "@lezer/highlight";
 import { useCodeMirror } from "@uiw/react-codemirror";
-import { useStore } from "@/lib/store";
+// import { useStore } from "@/lib/store";
 import { debounce } from "@/lib/debounce";
 import { useHotkeys } from "react-hotkeys-hook";
 import { cn } from "@/lib/cn";
+import {useDispatch, useSelector} from "react-redux";
+import {update} from "@/lib/features/snippet/snippetSlice";
+import {SUPPORTED_LANGUAGES} from "@/lib/languages";
+import {find} from "@/lib/find";
 
 export default function Code({ editable = false }: { editable: boolean }) {
+  const dispatch = useDispatch();
   const [selectedLanguage, setSelectedLanguage] = useState<any>(null);
 
   const [localEditable, setLocalEditable] = useState(editable);
 
   const editorRef = useRef<HTMLDivElement | null>(null);
 
-  const hasCustomTheme = useStore((state) => state.hasCustomTheme);
-  const code = useStore((state) => state.code);
-  const language = useStore((state) => state.language);
-  const theme = useStore((state) => state.theme);
-  const fontFamily = useStore((state) => state.fontFamily);
-  const fontSize = useStore((state) => state.fontSize);
-  const lineNumbers = useStore((state) => state.lineNumbers);
-  const customColors = useStore((state) => state.customColors);
-  const update = useStore((state) => state.update);
+  // const hasCustomTheme = useStore((state) => state.hasCustomTheme);
+  // const code = useStore((state) => state.code);
+  // const language = useStore((state) => state.language);
+  // const theme = useStore((state) => state.theme);
+  // const fontFamily = useStore((state) => state.fontFamily);
+  // const fontSize = useStore((state) => state.fontSize);
+  // const lineNumbers = useStore((state) => state.lineNumbers);
+  // const customColors = useStore((state) => state.customColors);
+  // const {
+  //   hasCustomTheme,
+  //   code,
+  //   language,
+  //   theme,
+  //   fontFamily,
+  //   fontSize,
+  //   lineNumbers,
+  //   customColors,
+  // } = useSelector((state) => state.app);
+  const hasCustomTheme = useSelector((state) => state.snippet.hasCustomTheme);
+  const code = useSelector((state) => state.snippet.code);
+  const language = useSelector((state) => state.snippet.language);
+  const theme = useSelector((state) => state.snippet.theme);
+  const fontFamily = useSelector((state) => state.snippet.fontFamily);
+  const fontSize = useSelector((state) => state.snippet.fontSize);
+  const lineNumbers = useSelector((state) => state.snippet.lineNumbers);
+  const customColors = useSelector((state) => state.snippet.customColors);
+
+
+  // const update = useStore((state) => state.update);
 
   const baseColors = useMemo(() => {
     return hasCustomTheme ? customColors : theme.baseColors;
@@ -44,7 +69,9 @@ export default function Code({ editable = false }: { editable: boolean }) {
 
   useEffect(() => {
     async function loadLanguage() {
-      const lang = (await language.extension()) as any;
+      // const lang = (await language.extension()) as any;
+      const langExtension = find(SUPPORTED_LANGUAGES, language);
+      const lang = await (langExtension?.extension()) as any;
 
       setSelectedLanguage(lang);
     }
@@ -214,12 +241,16 @@ export default function Code({ editable = false }: { editable: boolean }) {
     ],
   });
 
-  const debouncedUpdate = debounce(update, 300);
+  // const debouncedUpdate = debounce(update, 300);
+  const debouncedUpdateCode = useCallback(debounce((newCode) => {
+    dispatch(update({ type: "code", value: newCode }));
+  }, 300), [dispatch]);
 
   const { setContainer, view } = useCodeMirror({
     container: editorRef.current,
     value: code ?? "",
-    onChange: (value) => debouncedUpdate("code", value),
+    // onChange: (value) => debouncedUpdate("code", value),
+    onChange: debouncedUpdateCode,
     placeholder: "//Add some code here...",
     autoFocus: true,
     editable: localEditable,

@@ -1,11 +1,14 @@
-import { useEffect, useState } from "react";
-import { useStore } from "@/lib/store";
+import {useEffect, useRef, useState} from "react";
+// import { useStore } from "@/lib/store";
 import { usePathname } from "next/navigation";
 import { Message } from "@/lib/types";
 import { Check, X, Code } from "lucide-react";
 import Loader from "@/components/shared/ui/Loader";
 import { cn } from "@/lib/cn";
 import { AnimatePresence, motion } from "framer-motion";
+import {useDispatch, useSelector} from "react-redux";
+import {update} from "@/lib/features/snippet/snippetSlice";
+import {debounce} from "@/lib/debounce";
 
 interface ContentState {
   id: string;
@@ -75,16 +78,21 @@ const CONTENT_STATES: Partial<Record<Message, ContentState>> = {
 };
 
 export default function Message() {
+  const dispatch = useDispatch();
+
   const [showMessage, setShowMessage] = useState(false);
   const [content, setContent] = useState<ContentState | null>(null);
 
   const pathname = usePathname();
 
-  const message = useStore((state) => state.message);
-  const update = useStore((state) => state.update);
+  const message = useSelector((state) => state.snippet.message);
+
+  const debouncedUpdateMessage = useRef(debounce((newMessage) => {
+    dispatch(update({ type: "message", value: newMessage }));
+  }, 2500)).current; // Debounce time of 2500ms
 
   useEffect(() => {
-    let timeoutId: ReturnType<typeof setTimeout>;
+    // let timeoutId: ReturnType<typeof setTimeout>;
 
     if (message === "IDLE") {
       setShowMessage(false);
@@ -93,24 +101,29 @@ export default function Message() {
       setContent(CONTENT_STATES[message]!);
 
       if (message !== "PENDING") {
-        timeoutId = setTimeout(() => {
-          update("message", "IDLE");
-        }, 2500);
+        debouncedUpdateMessage("IDLE");
+        // timeoutIdRef.current = setTimeout(() => {
+        //   // update("message", "IDLE");
+        //   dispatch(update("message", "IDLE"));
+        // }, 2500);
       }
     }
 
     return () => {
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
+      // console.log('return')
+      // if (timeoutIdRef.current) {
+      //   console.log('1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111')
+      //   clearTimeout(timeoutIdRef.current);
+      // }
     };
-  }, [message, update]);
+  }, [message]);
 
   useEffect(() => {
     if (pathname === "/all_codes") {
-      update("message", "IDLE");
+      // update("message", "IDLE");
+      dispatch(update("message", "IDLE"));
     }
-  }, [pathname, update]);
+  }, [pathname]);
 
   return (
     <div className={cn("absolute left-1/2 -translate-x-1/2")}>

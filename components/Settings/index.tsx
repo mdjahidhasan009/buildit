@@ -23,8 +23,9 @@ import Picker from "./Picker";
 import Angle from "./Angle";
 import { useMemo, useRef, useState } from "react";
 import { GripHorizontal, RefreshCcw } from "lucide-react";
-import { useStore } from "@/lib/store";
+// import { useStore } from "@/lib/store";
 import Actions from "./Actions";
+import {useSelector} from "react-redux";
 
 export default function Settings() {
   const [hasMoved, setHasMoved] = useState(false);
@@ -35,7 +36,8 @@ export default function Settings() {
   const animationControls = useAnimationControls();
   const isDragging = useMotionValue(false);
 
-  const hasCustomTheme = useStore((state) => state.hasCustomTheme);
+  // const hasCustomTheme = useStore((state) => state.hasCustomTheme);
+  const hasCustomTheme = useSelector((state) => state.snippet.hasCustomTheme);
 
   return (
     <>

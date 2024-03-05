@@ -1,16 +1,18 @@
 import { cn } from "@/lib/cn";
 import { debounce } from "@/lib/debounce";
-import { useStore } from "@/lib/store";
+// import { useStore } from "@/lib/store";
 import { HexColorInput, HexColorPicker } from "react-colorful";
 import Popover from "@/components/shared/ui/Popover";
 import { Minus, Plus } from "lucide-react";
 import chroma from "chroma-js";
+import {useSelector} from "react-redux";
 
 export default function Picker() {
-  const customColors = useStore((state) => state.customColors);
-  const setCustomColor = useStore((state) => state.setCustomColor);
-  const addCustomColor = useStore((state) => state.addCustomColor);
-  const removeCustomColor = useStore((state) => state.removeCustomColor);
+  // const customColors = useStore((state) => state.customColors);
+  // const setCustomColor = useStore((state) => state.setCustomColor);
+  // const addCustomColor = useStore((state) => state.addCustomColor);
+  // const removeCustomColor = useStore((state) => state.removeCustomColor);
+  const { customColors, setCustomColor, addCustomColor, removeCustomColor } = useSelector((state) => state.snippet);
 
   return (
     <div className={cn("flex h-8 w-28 gap-2 rounded-lg")}>

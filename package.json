@@ -58,8 +58,7 @@
     "react-spinners": "^0.13.8",
     "tailwind-merge": "^2.2.0",
     "tailwindcss-animate": "^1.0.7",
-    "tailwindcss-radix": "^2.8.0",
-    "zustand": "^4.4.7"
+    "tailwindcss-radix": "^2.8.0"
   },
   "devDependencies": {
     "@types/chroma-js": "^2.4.4",
