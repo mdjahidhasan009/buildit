@@ -1,7 +1,7 @@
 import { cn } from "@/lib/cn";
 import { find } from "@/lib/find";
 import { SUPPORTED_LANGUAGES } from "@/lib/languages";
-import { useStore } from "@/lib/store";
+// import { useStore } from "@/lib/store";
 import * as SelectPrimitive from "@radix-ui/react-select";
 import {
   FontDefinition,
@@ -13,6 +13,8 @@ import ThemeBubble from "@/components/shared/ui/ThemeBubble";
 import { SUPPORTED_THEMES } from "@/lib/themes";
 import { SUPPORTED_FONT_STYLES } from "@/lib/fonts";
 import { ChevronDown } from "lucide-react";
+import {useDispatch, useSelector} from "react-redux";
+import {update} from "@/lib/features/snippet/snippetSlice";
 
 export default memo(function Select<
   T extends LanguageDefinition | ThemeDefinition | FontDefinition
@@ -23,8 +25,13 @@ export default memo(function Select<
   type: "language" | "theme" | "fontFamily";
   options: T[];
 }) {
-  const value = useStore((state) => state[type]);
-  const update = useStore((state) => state.update);
+  const dispatch = useDispatch();
+  // const value = useStore((state) => state[type]);
+  let value = useSelector((state) => state.snippet[type]);
+  if(type === 'language') {
+    value = find(SUPPORTED_LANGUAGES, value);
+  }
+
 
   const get = {
     language: {
@@ -74,26 +81,49 @@ export default memo(function Select<
     },
   };
 
+  ////TODO: have to fix this
+  const handleValueChange = (value: string) => {
+
+    if(type === 'language') {
+      dispatch(update({ type, value }));
+    } else {
+      dispatch(
+        update({
+            type,
+            value: get [type].valueForKey(value) as LanguageDefinition &
+              ThemeDefinition &
+              FontDefinition
+          }
+        )
+      )
+    }
+
+    if (type === "theme") {
+      if (value === "custom") {
+        dispatch(update("hasCustomTheme", true));
+      } else {
+        dispatch(update("hasCustomTheme", false));
+      }
+    }
+
+
+    // dispatch(
+    //   update(
+    //     type,
+    //     get[type].valueForKey(value) as LanguageDefinition &
+    //       ThemeDefinition &
+    //       FontDefinition
+    //   )
+    // )
+
+
+  }
+
   return (
     <SelectPrimitive.Root
       defaultValue={value.id}
       value={value.id}
-      onValueChange={(value: string) => {
-        update(
-          type,
-          get[type].valueForKey(value) as LanguageDefinition &
-            ThemeDefinition &
-            FontDefinition
-        );
-
-        if (type === "theme") {
-          if (value === "custom") {
-            update("hasCustomTheme", true);
-          } else {
-            update("hasCustomTheme", false);
-          }
-        }
-      }}
+      onValueChange={(value: string) => handleValueChange(value)}
     >
       <SelectPrimitive.Trigger
         className={cn(
@@ -107,7 +137,6 @@ export default memo(function Select<
         )}
         aria-label={`${type}-select`}
       >
-
       <SelectPrimitive.Value>{get[type].initialValue}</SelectPrimitive.Value>
         <SelectPrimitive.Icon>
           <ChevronDown size={16} aria-hidden="true" />

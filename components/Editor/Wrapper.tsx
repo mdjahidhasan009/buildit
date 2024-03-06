@@ -1,27 +1,44 @@
-import { useStore } from "@/lib/store";
+// import { useStore } from "@/lib/store";
 import { useEffect, useMemo, useRef, useState } from "react";
 import chroma from "chroma-js";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/cn";
+import {useSelector} from "react-redux";
 
 export default function Wrapper({ children }: { children: React.ReactNode }) {
   const [marginTop, setMarginTop] = useState(15);
 
   const wrapperRef = useRef<HTMLDivElement>(null);
 
-  const hasCustomTheme = useStore((state) => state.hasCustomTheme);
-  const code = useStore((state) => state.code);
-  const langugae = useStore((state) => state.language);
-  const theme = useStore((state) => state.theme);
-  const fontFamily = useStore((state) => state.fontFamily);
-  const fontSize = useStore((state) => state.fontSize);
-  const lineNumbers = useStore((state) => state.lineNumbers);
-  const customColors = useStore((state) => state.customColors);
-  const update = useStore((state) => state.update);
-  const colorMode = useStore((state) => state.colorMode);
-  const padding = useStore((state) => state.padding);
-  const angle = useStore((state) => state.angle);
-  const grain = useStore((state) => state.grain);
+  // const hasCustomTheme = useStore((state) => state.hasCustomTheme);
+  // const code = useStore((state) => state.code);
+  // const langugae = useStore((state) => state.language);
+  // const theme = useStore((state) => state.theme);
+  // const fontFamily = useStore((state) => state.fontFamily);
+  // const fontSize = useStore((state) => state.fontSize);
+  // const lineNumbers = useStore((state) => state.lineNumbers);
+  // const customColors = useStore((state) => state.customColors);
+  // const update = useStore((state) => state.update);
+  // const colorMode = useStore((state) => state.colorMode);
+  // const padding = useStore((state) => state.padding);
+  // const angle = useStore((state) => state.angle);
+  // const grain = useStore((state) => state.grain);
+  // const {
+  //   hasCustomTheme,
+  //   theme,
+  //   customColors,
+  //   colorMode,
+  //   padding,
+  //   angle,
+  //   grain,
+  // } = useSelector((state) => state.snippet);
+  const hasCustomTheme = useSelector((state) => state.snippet.hasCustomTheme);
+  const theme = useSelector((state) => state.snippet.theme);
+  const customColors = useSelector((state) => state.snippet.customColors);
+  const colorMode = useSelector((state) => state.snippet.colorMode);
+  const padding = useSelector((state) => state.snippet.padding);
+  const angle = useSelector((state) => state.snippet.angle);
+  const grain = useSelector((state) => state.snippet.grain);
 
   const baseColors = useMemo(() => {
     return hasCustomTheme ? customColors : theme.baseColors;

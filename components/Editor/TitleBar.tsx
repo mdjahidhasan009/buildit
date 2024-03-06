@@ -1,15 +1,20 @@
 import { cn } from "@/lib/cn";
-import { useStore } from "@/lib/store";
+// import { useStore } from "@/lib/store";
 import { useRef } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import Tooltip from "@/components/shared/ui/Tooltip";
 import { Info } from "lucide-react";
+import {useDispatch, useSelector} from "react-redux";
+import {update} from "@/lib/features/snippet/snippetSlice";
 
 export default function TitleBar({ editable = false }: { editable: boolean }) {
+  const dispatch = useDispatch();
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const title = useStore((state) => state.title);
-  const update = useStore((state) => state.update);
+  const title = useSelector((state) => state.snippet.title);
+  const handleTitleChange = (value) => {
+    dispatch(update({ type: "title", value }));
+  }
 
   useHotkeys(
     "t",
@@ -49,7 +54,8 @@ export default function TitleBar({ editable = false }: { editable: boolean }) {
           spellCheck={false}
           autoComplete="off"
           maxLength={70}
-          onChange={(e) => update("title", e.target.value)}
+          // onChange={(e) => update("title", e.target.value)}
+          onChange={(e) => handleTitleChange(e.target.value)}
           disabled={!editable}
           tabIndex={-1}
           className={cn(
