@@ -20,7 +20,7 @@ export default memo(function Switch({
     <div className={cn("flex h-full items-center")}>
       <SwitchPrimitive.Root
         checked={value}
-        onCheckedChange={(value: boolean) => dispatch(update(type, value))}
+        onCheckedChange={(value: boolean) => dispatch(update({ type, value }))}
         className={cn(
           "inline-flex h-6 w-[44px] shrink-0 items-center rounded-full",
           "outline-none",
