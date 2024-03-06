@@ -21,7 +21,7 @@ export default memo(function Choices({
     <RadioGroupPrimitive.Root
       defaultValue={value}
       value={value}
-      onValueChange={(value: string) => dispatch(update(type, value))}
+      onValueChange={(value: string) => dispatch(update({ type, value }))}
       className={cn("flex h-full items-center justify-center")}
     >
       <div className={cn("flex h-full gap-3")}>
