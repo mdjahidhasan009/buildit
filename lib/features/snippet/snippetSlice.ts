@@ -17,9 +17,6 @@ export const appSlice = createSlice({
   reducers: {
     update: (state, action) => {
       const { type, value } = action.payload;
-      if(type === 'message') {
-        // console.log(type, value)
-      }
       state[type] = value;
     },
     setAppState: (state, action: PayloadAction<ISnippet>) => {

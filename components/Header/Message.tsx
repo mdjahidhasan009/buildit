@@ -109,13 +109,6 @@ export default function Message() {
       }
     }
 
-    return () => {
-      // console.log('return')
-      // if (timeoutIdRef.current) {
-      //   console.log('1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111')
-      //   clearTimeout(timeoutIdRef.current);
-      // }
-    };
   }, [message]);
 
   useEffect(() => {
