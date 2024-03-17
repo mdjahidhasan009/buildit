@@ -9,6 +9,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import {useDispatch, useSelector} from "react-redux";
 import {update} from "@/lib/features/snippet/snippetSlice";
 import {debounce} from "@/lib/debounce";
+import {RootState} from "@/lib/reduxStore";
 
 interface ContentState {
   id: string;
@@ -85,9 +86,9 @@ export default function Message() {
 
   const pathname = usePathname();
 
-  const message = useSelector((state) => state.snippet.message);
+  const message = useSelector((state: RootState) => state.snippet.message);
 
-  const debouncedUpdateMessage = useRef(debounce((newMessage) => {
+  const debouncedUpdateMessage = useRef(debounce((newMessage: string) => {
     dispatch(update({ type: "message", value: newMessage }));
   }, 2500)).current; // Debounce time of 2500ms
 
@@ -98,7 +99,7 @@ export default function Message() {
       setShowMessage(false);
     } else {
       setShowMessage(true);
-      setContent(CONTENT_STATES[message]!);
+      setContent(CONTENT_STATES[message as Message]!);
 
       if (message !== "PENDING") {
         debouncedUpdateMessage("IDLE");
@@ -114,7 +115,7 @@ export default function Message() {
   useEffect(() => {
     if (pathname === "/all_codes") {
       // update("message", "IDLE");
-      dispatch(update("message", "IDLE"));
+      dispatch(update({ type: "message", value: "IDLE" }));
     }
   }, [pathname]);
 

@@ -15,6 +15,7 @@ import { SUPPORTED_FONT_STYLES } from "@/lib/fonts";
 import { ChevronDown } from "lucide-react";
 import {useDispatch, useSelector} from "react-redux";
 import {update} from "@/lib/features/snippet/snippetSlice";
+import {RootState} from "@/lib/reduxStore";
 
 export default memo(function Select<
   T extends LanguageDefinition | ThemeDefinition | FontDefinition
@@ -26,16 +27,49 @@ export default memo(function Select<
   options: T[];
 }) {
   const dispatch = useDispatch();
-  // const value = useStore((state) => state[type]);
-  let value = useSelector((state) => state.snippet[type]);
-  if(type === 'language') {
-    value = find(SUPPORTED_LANGUAGES, value);
+  let selectedKey =  useSelector((state: RootState) => state.snippet[type]) as string;
+
+  // // Type guards to assert specific types based on the context
+  // const isLanguageDefinition = (value: any): value is LanguageDefinition => value && "extension" in value;
+  // const isThemeDefinition = (value: any): value is ThemeDefinition => value && "baseColors" in value;
+  // const isFontDefinition = (value: any): value is FontDefinition => value && "class" in value;
+  // let value: LanguageDefinition | ThemeDefinition | FontDefinition | undefined;
+  // switch (type) {
+  //   case 'language':
+  //     value = isLanguageDefinition(selectedKey) ? selectedKey : find(SUPPORTED_LANGUAGES, selectedKey as string);
+  //     break;
+  //   case 'theme':
+  //     value = isThemeDefinition(selectedKey) ? selectedKey : find(SUPPORTED_THEMES, selectedKey as string);
+  //     break;
+  //   case 'fontFamily':
+  //     value = isFontDefinition(selectedKey) ? selectedKey : find(SUPPORTED_FONT_STYLES, selectedKey as string);
+  //     break;
+  //   default:
+  //     value = null;
+  // }
+  //
+  // if(type === 'language') {
+  //   value = find(SUPPORTED_LANGUAGES, selectedKey);
+  // }
+
+  // Determine the appropriate value based on the type and selectedKey
+  let value: LanguageDefinition | ThemeDefinition | FontDefinition | undefined;
+  if (type === 'language') {
+    value = find(SUPPORTED_LANGUAGES, selectedKey);
+  } else if (type === 'theme') {
+    value = find(SUPPORTED_THEMES, selectedKey);
+  } else if (type === 'fontFamily') {
+    value = find(SUPPORTED_FONT_STYLES, selectedKey);
+  }
+
+  if(!value) {
+    return;
   }
 
 
   const get = {
     language: {
-      initialValue: <span>{value.label}</span>,
+      initialValue: <span>{(value as LanguageDefinition).label}</span>,
       optionContent: (option: T) => (
         <span className={cn("block truncate pr-11")}>
           {(option as LanguageDefinition).label}
@@ -47,14 +81,14 @@ export default memo(function Select<
       initialValue: (
         <ThemeBubble
           colors={(value as ThemeDefinition).baseColors}
-          useCustomColorsFromStore={value.id === "custom"}
+          useCustomColorsFromStore={(value as ThemeDefinition).id === "custom"}
         />
       ),
       optionContent: (option: T) => (
         <div className={cn("flex items-center gap-3")}>
           <ThemeBubble
             colors={(option as ThemeDefinition).baseColors}
-            useCustomColorsFromStore={value.id === "custom"}
+            useCustomColorsFromStore={(value as ThemeDefinition).id === "custom"}
           />
           <span className={cn("block truncate")}>
             {(option as ThemeDefinition).label}
@@ -100,9 +134,9 @@ export default memo(function Select<
 
     if (type === "theme") {
       if (value === "custom") {
-        dispatch(update("hasCustomTheme", true));
+        dispatch(update({ type: "hasCustomTheme", value: true }));
       } else {
-        dispatch(update("hasCustomTheme", false));
+        dispatch(update({ type: "hasCustomTheme", value: false }));
       }
     }
 

@@ -85,20 +85,21 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppState} from "@/lib/types";
 import useApi from "@/utils/useApi";
 import isEqual from 'lodash.isequal';
+import {RootState} from "@/lib/reduxStore";
 // import debounce from wherever you have it defined if not defined in this file
 
 export default function ChangeListener() {
   const dispatch = useDispatch();
   const prevState = useRef<AppState | null>(null);
   const pendingSave = useRef<boolean>(false);
-  const state = useSelector((state) => state.snippet);
+  const state = useSelector((state: RootState) => state.snippet);
   const timeOutRef = useRef<NodeJS.Timeout | null>(null);
 
   const { fetchData: updateSnippet, data: updatedSnippet, error: updateError } = useApi("/api/v1/snippets", "PATCH");
 
   // Debounce handleStateChange function
   const debouncedHandleStateChange = useRef(
-    debounce((state) => {
+    debounce((state: AppState) => {
       if (!isEqual(prevState.current, state)) {
 
         if (!pendingSave.current) {
@@ -134,7 +135,11 @@ export default function ChangeListener() {
     }
 
     return (() => {
-      clearTimeout(debouncedHandleStateChange as NodeJS.Timeout);
+      // clearTimeout(debouncedHandleStateChange as NodeJS.Timeout);
+      if (timeOutRef.current) {
+        clearTimeout(timeOutRef.current);
+        timeOutRef.current = null; // Reset the ref after clearing the timeout
+      }
     })
   }, [state]);
 

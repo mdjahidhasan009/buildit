@@ -4,6 +4,7 @@ import chroma from "chroma-js";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/cn";
 import {useSelector} from "react-redux";
+import {RootState} from "@/lib/reduxStore";
 
 export default function Wrapper({ children }: { children: React.ReactNode }) {
   const [marginTop, setMarginTop] = useState(15);
@@ -32,13 +33,13 @@ export default function Wrapper({ children }: { children: React.ReactNode }) {
   //   angle,
   //   grain,
   // } = useSelector((state) => state.snippet);
-  const hasCustomTheme = useSelector((state) => state.snippet.hasCustomTheme);
-  const theme = useSelector((state) => state.snippet.theme);
-  const customColors = useSelector((state) => state.snippet.customColors);
-  const colorMode = useSelector((state) => state.snippet.colorMode);
-  const padding = useSelector((state) => state.snippet.padding);
-  const angle = useSelector((state) => state.snippet.angle);
-  const grain = useSelector((state) => state.snippet.grain);
+  const hasCustomTheme = useSelector((state: RootState) => state.snippet.hasCustomTheme);
+  const theme = useSelector((state: RootState) => state.snippet.theme);
+  const customColors = useSelector((state: RootState) => state.snippet.customColors);
+  const colorMode = useSelector((state: RootState) => state.snippet.colorMode);
+  const padding = useSelector((state: RootState) => state.snippet.padding);
+  const angle = useSelector((state: RootState) => state.snippet.angle);
+  const grain = useSelector((state: RootState) => state.snippet.grain);
 
   const baseColors = useMemo(() => {
     return hasCustomTheme ? customColors : theme.baseColors;

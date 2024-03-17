@@ -20,6 +20,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {update} from "@/lib/features/snippet/snippetSlice";
 import {SUPPORTED_LANGUAGES} from "@/lib/languages";
 import {find} from "@/lib/find";
+import {RootState} from "@/lib/reduxStore";
 
 export default function Code({ editable = false }: { editable: boolean }) {
   const dispatch = useDispatch();
@@ -47,14 +48,14 @@ export default function Code({ editable = false }: { editable: boolean }) {
   //   lineNumbers,
   //   customColors,
   // } = useSelector((state) => state.app);
-  const hasCustomTheme = useSelector((state) => state.snippet.hasCustomTheme);
-  const code = useSelector((state) => state.snippet.code);
-  const language = useSelector((state) => state.snippet.language);
-  const theme = useSelector((state) => state.snippet.theme);
-  const fontFamily = useSelector((state) => state.snippet.fontFamily);
-  const fontSize = useSelector((state) => state.snippet.fontSize);
-  const lineNumbers = useSelector((state) => state.snippet.lineNumbers);
-  const customColors = useSelector((state) => state.snippet.customColors);
+  const hasCustomTheme = useSelector((state: RootState) => state.snippet.hasCustomTheme);
+  const code = useSelector((state: RootState) => state.snippet.code);
+  const language = useSelector((state: RootState) => state.snippet.language);
+  const theme = useSelector((state: RootState) => state.snippet.theme);
+  const fontFamily = useSelector((state: RootState) => state.snippet.fontFamily);
+  const fontSize = useSelector((state: RootState) => state.snippet.fontSize);
+  const lineNumbers = useSelector((state: RootState) => state.snippet.lineNumbers);
+  const customColors = useSelector((state: RootState) => state.snippet.customColors);
 
 
   // const update = useStore((state) => state.update);
@@ -242,7 +243,7 @@ export default function Code({ editable = false }: { editable: boolean }) {
   });
 
   // const debouncedUpdate = debounce(update, 300);
-  const debouncedUpdateCode = useCallback(debounce((newCode) => {
+  const debouncedUpdateCode = useCallback(debounce((newCode: string) => {
     dispatch(update({ type: "code", value: newCode }));
   }, 300), [dispatch]);
 

@@ -26,6 +26,7 @@ import { GripHorizontal, RefreshCcw } from "lucide-react";
 // import { useStore } from "@/lib/store";
 import Actions from "./Actions";
 import {useSelector} from "react-redux";
+import {RootState} from "@/lib/reduxStore";
 
 export default function Settings() {
   const [hasMoved, setHasMoved] = useState(false);
@@ -37,7 +38,7 @@ export default function Settings() {
   const isDragging = useMotionValue(false);
 
   // const hasCustomTheme = useStore((state) => state.hasCustomTheme);
-  const hasCustomTheme = useSelector((state) => state.snippet.hasCustomTheme);
+  const hasCustomTheme = useSelector((state: RootState) => state.snippet.hasCustomTheme);
 
   return (
     <>

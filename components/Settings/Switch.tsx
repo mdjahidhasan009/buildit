@@ -4,6 +4,7 @@ import { memo } from "react";
 import * as SwitchPrimitive from "@radix-ui/react-switch";
 import {useDispatch, useSelector} from "react-redux";
 import {update} from "@/lib/features/snippet/snippetSlice";
+import {RootState} from "@/lib/reduxStore";
 
 export default memo(function Switch({
   type,
@@ -12,7 +13,7 @@ export default memo(function Switch({
 }) {
   // const value = useStore((state) => state[type]);
   const dispatch = useDispatch();
-  const value = useSelector((state) => state.snippet[type]);
+  const value = useSelector((state: RootState) => state.snippet[type]);
 
   // const update = useStore((state) => state.update);
 
