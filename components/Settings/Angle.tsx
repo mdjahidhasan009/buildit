@@ -3,20 +3,21 @@ import { cn } from "@/lib/cn";
 import * as SliderPrimitive from "@radix-ui/react-slider";
 import {useDispatch, useSelector} from "react-redux";
 import {update} from "@/lib/features/snippet/snippetSlice";
+import {RootState} from "@/lib/reduxStore";
 
 export default function Angle() {
   // const customColorsCount = useStore((state) => state.customColors.length);
   // const angle = useStore((state) => state.angle);
   // const update = useStore((state) => state.update);
   const dispatch = useDispatch();
-  const customColorsCount = useSelector((state) => state.snippet.customColors.length);
-  const angle = useSelector((state) => state.snippet.angle);
+  const customColorsCount = useSelector((state: RootState) => state.snippet.customColors.length);
+  const angle = useSelector((state: RootState) => state.snippet.angle);
 
   return (
     <div className={cn("flex h-full items-center gap-2")}>
       <SliderPrimitive.Root
         defaultValue={[angle]}
-        onValueChange={(value) => dispatch(update("angle", value[0]))}
+        onValueChange={(value) => dispatch(update({ type: "angle", value: value[0] }))}
         max={360}
         step={1}
         disabled={customColorsCount === 1}

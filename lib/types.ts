@@ -1,6 +1,6 @@
 import {Extension} from "@codemirror/state";
 import {Snippet} from "@/core/domain/entities/Snippet";
-import {ISnippet} from "@/components/Snippet/ISnippet";
+import {ISnippet, SnippetViews} from "@/components/Snippet/ISnippet";
 
 export type ChoiceDefinition = {
   id: string;
@@ -51,7 +51,8 @@ export type AppState = {
   id: string | null;
   title: string | null;
   code: string | null;
-  language: LanguageDefinition;
+  // language: LanguageDefinition;
+  language: string;
   theme: ThemeDefinition;
   fontFamily: FontDefinition;
   fontSize: string;
@@ -61,6 +62,11 @@ export type AppState = {
   colorMode: any;
   angle: number;
   grain: boolean;
+
+
+
+  message: string;
+  hasCustomTheme: boolean;
 };
 
 // export interface Store extends AppStatus, AppState {

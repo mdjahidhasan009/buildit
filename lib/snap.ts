@@ -1,10 +1,10 @@
-// import { useStore } from "./store";
+"use client";
 import domtoimage from "dom-to-image";
 import { saveAs } from "file-saver";
 import {update} from "@/lib/features/snippet/snippetSlice";
 import {useDispatch} from "react-redux";
 
-export async function snap(
+export async function Snap(
   mode: "COPY_LINK" | "COPY_IMAGE" | "DOWNLOAD_IMAGE"
 ): Promise<void> {
   const editorDiv = document.getElementById("screenshot");
@@ -20,7 +20,7 @@ export async function snap(
     if (navigator.clipboard) {
       await navigator.clipboard.writeText(window.location.href);
     } else {
-      dispatch(update("message", "CLIPBOARD_API_NOT_SUPPORTED"));
+      dispatch(update({ type: "message", value: "CLIPBOARD_API_NOT_SUPPORTED" }));
 
       throw new Error("CLIPBOARD_API_NOT_SUPPORTED");
     }
@@ -53,14 +53,14 @@ export async function snap(
 
             await navigator.clipboard.write([item]);
           } else {
-            dispatch(update("message", "CLIPBOARD_API_NOT_SUPPORTED"));
+            dispatch(update({ type: "message", value: "CLIPBOARD_API_NOT_SUPPORTED" }));
 
             throw new Error("CLIPBOARD_API_NOT_SUPPORTED");
           }
         }
       });
   } catch (e) {
-    dispatch(update("message", "EMPTY_EDITOR"));
+    dispatch(update({ type: "message", value: "EMPTY_EDITOR" }));
 
     throw new Error("EMPTY_EDITOR");
   }

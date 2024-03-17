@@ -4,6 +4,7 @@ import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
 import { cn } from "@/lib/cn";
 import {useDispatch, useSelector} from "react-redux";
 import {update} from "@/lib/features/snippet/snippetSlice";
+import {RootState} from "@/lib/reduxStore";
 
 export default memo(function Choices({
   type,
@@ -14,7 +15,7 @@ export default memo(function Choices({
 }) {
   // const value = useStore((state) => state[type]);
   const dispatch = useDispatch();
-  const value = useSelector((state) => state.snippet[type]);
+  const value = useSelector((state: RootState) => state.snippet[type]);
   // const update = useStore((state) => state.update);
 
   return (

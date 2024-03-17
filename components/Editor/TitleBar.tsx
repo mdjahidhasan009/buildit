@@ -6,13 +6,14 @@ import Tooltip from "@/components/shared/ui/Tooltip";
 import { Info } from "lucide-react";
 import {useDispatch, useSelector} from "react-redux";
 import {update} from "@/lib/features/snippet/snippetSlice";
+import {RootState} from "@/lib/reduxStore";
 
 export default function TitleBar({ editable = false }: { editable: boolean }) {
   const dispatch = useDispatch();
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const title = useSelector((state) => state.snippet.title);
-  const handleTitleChange = (value) => {
+  const title = useSelector((state: RootState) => state.snippet.title);
+  const handleTitleChange = (value: string) => {
     dispatch(update({ type: "title", value }));
   }
 

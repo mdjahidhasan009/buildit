@@ -9,6 +9,7 @@ import Loading from "@/app/(withlayout)/[snippet_id]/loading";
 import {ISnippet} from "@/components/Snippet/ISnippet";
 import {useDispatch} from "react-redux";
 import {setAppState} from "@/lib/features/snippet/snippetSlice";
+import {AppState} from "@/lib/types";
 
 interface Session {
   user?: {

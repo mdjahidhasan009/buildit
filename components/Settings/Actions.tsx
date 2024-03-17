@@ -1,7 +1,9 @@
+"use client";
+
 import { Check, X, Link, Copy, ImageIcon } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Loader from "@/components/shared/ui/Loader";
-import { snap } from "@/lib/snap";
+import { Snap } from "@/lib/snap";
 import { useState } from "react";
 import { cn } from "@/lib/cn";
 import { AnimatePresence, motion } from "framer-motion";
@@ -43,7 +45,7 @@ export default function Actions() {
         DEFAULT: <Link size={16} aria-hidden="true" />,
         ...statusIcons,
       },
-      action: () => snap("COPY_LINK"),
+      action: () => Snap("COPY_LINK"),
       isDisabled: sessionStatus === "unauthenticated",
       hotKey: {
         key: "meta+shift+c",
@@ -62,7 +64,7 @@ export default function Actions() {
         DEFAULT: <Copy size={16} aria-hidden="true" />,
         ...statusIcons,
       },
-      action: () => snap("COPY_IMAGE"),
+      action: () => Snap("COPY_IMAGE"),
       hotKey: {
         key: "meta+c",
       },
@@ -77,7 +79,7 @@ export default function Actions() {
         DEFAULT: <ImageIcon size={16} aria-hidden="true" />,
         ...statusIcons,
       },
-      action: () => snap("DOWNLOAD_IMAGE"),
+      action: () => Snap("DOWNLOAD_IMAGE"),
       hotKey: {
         key: "meta+s",
         options: {
