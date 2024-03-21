@@ -5,9 +5,7 @@ import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import DesignCard from "@/components/shared/DesignCard";
 import useApi from "@/utils/useApi";
-import router from "next/router";
-import {cn} from "@/lib/cn";
-import {IComponent} from "@/lib/features/components/IComponent";
+import CardSlider from "@/components/Carousel/Carousel";
 
 const Page = () => {
   const [state, setState] = useState({
@@ -21,7 +19,7 @@ const Page = () => {
 
   useEffect(() => {
     if(data?.data?.designs) {
-      let firstThreeDesigns = data.data.designs.slice(0, 3);
+      let firstThreeDesigns = data.data.designs.slice(0, 5);
       setDesigns(firstThreeDesigns);
     }
   }, [data]);
@@ -121,9 +119,13 @@ const Page = () => {
       </div>
       <div>
         <h2 className='text-xl py-6 font-semibold text-white'>Your recent designs</h2>
-        <Carousel autoPlay={true} infinite={true} responsive={responsive} transitionDuration={500}>
-          {designs.map((design, i) => <DesignCard design={design} key={i} type=""/>)}
-        </Carousel>
+        {/*<Carousel autoPlay={true} infinite={true} responsive={responsive} transitionDuration={500}>*/}
+        {/*  {designs.map((design, i) => <DesignCard design={design} key={i} type=""/>)}*/}
+        {/*</Carousel>*/}
+
+        <div className="carousel flex overflow-x-auto">
+          <CardSlider cards={designs} type="" />
+        </div>
       </div>
     </div>
   )
