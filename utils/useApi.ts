@@ -31,6 +31,7 @@ const useApi = <T = any>(
     let tempUrl = urlParams !== '' ? url + urlParams : url;
     const apiUrl = `${baseURL}${tempUrl}`;
     setLoading(true);
+
     try {
       const fetchOptions: RequestInit = {
         method,

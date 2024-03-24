@@ -32,6 +32,7 @@ const config: Config = {
     },
   },
   plugins: [
+    require('@tailwindcss/aspect-ratio'),
     require("@headlessui/tailwindcss"),
     require("tailwindcss-animate"),
     require("tailwindcss-radix"),
