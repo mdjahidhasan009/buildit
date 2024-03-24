@@ -26,6 +26,7 @@
     "@radix-ui/react-switch": "^1.0.3",
     "@radix-ui/react-tooltip": "^1.0.7",
     "@reduxjs/toolkit": "^2.2.1",
+    "@tailwindcss/aspect-ratio": "^0.4.2",
     "@types/dom-to-image": "^2.6.7",
     "@uiw/codemirror-extensions-langs": "^4.21.21",
     "@uiw/codemirror-themes": "^4.21.21",

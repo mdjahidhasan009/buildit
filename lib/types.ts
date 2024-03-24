@@ -1,6 +1,8 @@
 import {Extension} from "@codemirror/state";
 import {Snippet} from "@/core/domain/entities/Snippet";
 import {ISnippet, SnippetViews} from "@/components/Snippet/ISnippet";
+import {IComponent} from "@/lib/features/components/IComponent";
+import {ReactNode} from "react";
 
 export type ChoiceDefinition = {
   id: string;
@@ -89,3 +91,16 @@ export type AppState = {
 //   addCustomColor: (c: string) => void;
 //   removeCustomColor: (i: number) => void;
 // }
+
+export interface IDesign {
+  id: string;
+  userId: string;
+  components: IComponent[];
+  imageUrl: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface IReactNode {
+  children: ReactNode;
+}

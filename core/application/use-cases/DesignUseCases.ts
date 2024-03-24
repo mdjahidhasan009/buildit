@@ -28,7 +28,7 @@ export class DesignUseCases {
     // The base64Image parameter is expected to be a base64 string of the image.
     const imageUrl = await this.imageStorageService.uploadImage(base64Image, { folder: "designs", uniqueFilename: true });
     const design = await this.designRepository.create({
-      id: "",
+      // id: "",
       userId,
       components: [components],
       imageUrl

@@ -2,7 +2,10 @@ import Link from "next/link";
 import {FaTrash} from "react-icons/fa";
 import useApi from "@/utils/useApi";
 import toast from "react-hot-toast";
+import Image from 'next/image';
+
 import {IComponent} from "@/lib/features/components/IComponent";
+import React from "react";
 
 interface Design {
   id: string;
@@ -13,36 +16,46 @@ interface Design {
   updatedAt: string;
 }
 
-const DesignCard = ({ design, type } : { design: Design , type: string }) => {
-    const { fetchData } = useApi(`api/v1/design/user/${design?.id}`, 'DELETE');
-    const deleteDesign = async () => {
-        try {
-            await fetchData({});
-            // setDesigns(designs.filter(design => design._id !== id));////TODO: will fix this later
-            toast.success('Design deleted successfully');
-            // getUserDesigns();
-        } catch (e) {
-            console.error(e);
-            toast.error('Something went wrong');
-        }
-    }
+const DesignCard = ({ design, type }: { design: Design; type: string }) => {
+  const { fetchData } = useApi(`api/v1/design/user`, 'DELETE');
 
+  const deleteDesign = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+
+    try {
+      await fetchData({}, `/${design?.id}`);
+      toast.success('Design deleted successfully');
+    } catch (error) {
+      console.error(error);
+      toast.error('Something went wrong');
+    }
+  };
 
   return (
-      <div className={`relative group w-full ${type ? ' h-[100px] ' : ' h[170px] px-2 '}`}>
-        <Link
-          href={`/design/${design?.id}`}
-          className={`w-full h-full block bg-[#ffffff12] rounded-md ${type ? '' : ' p-4 '}`}>
-            <img className='w-full h-full rounded-md overflow-hidden' src={design?.imageUrl} alt="" />
-        </Link>
-        <div
-          onClick={() => deleteDesign()}
-          className='absolute hidden cursor-pointer top-1 right-2 text-red-500 p-2 transition-all duration-500 group-hover:block'
-        >
-          <FaTrash/>
+    <div className={`w-full relative group`}>
+      <Link
+        href={`/design/${design?.id}`}
+        className={`w-full h-full block bg-[#ffffff12] rounded-md ${type ? '' : ' p-4 '}`}
+      >
+        <div className="relative w-full h-full aspect-w-1 aspect-h-1">
+          <Image
+            src={design?.imageUrl}
+            alt="Design image"
+            fill
+            objectFit="cover"
+            className="rounded-md"
+          />
         </div>
-      </div>
-  )
-}
+      </Link>
+      <button
+        onClick={deleteDesign}
+        className="absolute hidden cursor-pointer top-1 right-2 text-red-500 p-2 transition-all duration-500 group-hover:block z-50"
+        style={{ outline: 'none' }}
+      >
+        <FaTrash />
+      </button>
+    </div>
+  );
+};
 
 export default DesignCard;
