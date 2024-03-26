@@ -2,26 +2,273 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer components {
-  .picker .react-colorful__saturation {
-    border-radius: 5px 5px 0 0;
+h1.ce-header{
+  @apply text-3xl font-bold
+}
+h2.ce-header{
+  @apply text-2xl font-semibold
+}
+h3.ce-header{
+  @apply text-xl font-semibold
+}
+h4.ce-header{
+  @apply text-lg font-semibold
+}
+h5.ce-header{
+  @apply text-base font-semibold
+}
+h6.ce-header{
+  @apply text-base font-semibold
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    /*--foreground: 240 10% 3.9%;*/
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    /*--card-foreground: 240 10% 3.9%;*/
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+    /*--popover-foreground: 240 10% 3.9%;*/
+
+    --primary: 0 0% 9%;
+    /*--primary: 240 5.9% 10%;*/
+    --primary-foreground: 0 0% 98%;
+
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    /*--secondary: 240 4.8% 95.9%;*/
+    /*--secondary-foreground: 240 5.9% 10%;*/
+
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    /*--muted: 240 4.8% 95.9%;*/
+    /*--muted-foreground: 240 3.8% 46.1%;*/
+
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
+    /*--accent: 240 4.8% 95.9%;*/
+    /*--accent-foreground: 240 5.9% 10%;*/
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    /*--border: 240 5.9% 90%;*/
+    /*--input: 240 5.9% 90%;*/
+    /*--ring: 240 10% 3.9%;*/
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
+
+    --radius: 0.5rem;
   }
 
-  .picker .react-colorful__hue {
-    border-radius: 0 0 5px 5px;
-  }
+  .dark {
+    --background: 0 0% 3.9%;
+    /*--background: 240 10% 3.9%;*/
+    --foreground: 0 0% 98%;
 
-  .stripes {
-    background-image: linear-gradient(
-      -45deg,
-      rgba(255, 255, 255, 0.02) 25%,
-      transparent 25%,
-      transparent 50%,
-      rgba(255, 255, 255, 0, 02) 50%,
-      rgba(255, 255, 255, 0, 02) 75%,
-      transparent 75%,
-      transparent
-    );
-    background-size: 2.3rem 2.3rem;
+    --card: 0 0% 3.9%;
+    /*--card: 240 10% 3.9%;*/
+    --card-foreground: 0 0% 98%;
+
+    --popover: 0 0% 3.9%;
+    /*--popover: 240 10% 3.9%;*/
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    /*--primary-foreground: 240 5.9% 10%;*/
+
+    --secondary: 0 0% 14.9%;
+    /*--secondary: 240 3.7% 15.9%;*/
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    /*--muted: 240 3.7% 15.9%;*/
+    /*--muted-foreground: 240 5% 64.9%;*/
+
+    --accent: 0 0% 14.9%;
+    /*--accent: 240 3.7% 15.9%;*/
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+    /*--border: 240 3.7% 15.9%;*/
+    /*--input: 240 3.7% 15.9%;*/
+    /*--ring: 240 4.9% 83.9%;*/
   }
 }
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+
+
+/*Working*/
+.cdx-block,
+.ce-header,
+.inlineToolButton,
+.ce-toolbar__plus,
+.ce-toolbar__settings-btn,
+.ce-popover__search {
+  /*background-color: #2b2b2b;*/
+  color: white;
+}
+
+.ce-toolbar__plus:hover,
+.ce-toolbar__settings-btn:hover,
+.cdx-loader,
+.cdx-button {
+  color: white;
+  background-color: #262626;
+}
+.cdx-search-field__input::placeholder {
+  color: white;
+}
+
+.cdx-search-field__icon svg {
+  color: white;
+}
+
+.ce-block--selected .ce-block__content {
+  background-color: #2f2f2f;
+}
+
+.cdx-button:hover {
+  background-color: #2f2f2f;
+}
+
+.ce-popover,
+.ce-popover-item,
+.ce-popover-item__icon,
+.ce-popover-items,
+.ce-popover-item:hover {
+  --color-background-item-hover: #2f2f2f;
+  background-color: #262626;
+  color: white;
+  border: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*.ce-block--selected .ce-block__content,*/
+/*.ce-inline-toolbar,*/
+/*.codex-editor--narrow .ce-toolbox,*/
+/*.ce-conversion-toolbar,*/
+/*.ce-settings,*/
+/*.ce-settings__button,*/
+/*.ce-toolbar__settings-btn,*/
+/*.cdx-button,*/
+/*.ce-popover,*/
+/*.ce-toolbar__plus:hover {*/
+/*  background: #0000;*/
+/*  color: inherit;*/
+/*}*/
+
+/*.ce-inline-tool,*/
+/*.ce-conversion-toolbar__label,*/
+/*.ce-toolbox__button,*/
+/*.cdx-settings-button,*/
+/*.ce-toolbar__plus {*/
+/*  color: inherit;*/
+/*}*/
+
+/*::selection {*/
+/*  background: #000;*/
+/*}*/
+
+/*.cdx-settings-button:hover,*/
+/*.ce-settings__button:hover,*/
+/*.ce-toolbox__button--active,*/
+/*.ce-toolbox__button:hover,*/
+/*.cdx-button:hover,*/
+/*.ce-inline-toolbar__dropdown:hover,*/
+/*.ce-inline-tool:hover,*/
+/*.ce-popover__item:hover,*/
+/*.ce-toolbar__settings-btn:hover {*/
+/*  background-color: #aaaaaa;*/
+/*  color: inherit;*/
+/*}*/
+
+/*.cdx-notify--error {*/
+/*  background: #fb5d5d !important;*/
+/*}*/
+
+/*.cdx-notify__cross::after,*/
+/*.cdx-notify__cross::before {*/
+/*  background: white;*/
+/*}*/
+
+/*.dark .ce-inline-toolbar,*/
+/*.dark .codex-editor--narrow .ce-toolbox,*/
+/*.dark .ce-conversion-toolbar,*/
+/*.dark .ce-settings,*/
+/*.dark .ce-settings__button,*/
+/*.dark .ce-toolbar__settings-btn,*/
+/*.dark .cdx-button,*/
+/*.dark .ce-popover,*/
+/*.dark .ce-toolbar__plus:hover {*/
+/*  background: #fff;*/
+/*  color: #000;*/
+/*}*/
+
+/*.dark .ce-inline-tool,*/
+/*.dark .ce-conversion-toolbar__label,*/
+/*.dark .ce-toolbox__button,*/
+/*.dark .cdx-settings-button,*/
+/*.dark .ce-toolbar__plus {*/
+/*  color: #616161;*/
+/*}*/
+
+/*.dark ::selection {*/
+/*  background: #4d4d4d;*/
+/*}*/
+
+/*.dark .cdx-settings-button:hover,*/
+/*.dark .ce-settings__button:hover,*/
+/*.dark .ce-toolbox__button--active,*/
+/*.dark .ce-toolbox__button:hover,*/
+/*.dark .cdx-button:hover,*/
+/*.dark .ce-inline-toolbar__dropdown:hover,*/
+/*.dark .ce-inline-tool:hover,*/
+/*.dark .ce-popover__item:hover,*/
+/*.dark .ce-toolbar__settings-btn:hover {*/
+/*  background-color: #4d4d4d;*/
+/*  color: #fff;*/
+/*}*/
+
+/*.dark .cdx-notify--error {*/
+/*  background: #fb5d5d !important;*/
+/*}*/
+
+/*.dark .cdx-notify__cross::after,*/
+/*.dark .cdx-notify__cross::before {*/
+/*  background: #1a1a1a;*/
+/*}*/
