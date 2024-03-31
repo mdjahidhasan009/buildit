@@ -2,8 +2,17 @@ import { Button } from '@/components/ui/button'
 import { Link, Save } from 'lucide-react'
 import Image from 'next/image'
 import React from 'react'
+import { useSelector } from 'react-redux'
+import {RootState} from "@/lib/reduxStore";
 
-function WorkspaceHeader({onSave}:any) {
+function WorkspaceHeader() {
+    const editorData = useSelector((state: RootState) => state.diagram.editorData);
+    const diagramData = useSelector((state: RootState) => state.diagram.diagramData);
+
+    const onSave = () => {
+        console.log(editorData);
+        console.log(diagramData);
+    }
   return (
     <div className='p-3 border-b flex justify-between items-center'>
       <div className='flex gap-2 items-center'>

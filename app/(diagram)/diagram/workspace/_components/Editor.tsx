@@ -10,6 +10,8 @@ import Warning from '@editorjs/warning';
 // import { api } from '@/convex/_generated/api';
 import { toast } from 'sonner';
 import { FILE } from '../../dashboard/_components/FileList';
+import {useDispatch} from "react-redux";
+import { setEditorData } from '@/lib/features/diagram/diagramSlice';
 
 const rawDocument={
   "time" : 1550476186479,
@@ -34,6 +36,9 @@ function Editor({onSaveTrigger,fileId,fileData}:{onSaveTrigger:any,fileId:any,fi
   const ref=useRef<EditorJS>();
   // const updateDocument=useMutation(api.files.updateDocument);
   const [document,setDocument]=useState(rawDocument);
+
+  const dispatch = useDispatch();
+
   useEffect(()=>{
     // fileData&&
     console.log('initializing editor')
@@ -76,6 +81,9 @@ function Editor({onSaveTrigger,fileId,fileData}:{onSaveTrigger:any,fileId:any,fi
         paragraph: Paragraph,
         warning: Warning,
       },
+      onChange: (api, event) => {
+        onSaveDocument();
+      },
 
       holder: 'editorjs',
       // data:fileData?.document?JSON.parse(fileData.document):rawDocument
@@ -91,6 +99,7 @@ function Editor({onSaveTrigger,fileId,fileData}:{onSaveTrigger:any,fileId:any,fi
         console.log('instance of editorjs')
         ref.current.save().then((outputData) => {
           console.log('Article data: ', outputData);
+          dispatch(setEditorData({ data: outputData }))
           // updateDocument({
           //   _id:fileId,
           //   document:JSON.stringify(outputData)

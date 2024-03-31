@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { Excalidraw, MainMenu, WelcomeScreen } from "@excalidraw/excalidraw";
 import { FILE } from '../../dashboard/_components/FileList';
+import {useDispatch} from "react-redux";
+import {setDiagramData} from "@/lib/features/diagram/diagramSlice";
 // import { useMutation } from 'convex/react';
 // import { api } from '@/convex/_generated/api';
 function Canvas({onSaveTrigger,fileId,fileData}:{onSaveTrigger:any,fileId:any,fileData:FILE}) {
-
   const [whiteBoardData,setWhiteBoardData]=useState<any>();
+
+  const dispatch = useDispatch();
 
   // const updateWhiteboard=useMutation(api.files.updateWhiteboard)
   useEffect(()=>{
@@ -26,7 +29,10 @@ function Canvas({onSaveTrigger,fileId,fileData}:{onSaveTrigger:any,fileId:any,fi
             // initialData={{
             //   elements:fileData?.whiteboard&&JSON.parse(fileData?.whiteboard)
             // }}
-            onChange={(excalidrawElements, appState, files)=> setWhiteBoardData(excalidrawElements)}
+            onChange={(excalidrawElements, appState, files)=> {
+                setWhiteBoardData(excalidrawElements)
+              dispatch(setDiagramData({ data: excalidrawElements }));
+            }}
             UIOptions={{
               canvasActions:{
                 saveToActiveFile:false,

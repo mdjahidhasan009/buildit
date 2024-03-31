@@ -16,6 +16,8 @@ import domtoimage from 'dom-to-image';
 import { useRouter } from 'next/navigation';
 import {useSelector} from "react-redux";
 import {RootState} from "@/lib/reduxStore";
+import WorkspaceHeader from "@/app/(diagram)/diagram/workspace/_components/WorkspaceHeader";
+import React from "react";
 
 export default function Header() {
   const components = useSelector((state: RootState) => state.components.components);
@@ -97,22 +99,8 @@ export default function Header() {
 
       {sessionStatus !== "loading" && (
         <div className={cn("flex items-center justify-center")}>
-          {pathname.includes('dashboard') && (
-            <button
-              onClick={createDesign}
-              className='py-2 px-6 overflow-hidden text-center bg-[#8b3dff] text-white rounded-[3px] font-medium hover:bg-[#9553f8]'>
-                Create a Design
-            </button>
-          )}
-
-          {pathname.includes('design') && (
-            <div className="flex justify-center items-center gap-2 text-gray-300">
-              <button disabled={loading} onClick={saveImage}
-                      className="px-3 py-[6px] outline-none bg-[#252627] rounded-sm">{loading ? 'Saving...' : 'Save'}</button>
-              <button onClick={downloadImage}
-                      className="px-3 py-[6px] outline-none bg-[#252627] rounded-sm">Download
-              </button>
-            </div>
+          {pathname.includes('workspace') && (
+              <WorkspaceHeader />
           )}
           <Social/>
           <Help/>
