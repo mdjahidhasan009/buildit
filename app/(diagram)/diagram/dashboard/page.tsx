@@ -3,23 +3,23 @@
 // import { LogoutLink, useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
 // import { useConvex, useMutation, useQuery } from 'convex/react'
 import React, { useEffect } from 'react'
-import Header from './_components/Header'
-import FileList from './_components/FileList'
+// import Header from './_components/Header'
+// import FileList from './_components/FileList'
 // import AdBanner from './../../_components/AdBanner'
 function Dashboard() {
 
   // const convex=useConvex();
   // const {user} : any =useKindeBrowserClient();
-  const user = null;
-  //const getUser=useQuery(api.user.getUser,{email:user?.email});
-
-  // const createUser=useMutation(api.user.createUser);
-  useEffect(()=>{
-    if(user)
-    {
-      checkUser()
-    }
-  },[user])
+  // const user = null;
+  // //const getUser=useQuery(api.user.getUser,{email:user?.email});
+  //
+  // // const createUser=useMutation(api.user.createUser);
+  // useEffect(()=>{
+  //   if(user)
+  //   {
+  //     checkUser()
+  //   }
+  // },[user])
 
 
   const checkUser=async()=>{
@@ -38,9 +38,9 @@ function Dashboard() {
   }
   return (
     <div className='p-8'>
-      <Header/>
+      {/*<Header/>*/}
 
-      <FileList/>
+      {/*<FileList/>*/}
       {/*<AdBanner*/}
       {/*  data-ad-slot="4796371341"*/}
       {/*  data-ad-format="auto"*/}

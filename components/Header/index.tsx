@@ -16,7 +16,7 @@ import domtoimage from 'dom-to-image';
 import { useRouter } from 'next/navigation';
 import {useSelector} from "react-redux";
 import {RootState} from "@/lib/reduxStore";
-import WorkspaceHeader from "@/app/(diagram)/diagram/workspace/_components/WorkspaceHeader";
+import WorkspaceHeader from "@/app/(diagram)/diagram/workspace/[fileId]/_components/WorkspaceHeader";
 import React from "react";
 
 export default function Header() {

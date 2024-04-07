@@ -13,38 +13,38 @@ import { SUPPORTED_FONT_STYLES as fonts } from "@/lib/fonts";
 import Providers from "@/contexts/Providers";
 import Header from "@/components/Header";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
-
-const firaCode = Fira_Code({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-fira-code",
-});
-
-const jetBrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-jetbrains-mono",
-});
-
-const inconsolata = Inconsolata({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-inconsolata",
-});
-
-const sourceCodePro = Source_Code_Pro({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-source-code-pro",
-});
-
-const ibmPlexMono = IBM_Plex_Mono({
-  weight: "400",
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-ibm-plex-mono",
-});
+// const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+//
+// const firaCode = Fira_Code({
+//   subsets: ["latin"],
+//   display: "swap",
+//   variable: "--font-fira-code",
+// });
+//
+// const jetBrainsMono = JetBrains_Mono({
+//   subsets: ["latin"],
+//   display: "swap",
+//   variable: "--font-jetbrains-mono",
+// });
+//
+// const inconsolata = Inconsolata({
+//   subsets: ["latin"],
+//   display: "swap",
+//   variable: "--font-inconsolata",
+// });
+//
+// const sourceCodePro = Source_Code_Pro({
+//   subsets: ["latin"],
+//   display: "swap",
+//   variable: "--font-source-code-pro",
+// });
+//
+// const ibmPlexMono = IBM_Plex_Mono({
+//   weight: "400",
+//   subsets: ["latin"],
+//   display: "swap",
+//   variable: "--font-ibm-plex-mono",
+// });
 
 export const metadata: Metadata = {
   title: "Create Next App",
