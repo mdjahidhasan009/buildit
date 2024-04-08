@@ -51,6 +51,7 @@ export default function Snippets({
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
+      console.log('handleKeyDown')
       if (
         !localDialogOpen &&
         activeElement &&
@@ -87,6 +88,7 @@ export default function Snippets({
 
   const handleEvent = useCallback(
     (e: MouseEvent | FocusEvent, isMouseOut: boolean) => {
+      // console.log('handleEvent')
       const target = e.target as HTMLElement;
       const closestLink = target.closest("a");
 
@@ -115,9 +117,7 @@ export default function Snippets({
       document.addEventListener("keydown", handleKeyDown);
 
       return () => {
-        ulElement.removeEventListener("mouseover", (e) =>
-          handleEvent(e, false)
-        );
+        ulElement.removeEventListener("mouseover", (e) => handleEvent(e, false));
         ulElement.removeEventListener("mouseout", (e) => handleEvent(e, true));
         ulElement.removeEventListener("focusin", (e) => handleEvent(e, false));
         ulElement.removeEventListener("focusout", (e) => handleEvent(e, true));
@@ -138,13 +138,11 @@ export default function Snippets({
       });
   }
 
-  function handleDelete(payload: DeletePayload) {
-    deleteSnippet(payload, `?id=${payload?.id}`)
-      .then(res => {
-        if (res.id) {
-          setLocalSnippets(prev => prev.filter(snippet => snippet.id !== payload?.id));
-        }
-      });
+  const handleDelete =  async (payload: DeletePayload) => {
+    const res = await deleteSnippet(payload, `?id=${payload?.id}`);
+    if (res?.data?.deletedSnippet?.id) {
+      setLocalSnippets(prev => prev.filter(snippet => snippet.id !== payload?.id));
+    }
   }
 
   function renderDialog() {
@@ -217,15 +215,15 @@ export default function Snippets({
                       )}
                     >
                       <div className={cn("flex items-center gap-2")}>
-                        <ThemeBubble
-                          style={{
-                            backgroundImage: `linear-gradient(${angle})deg,${(theme ===
-                            "custom"
-                              ? (customColors as string[])
-                              : find(SUPPORTED_THEMES, theme).baseColors
-                            ).join(" ,")}`,
-                          }}
-                        />
+                        {/*<ThemeBubble*/}
+                        {/*  style={{*/}
+                        {/*    backgroundImage: `linear-gradient(${angle})deg,${(theme ===*/}
+                        {/*    "custom"*/}
+                        {/*      ? (customColors as string[])*/}
+                        {/*      : find(SUPPORTED_THEMES, theme).baseColors*/}
+                        {/*    ).join(" ,")}`,*/}
+                        {/*  }}*/}
+                        {/*/>*/}
 
                         <span data-id="title" className={cn("grow truncate")}>
                           {title ?? "Untitled"}

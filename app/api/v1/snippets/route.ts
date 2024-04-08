@@ -82,7 +82,8 @@ export const DELETE = async (req: NextRequest) => {
     const deletedSnippet = await snippetUseCases.deleteSnippet(id as string, userId as string);
 
 
-    return new NextResponse(JSON.stringify(deletedSnippet), { status: 200 });
+    // return new NextResponse(JSON.stringify(deletedSnippet), { status: 200 });
+    return new Response(JSON.stringify({ status:'success', data: { deletedSnippet } }), { status: 200, headers: { 'Content-Type': 'application/json' } });
   } catch (e) {
     console.error(e);
     return new Response(JSON.stringify({ code: "INTERNAL_SERVER_ERROR" }), { status: 400, headers: { 'Content-Type': 'application/json' } });
