@@ -4,6 +4,6 @@ export interface Diagram {
     title?: string;
     editorData?: object;
     diagramData?: object;
-    createdAt: string;
-    updatedAt: string;
+    createdAt: Date;
+    updatedAt: Date;
 }

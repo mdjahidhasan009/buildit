@@ -27,8 +27,8 @@ interface DeletePayload {
 
 interface content {
   id: string;
-  title: string;
-  createdAt: string;
+  title?: string;
+  createdAt: Date;
   views?: { count: number };
 }
 

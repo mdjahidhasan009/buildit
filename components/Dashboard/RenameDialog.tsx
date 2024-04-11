@@ -12,7 +12,7 @@ export default memo(function RenameDialog({
 }: {
   id: string;
   title: string | undefined;
-  action: ({ id, title }: { id: string; title?: string; }) => void;
+  action: ({ id, title }: { id: string; title: string; }) => void;
   isLoading: boolean;
 }) {
   const [localInputValue, setLocalInputValue] = useState(title ?? "");

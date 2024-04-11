@@ -1,20 +1,12 @@
 "use client"
 import React, { useEffect, useState } from 'react';
-const Editor = dynamic(() => import("@/app/(diagram)/diagram/[diagram_id]/_components/Editor"), { ssr: false });
-const Canvas = dynamic(() => import("@/app/(diagram)/diagram/[diagram_id]/_components/Canvas"), { ssr: false });
-// import { useConvex } from 'convex/react';
-// import { api } from '@/convex/_generated/api';
-// import { FILE } from '../../dashboard/_components/FileList';
-// import Canvas from '../_components/Canvas';
+const Editor = dynamic(() => import("@/app/(diagram)/diagram/[diagram_id]/components/Editor"), { ssr: false });
+const Canvas = dynamic(() => import("@/app/(diagram)/diagram/[diagram_id]/components/Canvas"), { ssr: false });
 import dynamic from "next/dynamic";
 import useApi from "@/utils/useApi";
 import {useDispatch, useSelector} from "react-redux";
 import {
-  diagramSlice,
   initDiagramData,
-  setDiagramData,
-  setEditorData,
-  setTittle
 } from "@/lib/features/diagram/diagramSlice";
 import {RootState} from "@/lib/reduxStore";
 
@@ -39,34 +31,12 @@ const Page = ({params}:any) => {
           elements
         }
       }))
-      // dispatch(setTittle({ data: title }));
-      // dispatch(setEditorData({ data: editorData }));
-      // dispatch(setDiagramData({ data: { elements } }));
     }
   }, [data]);
-  // const [triggerSave,setTriggerSave]=useState(false);
-  // const convex=useConvex();
-  // const [fileData,setFileData]=useState<FILE|any>();
-  // useEffect(()=>{
-  //   console.log("FILEID",params.fileId)
-  //   params.fileId&&getFileData();
-  // },[])
 
-  const getFileData=async()=>{
-    // const result=await convex.query(api.files.getFileById,{_id:params.fileId})
-    // setFileData(result);
-  }
 
-  console.log("data")
-  console.log(data)
-  console.log("loading")
-  console.log(loading)
-  console.log('parent-component++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
-
-  // @ts-ignore
   return (
     <div>
-
       {/* Workspace Layout  */}
       <div className='grid grid-cols-1 md:grid-cols-2'>
         {/* Document  */}
@@ -75,33 +45,15 @@ const Page = ({params}:any) => {
           : (
             <>
               <div style={{height: "100%"}}>
-                <Editor
-                  // onSaveTrigger={triggerSave}
-                  // fileId={params.fileId}
-                  // fileData=""
-                  // fileData={
-                  //   {
-                  //     type: "header",
-                  //     data: {
-                  //       "text": "Why Telegram is the best messenger",
-                  //       "level": 2
-                  //     }
-                  //   }
-                  // }
-                />
+                <Editor />
               </div>
               {/* Whiteboard/canvas  */}
               <div className='border-l' style={{height: "100%"}}>
-                <Canvas
-                  // onSaveTrigger={triggerSave}
-                  // fileId={params.fileId}
-                  // fileData={fileData}
-                />
+                <Canvas />
               </div>
             </>
           )
         }
-
       </div>
     </div>
   )

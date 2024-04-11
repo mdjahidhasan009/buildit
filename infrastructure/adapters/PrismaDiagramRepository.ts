@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 
 export class PrismaDiagramRepository implements IDiagramRepository {
     // async create(diagramData: Partial<Diagram> & { userId: string, fileName: string; editorData: object, diagramData: object }): Promise<Diagram> {
-    async create(diagramData: Partial<Diagram>): Promise<Diagram> {
+    async create(diagramData: Partial<Diagram> & { userId: string } ): Promise<Diagram> {
         const createdDiagram = await prisma.diagram.create({
             data: diagramData,
         })
