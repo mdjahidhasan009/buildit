@@ -10,7 +10,7 @@ import {IDesign} from "@/lib/types";
 const Page = () => {
   const [designs, setDesigns] = useState<IDesign[]>([]);
 
-  const { data, loading } = useApi('api/v1/design/user/designs', 'GET');
+  const { data, loading } = useApi('api/v1/designs/user/designs', 'GET');
 
   useEffect(() => {
     if(data?.data?.designs) {

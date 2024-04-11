@@ -11,7 +11,7 @@ interface BackgroundImagesProps {
 
 const BackgroundImages: FC<BackgroundImagesProps>  = ({ setImage }) => {
   const [images, setImages] = useState<{ imageUrl: string }[]>([]);
-  const { data, error } = useApi('api/v1/design/design-item/background-images', 'GET');
+  const { data, error } = useApi('api/v1/designs/design-item/background-images', 'GET');
 
   useEffect(() => {
     if(data) {

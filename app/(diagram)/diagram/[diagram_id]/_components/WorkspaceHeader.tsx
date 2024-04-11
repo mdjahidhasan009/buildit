@@ -3,18 +3,18 @@ import { Link, Save } from 'lucide-react'
 import React from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {RootState} from "@/lib/reduxStore";
-import {setFileName} from "@/lib/features/diagram/diagramSlice";
+import {setTittle} from "@/lib/features/diagram/diagramSlice";
 import useApi from "@/utils/useApi";
 import {useSession} from "next-auth/react";
 import {redirect, usePathname} from "next/navigation";
 
-function WorkspaceHeader({ params }: { params: any }) {
+function WorkspaceHeader() {
     const pathname = usePathname();
-    const fileId = pathname.split('/workspace/')[1];
-    const { data, fetchData, loading } = useApi(`/api/v1/diagram/${fileId}`, 'PUT');
+    const diagramId = pathname.split('/workspace/')[1];
+    const { data, fetchData, loading } = useApi(`/api/v1/diagrams/${diagramId}`, 'PUT');
     const { data: session, status: sessionStatus } = useSession();
 
-    const fileName = useSelector((state: RootState) => state.diagram.fileName);
+    const title = useSelector((state: RootState) => state.diagram.title);
     const editorData = useSelector((state: RootState) => state.diagram.editorData);
     const diagramData = useSelector((state: RootState) => state.diagram.diagramData);
 
@@ -26,10 +26,8 @@ function WorkspaceHeader({ params }: { params: any }) {
     }
 
     const onSave = async () => {
-        console.log(editorData);
-        console.log(diagramData);
         await fetchData({
-            fileName,
+            title,
             editorData,
             diagramData
         })
@@ -47,8 +45,8 @@ function WorkspaceHeader({ params }: { params: any }) {
         <input
             className="bg-black outline-none"
             placeholder="Enter File Name"
-            value={fileName}
-            onChange={(e) => dispatch(setFileName({ data: e.target.value }))} />
+            value={title}
+            onChange={(e) => dispatch(setTittle({ data: e.target.value }))} />
       </div>
       <div className='flex items-center gap-4'>
         <Button

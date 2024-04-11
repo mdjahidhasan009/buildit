@@ -24,7 +24,7 @@ export async function POST(req: NextRequest, params : { params: { template_id: s
     // return NextResponse.json({
     //   status: 'success',
     //   data: {
-    //     design: createdDesign
+    //     designs: createdDesign
     //   }
     // }, { status: 200 });
   } catch (error) {

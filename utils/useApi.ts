@@ -21,7 +21,9 @@ const useApi = <T = any>(
 ): UseApiResponse<T> => {
   const [data, setData] = useState<T | null>(null);
   const [error, setError] = useState<Error | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  //For get as we execute the api call immediately, for this reason only for GET request loading initially will true
+  //also it will help to reduce the amount of rerendering
+  const [loading, setLoading] = useState<boolean>(method === 'GET');
 
   const fetchData = async (body: any, urlParams = '') => {
     // if(!body) return null;

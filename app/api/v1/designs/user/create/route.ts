@@ -22,7 +22,7 @@ export async function POST(req: NextRequest, res: NextResponse){
   try {
     const createdDesign = await designUseCases.createDesign(userId, componentsString, base64Image as string);
     return new Response(JSON.stringify({ message: "Design Created", data: { design: createdDesign } }), { status: 201, headers: { 'Content-Type': 'application/json' } });
-    // return NextResponse.json({ message: "Design Created" ,data: { design: createdDesign } }, { status: 201 });
+    // return NextResponse.json({ message: "Design Created" ,data: { designs: createdDesign } }, { status: 201 });
   } catch (error) {
     console.error(error);
     return new Response(JSON.stringify({ message: "Error processing request" }), { status: 400, headers: { 'Content-Type': 'application/json' } });

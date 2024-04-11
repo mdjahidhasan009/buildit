@@ -20,7 +20,7 @@ const CreateDesign = () => {
     const width = parseInt((searchParams.get('width') || '0'));
     const height = parseInt((searchParams.get('height') || '0'));
 
-    const { fetchData, data, error } = useApi('api/v1/design/user/create', 'POST');
+    const { fetchData, data, error } = useApi('api/v1/designs/user/create', 'POST');
 
     const obj = {
         name: "main_frame",

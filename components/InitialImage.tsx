@@ -8,7 +8,7 @@ interface InitialImageProps {
 
 const InitialImage: FC<InitialImageProps> = ({ addImage }) => {
   const [images, setImages] = useState([]);
-  const { data } = useApi('api/v1/design/design-item/design-images', 'GET');
+  const { data } = useApi('api/v1/designs/design-item/design-images', 'GET');
 
   useEffect(() => {
     if(data) {

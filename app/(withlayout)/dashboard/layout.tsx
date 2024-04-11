@@ -1,7 +1,7 @@
 "use client";
 
 import { FaHome, FaFileCode } from 'react-icons/fa'
-import { BsFolder, BsGrid1X2 } from 'react-icons/bs'
+import { BsFolder, BsGrid1X2, BsFillDiagram3Fill } from 'react-icons/bs'
 import {cn} from "@/lib/cn";
 import Link from "next/link";
 import { usePathname } from 'next/navigation';
@@ -41,7 +41,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <SidebarLink href="/" icon={<FaHome/>} text="Home"/>
             <SidebarLink href="/projects" icon={<BsFolder/>} text="Projects"/>
             <SidebarLink href="/templates" icon={<BsGrid1X2/>} text="Templates"/>
-            <SidebarLink href="/all_codes" icon={<FaFileCode/>} text="Code Snippets"/>
+            <SidebarLink href="/snippet" icon={<FaFileCode/>} text="Codes"/>
+            <SidebarLink href="/diagram" icon={<BsFillDiagram3Fill/>} text="Diagrams"/>
           </ul>
         </div>
         <div className='ml-[300px] w-[calc(100%-300px)]'>

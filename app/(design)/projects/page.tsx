@@ -9,7 +9,7 @@ import {IDesign} from "@/lib/types";
 
 const Projects = () => {
   const [designs, setDesigns] = useState<IDesign[]>([]);
-  const { data: fetchedPropjects } = useApi('api/v1/design/user/designs');
+  const { data: fetchedPropjects } = useApi('api/v1/designs/user/designs');
   let type = '';
 
   useEffect(() => {

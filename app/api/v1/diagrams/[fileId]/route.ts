@@ -11,6 +11,10 @@ export const GET = async (req: NextRequest, params: {params: { fileId: string }}
 
 
     const fileId = params?.params?.fileId as string;
+    if(!fileId) {
+        return new Response(JSON.stringify({ status: 'error', data: [], message: "Please provide fileId" }), { status: 401, headers: { 'Content-Type': 'application/json' } });
+    }
+    console.log(params)
 
     const diagramRepository = new PrismaDiagramRepository();
     const diagramUseCase = new DiagramUseCases(diagramRepository);
@@ -18,22 +22,4 @@ export const GET = async (req: NextRequest, params: {params: { fileId: string }}
     const diagram = await diagramUseCase.getById(fileId);
 
     return new Response(JSON.stringify({ status: 'success', data: { diagram } }), { status: 200, headers: { 'Content-Type': 'application/json' } });
-}
-
-export const PUT = async (req: NextRequest, params: {params: { fileId: string }}) => {
-    const [body, userId ='', earlyAbortResponse] =
-        await requestHandler({ requireAuth: true, expectBody: true })(req);
-    if(earlyAbortResponse && earlyAbortResponse.status !== 403) return earlyAbortResponse; //as it can be use publicly also
-
-    const fileId = params?.params?.fileId as string;
-
-    const dialogRepository = new PrismaDiagramRepository();
-    const diagramUseCase = new DiagramUseCases(dialogRepository);
-    const diagram = await diagramUseCase.getById(fileId);
-    if(diagram?.userId !== userId) {
-        return new Response(JSON.stringify({ status: 'error', message: 'Unauthorized' }), { status: 401, headers: { 'Content-Type': 'application/json' } });
-    }
-
-    const updatedDiagram = await diagramUseCase.update(fileId, body);
-    return new Response(JSON.stringify({ status:'success', data: { updatedDiagram } }), { status: 200, headers: { 'Content-Type': 'application/json' } });
 }

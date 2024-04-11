@@ -16,7 +16,7 @@ import domtoimage from 'dom-to-image';
 import { useRouter } from 'next/navigation';
 import {useSelector} from "react-redux";
 import {RootState} from "@/lib/reduxStore";
-import WorkspaceHeader from "@/app/(diagram)/diagram/workspace/[fileId]/_components/WorkspaceHeader";
+import WorkspaceHeader from "@/app/(diagram)/diagram/workspace/[diagramId]/_components/WorkspaceHeader";
 import React from "react";
 
 export default function Header() {
@@ -24,13 +24,13 @@ export default function Header() {
 
   const { status: sessionStatus } = useSession();
   const pathname = usePathname();
-  let design_id = pathname.split('/design/')[1] || '';
+  let design_id = pathname.split('/designs/')[1] || '';
   const router = useRouter();
 
-  const { fetchData, data, loading, error } = useApi(`api/v1/design/user/${design_id}`, 'PUT', "multipart/form-data");
+  const { fetchData, data, loading, error } = useApi(`api/v1/designs/user/${design_id}`, 'PUT', "multipart/form-data");
 
   const saveImage = async () => {
-    if(components.length === 0) return toast.error('Please add some components to save the design');
+    if(components.length === 0) return toast.error('Please add some components to save the designs');
     let htmlElement = document.getElementById('main_design');
     if(!htmlElement) {
       toast.error('Something went wrong');
@@ -64,7 +64,7 @@ export default function Header() {
   }
 
   const downloadImage = async () => {
-    if(components.length === 0) return toast.error('Please add some components to save the design');
+    if(components.length === 0) return toast.error('Please add some components to save the designs');
 
     const getDiv = document.getElementById('main_design');
     if(!getDiv) return toast.error('Something went wrong');
@@ -99,7 +99,7 @@ export default function Header() {
 
       {sessionStatus !== "loading" && (
         <div className={cn("flex items-center justify-center")}>
-          {pathname.includes('workspace') && (
+          {pathname.includes('diagram/') && (
               <WorkspaceHeader />
           )}
           <Social/>

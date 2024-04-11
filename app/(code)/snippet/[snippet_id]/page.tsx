@@ -5,11 +5,10 @@ import { useSession } from "next-auth/react";
 import useApi from "@/utils/useApi";
 // import {useStore} from "@/lib/store";
 import {useEffect, useState} from "react";
-import Loading from "@/app/(code)/[snippet_id]/loading";
+import Loading from "@/app/(code)/snippet/[snippet_id]/loading";
 import {ISnippet} from "@/components/Snippet/ISnippet";
 import {useDispatch} from "react-redux";
 import {setAppState} from "@/lib/features/snippet/snippetSlice";
-import {AppState} from "@/lib/types";
 
 interface Session {
   user?: {

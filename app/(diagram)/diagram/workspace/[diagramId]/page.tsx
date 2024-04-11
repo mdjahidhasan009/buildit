@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useState } from 'react';
-const Editor = dynamic(() => import("@/app/(diagram)/diagram/workspace/[fileId]/_components/Editor"), { ssr: false });
-const Canvas = dynamic(() => import("@/app/(diagram)/diagram/workspace/[fileId]/_components/Canvas"), { ssr: false });
+const Editor = dynamic(() => import("@/app/(diagram)/diagram/workspace/[diagramId]/_components/Editor"), { ssr: false });
+const Canvas = dynamic(() => import("@/app/(diagram)/diagram/workspace/[diagramId]/_components/Canvas"), { ssr: false });
 // import { useConvex } from 'convex/react';
 // import { api } from '@/convex/_generated/api';
 // import { FILE } from '../../dashboard/_components/FileList';
@@ -9,23 +9,23 @@ const Canvas = dynamic(() => import("@/app/(diagram)/diagram/workspace/[fileId]/
 import dynamic from "next/dynamic";
 import useApi from "@/utils/useApi";
 import {useDispatch, useSelector} from "react-redux";
-import {diagramSlice, setDiagramData, setEditorData, setFileName} from "@/lib/features/diagram/diagramSlice";
+import {diagramSlice, setDiagramData, setEditorData, setTittle} from "@/lib/features/diagram/diagramSlice";
 import {RootState} from "@/lib/reduxStore";
 
-const Page = ({params}:any) => {
-  const fileNameFromState = useSelector((state: RootState) => state.diagram);
+const Page = ({params } :{ params: { diagramId: string }}) => {
+  const diagramState = useSelector((state: RootState) => state.diagram);
   const dispatch = useDispatch();
-  const { data, loading, error } = useApi(`/api/v1/diagram/${params?.fileId}`);
+  const { data, loading, error } = useApi(`/api/v1/diagrams/${params?.diagramId}`);
 
   useEffect(() => {
     if(!loading && data) {
       const diagram = data?.data?.diagram;
-      const fileName = diagram?.fileName;
+      const title = diagram?.title;
       const diagramData = diagram?.diagramData;
       const elements = diagramData?.elements;
       const editorData = diagram?.editorData;
 
-      dispatch(setFileName({ data: fileName }));
+      dispatch(setTittle({ data: title }));
       dispatch(setEditorData({ data: editorData }));
       dispatch(setDiagramData({ data: { elements } }));
     }
@@ -49,7 +49,7 @@ const Page = ({params}:any) => {
       {/* Workspace Layout  */}
       <div className='grid grid-cols-1 md:grid-cols-2'>
         {/* Document  */}
-        {(loading || !fileNameFromState)
+        {(loading)
           ? <div>Loading</div>
           : (
             <>

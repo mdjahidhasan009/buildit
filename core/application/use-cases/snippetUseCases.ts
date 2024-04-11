@@ -34,7 +34,7 @@ export class SnippetUseCases {
     return this.snippetRepository.update(id, snippetData);
   }
 
-  async deleteSnippet(id: string, userId: string): Promise<boolean> {
+  async deleteSnippet(id: string, userId: string): Promise<Snippet | boolean> {
     return this.snippetRepository.delete(id, userId);
   }
 }

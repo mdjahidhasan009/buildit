@@ -37,7 +37,8 @@ export const PATCH = async (req: NextRequest) => {
     const snippetUseCases = new SnippetUseCases(snippetRepository, viewRepository);
     const updatedSnippet = await snippetUseCases.updateSnippet(body.id, { ...body, userId } );
 
-    return new NextResponse(JSON.stringify(updatedSnippet), { status: 200 });
+    // return new NextResponse(JSON.stringify(updatedSnippet), { status: 200 });
+    return new Response(JSON.stringify({ status:'success', data: updatedSnippet }), { status: 200, headers: { 'Content-Type': 'application/json' } });
   } catch (e) {
     console.error(e)
     return new Response(JSON.stringify({ code: "INTERNAL_SERVER_ERROR" }), { status: 400, headers: { 'Content-Type': 'application/json' } });
@@ -83,7 +84,7 @@ export const DELETE = async (req: NextRequest) => {
 
 
     // return new NextResponse(JSON.stringify(deletedSnippet), { status: 200 });
-    return new Response(JSON.stringify({ status:'success', data: { deletedSnippet } }), { status: 200, headers: { 'Content-Type': 'application/json' } });
+    return new Response(JSON.stringify({ status:'success', data: { item: deletedSnippet } }), { status: 200, headers: { 'Content-Type': 'application/json' } });
   } catch (e) {
     console.error(e);
     return new Response(JSON.stringify({ code: "INTERNAL_SERVER_ERROR" }), { status: 400, headers: { 'Content-Type': 'application/json' } });

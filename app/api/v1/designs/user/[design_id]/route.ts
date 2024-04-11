@@ -28,7 +28,7 @@ export async function GET(req: NextRequest, params: { params: { design_id: strin
     //   {
     //     status: 'success',
     //     data: {
-    //         design: userDesign?.components
+    //         designs: userDesign?.components
     //     }
     //   }, { status: 200 }
     // );
@@ -100,7 +100,7 @@ export async function DELETE(req: NextRequest, params: { params: { design_id: st
     //   {
     //     status: 'success',
     //     data: {
-    //       design: userDesign?.components
+    //       designs: userDesign?.components
     //     }
     //   }, { status: 200 }
     // );

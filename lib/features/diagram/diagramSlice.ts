@@ -1,7 +1,7 @@
 import {createSlice} from "@reduxjs/toolkit";
 
 const initialState = {
-    fileName: "",
+    title: "",
     editorData: {},
     // editorData: {
     //     "blocks": [
@@ -545,9 +545,9 @@ export const diagramSlice = createSlice({
     name: 'diagram',
     initialState,
     reducers: {
-        setFileName:(state, action) => {
+        setTittle:(state, action) => {
             const { data } = action.payload;
-            state.fileName = data;
+            state.title = data;
         },
         setEditorData:(state, action) => {
             const { data } = action.payload;
@@ -560,9 +560,22 @@ export const diagramSlice = createSlice({
                 ...state.diagramData,
                     elements
             };
+        },
+        initDiagramData: (state, action) => {
+            const { data } = action.payload;
+            const { title, editorData, elements } = data;
+            console.log(title)
+            console.log(editorData)
+            console.log(elements)
+            state.title = title;
+            state.editorData = editorData;
+            state.diagramData = {
+                ...state.diagramData,
+                elements
+            };
         }
     }
 })
 
-export const { setFileName, setEditorData, setDiagramData } = diagramSlice.actions;
+export const { setTittle, setEditorData, setDiagramData, initDiagramData } = diagramSlice.actions;
 export default diagramSlice.reducer;

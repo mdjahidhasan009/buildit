@@ -1,9 +1,9 @@
 export interface Diagram {
     id: string;
     userId: string;
-    fileName: string;
-    editorData: object;
-    diagramData: object;
-    createdAt: Date;
-    updatedAt: Date;
+    title?: string;
+    editorData?: object;
+    diagramData?: object;
+    createdAt: string;
+    updatedAt: string;
 }

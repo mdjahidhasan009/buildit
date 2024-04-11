@@ -11,7 +11,7 @@ export default memo(function DeleteDialog({
   isLoading,
 }: {
   id: string;
-  title: string | null;
+  title: string | undefined;
   action: ({ id }: { id: string }) => void;
   isLoading: boolean;
 }) {

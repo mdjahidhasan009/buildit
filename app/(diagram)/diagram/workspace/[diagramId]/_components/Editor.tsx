@@ -60,6 +60,7 @@ function Editor() {
       },
 
       holder: 'editorjs',
+      //@ts-ignore
       data: editorData
     });
 

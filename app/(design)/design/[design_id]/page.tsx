@@ -19,7 +19,7 @@ type Props = {
 
 const Page = ({ params } : Props) => {
   const  design_id  = params?.design_id || '';
-  const { data, loading } = useApi(`api/v1/design/user/${design_id}`);
+  const { data, loading } = useApi(`api/v1/designs/user/${design_id}`);
   const dispatch: AppDispatch  = useDispatch();
 
   useEffect(() => {

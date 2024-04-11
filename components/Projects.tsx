@@ -27,7 +27,7 @@ interface ProjectsProps {
 
 const Projects: FC<ProjectsProps> = ({ type, designId }) => {
   const [designs, setDesigns] = useState<Design[]>([]);
-  const { data } = useApi('api/v1/design/user/designs', 'GET');
+  const { data } = useApi('api/v1/designs/user/designs', 'GET');
 
   useEffect(() => {
     if(data) {

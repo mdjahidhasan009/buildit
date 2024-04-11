@@ -6,18 +6,14 @@ import { cn } from "@/lib/cn";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import * as ContextMenuPrimitive from "@radix-ui/react-context-menu";
 import Link from "next/link";
-import ThemeBubble from "@/components/shared/ui/ThemeBubble";
-import { find } from "@/lib/find";
-import { SUPPORTED_THEMES } from "@/lib/themes";
 import { Edit3, LinkIcon, Trash } from "lucide-react";
 import Kbd from "@/components/shared/ui/Kbd";
 import useApi from "@/utils/useApi";
-import {ISnippet} from "@/components/Snippet/ISnippet";
 
 interface DialogProps {
   type: "RENAME" | "DELETE";
   id: string;
-  title: string | null;
+  title: string | undefined;
 }
 
 interface RenamePayload {
@@ -29,40 +25,47 @@ interface DeletePayload {
   id: string;
 }
 
+interface content {
+  id: string;
+  title: string;
+  createdAt: string;
+  views?: { count: number };
+}
 
-export default function Snippets({
-  snippets,
-}: {
-  // snippets: (Snippet & { views: View | null })[];
-  snippets: (ISnippet)[];
-}) {
-  const [localSnippets, setLocalSnippets] = useState(snippets);
-  const [localDialogOpen, setLocalDialogOpen] = useState(false);
+interface ContentProps {
+  contents: content[];
+  routePath: string;
+}
+
+export default function ContentCard({ contents, routePath } : ContentProps) {
+  const [allData, setAllData] = useState(contents);
+  const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogProps, setDialogProps] = useState<DialogProps | null>(null);
-  const [activeElement, setActiveElement] = useState<HTMLAnchorElement | null>(
+  const [hoveredElement, setHoveredElement] = useState<HTMLAnchorElement | null>(
     null
   );
 
   const listContainerRef = useRef<HTMLUListElement>(null);
-  const activeElementRef = useRef<HTMLAnchorElement | null>(null);
+  const previouslyHoveredElementRef = useRef<HTMLAnchorElement | null>(null);
 
-  const { fetchData: renameSnippet, loading: renameLoading } = useApi('/api/v1/snippets', 'PATCH');
-  const { fetchData: deleteSnippet, loading: deleteLoading } = useApi('/api/v1/snippets', 'DELETE');
+  const { fetchData: rename, loading: renameLoading } = useApi(`/api/v1/${routePath}`, 'PATCH');
+  const { fetchData: deleteElement, loading: deleteLoading } = useApi(`/api/v1/${routePath}`, 'DELETE');
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
-      console.log('handleKeyDown')
       if (
-        !localDialogOpen &&
-        activeElement &&
+        !dialogOpen &&
+        hoveredElement &&
         !e.metaKey &&
         !e.ctrlKey &&
         e.key !== "Tab"
       ) {
-        const id = activeElement.id;
+        const id = hoveredElement.id;
         const title = (
-          activeElement.querySelector('[data-id="title"]') as HTMLSpanElement
+          hoveredElement.querySelector('[data-id="title"]') as HTMLSpanElement
         ).innerText;
+        console.log(id)
+        console.log(title)
 
         if (id && title) {
           e.preventDefault();
@@ -70,11 +73,11 @@ export default function Snippets({
           switch (e.key) {
             case "r":
               setDialogProps({ type: "RENAME", id, title });
-              setLocalDialogOpen(true);
+              setDialogOpen(true);
               break;
             case "d":
               setDialogProps({ type: "DELETE", id, title });
-              setLocalDialogOpen(true);
+              setDialogOpen(true);
               break;
             case "c":
               navigator.clipboard.writeText(`${window.location.origin}/${id}`);
@@ -83,23 +86,22 @@ export default function Snippets({
         }
       }
     },
-    [activeElement, localDialogOpen]
+    [hoveredElement, dialogOpen]
   );
 
   const handleEvent = useCallback(
     (e: MouseEvent | FocusEvent, isMouseOut: boolean) => {
-      // console.log('handleEvent')
       const target = e.target as HTMLElement;
       const closestLink = target.closest("a");
 
       if (isMouseOut) {
-        setActiveElement(null);
+        setHoveredElement(null);
 
-        activeElementRef.current = null;
-      } else if (closestLink && closestLink !== activeElementRef.current) {
-        setActiveElement(closestLink as HTMLAnchorElement);
+        previouslyHoveredElementRef.current = null;
+      } else if (closestLink && closestLink !== previouslyHoveredElementRef.current) {
+        setHoveredElement(closestLink as HTMLAnchorElement);
 
-        activeElementRef.current = closestLink;
+        previouslyHoveredElementRef.current = closestLink;
       }
     },
     []
@@ -127,21 +129,19 @@ export default function Snippets({
     }
   }, [handleEvent, handleKeyDown]);
 
-  function handleRename(payload: RenamePayload) {
-    renameSnippet(payload)
-      .then(res => {
-        if (res.id) {
-          setLocalSnippets(prev =>
-            prev.map(snippet => snippet.id === payload?.id ? { ...snippet, title: res.title } : snippet)
-          );
-        }
-      });
+  const handleRename = async (payload: RenamePayload) => {
+    const res = await rename(payload);
+    if (res?.data?.id) {
+      setAllData(prev =>
+          prev.map(item => item.id === payload?.id ? { ...item, title: res?.data?.title } : item)
+      );
+    }
   }
 
   const handleDelete =  async (payload: DeletePayload) => {
-    const res = await deleteSnippet(payload, `?id=${payload?.id}`);
-    if (res?.data?.deletedSnippet?.id) {
-      setLocalSnippets(prev => prev.filter(snippet => snippet.id !== payload?.id));
+    const res = await deleteElement(payload, `?id=${payload?.id}`);
+    if (res?.data?.id) {
+      setAllData(prev => prev.filter(item => item.id !== payload?.id));
     }
   }
 
@@ -171,7 +171,7 @@ export default function Snippets({
     return null;
   }
 
-  if (!localSnippets.length) {
+  if (!allData.length) {
     return (
       <div
         className={cn(
@@ -179,7 +179,7 @@ export default function Snippets({
           "text-greyish/80"
         )}
       >
-        <span>No snippets found</span>
+        <span>No {`${routePath}`} found</span>
       </div>
     );
   }
@@ -188,23 +188,23 @@ export default function Snippets({
     <div>
       <div className={cn("mb-4 mt-1")}>
         <p className={cn("text-xs", "text-greyish/80")}>
-          {localSnippets.length} / 10
+          {allData.length} / 10
         </p>
       </div>
 
       <ul ref={listContainerRef} className={cn("grid grid-cols-2 gap-3")}>
         <DialogPrimitive.Root
-          open={localDialogOpen}
-          onOpenChange={setLocalDialogOpen}
+          open={dialogOpen}
+          onOpenChange={setDialogOpen}
         >
-          {localSnippets.map(
-            ({ id, title, theme, customColors, angle, createdAt, views }) => (
+          {allData.map(
+            ({ id, title, createdAt, views = undefined }) => (
               <ContextMenuPrimitive.Root key={id}>
                 <ContextMenuPrimitive.Trigger asChild>
                   <li>
                     <Link
                       id={id}
-                      href={`${id}`}
+                      href={`/${routePath.slice(0, -1)}/${id}`}
                       className={cn(
                         "flex w-full flex-col gap-3 rounded-lg p-3 font-medium",
                         "select-none outline-none",
@@ -215,18 +215,9 @@ export default function Snippets({
                       )}
                     >
                       <div className={cn("flex items-center gap-2")}>
-                        {/*<ThemeBubble*/}
-                        {/*  style={{*/}
-                        {/*    backgroundImage: `linear-gradient(${angle})deg,${(theme ===*/}
-                        {/*    "custom"*/}
-                        {/*      ? (customColors as string[])*/}
-                        {/*      : find(SUPPORTED_THEMES, theme).baseColors*/}
-                        {/*    ).join(" ,")}`,*/}
-                        {/*  }}*/}
-                        {/*/>*/}
 
                         <span data-id="title" className={cn("grow truncate")}>
-                          {title ?? "Untitled"}
+                          {title ? `${title}` : "Untitled"}
                         </span>
                       </div>
 
@@ -242,13 +233,20 @@ export default function Snippets({
                             day: "numeric",
                           }).format(new Date(createdAt))}
                         </span>
-                        <span>
-                          {views?.count.toLocaleString() ?? "?"} views
-                        </span>
+                        {views
+                          ? (
+                              <span>
+                                {views?.count.toLocaleString() ?? "?"} views
+                              </span>
+                            )
+                            : null
+                        }
                       </div>
                     </Link>
                   </li>
                 </ContextMenuPrimitive.Trigger>
+
+
                 <ContextMenuPrimitive.Portal>
                   <ContextMenuPrimitive.Content
                     className={cn(
@@ -277,27 +275,31 @@ export default function Snippets({
                         <Kbd keys={["R"]} />
                       </ContextMenuPrimitive.Item>
                     </DialogPrimitive.Trigger>
-                    <ContextMenuPrimitive.Item
-                      onClick={() =>
-                        navigator.clipboard.writeText(
-                          `${window.location.origin}/${id}`
+                    {
+                      routePath === 'snippets'
+                        && (
+                          <ContextMenuPrimitive.Item
+                            onClick={() =>
+                              navigator.clipboard.writeText(
+                                `${window.location.origin}/snippet/${id}`
+                              )
+                            }
+                            className={cn(
+                              "flex items-center justify-between rounded-[5px] p-1",
+                              "select-none outline-none",
+                              "transition-all duration-100 ease-in-out",
+                              "focus:cursor-pointer focus:bg-white/20 focus:text-amlost-white"
+                            )}
+                          >
+                            <div className={cn("flex items-center gap-2 pl-0.5")}>
+                              <LinkIcon size={16} aria-hidden="true" />
+                              Copy link
+                            </div>
+
+                            <Kbd keys={["C"]} />
+                          </ContextMenuPrimitive.Item>
                         )
-                      }
-                      className={cn(
-                        "flex items-center justify-between rounded-[5px] p-1",
-                        "select-none outline-none",
-                        "transition-all duration-100 ease-in-out",
-                        "focus:cursor-pointer focus:bg-white/20 focus:text-amlost-white"
-                      )}
-                    >
-                      <div className={cn("flex items-center gap-2 pl-0.5")}>
-                        <LinkIcon size={16} aria-hidden="true" />
-                        Copy link
-                      </div>
-
-                      <Kbd keys={["C"]} />
-                    </ContextMenuPrimitive.Item>
-
+                    }
                     <DialogPrimitive.Trigger asChild>
                       <ContextMenuPrimitive.Item
                         onClick={() =>

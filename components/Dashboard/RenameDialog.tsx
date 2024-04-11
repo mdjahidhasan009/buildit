@@ -2,7 +2,7 @@ import { memo, useState } from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { cn } from "@/lib/cn";
 import Loader from "@/components/shared/ui/Loader";
-import { Edit3, Trash } from "lucide-react";
+import { Edit3 } from "lucide-react";
 
 export default memo(function RenameDialog({
   id,
@@ -11,8 +11,8 @@ export default memo(function RenameDialog({
   isLoading,
 }: {
   id: string;
-  title: string | null;
-  action: ({ id, title }: { id: string; title: string }) => void;
+  title: string | undefined;
+  action: ({ id, title }: { id: string; title?: string; }) => void;
   isLoading: boolean;
 }) {
   const [localInputValue, setLocalInputValue] = useState(title ?? "");
