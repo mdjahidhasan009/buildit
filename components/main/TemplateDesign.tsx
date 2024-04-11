@@ -12,7 +12,7 @@ interface TemplateDesignProps {
 const TemplateDesign: FC<TemplateDesignProps> = ({ type }) => {
     const [templates, setTemplates] = useState([]);
 
-    const { data, error } = useApi('api/v1/design/templates');
+    const { data, error } = useApi('api/v1/designs/templates');
 
     useEffect(() => {
         if(data) {

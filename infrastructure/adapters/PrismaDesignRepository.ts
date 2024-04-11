@@ -6,14 +6,14 @@
 //
 // export class PrismaDesignRepository implements IDesignRepository {
 //   async create(designData: Partial<Design>): Promise<Design> {
-//     const createdDesign = await prisma.design.create({
+//     const createdDesign = await prisma.designs.create({
 //       data: designData,
 //     });
 //     return createdDesign;
 //   }
 //
 //   async update(id: string, designData: Partial<Design>): Promise<Design> {
-//     const updatedDesign = await prisma.design.update({
+//     const updatedDesign = await prisma.designs.update({
 //       where: { id },
 //       data: designData,
 //     });
@@ -21,21 +21,21 @@
 //   }
 //
 //   async delete(id: string): Promise<boolean> {
-//     await prisma.design.delete({
+//     await prisma.designs.delete({
 //       where: { id },
 //     });
 //     return true;
 //   }
 //
 //   async getById(id: string): Promise<Design | null> {
-//     const design = await prisma.design.findUnique({
+//     const designs = await prisma.designs.findUnique({
 //       where: { id },
 //     });
-//     return design;
+//     return designs;
 //   }
 //
 //   async findByUserId(userId: string): Promise<Design[]> {
-//     const designs = await prisma.design.findMany({
+//     const designs = await prisma.designs.findMany({
 //       where: { userId },
 //     });
 //     return designs;
@@ -53,7 +53,7 @@ const prisma = new PrismaClient();
 
 export class PrismaDesignRepository implements IDesignRepository {
   // async create(designData: Partial<Design>): Promise<Design> {
-  //   return prisma.design.create({
+  //   return prisma.designs.create({
   //     data: designData,
   //   });
   // }
@@ -66,7 +66,7 @@ export class PrismaDesignRepository implements IDesignRepository {
   }
 
   // async update(design_id: string, designData: Partial<Design>): Promise<Design> {
-  //   return prisma.design.update({
+  //   return prisma.designs.update({
   //     where: { id: design_id },
   //     data: designData,
   //   });
@@ -94,7 +94,7 @@ export class PrismaDesignRepository implements IDesignRepository {
   }
 
   // async getById(design_id: string): Promise<Design | null> {
-  //   return prisma.design.findUnique({
+  //   return prisma.designs.findUnique({
   //     where: { id: design_id },
   //   });
   // }
@@ -120,7 +120,7 @@ export class PrismaDesignRepository implements IDesignRepository {
   }
 
   // async findByUserId(userId: string): Promise<Design[]> {
-  //   const desgins = await prisma.design.findMany({
+  //   const desgins = await prisma.designs.findMany({
   //     where: {
   //       userId
   //     },
@@ -142,7 +142,7 @@ export class PrismaDesignRepository implements IDesignRepository {
       }
     });
 
-    // Transform each design to ensure 'components' conforms to 'object | undefined'
+    // Transform each designs to ensure 'components' conforms to 'object | undefined'
     const safeDesigns = designs.map(design => ({
       ...design,
       components: typeof design.components === 'object' && design.components !== null ? design.components : undefined,
@@ -153,14 +153,14 @@ export class PrismaDesignRepository implements IDesignRepository {
   }
 
   // async getUserDesignById(userId: string, design_id: string): Promise<Design | null> {
-  //   const design = await prisma.design.findFirst({
+  //   const designs = await prisma.designs.findFirst({
   //     where: {
   //       userId,
   //       id: design_id,
   //     },
   //   });
   //
-  //   return design;
+  //   return designs;
   // }
 
   async getUserDesignById(userId: string, design_id: string): Promise<Design | null> {

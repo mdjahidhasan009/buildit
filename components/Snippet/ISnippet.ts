@@ -17,8 +17,8 @@ export interface ISnippet {
   colorMode: string;
   angle: number;
   grain: boolean;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
   userId: string;
   views: SnippetViews;
 }

@@ -152,7 +152,7 @@ export class PrismaSnippetRepository implements ISnippetRepository {
   //   return true;
   // }
 
-  async delete(id: string, userId: string): Promise<boolean> {
+  async delete(id: string, userId: string): Promise<Snippet | boolean> {
     const snippet = await prisma.snippet.findUnique({
       where: { id, userId },
     });
@@ -161,11 +161,11 @@ export class PrismaSnippetRepository implements ISnippetRepository {
       return false; // Snippet does not exist
     }
 
-    await prisma.snippet.delete({
+    const res = await prisma.snippet.delete({
       where: { id, userId },
     });
 
-    return true; // Successful deletion
+    return res as Snippet; // Successful deletion
   }
 
 }

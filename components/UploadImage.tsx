@@ -24,7 +24,7 @@ interface UploadImageProps {
 
 const UploadImage: FC<UploadImageProps> = ({ setImages }) => {
 
-  const { fetchData, data, error, loading } = useApi('api/v1/design/user/images', 'POST');
+  const { fetchData, data, error, loading } = useApi('api/v1/designs/user/images', 'POST');
 
   useEffect(() => {
     if(data) {

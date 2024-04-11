@@ -17,7 +17,7 @@ interface Design {
 }
 
 const DesignCard = ({ design, type }: { design: Design; type: string }) => {
-  const { fetchData } = useApi(`api/v1/design/user`, 'DELETE');
+  const { fetchData } = useApi(`api/v1/designs/user`, 'DELETE');
 
   const deleteDesign = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();

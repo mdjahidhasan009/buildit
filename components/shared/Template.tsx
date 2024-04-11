@@ -23,7 +23,7 @@ interface TemplateProps {
 const Template: FC<TemplateProps> = ({ index, template, type }) => {
   const router = useRouter();
 
-  const {fetchData, data } = useApi(`api/v1/design/user/create/${template?.id}`, 'POST');
+  const {fetchData, data } = useApi(`api/v1/designs/user/create/${template?.id}`, 'POST');
 
 
   useEffect(() => {
@@ -38,18 +38,18 @@ const Template: FC<TemplateProps> = ({ index, template, type }) => {
 
   const createUserDesignFromTemplate = async () => {
     try {
-        // const { data } = await api.post(`/design/add-user-template/${id}`);
+        // const { data } = await api.post(`/designs/add-user-template/${id}`);
         // toast.success('Template added successfully');
         await fetchData({});
         // debugger
-        // navigate(`/design/${data?.data?.design?._id}/edit`);
+        // navigate(`/designs/${data?.data?.designs?._id}/edit`);
         // await router.push({
-        //   pathname: `/design/${data?.data?.design?._id}/edit`,
+        //   pathname: `/designs/${data?.data?.designs?._id}/edit`,
         //   // query: {type: 'create', width: 600, height: 450},
         // });
         redirect(`/design/${data?.data?.design?._id}`);
 
-        // router.push(`/design/${data?.data?.design?._id}/edit`);
+        // router.push(`/designs/${data?.data?.designs?._id}/edit`);
     } catch (e) {
         console.error(e);
         toast.error('Something went wrong');

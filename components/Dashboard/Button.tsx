@@ -38,18 +38,18 @@ const buttons: Record<ButtonType, Button> = {
   },
 };
 
-export default function Button({ snippetCount }: { snippetCount: number }) {
+export default function Button({ dataCount, routePath }: { dataCount: number, routePath: string }) {
   const [buttonState, setButtonState] = useState<ButtonType>("DEFAULT");
 
   const router = useRouter();
-  const { fetchData: createSnippet, data, error, loading: createLoading } = useApi("/api/v1/snippets", 'POST');
+  const { fetchData: create, data, error, loading: createLoading } = useApi(`/api/v1/${routePath}`, 'POST');
 
   const handleAction = async () => {
     try {
-      const result = await createSnippet({ snippetCount });
+      const result = await create({});
       const { id } = result;
       setButtonState("SUCCESS");
-      router.push(`/${id}`);
+      router.push(`/${routePath.slice(0, -1)}/${id}`);
     } catch (e) {
       console.error(e);
       setButtonState("ERROR");
@@ -77,7 +77,7 @@ export default function Button({ snippetCount }: { snippetCount: number }) {
       type="button"
       onClick={() => handleAction()}
       disabled={
-        snippetCount >= 10 ||
+        dataCount >= 10 ||
         createLoading ||
         buttons[buttonState].id !== "default"
       }
