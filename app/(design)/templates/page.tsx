@@ -1,4 +1,4 @@
-import TemplateDesign from "@/components/main/TemplateDesign";
+import TemplateDesign from "@/app/(design)/components/TemplateDesign";
 
 const Templates = () => {
   return (

@@ -2,81 +2,25 @@
 
 import {MdKeyboardArrowLeft} from "react-icons/md";
 import TemplateDesign from "./TemplateDesign";
-import MyImages from "../MyImages";
-import Projects from "../Projects";
-import InitialImage from "../InitialImage";
-import BackgroundImages from "../BackgroundImages";
+import MyImages from "../../../components/MyImages";
+import Projects from "../../../components/Projects";
+import InitialImage from "../../../components/InitialImage";
+import BackgroundImages from "../../../components/BackgroundImages";
 import {useDispatch, useSelector} from "react-redux";
-import {addComponent, setCurrentComponent, updateComponent} from "@/lib/features/components/componentsSlice";
-import createComponentFactory from "@/utils/createComponentFactory";
 import {closeSidebar} from "@/lib/features/ui/uiSlice";
 import {AppDispatch, RootState} from "@/lib/reduxStore";
+import useSidebarDrawer from "@/app/(design)/business/useSidebarDrawer";
 
 const SideBarDrawer = ({ design_id = '' }) => {
   const dispatch: AppDispatch  = useDispatch();
-  const components = useSelector((state: RootState) => state.components.components);
   const isSidebarOpen = useSelector((state: RootState) => state.ui.isSidebarOpen);
   const selectedSidebarItemName = useSelector((state: RootState) => state.ui.selectedSidebarItemName);
+
+  const { createShape, addImage, addBackgroundImage, addText } = useSidebarDrawer();
 
   const handleOnClick = () => {
     dispatch(closeSidebar());
   }
-
-  const componentFactory = createComponentFactory();
-
-  const createShape = (name: string, type: string) => {
-    const newComponent = componentFactory({
-      name,
-      type,
-      additionalProps: {
-        width: 200,
-        height: 150,
-      }
-    });
-    dispatch(addComponent(newComponent));
-  };
-
-  const addImage = (image: string) => {
-    const newComponent = componentFactory(
-      {
-        name: 'image',
-        type: 'image',
-        additionalProps: {
-          width: 200,
-          height: 150,
-          radius: 0,
-          image
-        }
-      }
-    );
-    dispatch(addComponent(newComponent));
-    dispatch(setCurrentComponent(newComponent));
-  };
-
-  const addBackgroundImage = (image: string) => {
-    const main_frame = components.find(comp => comp.name === 'main_frame');
-    if(!main_frame) return;
-    dispatch(updateComponent({ id: main_frame.id, changes: { image } }));
-  }
-
-  const addText = (name: string, type: string) => {
-    const newComponent = componentFactory(
-      {
-        name,
-        type,
-        additionalProps: {
-          width: 200,
-          height: 150,
-          text: 'Add text',
-          fontSize: 22,
-          padding: 6,
-          fontWeight: 400,
-        }
-      }
-    );
-    dispatch(setCurrentComponent(newComponent));
-    dispatch(addComponent(newComponent));
-  };
 
   return (
     <div

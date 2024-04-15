@@ -2,10 +2,10 @@
 
 import {useEffect} from "react";
 import useApi from "@/utils/useApi";
-import SideBar from "@/components/main/SideBar";
-import SideBarDrawer from "@/components/main/SideBarDrawer";
-import DesignPlayground from "@/components/main/DesignPlayground";
-import ComponentPropertiesPanel from "@/components/main/ComponentPropertiesPanel";
+import SideBar from "@/app/(design)/components/SideBar";
+import SideBarDrawer from "@/app/(design)/components/SideBarDrawer";
+import DesignPlayground from "@/app/(design)/components/DesignPlayground";
+import ComponentPropertiesPanel from "@/app/(design)/components/ComponentPropertiesPanel";
 import RotateLoader from "react-spinners/RotateLoader";
 import {useDispatch} from "react-redux";
 import {setComponents} from "@/lib/features/components/componentsSlice";
@@ -36,7 +36,7 @@ const Page = ({ params } : Props) => {
         </div>
       ) : (
         <div className='flex h-full w-screen'>
-          <SideBar/>
+          <SideBar />
           <div className='h-full w-[calc(100%-75px)]'>
             <SideBarDrawer design_id={design_id}/>
             <div className='w-full flex h-full'>

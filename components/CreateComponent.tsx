@@ -11,6 +11,7 @@ import {
   updateComponentPosition
 } from "@/lib/features/components/componentsSlice";
 import {IComponent} from "@/lib/features/components/IComponent";
+import Image from 'next/image';
 
 const CreateComponent = ({ component } : { component: IComponent }) => {
   const randValue = Math.floor(Math.random() * 100);
@@ -81,7 +82,14 @@ const CreateComponent = ({ component } : { component: IComponent }) => {
         }}
       >
         {
-          component.image && <img className="w-full h-full" src={component.image} alt="img" />
+          component.image &&
+            <Image
+                fill
+                objectFit="fill"
+                className="w-full h-full pointer-events-none"
+                src={component.image}
+                alt="img"
+            />
         }
     </div>
   }
@@ -259,7 +267,13 @@ const CreateComponent = ({ component } : { component: IComponent }) => {
             height: component.height + 'px',
             borderRadius: `${component.radius}%`,
           }}>
-          <img className='w-full h-full' src={component.image} alt="image"/>
+          <Image
+              fill
+              objectFit="fill"
+              className='w-full h-full pointer-events-none'
+              src={component.image}
+              alt="image"
+          />
         </div>
         {currentComponent?.id === component.id &&
             <div
