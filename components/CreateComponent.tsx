@@ -1,16 +1,16 @@
 "use client";
 
-import {BsTrash} from "react-icons/bs";
+import { BsTrash } from "react-icons/bs";
 import Element from "./Element";
 import { useRef } from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {AppDispatch, RootState} from "@/lib/reduxStore";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/lib/reduxStore";
 import {
   removeComponent,
   setCurrentComponent,
   updateComponentPosition
 } from "@/lib/features/components/componentsSlice";
-import {IComponent} from "@/lib/features/components/IComponent";
+import { IComponent } from "@/lib/features/components/IComponent";
 import Image from 'next/image';
 
 const CreateComponent = ({ component } : { component: IComponent }) => {
@@ -50,9 +50,6 @@ const CreateComponent = ({ component } : { component: IComponent }) => {
         newLeft = left + movementX;
         newTop = top + movementY;
         dispatch(updateComponentPosition({ id: component.id, left: newLeft, top: newTop }));
-        // debounce(() => {
-        //   dispatch(updateComponentPosition({ id: component.id, left: newLeft, top: newTop }));
-        // }, 100);
       }
     }
 
@@ -60,8 +57,6 @@ const CreateComponent = ({ component } : { component: IComponent }) => {
       isMoving = false;
       document.removeEventListener('mousemove', moveMouse);
       document.removeEventListener('mouseup', mouseUp);
-      // setLeft(parseInt(currentDiv.style.left));
-      // setTop(parseInt(currentDiv.style.top));
     }
 
     document.addEventListener('mousemove', moveMouse);

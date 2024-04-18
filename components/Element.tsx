@@ -1,7 +1,7 @@
 import {BsArrowsMove} from "react-icons/bs";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {updateComponentRotation, updateComponentSize} from "@/lib/features/components/componentsSlice";
-import {AppDispatch} from "@/lib/reduxStore";
+import {AppDispatch, RootState} from "@/lib/reduxStore";
 import {IComponent} from "@/lib/features/components/IComponent";
 
 interface ElementProps {
@@ -64,9 +64,9 @@ const Element: React.FC<ElementProps> = ({ elementWrapperDivRef, component, extr
 
   const handleRotate = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, elementRef: React.RefObject<HTMLElement>) => {
     if (!elementRef.current) return;
-    const componentId = elementRef.current ? elementRef.current.id : null;
 
-    const startPos = { x: event.clientX, y: event.clientY };
+    // const startPos = { x: event.clientX, y: event.clientY };
+    const startPos = { x: event.movementX, y: event.movementY };
     // Assuming the element's center as the pivot for rotation
     const rect = elementRef.current.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
