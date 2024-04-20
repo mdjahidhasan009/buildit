@@ -11,7 +11,9 @@ import "../globals.css";
 import { cn } from "@/lib/cn";
 import { SUPPORTED_FONT_STYLES as fonts } from "@/lib/fonts";
 import Providers from "@/contexts/Providers";
-import Header from "@/components/Header";
+
+import React from "react";
+import HeaderWrapper from "@/app/(design)/components/HeaderWrapper";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -73,7 +75,7 @@ export default function RootLayout({
         )}
       >
         <Providers>
-          <Header />
+          <HeaderWrapper />
           <main className={cn("grid place-items-center")}>{children}</main>
         </Providers>
       </body>

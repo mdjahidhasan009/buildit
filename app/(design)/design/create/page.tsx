@@ -7,7 +7,6 @@ import RotateLoader from "react-spinners/RotateLoader";
 
 import CreateComponent from "@/components/CreateComponent";
 import useApi from "@/utils/useApi";
-import domtoimage from "dom-to-image";
 
 const CreateDesign = () => {
     const [loading, setLoading] = useState(false);
@@ -51,7 +50,7 @@ const CreateDesign = () => {
     const createDesign = async () => {
         if(!divRef.current) return;
 
-        const image = await domtoimage.toPng(divRef.current as HTMLElement);
+        const image = await htmlToImage.toPng(divRef.current as HTMLElement);
         const design = JSON.stringify(obj);
 
         if(image) {

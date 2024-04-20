@@ -7,7 +7,6 @@ import {
   JetBrains_Mono,
   Source_Code_Pro,
 } from "next/font/google";
-import "../globals.css";
 import { cn } from "@/lib/cn";
 import { SUPPORTED_FONT_STYLES as fonts } from "@/lib/fonts";
 import Providers from "@/contexts/Providers";

@@ -1,5 +1,5 @@
 "use client";
-import domtoimage from "dom-to-image";
+import * as htmlToImage from 'html-to-image';
 import { saveAs } from "file-saver";
 import {update} from "@/lib/features/snippet/snippetSlice";
 import {useDispatch} from "react-redux";
@@ -40,7 +40,7 @@ export async function Snap(
       },
     };
 
-    const dataUrl = await domtoimage.toPng(editorDiv, options);
+    const dataUrl = await htmlToImage.toPng(editorDiv, options);
 
     return fetch(dataUrl)
       .then((response) => response.blob())
