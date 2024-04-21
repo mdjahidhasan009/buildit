@@ -58,7 +58,7 @@ export default function Settings() {
         }}
         className={cn(
           "fixed bottom-12 z-40 w-[90%] max-w-[960px] rounded-xl font-medium",
-          "border border-white/20 bg-black/50 shadow-xl shadow-black/40 backdrop-blur-md"
+          "border border-white/20 bg-black/50 shadow-xl shadow-black/40"
         )}
       >
         <DraggableHandle

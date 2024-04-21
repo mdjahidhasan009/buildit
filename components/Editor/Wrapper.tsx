@@ -87,7 +87,7 @@ export default function Wrapper({ children }: { children: React.ReactNode }) {
         className={cn(
           // "relative z-0 w-auto min-w-[512px] max-w-[5xl]",
           "relative z-0 min-w-full lg:min-w-[70%] max-w-[5xl]",
-          "transition-all duration-100 ease-in-out"
+          "transition-all duration-100 ease-in-out max-h-[50vh] overflow-y-auto"
         )}
         style={{
           padding: `${padding}px`,

@@ -10,12 +10,7 @@ import {useMemo, useState} from "react";
 import {GripHorizontal, RefreshCcw} from "lucide-react";
 import {cn} from "@/lib/cn";
 
-export default function DraggableHandle({
-                             dragControls,
-                             animationControls,
-                             hasMoved,
-                             isDragging,
-                         }: {
+export default function DraggableHandle({ dragControls, animationControls, hasMoved, isDragging }: {
     dragControls: ReturnType<typeof useDragControls>;
     animationControls: ReturnType<typeof useAnimationControls>;
     hasMoved: boolean;
