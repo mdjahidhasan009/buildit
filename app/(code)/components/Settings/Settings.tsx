@@ -5,11 +5,11 @@ import { DragHandleDots2Icon } from "@radix-ui/react-icons";
 import clsx from "clsx";
 import { useAnimationControls, useDragControls, motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import Select from "./Select";
+import Select from "../Select";
 import { SUPPORTED_LANGUAGES } from "@/lib/languages";
 import { SUPPORTED_PADDING_CHOICES, SUPPORTED_THEMES } from "@/lib/themes";
-import Toggle from "./Toggle";
-import Choices from "./Choices";
+import Toggle from "../Toggle";
+import Choices from "../Choices";
 import { SUPPORTED_FONT_STYLES } from "@/lib/fonts";
 import {
   FontDefinition,

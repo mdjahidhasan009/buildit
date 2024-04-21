@@ -5,7 +5,7 @@ import Wrapper from "./Wrapper";
 import TitleBar from "./TitleBar";
 import Code from "./Code";
 import ChangeListener from "./ChangeListener";
-import Settings from "@/app/(code)/components/Settings/index";
+import Settings from "@/app/(code)/components/Settings/components";
 
 export default function Editor({
   views,

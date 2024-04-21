@@ -2,9 +2,9 @@
 
 import {MdKeyboardArrowLeft} from "react-icons/md";
 import TemplateDesign from "./TemplateDesign";
-import MyImages from "../../../components/MyImages";
-import Projects from "../../../components/Projects";
-import InitialImage from "../../../components/InitialImage";
+import MyImages from "./MyImages";
+import Projects from "./Projects";
+import InitialImage from "./InitialImage";
 import BackgroundImages from "./BackgroundImages";
 import {useDispatch, useSelector} from "react-redux";
 import {closeSidebar} from "@/lib/features/ui/uiSlice";

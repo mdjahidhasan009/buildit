@@ -1,11 +1,11 @@
 import {motion} from "framer-motion";
 import {cn} from "@/lib/cn";
-import Picker from "@/app/(code)/components/Settings/Picker";
-import Choices from "@/app/(code)/components/Settings/Choices";
+import Picker from "@/app/(code)/components/Settings/components/Picker";
+import Choices from "@/app/(code)/components/Settings/components/Choices";
 import {BASE_COLOR_MODES} from "@/lib/values";
-import Angle from "@/app/(code)/components/Settings/Angle";
-import Switch from "@/app/(code)/components/Settings/Switch";
-import {Control} from "@/app/(code)/components/Settings/Control";
+import Angle from "@/app/(code)/components/Settings/components/Angle";
+import Switch from "@/app/(code)/components/Settings/components/Switch";
+import {Control} from "@/app/(code)/components/Settings/components/Control";
 
 export function CustomThemeControls() {
     return (

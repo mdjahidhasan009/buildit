@@ -7,7 +7,7 @@ import ContentCard from "@/components/Dashboard/ContentCard";
 import { serialize } from "@/lib/serialize";
 import { useSession } from "next-auth/react";
 import useApi from "@/utils/useApi";
-import { ISnippet } from "@/components/Snippet/ISnippet";
+import { ISnippet } from "@/app/(code)/constants/ISnippet";
 
 export default function Page() {
   const { data, error, loading } = useApi('/api/v1/snippets');

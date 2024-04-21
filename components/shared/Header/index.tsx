@@ -9,7 +9,7 @@ import Social from "./Social";
 import Help from "./Help";
 import Auth from "./Auth";
 import React from "react";
-import '../../app/globals.css';
+import '../../../app/globals.css';
 
 export default function Header({ children } : { children?: any }) {
   const { status: sessionStatus } = useSession();

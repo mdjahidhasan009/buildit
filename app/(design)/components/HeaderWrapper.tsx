@@ -1,7 +1,7 @@
 "use client"
 
 
-import Header from "@/components/Header";
+import Header from "../../../components/shared/Header";
 import toast from "react-hot-toast";
 import * as htmlToImage from "html-to-image";
 import {useSelector} from "react-redux";

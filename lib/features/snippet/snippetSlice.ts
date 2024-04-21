@@ -3,7 +3,7 @@ import {DEFAULT_VALUES} from "@/lib/values";
 import {find} from "@/lib/find";
 import {SUPPORTED_THEMES} from "@/lib/themes";
 import {SUPPORTED_FONT_STYLES} from "@/lib/fonts";
-import {ISnippet} from "@/components/Snippet/ISnippet";
+import {ISnippet} from "@/app/(code)/constants/ISnippet";
 import {AppState} from "@/lib/types";
 
 const initialState: AppState = {

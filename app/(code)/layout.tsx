@@ -10,7 +10,7 @@ import {
 import { cn } from "@/lib/cn";
 import { SUPPORTED_FONT_STYLES as fonts } from "@/lib/fonts";
 import Providers from "@/contexts/Providers";
-import Header from "@/components/Header";
+import Header from "../../components/shared/Header";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 

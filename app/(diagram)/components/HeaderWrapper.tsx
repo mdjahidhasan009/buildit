@@ -1,7 +1,7 @@
 "use client"
 
 import "../../globals.css";
-import Header from "@/components/Header";
+import Header from "../../../components/shared/Header";
 import React from "react";
 import WorkspaceHeader from "@/app/(diagram)/diagram/[diagram_id]/components/WorkspaceHeader";
 import {usePathname} from "next/navigation";

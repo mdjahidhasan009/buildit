@@ -1,6 +1,6 @@
 "use client"
 
-import Header from "@/components/Header";
+import Header from "../../../components/shared/Header";
 import {usePathname, useRouter} from "next/navigation";
 import React from "react";
 

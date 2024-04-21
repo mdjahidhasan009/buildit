@@ -1,8 +1,8 @@
 "use client";
 
 import {FC, useEffect, useState} from "react";
-import DesignCard from "./shared/DesignCard";
-import useApi from "../utils/useApi";
+import DesignCard from "../../../components/shared/DesignCard";
+import useApi from "../../../utils/useApi";
 import {IComponent} from "@/lib/features/components/IComponent";
 
 

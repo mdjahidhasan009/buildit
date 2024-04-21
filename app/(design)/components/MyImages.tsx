@@ -3,8 +3,8 @@
 import ImagesElement from './ImagesElement';
 import {FC, useEffect, useState} from "react";
 import {BarLoader} from "react-spinners";
-import useApi from "../utils/useApi";
-import UploadImage from "@/components/UploadImage";
+import useApi from "../../../utils/useApi";
+import UploadImage from "@/app/(design)/components/UploadImage";
 
 interface CustomImageData {
   id: string;

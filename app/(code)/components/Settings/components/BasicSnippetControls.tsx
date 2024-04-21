@@ -1,12 +1,12 @@
 import {cn} from "@/lib/cn";
-import Select from "@/app/(code)/components/Settings/Select";
+import Select from "@/app/(code)/components/Settings/components/Select";
 import {SUPPORTED_LANGUAGES} from "@/lib/languages";
 import {SUPPORTED_THEMES} from "@/lib/themes";
 import {SUPPORTED_FONT_STYLES} from "@/lib/fonts";
-import Choices from "@/app/(code)/components/Settings/Choices";
+import Choices from "@/app/(code)/components/Settings/components/Choices";
 import {BASE_FONT_SIZES, BASE_PADDING_VALUES} from "@/lib/values";
-import Switch from "@/app/(code)/components/Settings/Switch";
-import {Control} from "@/app/(code)/components/Settings/Control";
+import Switch from "@/app/(code)/components/Settings/components/Switch";
+import {Control} from "@/app/(code)/components/Settings/components/Control";
 
 export function BasicSnippetControls() {
     return (

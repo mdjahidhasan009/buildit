@@ -9,9 +9,9 @@ import { useRef, useState } from "react";
 import Actions from "./Actions";
 import {useSelector} from "react-redux";
 import {RootState} from "@/lib/reduxStore";
-import DraggableHandle from "@/app/(code)/components/Settings/DraggableHandle";
-import {CustomThemeControls} from "@/app/(code)/components/Settings/CustomThemeControls";
-import {BasicSnippetControls} from "@/app/(code)/components/Settings/BasicSnippetControls";
+import DraggableHandle from "@/app/(code)/components/Settings/components/DraggableHandle";
+import {CustomThemeControls} from "@/app/(code)/components/Settings/components/CustomThemeControls";
+import {BasicSnippetControls} from "@/app/(code)/components/Settings/components/BasicSnippetControls";
 
 export default function Settings() {
   const [hasMoved, setHasMoved] = useState(false);

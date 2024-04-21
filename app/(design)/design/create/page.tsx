@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import * as htmlToImage from 'html-to-image';
 import RotateLoader from "react-spinners/RotateLoader";
 
-import CreateComponent from "@/components/CreateComponent";
+import CreateComponent from "@/app/(design)/components/CreateComponent";
 import useApi from "@/utils/useApi";
 
 const CreateDesign = () => {

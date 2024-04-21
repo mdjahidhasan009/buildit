@@ -1,6 +1,6 @@
 import {FC, useEffect, useState} from "react";
 import ImagesElement from './ImagesElement';
-import useApi from "../utils/useApi";
+import useApi from "../../../utils/useApi";
 
 interface InitialImageProps {
   addImage: (image: string) => void;

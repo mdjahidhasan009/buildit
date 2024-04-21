@@ -1,6 +1,6 @@
 import {Extension} from "@codemirror/state";
 import {Snippet} from "@/core/domain/entities/Snippet";
-import {ISnippet, SnippetViews} from "@/components/Snippet/ISnippet";
+import {ISnippet, SnippetViews} from "@/app/(code)/constants/ISnippet";
 import {IComponent} from "@/lib/features/components/IComponent";
 import {ReactNode} from "react";
 
