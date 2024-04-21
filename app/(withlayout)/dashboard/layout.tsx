@@ -13,6 +13,8 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const pathname = usePathname();
 
+  // https://nextjs.org/docs/app/building-your-application/routing/route-groups#creating-multiple-root-layouts
+  //Navigating across multiple root layouts will cause a full page load (as opposed to a client-side navigation). For example, navigating from /cart that uses app/(shop)/layout.js to /blog that uses app/(marketing)/layout.js will cause a full page load. This only applies to multiple root layouts.
   const SidebarLink = ({ href, icon, text }: { href: string; icon: JSX.Element; text: string }) => {
     const pathname = usePathname();
 
@@ -23,7 +25,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
     return (
       <li>
-        <Link href={href} >
+        <Link href={href} prefetch={true}>
           <div className={linkClass}>
             <span className='text-xl'>{icon}</span>
             <span className='font-medium'>{text}</span>

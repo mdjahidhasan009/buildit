@@ -187,7 +187,8 @@ export default function Code() {
     <motion.div
       layout
       className={clsx(
-        "relative z-0 w-auto min-w-[512px] max-w-5xl",
+        // "relative z-0 w-auto min-w-[512px] max-w-5xl",
+        "relative z-0 min-w-full lg:min-w-[70%] max-w-5xl",
         padding.class,
         "bg-gradient-to-br",
         "transition-all duration-200 ease-in-out"
@@ -195,7 +196,8 @@ export default function Code() {
     >
       <motion.div
         layout
-        className="relative z-[1] h-full w-full min-w-[480px] max-w-2xl rounded-xl"
+        // className="relative z-[1] h-full w-full min-w-[480px] max-w-2xl rounded-xl"
+        className="relative z-[1] h-full min-w-full lg:min-w-[70%] max-w-2xl rounded-xl"
       >
         <div
           className={clsx(

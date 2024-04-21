@@ -5,7 +5,7 @@ import Wrapper from "./Wrapper";
 import TitleBar from "./TitleBar";
 import Code from "./Code";
 import ChangeListener from "./ChangeListener";
-import Settings from "@/components/Settings/index";
+import Settings from "@/app/(code)/components/Settings/index";
 
 export default function Editor({
   views,
@@ -25,7 +25,6 @@ export default function Editor({
 
       <Wrapper>
         <TitleBar editable={editable} />
-
         <Code editable={editable} />
       </Wrapper>
 

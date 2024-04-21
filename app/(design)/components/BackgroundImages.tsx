@@ -2,8 +2,8 @@
 
 import { useEffect, useState, FC } from "react";
 
-import ImagesElement from './ImagesElement';
-import useApi from "../utils/useApi";
+import ImagesElement from '../../../components/ImagesElement';
+import useApi from "../../../utils/useApi";
 
 interface BackgroundImagesProps {
   setImage: (image: string) => void;

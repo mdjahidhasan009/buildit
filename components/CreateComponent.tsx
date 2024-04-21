@@ -81,7 +81,7 @@ const CreateComponent = ({ component } : { component: IComponent }) => {
             <Image
                 fill
                 objectFit="fill"
-                className="w-full h-full pointer-events-none"
+                className="w-full h-full pointer-events-none select-none"
                 src={component.image}
                 alt="img"
             />
@@ -265,7 +265,7 @@ const CreateComponent = ({ component } : { component: IComponent }) => {
           <Image
               fill
               objectFit="fill"
-              className='w-full h-full pointer-events-none'
+              className='w-full h-full pointer-events-none select-none'
               src={component.image}
               alt="image"
           />

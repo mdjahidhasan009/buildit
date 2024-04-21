@@ -5,7 +5,7 @@ import TemplateDesign from "./TemplateDesign";
 import MyImages from "../../../components/MyImages";
 import Projects from "../../../components/Projects";
 import InitialImage from "../../../components/InitialImage";
-import BackgroundImages from "../../../components/BackgroundImages";
+import BackgroundImages from "./BackgroundImages";
 import {useDispatch, useSelector} from "react-redux";
 import {closeSidebar} from "@/lib/features/ui/uiSlice";
 import {AppDispatch, RootState} from "@/lib/reduxStore";

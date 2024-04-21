@@ -1,6 +1,5 @@
 "use client";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { motion } from "framer-motion";
 
 interface CodeProps {
   placeholder: string;
@@ -12,7 +11,6 @@ import createTheme from "@uiw/codemirror-themes";
 import { hslToHsla as adjustLightness, generateColors } from "@/lib/colors";
 import { tags as t } from "@lezer/highlight";
 import { useCodeMirror } from "@uiw/react-codemirror";
-// import { useStore } from "@/lib/store";
 import { debounce } from "@/lib/debounce";
 import { useHotkeys } from "react-hotkeys-hook";
 import { cn } from "@/lib/cn";
@@ -30,24 +28,6 @@ export default function Code({ editable = false }: { editable: boolean }) {
 
   const editorRef = useRef<HTMLDivElement | null>(null);
 
-  // const hasCustomTheme = useStore((state) => state.hasCustomTheme);
-  // const code = useStore((state) => state.code);
-  // const language = useStore((state) => state.language);
-  // const theme = useStore((state) => state.theme);
-  // const fontFamily = useStore((state) => state.fontFamily);
-  // const fontSize = useStore((state) => state.fontSize);
-  // const lineNumbers = useStore((state) => state.lineNumbers);
-  // const customColors = useStore((state) => state.customColors);
-  // const {
-  //   hasCustomTheme,
-  //   code,
-  //   language,
-  //   theme,
-  //   fontFamily,
-  //   fontSize,
-  //   lineNumbers,
-  //   customColors,
-  // } = useSelector((state) => state.app);
   const hasCustomTheme = useSelector((state: RootState) => state.snippet.hasCustomTheme);
   const code = useSelector((state: RootState) => state.snippet.code);
   const language = useSelector((state: RootState) => state.snippet.language);

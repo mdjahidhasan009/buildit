@@ -1,0 +1,35 @@
+import {motion} from "framer-motion";
+import {cn} from "@/lib/cn";
+import Picker from "@/app/(code)/components/Settings/Picker";
+import Choices from "@/app/(code)/components/Settings/Choices";
+import {BASE_COLOR_MODES} from "@/lib/values";
+import Angle from "@/app/(code)/components/Settings/Angle";
+import Switch from "@/app/(code)/components/Settings/Switch";
+import {Control} from "@/app/(code)/components/Settings/Control";
+
+export function CustomThemeControls() {
+    return (
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.1, delay: 0.2 }}
+            className={cn(
+                "flex mt-4 justify-evenly gap-8 rounded-xl pb-4 pt-5",
+                "stripes border border-dashed border-white/20 bg-white/[0.04]"
+            )}
+        >
+            <Control htmlFor="colors" label="Colors">
+                <Picker />
+            </Control>
+            <Control htmlFor="colorMode" label="Color mode">
+                <Choices type="colorMode" choices={BASE_COLOR_MODES} />
+            </Control>
+            <Control htmlFor="gradientAngle" label="Gradient angle">
+                <Angle />
+            </Control>
+            <Control htmlFor="grain" label="Grain">
+                <Switch type="grain" />
+            </Control>
+        </motion.div>
+    );
+}

@@ -90,7 +90,7 @@ export default function Actions() {
   ];
 
   return (
-    <div className={cn("grid grid-cols-3 place-items-center p-2")}>
+    <div className={cn("grid grid-cols-1 sm:grid-cols-3 place-items-center p-2")}>
       {buttons.map((button) => (
         <Button key={button.id} {...button} />
       ))}

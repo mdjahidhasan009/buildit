@@ -36,8 +36,8 @@ const Page = () => {
             <CardSlider>
               {designs.map((design, index) => (
                 <DesignCard design={design} key={design?.id} type=""/>
-            ))}
-      </CardSlider>
+              ))}
+            </CardSlider>
           )}
         </div>
       </div>

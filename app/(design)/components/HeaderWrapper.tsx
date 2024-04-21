@@ -16,7 +16,6 @@ export default function HeaderWrapper() {
     let design_id = pathname.split('/design/')[1] || '';
 
     const components = useSelector((state: RootState) => state.components.components);
-    console.log('design_id=', design_id)
     const { fetchData, data, loading, error } = useApi(`api/v1/designs/user/${design_id}`, 'PUT', "multipart/form-data");
 
     const saveImage = async () => {

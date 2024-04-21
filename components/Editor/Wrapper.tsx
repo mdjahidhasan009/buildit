@@ -11,28 +11,6 @@ export default function Wrapper({ children }: { children: React.ReactNode }) {
 
   const wrapperRef = useRef<HTMLDivElement>(null);
 
-  // const hasCustomTheme = useStore((state) => state.hasCustomTheme);
-  // const code = useStore((state) => state.code);
-  // const langugae = useStore((state) => state.language);
-  // const theme = useStore((state) => state.theme);
-  // const fontFamily = useStore((state) => state.fontFamily);
-  // const fontSize = useStore((state) => state.fontSize);
-  // const lineNumbers = useStore((state) => state.lineNumbers);
-  // const customColors = useStore((state) => state.customColors);
-  // const update = useStore((state) => state.update);
-  // const colorMode = useStore((state) => state.colorMode);
-  // const padding = useStore((state) => state.padding);
-  // const angle = useStore((state) => state.angle);
-  // const grain = useStore((state) => state.grain);
-  // const {
-  //   hasCustomTheme,
-  //   theme,
-  //   customColors,
-  //   colorMode,
-  //   padding,
-  //   angle,
-  //   grain,
-  // } = useSelector((state) => state.snippet);
   const hasCustomTheme = useSelector((state: RootState) => state.snippet.hasCustomTheme);
   const theme = useSelector((state: RootState) => state.snippet.theme);
   const customColors = useSelector((state: RootState) => state.snippet.customColors);
@@ -98,7 +76,7 @@ export default function Wrapper({ children }: { children: React.ReactNode }) {
         transition: { duration: 0.1, delay: 0.05 },
       }}
       initial={{ opacity: 0 }}
-      className={cn("overflow-hidden", "shadow-xl shadow-black/40")}
+      className={cn("overflow-hidden", "shadow-xl shadow-black/40 min-w-full lg:min-w-[70%]")}
       style={{
         marginTop: `${marginTop}vh`,
         borderRadius: 8 + +padding / 10,
@@ -107,7 +85,8 @@ export default function Wrapper({ children }: { children: React.ReactNode }) {
       <div
         id="screenshot"
         className={cn(
-          "relative z-0 w-auto min-w-[512px] max-w-[5xl]",
+          // "relative z-0 w-auto min-w-[512px] max-w-[5xl]",
+          "relative z-0 min-w-full lg:min-w-[70%] max-w-[5xl]",
           "transition-all duration-100 ease-in-out"
         )}
         style={{
@@ -127,7 +106,8 @@ export default function Wrapper({ children }: { children: React.ReactNode }) {
 
         <div
           className={cn(
-            "relative z-[1] h-full w-full min-w-[480px] max-w-2xl rounded-lg"
+            // "relative z-[1] h-full w-full min-w-[480px] max-w-2xl rounded-lg"
+            "relative z-[1] h-full min-w-full max-w-2xl rounded-lg"
           )}
         >
           <div
