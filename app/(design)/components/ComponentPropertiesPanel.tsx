@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import { updateComponent } from "@/lib/features/components/componentsSlice";
 import {AppDispatch, RootState} from "@/lib/reduxStore";
 import {DesignProperty, IComponent} from "@/lib/features/components/IComponent";
+import { cn } from "@/lib/cn";
 
 const ComponentPropertiesPanel = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -33,7 +34,6 @@ const ComponentPropertiesPanel = () => {
 
     const textUpdates = ['padding', 'fontSize', 'fontWeight', 'title'];
     if (currentComponent.name === 'text' && textUpdates.includes(propertyName)) {
-      // updates[propertyName] = value;
       updates[propertyName as keyof IComponent] = value;
 
     }
@@ -58,9 +58,16 @@ const ComponentPropertiesPanel = () => {
     <>
       {
         currentComponent && (
-          <div className='w-[250px] text-gray-300 bg-[#252627] px-3 py-2'>
-            <div className='flex gap-6 flex-col items-start h-full px-3 justify-start'>
-              <div className='flex gap-4 justify-start items-start mt-4'>
+          <div className='w-full lg:w-[250px] text-gray-300 bg-[#252627] py-5 mb-5 lg:px-3 lg:py-2 lg:mb-0'>
+            <div className={
+              cn(
+                "flex gap-6 flex-col-row flex-wrap lg:flex-col items-start justify-start",
+                "h-full px-3"
+              )
+            }>
+
+              {/* Color */}
+              <div className='flex gap-4 justify-center items-center'>
                 <span>Color: </span>
                 <label
                   className='w-[30px] h-[30px] cursor-pointer rounded-md'
@@ -75,6 +82,8 @@ const ComponentPropertiesPanel = () => {
                   className='invisible'
                 />
               </div>
+
+
               {
                 (currentComponent?.name === 'main_frame' && currentComponent?.image) && (
                   <div>
@@ -86,11 +95,14 @@ const ComponentPropertiesPanel = () => {
                   </div>
                 )
               }
+
+
               {
                 currentComponent?.name !== 'main_frame' &&
-                  <div className='flex gap-6 flex-col'>
+                  <>
+                    {/*Opacity*/}
                     <div className='flex gap-4 justify-start items-start'>
-                      <span className='text-md w-[70px]'>Opacity : </span>
+                      <span className='text-md'>Opacity : </span>
                       <input
                           onChange={(e) => updateCurrComponentProperties('opacity', parseFloat(e.target.value))}
                           className='w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md'
@@ -129,7 +141,7 @@ const ComponentPropertiesPanel = () => {
                       currentComponent?.name === 'text' &&
                         <>
                           <div className='flex gap-1 justify-start items-start'>
-                            <span className='text-md w-[70px]'>Padding : </span>
+                            <span className='text-md'>Padding : </span>
                             <input
                                 onChange={(e) => updateCurrComponentProperties('padding' , parseInt(e.target.value))}
                                 className='w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md'
@@ -139,7 +151,7 @@ const ComponentPropertiesPanel = () => {
                             />
                           </div>
                           <div className='flex gap-1 justify-start items-start'>
-                            <span className='text-md w-[72px]'>Font Size : </span>
+                            <span className='text-md'>Font Size : </span>
                             <input
                                 onChange={(e) => updateCurrComponentProperties('fontSize', parseInt(e.target.value))}
                                 className='w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md'
@@ -150,7 +162,7 @@ const ComponentPropertiesPanel = () => {
                           </div>
 
                           <div className='flex gap-1 justify-start items-start'>
-                            <span className='text-md w-[72px]'>Font Weight : </span>
+                            <span className='text-md'>Font Weight : </span>
                             <input
                                 onChange={(e) => updateCurrComponentProperties('fontWeight', parseInt(e.target.value))}
                                 className='w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md'
@@ -172,7 +184,7 @@ const ComponentPropertiesPanel = () => {
                           </div>
                         </>
                     }
-                  </div>
+                  </>
               }
             </div>
           </div>

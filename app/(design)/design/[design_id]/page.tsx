@@ -10,6 +10,7 @@ import RotateLoader from "react-spinners/RotateLoader";
 import {useDispatch} from "react-redux";
 import {setComponents} from "@/lib/features/components/componentsSlice";
 import {AppDispatch} from "@/lib/reduxStore";
+import {cn} from "@/lib/cn";
 
 type Props = {
   params: {
@@ -29,7 +30,7 @@ const Page = ({ params } : Props) => {
   }, [data, design_id]);
 
   return (
-    <div className="min-w-screen h-full bg-black">
+    <div className="min-w-full h-full bg-black">
       {loading ? (
         <div className='left-0 top-0 w-full h-full flex justify-center items-center bg-black absolute'>
             <RotateLoader color='white' />
@@ -39,7 +40,12 @@ const Page = ({ params } : Props) => {
           <SideBar />
           <div className='h-full w-[calc(100%-75px)]'>
             <SideBarDrawer design_id={design_id}/>
-            <div className='w-full flex h-full'>
+            <div className={
+              cn(
+                "w-full flex h-full",
+                "flex-col-reverse lg:flex-row"
+              )}
+            >
               <DesignPlayground/>
               <ComponentPropertiesPanel/>
             </div>
