@@ -14,6 +14,7 @@ const Element: React.FC<ElementProps> = ({ elementWrapperDivRef, component, extr
   const dispatch: AppDispatch  = useDispatch();
 
   const handleResize = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, elementRef: React.RefObject<HTMLElement>) => {
+    event.stopPropagation();
     if (!elementRef.current) return;
 
     let isResizing = true;
@@ -63,6 +64,7 @@ const Element: React.FC<ElementProps> = ({ elementWrapperDivRef, component, extr
 
 
   const handleRotate = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, elementRef: React.RefObject<HTMLElement>) => {
+    event.stopPropagation();
     if (!elementRef.current) return;
 
     // const startPos = { x: event.clientX, y: event.clientY };

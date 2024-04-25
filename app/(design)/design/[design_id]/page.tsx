@@ -5,7 +5,7 @@ import useApi from "@/utils/useApi";
 import SideBar from "@/app/(design)/components/SideBar";
 import SideBarDrawer from "@/app/(design)/components/SideBarDrawer";
 import DesignPlayground from "@/app/(design)/components/DesignPlayground";
-import ComponentPropertiesPanel from "@/app/(design)/components/ComponentPropertiesPanel";
+import ComponentPropertiesPanel from "@/app/(design)/components/ComponentPropertiesPanel/ComponentPropertiesPanel";
 import RotateLoader from "react-spinners/RotateLoader";
 import {useDispatch} from "react-redux";
 import {setComponents} from "@/lib/features/components/componentsSlice";
