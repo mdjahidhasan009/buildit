@@ -39,6 +39,16 @@ function useDragger(componentRef: React.RefObject<HTMLElement>): currentCoordina
     }
 
     const onMouseDown = (e: MouseEvent | TouchEvent) => {
+      // First, assert that e.target is an Element to safely use the closest method.
+      if (!(e.target instanceof Element)) {
+        return;
+      }
+
+      // Check if the target element or any of its parents has a class that should prevent dragging
+      if (e?.target?.closest('.no-drag')) {
+        return; // This prevents dragging when resizing or rotating
+      }
+
       e.stopPropagation();
       e.preventDefault();
 
@@ -48,18 +58,12 @@ function useDragger(componentRef: React.RefObject<HTMLElement>): currentCoordina
     }
 
     const onMouseUp = (e: MouseEvent | TouchEvent) => {
-      e.stopPropagation();
-      e.preventDefault();
-
       isClicked.current = false;
       coords.current.lastX = target.offsetLeft;
       coords.current.lastY = target.offsetTop;
     }
 
     const onMouseMove = (e: MouseEvent | TouchEvent) => {
-      e.stopPropagation();
-      e.preventDefault();
-
       if (!isClicked.current) return;
 
       const nextX = ((e.type.includes('touch')) ? (e as TouchEvent).touches[0].clientX : (e as MouseEvent).clientX) - coords.current.startX + coords.current.lastX;

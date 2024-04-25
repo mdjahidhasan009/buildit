@@ -39,39 +39,6 @@ const CreateComponent = ({ component } : { component: IComponent }) => {
     dispatch(updateComponentPosition({ id: component.id, left: currentXAxis, top: currentYAxis }));
   }, [component.id, currentXAxis, currentYAxis, dispatch]);
 
-  // const moveElement = (componentRef: React.RefObject<HTMLElement>) => {
-  //   let isMoving = true;
-  //   const currentDiv = componentRef.current;
-  //   if(!currentDiv) return;
-  //
-  //   const moveMouse = (e: MouseEvent) => {
-  //     if(!componentRef.current) return;
-  //
-  //     let newLeft = 0, newTop = 0;
-  //     const { movementX, movementY } = e;
-  //     const getStyle = window.getComputedStyle(componentRef.current);
-  //     const left = parseInt(getStyle.left);
-  //     const top = parseInt(getStyle.top);
-  //     if(isMoving) {
-  //       componentRef.current.style.left = `${left + movementX}px`;
-  //       componentRef.current.style.top = `${top + movementY}px`;
-  //       newLeft = left + movementX;
-  //       newTop = top + movementY;
-  //       dispatch(updateComponentPosition({ id: component.id, left: newLeft, top: newTop }));
-  //     }
-  //   }
-  //
-  //   const mouseUp = () => {
-  //     isMoving = false;
-  //     document.removeEventListener('mousemove', moveMouse);
-  //     document.removeEventListener('mouseup', mouseUp);
-  //   }
-  //
-  //   document.addEventListener('mousemove', moveMouse);
-  //   document.addEventListener('mouseup', mouseUp);
-  // }
-
-
   if(component.name === 'main_frame') {
     html =
       <div

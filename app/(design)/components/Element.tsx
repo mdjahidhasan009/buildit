@@ -23,6 +23,7 @@ const Element: React.FC<ElementProps> = ({ elementWrapperDivRef, component, extr
     const initialDimensions = elementRef.current.getBoundingClientRect();
 
     const moveMouse = (e: MouseEvent) => {
+      event.stopPropagation();
       if (!isResizing || !elementRef.current) return;
 
       // Calculate the difference between the current mouse position and the initial mouse position
@@ -59,7 +60,7 @@ const Element: React.FC<ElementProps> = ({ elementWrapperDivRef, component, extr
     document.addEventListener('mousemove', moveMouse);
     document.addEventListener('mouseup', mouseUp);
 
-    event.stopPropagation();
+    // event.stopPropagation();
   };
 
 
@@ -100,7 +101,6 @@ const Element: React.FC<ElementProps> = ({ elementWrapperDivRef, component, extr
     };
 
     document.addEventListener('mousemove', moveMouse);
-    event.stopPropagation();
   };
 
   return (
@@ -110,29 +110,29 @@ const Element: React.FC<ElementProps> = ({ elementWrapperDivRef, component, extr
           ? <>
             <div
               onMouseDown={(e) => handleResize(e, extraElementRef)}
-              className='hidden absolute group-hover:block -bottom-[3px] -right-[3px] w-[10px] h-[10px] cursor-nwse-resize bg-green-500 z-[9999]'></div>
+              className='no-drag hidden absolute group-hover:block -bottom-[3px] -right-[3px] w-[10px] h-[10px] cursor-nwse-resize bg-green-500 z-[9999]'></div>
             <div
               onMouseDown={(e) => handleResize(e, extraElementRef)}
-              className='hidden absolute group-hover:block -top-[3px] -right-[3px] w-[10px] h-[10px] cursor-nwse-resize bg-green-500 z-[9999]'></div>
+              className='no-drag hidden absolute group-hover:block -top-[3px] -right-[3px] w-[10px] h-[10px] cursor-nwse-resize bg-green-500 z-[9999]'></div>
             <div
               onMouseDown={(e) => handleResize(e, extraElementRef)}
-              className='hidden absolute group-hover:block -bottom-[3px] -left-[3px] w-[10px] h-[10px] cursor-nwse-resize bg-green-500 z-[9999]'></div>
+              className='no-drag hidden absolute group-hover:block -bottom-[3px] -left-[3px] w-[10px] h-[10px] cursor-nwse-resize bg-green-500 z-[9999]'></div>
           </>
           : <>
             <div
               // onMouseDown={(e) => { e.stopPropagation(); component.resizeElement(elementWrapperDivRef, component)}}
               onMouseDown={(e) => handleResize(e, elementWrapperDivRef)}
-              className='hidden absolute group-hover:block -bottom-[3px] -right-[3px] w-[10px] h-[10px] cursor-nwse-resize bg-green-500 z-[9999]'></div>
+              className='no-drag hidden absolute group-hover:block -bottom-[3px] -right-[3px] w-[10px] h-[10px] cursor-nwse-resize bg-green-500 z-[9999]'></div>
             <div
               onMouseDown={(e) => handleResize(e, elementWrapperDivRef)}
-              className='hidden absolute group-hover:block -top-[3px] -right-[3px] w-[10px] h-[10px] cursor-nwse-resize bg-green-500 z-[9999]'></div>
+              className='no-drag hidden absolute group-hover:block -top-[3px] -right-[3px] w-[10px] h-[10px] cursor-nwse-resize bg-green-500 z-[9999]'></div>
             <div
               onMouseDown={(e) => handleResize(e, elementWrapperDivRef)}
-              className='hidden absolute group-hover:block -bottom-[3px] -left-[3px] w-[10px] h-[10px] cursor-nwse-resize bg-green-500 z-[9999]'></div>
+              className='no-drag hidden absolute group-hover:block -bottom-[3px] -left-[3px] w-[10px] h-[10px] cursor-nwse-resize bg-green-500 z-[9999]'></div>
           </>
       }
 
-      <div className="absolute -top-[3px] -left-[3px] hidden group-hover:block">
+      <div className="absolute -top-[3px] -left-[3px] no-drag hidden group-hover:block">
         <div
           onMouseDown={(e) => handleRotate(e, elementWrapperDivRef)}
             className="w-[15px] h-[15px] bg-green-500 z-[9999] flex justify-center items-center">
