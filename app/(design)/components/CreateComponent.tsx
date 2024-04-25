@@ -2,7 +2,7 @@
 
 import { BsTrash } from "react-icons/bs";
 import Element from "./Element";
-import { useRef } from "react";
+import {useEffect, useRef} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/lib/reduxStore";
 import {
@@ -12,8 +12,10 @@ import {
 } from "@/lib/features/components/componentsSlice";
 import { IComponent } from "@/lib/features/components/IComponent";
 import Image from 'next/image';
+import useDragger from "@/app/(design)/business/hooks/useDragger";
 
 const CreateComponent = ({ component } : { component: IComponent }) => {
+
   const randValue = Math.floor(Math.random() * 100);
   let html: React.JSX.Element = <div></div>;
 
@@ -23,6 +25,8 @@ const CreateComponent = ({ component } : { component: IComponent }) => {
   const dispatch: AppDispatch = useDispatch();
   const currentComponent = useSelector((state: RootState) => state.components.currentComponent);
 
+  const { currentXAxis, currentYAxis } = useDragger(elementWrapperDivRef);
+
   const handleRemoveComponent = (id: number) => {
     dispatch(removeComponent(id));
   };
@@ -31,37 +35,41 @@ const CreateComponent = ({ component } : { component: IComponent }) => {
     dispatch(setCurrentComponent(component));
   }
 
-  const moveElement = (componentRef: React.RefObject<HTMLElement>) => {
-    let isMoving = true;
-    const currentDiv = componentRef.current;
-    if(!currentDiv) return;
+  useEffect(() => {
+    dispatch(updateComponentPosition({ id: component.id, left: currentXAxis, top: currentYAxis }));
+  }, [component.id, currentXAxis, currentYAxis, dispatch]);
 
-    const moveMouse = (e: MouseEvent) => {
-      if(!componentRef.current) return;
-
-      let newLeft = 0, newTop = 0;
-      const { movementX, movementY } = e;
-      const getStyle = window.getComputedStyle(componentRef.current);
-      const left = parseInt(getStyle.left);
-      const top = parseInt(getStyle.top);
-      if(isMoving) {
-        componentRef.current.style.left = `${left + movementX}px`;
-        componentRef.current.style.top = `${top + movementY}px`;
-        newLeft = left + movementX;
-        newTop = top + movementY;
-        dispatch(updateComponentPosition({ id: component.id, left: newLeft, top: newTop }));
-      }
-    }
-
-    const mouseUp = () => {
-      isMoving = false;
-      document.removeEventListener('mousemove', moveMouse);
-      document.removeEventListener('mouseup', mouseUp);
-    }
-
-    document.addEventListener('mousemove', moveMouse);
-    document.addEventListener('mouseup', mouseUp);
-  }
+  // const moveElement = (componentRef: React.RefObject<HTMLElement>) => {
+  //   let isMoving = true;
+  //   const currentDiv = componentRef.current;
+  //   if(!currentDiv) return;
+  //
+  //   const moveMouse = (e: MouseEvent) => {
+  //     if(!componentRef.current) return;
+  //
+  //     let newLeft = 0, newTop = 0;
+  //     const { movementX, movementY } = e;
+  //     const getStyle = window.getComputedStyle(componentRef.current);
+  //     const left = parseInt(getStyle.left);
+  //     const top = parseInt(getStyle.top);
+  //     if(isMoving) {
+  //       componentRef.current.style.left = `${left + movementX}px`;
+  //       componentRef.current.style.top = `${top + movementY}px`;
+  //       newLeft = left + movementX;
+  //       newTop = top + movementY;
+  //       dispatch(updateComponentPosition({ id: component.id, left: newLeft, top: newTop }));
+  //     }
+  //   }
+  //
+  //   const mouseUp = () => {
+  //     isMoving = false;
+  //     document.removeEventListener('mousemove', moveMouse);
+  //     document.removeEventListener('mouseup', mouseUp);
+  //   }
+  //
+  //   document.addEventListener('mousemove', moveMouse);
+  //   document.addEventListener('mouseup', mouseUp);
+  // }
 
 
   if(component.name === 'main_frame') {
@@ -94,7 +102,7 @@ const CreateComponent = ({ component } : { component: IComponent }) => {
       <div
         ref={elementWrapperDivRef}
         id={randValue.toString()}
-        onMouseDown={(e) => { e.stopPropagation(); moveElement(elementWrapperDivRef) }}
+        // onMouseDown={(e) => { e.stopPropagation(); moveElement(elementWrapperDivRef) }}
         onClick={() => handleSetCurrentComponent(component)}
         style={{
           width: component.width + 'px',
@@ -125,7 +133,7 @@ const CreateComponent = ({ component } : { component: IComponent }) => {
       <div
         ref={elementWrapperDivRef}
         id={randValue.toString()}
-        onMouseDown={(e) => { e.stopPropagation(); moveElement(elementWrapperDivRef) }}
+        // onMouseDown={(e) => { e.stopPropagation(); moveElement(elementWrapperDivRef) }}
         onClick={() => handleSetCurrentComponent(component)}
         style={{
           left: component.left + 'px',
@@ -165,7 +173,7 @@ const CreateComponent = ({ component } : { component: IComponent }) => {
       <div
         ref={elementWrapperDivRef}
         id={randValue.toString()}
-        onMouseDown={(e) => { e.stopPropagation(); moveElement(elementWrapperDivRef) }}
+        // onMouseDown={(e) => { e.stopPropagation(); moveElement(elementWrapperDivRef) }}
         onClick={() => handleSetCurrentComponent(component)}
         style={{
           left: component.left + 'px',
@@ -205,7 +213,7 @@ const CreateComponent = ({ component } : { component: IComponent }) => {
       <div
         ref={elementWrapperDivRef}
         id={randValue.toString()}
-        onMouseDown={(e) => { e.stopPropagation(); moveElement(elementWrapperDivRef) }}
+        // onMouseDown={(e) => { e.stopPropagation(); moveElement(elementWrapperDivRef) }}
         onClick={() => handleSetCurrentComponent(component)}
         style={{
           left: component.left + 'px',
@@ -236,7 +244,7 @@ const CreateComponent = ({ component } : { component: IComponent }) => {
       <div
         ref={elementWrapperDivRef}
         id={randValue.toString()}
-        onMouseDown={(e) => { e.stopPropagation(); moveElement(elementWrapperDivRef) }}
+        // onMouseDown={(e) => { e.stopPropagation(); moveElement(elementWrapperDivRef) }}
         onClick={() => handleSetCurrentComponent(component)}
         style={{
           left: component.left + 'px',

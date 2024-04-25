@@ -1,57 +1,47 @@
 "use client";
 
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateComponent } from "@/lib/features/components/componentsSlice";
-import {AppDispatch, RootState} from "@/lib/reduxStore";
-import {DesignProperty, IComponent} from "@/lib/features/components/IComponent";
+import { AppDispatch, RootState } from "@/lib/reduxStore";
+import { DesignProperty, IComponent } from "@/lib/features/components/IComponent";
 import { cn } from "@/lib/cn";
+import React from "react";
 
-const ComponentPropertiesPanel = () => {
-  const dispatch: AppDispatch = useDispatch();
+const ComponentPropertiesPanel: React.FC = () => {
+  // const dispatch: AppDispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const currentComponent = useSelector((state: RootState) => state.components.currentComponent);
 
   const removeBackground = () => {
-    if (currentComponent && currentComponent?.id) {
-      dispatch(updateComponent({
-        id: currentComponent?.id,
-        changes: { image: '' }
-      }));
-      updateCurrComponentProperties('image', '');
-    }
+    if(!currentComponent || !currentComponent?.id) return;
+
+    dispatch(updateComponent({
+      id: currentComponent?.id,
+      changes: { image: '' }
+    }));
   };
 
   const updateCurrComponentProperties = (propertyName: DesignProperty, value: any) => {
     if (!currentComponent) return;
 
     let updates: Partial<IComponent> = {};
-
     const generalUpdates = ['width', 'height', 'rotate', 'color', 'left', 'top', 'opacity', 'zIndex'];
-    if (generalUpdates.includes(propertyName)) {
-      // updates[propertyName] = value;
-      updates[propertyName as keyof IComponent] = value;
-
-    }
-
     const textUpdates = ['padding', 'fontSize', 'fontWeight', 'title'];
-    if (currentComponent.name === 'text' && textUpdates.includes(propertyName)) {
-      updates[propertyName as keyof IComponent] = value;
-
-    }
-
     const imageUpdates = ['radius'];
-    if (currentComponent.name === 'image' && imageUpdates.includes(propertyName)) {
-      // updates[propertyName] = value;
+
+
+    if (generalUpdates.includes(propertyName)) {
       updates[propertyName as keyof IComponent] = value;
-
-    }
-
-    if (currentComponent.name === 'main_frame' && propertyName === 'image') {
+    } else if (currentComponent.name === 'text' && textUpdates.includes(propertyName)) {
+      updates[propertyName as keyof IComponent] = value;
+    } else if (currentComponent.name === 'image' && imageUpdates.includes(propertyName)) {
+      updates[propertyName as keyof IComponent] = value;
+    } else if (currentComponent.name === 'main_frame' && propertyName === 'image') {
       updates['image'] = value;
     }
 
     const componentId: number = currentComponent?.id || 0;
     dispatch(updateComponent({ id: componentId, changes: updates }));
-
   }
 
   return (
@@ -87,8 +77,9 @@ const ComponentPropertiesPanel = () => {
               {
                 (currentComponent?.name === 'main_frame' && currentComponent?.image) && (
                   <div>
-                    <button className='p-[6px] bg-slate-700 text-white rounded-md'
-                            onClick={removeBackground}
+                    <button
+                      className='p-[6px] bg-slate-700 text-white rounded-md'
+                      onClick={removeBackground}
                     >
                       Remove Background
                     </button>
@@ -115,6 +106,7 @@ const ComponentPropertiesPanel = () => {
                     </div>
 
                     <div className='flex gap-1 justify-start items-start'>
+                      {/*Z-index*/}
                       <span className='text-md w-[70px]'>Z-Index : </span>
                       <input
                           onChange={(e) => updateCurrComponentProperties('zIndex', parseInt(e.target.value))}

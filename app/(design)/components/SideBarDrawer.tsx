@@ -9,7 +9,7 @@ import BackgroundImages from "./BackgroundImages";
 import {useDispatch, useSelector} from "react-redux";
 import {closeSidebar} from "@/lib/features/ui/uiSlice";
 import {AppDispatch, RootState} from "@/lib/reduxStore";
-import useSidebarDrawer from "@/app/(design)/business/useSidebarDrawer";
+import useSidebarDrawer from "@/app/(design)/business/hooks/useSidebarDrawer";
 
 const SideBarDrawer = ({ design_id = '' }) => {
   const dispatch: AppDispatch  = useDispatch();
