@@ -28,11 +28,8 @@ function useDragger(componentRef: React.RefObject<HTMLElement>, component: IComp
   })
 
   useEffect(() => {
-
-    // const target = document.getElementById(id);
     const target = componentRef.current;
     if (!target) {
-
       console.error("Please provide component ref");
       return;
     }

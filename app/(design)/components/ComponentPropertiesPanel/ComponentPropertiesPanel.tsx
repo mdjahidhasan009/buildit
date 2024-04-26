@@ -8,7 +8,6 @@ import { cn } from "@/lib/cn";
 import React from "react";
 
 const ComponentPropertiesPanel: React.FC = () => {
-  // const dispatch: AppDispatch = useDispatch();
   const dispatch = useDispatch<AppDispatch>();
   const currentComponent = useSelector((state: RootState) => state.components.currentComponent);
 

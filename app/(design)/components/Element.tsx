@@ -4,6 +4,8 @@ import { updateComponentRotation, updateComponentSize } from "@/lib/features/com
 import { AppDispatch, RootState } from "@/lib/reduxStore";
 import { IComponent } from "@/lib/features/components/IComponent";
 import {isMobileDevice} from "@/lib/utils";
+import useRotate from "@/app/(design)/business/hooks/useRotate";
+import {useRef} from "react";
 
 interface ElementProps {
   elementWrapperDivRef: React.RefObject<HTMLElement>;
@@ -14,6 +16,9 @@ interface ElementProps {
 const Element: React.FC<ElementProps> = ({ elementWrapperDivRef, component, extraElementRef = null }) => {
   const dispatch  = useDispatch<AppDispatch>();
   const currentComponent = useSelector((state: RootState) => state.components.currentComponent);
+  const rotateIconRef = useRef(null);
+
+  useRotate(rotateIconRef, component);
 
   const handleResize = (event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>, elementRef: React.RefObject<HTMLElement>) => {
     event.stopPropagation();
@@ -87,64 +92,64 @@ const Element: React.FC<ElementProps> = ({ elementWrapperDivRef, component, extr
   };
 
 
-  const handleRotate = (event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>, elementRef: React.RefObject<HTMLElement>) => {
-    event.stopPropagation();
-    if (!elementRef.current) return;
-
-    let initialAngle = 0;
-    // Assuming the element's center as the pivot for rotation
-    const rect = elementRef.current.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-
-    // Function to calculate the angle based on current mouse or touch position
-    const calculateAngle = (pageX: number, pageY: number) => {
-      const dx = pageX - centerX;
-      const dy = pageY - centerY;
-      return Math.atan2(dy, dx) * (180 / Math.PI);
-    };
-
-
-    if (event.type.startsWith('touch')) {
-      const touchEvent = event as React.TouchEvent<HTMLDivElement>;
-      initialAngle = calculateAngle(touchEvent.touches[0].pageX, touchEvent.touches[0].pageY);
-    } else {
-      const mouseEvent = event as React.MouseEvent<HTMLDivElement>;
-      initialAngle = calculateAngle(mouseEvent.pageX, mouseEvent.pageY);
-    }
-
-    const moveMouse = (e: MouseEvent | TouchEvent) => {
-      if (!elementRef.current) return;
-
-      let currentAngle = 0;
-      if (e.type.startsWith('touch')) {
-        const touchMoveEvent = e as TouchEvent;
-        currentAngle = calculateAngle(touchMoveEvent.touches[0].pageX, touchMoveEvent.touches[0].pageY);
-      } else {
-        const mouseMoveEvent = e as MouseEvent;
-        currentAngle = calculateAngle(mouseMoveEvent.pageX, mouseMoveEvent.pageY);
-      }
-
-      let angleDiff = currentAngle - initialAngle;
-      let newRotate = (angleDiff + 360) % 360; // Normalize the angle
-      elementRef.current.style.transform = `rotate(${newRotate}deg)`;
-
-      dispatch(updateComponentRotation({ id: component.id, rotate: newRotate }));
-    };
-
-    const stopRotate = () => {
-      document.removeEventListener('mousemove', moveMouse);
-      document.removeEventListener('mouseup', stopRotate);
-      document.removeEventListener('touchmove', moveMouse);
-      document.removeEventListener('touchend', stopRotate);
-    };
-
-    document.addEventListener('mousemove', moveMouse);
-    document.addEventListener('mouseup', stopRotate);
-    document.addEventListener('touchmove', moveMouse);
-    document.addEventListener('touchend', stopRotate);
-
-  };
+  // const handleRotate = (event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>, elementRef: React.RefObject<HTMLElement>) => {
+  //   event.stopPropagation();
+  //   if (!elementRef.current) return;
+  //
+  //   let initialAngle = 0;
+  //   // Assuming the element's center as the pivot for rotation
+  //   const rect = elementRef.current.getBoundingClientRect();
+  //   const centerX = rect.left + rect.width / 2;
+  //   const centerY = rect.top + rect.height / 2;
+  //
+  //   // Function to calculate the angle based on current mouse or touch position
+  //   const calculateAngle = (pageX: number, pageY: number) => {
+  //     const dx = pageX - centerX;
+  //     const dy = pageY - centerY;
+  //     return Math.atan2(dy, dx) * (180 / Math.PI);
+  //   };
+  //
+  //
+  //   if (event.type.startsWith('touch')) {
+  //     const touchEvent = event as React.TouchEvent<HTMLDivElement>;
+  //     initialAngle = calculateAngle(touchEvent.touches[0].pageX, touchEvent.touches[0].pageY);
+  //   } else {
+  //     const mouseEvent = event as React.MouseEvent<HTMLDivElement>;
+  //     initialAngle = calculateAngle(mouseEvent.pageX, mouseEvent.pageY);
+  //   }
+  //
+  //   const moveMouse = (e: MouseEvent | TouchEvent) => {
+  //     if (!elementRef.current) return;
+  //
+  //     let currentAngle = 0;
+  //     if (e.type.startsWith('touch')) {
+  //       const touchMoveEvent = e as TouchEvent;
+  //       currentAngle = calculateAngle(touchMoveEvent.touches[0].pageX, touchMoveEvent.touches[0].pageY);
+  //     } else {
+  //       const mouseMoveEvent = e as MouseEvent;
+  //       currentAngle = calculateAngle(mouseMoveEvent.pageX, mouseMoveEvent.pageY);
+  //     }
+  //
+  //     let angleDiff = currentAngle - initialAngle;
+  //     let newRotate = (angleDiff + 360) % 360; // Normalize the angle
+  //     elementRef.current.style.transform = `rotate(${newRotate}deg)`;
+  //
+  //     dispatch(updateComponentRotation({ id: component.id, rotate: newRotate }));
+  //   };
+  //
+  //   const stopRotate = () => {
+  //     document.removeEventListener('mousemove', moveMouse);
+  //     document.removeEventListener('mouseup', stopRotate);
+  //     document.removeEventListener('touchmove', moveMouse);
+  //     document.removeEventListener('touchend', stopRotate);
+  //   };
+  //
+  //   document.addEventListener('mousemove', moveMouse);
+  //   document.addEventListener('mouseup', stopRotate);
+  //   document.addEventListener('touchmove', moveMouse);
+  //   document.addEventListener('touchend', stopRotate);
+  //
+  // };
 
   const willShow = () => {
     const isMobile = isMobileDevice();
@@ -195,8 +200,9 @@ const Element: React.FC<ElementProps> = ({ elementWrapperDivRef, component, extr
 
       <div className={`absolute -top-[3px] -left-[3px] no-drag ${willShow()} z-[9999]`}>
         <div
-          onTouchStart={(e) => handleRotate(e, elementWrapperDivRef)}
-          onMouseDown={(e) => handleRotate(e, elementWrapperDivRef)}
+          // onTouchStart={(e) => handleRotate(e, elementWrapperDivRef)}
+          // onMouseDown={(e) => handleRotate(e, elementWrapperDivRef)}
+          ref={rotateIconRef}
           className="w-[15px] h-[15px] bg-green-500 z-[9999] flex justify-center items-center">
           <BsArrowsMove className="text-white"/> {/* Rotate icon */}
         </div>
