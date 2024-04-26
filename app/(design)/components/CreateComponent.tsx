@@ -25,14 +25,18 @@ const CreateComponent = ({ component } : { component: IComponent }) => {
   const dispatch: AppDispatch = useDispatch();
   const currentComponent = useSelector((state: RootState) => state.components.currentComponent);
 
-  const { currentXAxis, currentYAxis } = useDragger(elementWrapperDivRef);
+  const { currentXAxis, currentYAxis } = useDragger(elementWrapperDivRef, component);
 
   const handleRemoveComponent = (id: number) => {
     dispatch(removeComponent(id));
   };
 
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
   const handleSetCurrentComponent = (component: IComponent) => {
-    dispatch(setCurrentComponent(component));
+    if(!isTouchDevice) {
+      dispatch(setCurrentComponent(component));
+    }
   }
 
   useEffect(() => {
@@ -69,7 +73,6 @@ const CreateComponent = ({ component } : { component: IComponent }) => {
       <div
         ref={elementWrapperDivRef}
         id={randValue.toString()}
-        // onMouseDown={(e) => { e.stopPropagation(); moveElement(elementWrapperDivRef) }}
         onClick={() => handleSetCurrentComponent(component)}
         style={{
           width: component.width + 'px',
@@ -100,7 +103,6 @@ const CreateComponent = ({ component } : { component: IComponent }) => {
       <div
         ref={elementWrapperDivRef}
         id={randValue.toString()}
-        // onMouseDown={(e) => { e.stopPropagation(); moveElement(elementWrapperDivRef) }}
         onClick={() => handleSetCurrentComponent(component)}
         style={{
           left: component.left + 'px',
@@ -140,7 +142,6 @@ const CreateComponent = ({ component } : { component: IComponent }) => {
       <div
         ref={elementWrapperDivRef}
         id={randValue.toString()}
-        // onMouseDown={(e) => { e.stopPropagation(); moveElement(elementWrapperDivRef) }}
         onClick={() => handleSetCurrentComponent(component)}
         style={{
           left: component.left + 'px',
@@ -180,7 +181,6 @@ const CreateComponent = ({ component } : { component: IComponent }) => {
       <div
         ref={elementWrapperDivRef}
         id={randValue.toString()}
-        // onMouseDown={(e) => { e.stopPropagation(); moveElement(elementWrapperDivRef) }}
         onClick={() => handleSetCurrentComponent(component)}
         style={{
           left: component.left + 'px',
@@ -211,7 +211,6 @@ const CreateComponent = ({ component } : { component: IComponent }) => {
       <div
         ref={elementWrapperDivRef}
         id={randValue.toString()}
-        // onMouseDown={(e) => { e.stopPropagation(); moveElement(elementWrapperDivRef) }}
         onClick={() => handleSetCurrentComponent(component)}
         style={{
           left: component.left + 'px',

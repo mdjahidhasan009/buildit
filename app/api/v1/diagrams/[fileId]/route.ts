@@ -14,7 +14,6 @@ export const GET = async (req: NextRequest, params: {params: { fileId: string }}
     if(!fileId) {
         return new Response(JSON.stringify({ status: 'error', data: [], message: "Please provide fileId" }), { status: 401, headers: { 'Content-Type': 'application/json' } });
     }
-    console.log(params)
 
     const diagramRepository = new PrismaDiagramRepository();
     const diagramUseCase = new DiagramUseCases(diagramRepository);

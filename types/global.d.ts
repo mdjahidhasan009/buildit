@@ -4,4 +4,10 @@ declare global {
   declare interface NextRequest extends OriginalNextRequest {
     userId?: string
   }
+
+  interface Navigator {
+    userAgentData?: {
+      mobile: boolean;
+    };
+  }
 }

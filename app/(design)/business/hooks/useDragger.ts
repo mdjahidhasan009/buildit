@@ -1,14 +1,19 @@
 import React, { useEffect, useRef } from "react";
+import { IComponent } from "@/lib/features/components/IComponent";
+import {setCurrentComponent} from "@/lib/features/components/componentsSlice";
+import {AppDispatch} from "@/lib/reduxStore";
+import {useDispatch} from "react-redux";
 
 type currentCoordinate = {
   currentXAxis: number,
   currentYAxis: number,
 }
 
-function useDragger(componentRef: React.RefObject<HTMLElement>): currentCoordinate {
+function useDragger(componentRef: React.RefObject<HTMLElement>, component: IComponent): currentCoordinate {
   // if(!componentRef.current) return;
 
   const isClicked = useRef<boolean>(false);
+  const dispatch: AppDispatch = useDispatch();
 
   const coords = useRef<{
     startX: number,
@@ -55,6 +60,12 @@ function useDragger(componentRef: React.RefObject<HTMLElement>): currentCoordina
       isClicked.current = true;
       coords.current.startX = e.type === 'touchstart' ? (e as TouchEvent).touches[0].clientX : (e as MouseEvent).clientX;
       coords.current.startY = e.type === 'touchstart' ? (e as TouchEvent).touches[0].clientY : (e as MouseEvent).clientY;
+
+      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+      if(isTouchDevice) {
+        dispatch(setCurrentComponent(component));
+      }
     }
 
     const onMouseUp = (e: MouseEvent | TouchEvent) => {
