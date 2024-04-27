@@ -1,11 +1,11 @@
 import { BsArrowsMove } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
-import { updateComponentRotation, updateComponentSize } from "@/lib/features/components/componentsSlice";
+import {updateComponentRotation, updateComponentSize} from "@/lib/features/components/componentsSlice";
 import { AppDispatch, RootState } from "@/lib/reduxStore";
 import { IComponent } from "@/lib/features/components/IComponent";
 import {isMobileDevice} from "@/lib/utils";
 import useRotate from "@/app/(design)/business/hooks/useRotate";
-import {useRef} from "react";
+import {useEffect, useRef} from "react";
 
 interface ElementProps {
   elementWrapperDivRef: React.RefObject<HTMLElement>;
@@ -18,7 +18,11 @@ const Element: React.FC<ElementProps> = ({ elementWrapperDivRef, component, extr
   const currentComponent = useSelector((state: RootState) => state.components.currentComponent);
   const rotateIconRef = useRef(null);
 
-  useRotate(rotateIconRef, component);
+  const { rotation } = useRotate(elementWrapperDivRef, rotateIconRef, component);
+
+  useEffect(() => {
+    dispatch(updateComponentRotation({ id: component.id, rotate: rotation }));
+  }, [component.id, dispatch, rotation]);
 
   const handleResize = (event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>, elementRef: React.RefObject<HTMLElement>) => {
     event.stopPropagation();
@@ -171,37 +175,35 @@ const Element: React.FC<ElementProps> = ({ elementWrapperDivRef, component, extr
             <div
               onTouchStart={(e) => handleResize(e, extraElementRef)}
               onMouseDown={(e) => handleResize(e, extraElementRef)}
-              className={`no-drag ${willShow()} absolute -bottom-[3px] -right-[3px] w-[40px] h-[40px] cursor-nwse-resize bg-green-500 z-[9999]`}></div>
+              className={`no-drag ${willShow()} absolute -bottom-[3px] -right-[3px] w-[15px] h-[15px] cursor-nwse-resize bg-green-500 z-[9999]`}></div>
             <div
               onTouchStart={(e) => handleResize(e, extraElementRef)}
               onMouseDown={(e) => handleResize(e, extraElementRef)}
-              className={`no-drag ${willShow()} absolute -top-[3px] -right-[3px] w-[10px] h-[10px] cursor-nwse-resize bg-green-500 z-[9999]`}></div>
+              className={`no-drag ${willShow()} absolute -top-[3px] -right-[3px] w-[15px] h-[15px] cursor-nwse-resize bg-green-500 z-[9999]`}></div>
             <div
               onTouchStart={(e) => handleResize(e, extraElementRef)}
               onMouseDown={(e) => handleResize(e, extraElementRef)}
-              className={`no-drag ${willShow()} absolute -bottom-[3px] -left-[3px] w-[10px] h-[10px] cursor-nwse-resize bg-green-500 z-[9999]`}></div>
+              className={`no-drag ${willShow()} absolute -bottom-[3px] -left-[3px] w-[15px] h-[15px] cursor-nwse-resize bg-green-500 z-[9999]`}></div>
           </>
           : <>
             <div
               // onMouseDown={(e) => { e.stopPropagation(); component.resizeElement(elementWrapperDivRef, component)}}
               onTouchStart={(e) => handleResize(e, elementWrapperDivRef)}
               onMouseDown={(e) => handleResize(e, elementWrapperDivRef)}
-              className={`no-drag ${willShow()} absolute -bottom-[3px] -right-[3px] w-[40px] h-[40px] cursor-nwse-resize bg-green-500 z-[9999]`}></div>
+              className={`no-drag ${willShow()} absolute -bottom-[3px] -right-[3px] w-[15px] h-[15px] cursor-nwse-resize bg-green-500 z-[9999]`}></div>
             <div
               onTouchStart={(e) => handleResize(e, elementWrapperDivRef)}
               onMouseDown={(e) => handleResize(e, elementWrapperDivRef)}
-              className={`no-drag ${willShow()} absolute -top-[3px] -right-[3px] w-[10px] h-[10px] cursor-nwse-resize bg-green-500 z-[9999]`}></div>
+              className={`no-drag ${willShow()} absolute -top-[3px] -right-[3px] w-[15px] h-[15px] cursor-nwse-resize bg-green-500 z-[9999]`}></div>
             <div
               onMouseDown={(e) => handleResize(e, elementWrapperDivRef)}
               onTouchStart={(e) => handleResize(e, elementWrapperDivRef)}
-              className={`no-drag ${willShow()} absolute -bottom-[3px] -left-[3px] w-[10px] h-[10px] cursor-nwse-resize bg-green-500 z-[9999]`}></div>
+              className={`no-drag ${willShow()} absolute -bottom-[3px] -left-[3px] w-[15px] h-[15px] cursor-nwse-resize bg-green-500 z-[9999]`}></div>
           </>
       }
 
       <div className={`absolute -top-[3px] -left-[3px] no-drag ${willShow()} z-[9999]`}>
         <div
-          // onTouchStart={(e) => handleRotate(e, elementWrapperDivRef)}
-          // onMouseDown={(e) => handleRotate(e, elementWrapperDivRef)}
           ref={rotateIconRef}
           className="w-[15px] h-[15px] bg-green-500 z-[9999] flex justify-center items-center">
           <BsArrowsMove className="text-white"/> {/* Rotate icon */}

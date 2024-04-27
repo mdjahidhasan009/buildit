@@ -1,119 +1,102 @@
-import {useEffect, useRef} from 'react';
-import {useDispatch} from "react-redux";
+import React, { useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
+import { IComponent } from "@/lib/features/components/IComponent";
 import {AppDispatch} from "@/lib/reduxStore";
-import {IComponent} from "@/lib/features/components/IComponent";
-import {updateComponentRotation} from "@/lib/features/components/componentsSlice";
 
-// Hook for handling rotation
-function useRotate(elementRef : any, component: IComponent) {
+const useRotate = (elementRef: React.RefObject<HTMLElement>, rotateIconRef: React.RefObject<HTMLElement>, component: IComponent) => {
+  const initialAngleRef = useRef<number>(0);
+  const initialRotationRef = useRef<number>(0);
+  const finalRotationRef = useRef<number>(0);
 
+  const getRotationDegrees = (transform: string) => {
+    const values = transform.match(/matrix\((.+)\)/);
+    if (values && values[1]) {
+      const parts = values[1].split(', ');
+      const a = parseFloat(parts[0]);
+      const b = parseFloat(parts[1]);
+      const angle = Math.round(Math.atan2(b, a) * (180 / Math.PI));
+      return angle;
+    }
+    return 0;
+  };
 
-  const dispatch = useDispatch<AppDispatch>();
-  const centerRef = useRef<{
-    centerX: number,
-    centerY: number
-  }>({
-    centerX: 0,
-    centerY: 0,
-  });
-  const initialAngleRef = useRef(0);
-
-
-  useEffect(() => {
-    if(!elementRef.current) return;
-
-    const target = elementRef?.current;
-    if (!target) {
-      console.error("Please provide component ref");
+  const calculateAngle = (clientX: number, clientY: number) => {
+    if(!elementRef.current) {
+      console.error('No elementRef');
       return;
     }
 
-    const onMouseDown = (e: MouseEvent | TouchEvent) => {
-      if(!elementRef?.current) {
-        return;
-      }
-      // First, assert that e.target is an Element to safely use the closest method.
-      if (!(e.target instanceof Element)) {
-        return;
-      }
+    const rect = elementRef.current.getBoundingClientRect();
+    const centerX: number = rect.left + rect.width / 2;
+    const centerY: number = rect.top + rect.height / 2;
+    const radians: number = Math.atan2(clientY - centerY, clientX - centerX);
+    return radians * (180 / Math.PI);
+  };
 
-      // Assuming the element's center as the pivot for rotation
-      const rect = elementRef.current.getBoundingClientRect();
-      centerRef.current.centerX = rect.left + rect.width / 2;
-      centerRef.current.centerY = rect.top + rect.height / 2;
-
-      if (e instanceof TouchEvent) {
-        initialAngleRef.current = calculateAngle(e.touches[0].clientX, e.touches[0].clientY);
-      } else {
-        initialAngleRef.current = calculateAngle(e.clientX, e.clientY);
-      }
-
-      elementRef?.current.addEventListener('mousemove', moveMouse);
-      elementRef?.current.addEventListener('touchmove', moveMouse);
-      elementRef?.current.addEventListener('mouseup', stopRotate);
-      elementRef?.current.addEventListener('touchend', stopRotate);
+  const handleMouseDown = (event: MouseEvent | TouchEvent) => {
+    let clientX = event.type.includes('touch') ? (event as TouchEvent).touches[0].clientX : (event as MouseEvent).clientX;
+    let clientY = event.type.includes('touch') ? (event as TouchEvent).touches[0].clientY : (event as MouseEvent).clientY;
+    // initialAngleRef.current = calculateAngle(event.clientX, event.clientY);
+    let initialAngle = calculateAngle(clientX, clientY);
+    if(!initialAngle) {
+      console.error('Can not get initialAngleRef');
+      return;
     }
 
-    // Function to calculate the angle based on current mouse or touch position
-    const calculateAngle = (pageX: number, pageY: number) => {
-      const dx = pageX - centerRef.current?.centerX;
-      const dy = pageY - centerRef.current?.centerY;
-      return Math.atan2(dy, dx) * (180 / Math.PI);
-    };
+    if(!elementRef.current) {
+      console.error('No elementRef');
+      return;
+    }
 
-    const moveMouse = (e: MouseEvent | TouchEvent) => {
-      if (!elementRef.current) return;
+    initialAngleRef.current = initialAngle;
 
-      let currentAngle = 0;
-      if (e.type.startsWith('touch')) {
-        const touchMoveEvent = e as TouchEvent;
-        currentAngle = calculateAngle(touchMoveEvent.touches[0].pageX, touchMoveEvent.touches[0].pageY);
-      } else {
-        const mouseMoveEvent = e as MouseEvent;
-        currentAngle = calculateAngle(mouseMoveEvent.pageX, mouseMoveEvent.pageY);
-      }
+    const currentTransform = window.getComputedStyle(elementRef.current).transform;
+    initialRotationRef.current = getRotationDegrees(currentTransform);
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+    window.addEventListener('touchmove', handleMouseMove);
+    window.addEventListener('touchend', handleMouseUp);
+  };
 
-      let angleDiff = currentAngle - initialAngleRef.current;
-      let newRotate = (angleDiff + 360) % 360; // Normalize the angle
-      elementRef.current.style.transform = `rotate(${newRotate}deg)`;
+  const handleMouseMove = (event: MouseEvent | TouchEvent) => {
+    if (!elementRef.current) return;
 
-      dispatch(updateComponentRotation({ id: component.id, rotate: newRotate }));
-    };
+    let clientX = event.type.includes('touch') ? (event as TouchEvent).touches[0].clientX : (event as MouseEvent).clientX;
+    let clientY = event.type.includes('touch') ? (event as TouchEvent).touches[0].clientY : (event as MouseEvent).clientY;
 
-    // const stopRotate = () => {
-    //   document.removeEventListener('mousemove', moveMouse);
-    //   document.removeEventListener('mouseup', stopRotate);
-    //   document.removeEventListener('touchmove', moveMouse);
-    //   document.removeEventListener('touchend', stopRotate);
-    // };
-    const stopRotate = () => {
-      document.removeEventListener('mousemove', moveMouse);
-      document.removeEventListener('touchmove', moveMouse);
-      document.removeEventListener('mouseup', stopRotate);
-      document.removeEventListener('touchend', stopRotate);
-    };
+    const newAngle = calculateAngle(clientX, clientY);
+    if(!newAngle) {
+      console.error('Can not get newAngle');
+      return;
+    }
 
-    // document.addEventListener('mousedown', onMouseDown);
-    // document.addEventListener('touchstart', onMouseDown);
-    // document.addEventListener('mousemove', moveMouse);
-    // document.addEventListener('mouseup', stopRotate);
-    // document.addEventListener('touchmove', moveMouse);
-    // document.addEventListener('touchend', stopRotate);
+    const angleDiff = newAngle - initialAngleRef.current;
+    const newRotation = (initialRotationRef.current + angleDiff + 360) % 360;
+    elementRef.current.style.transform = `rotate(${newRotation}deg)`;
+    finalRotationRef.current = newRotation;
+  };
 
-    target.addEventListener('mousedown', onMouseDown);
-    target.addEventListener('touchstart', onMouseDown);
+  const handleMouseUp = () => {
+    window.removeEventListener('mousemove', handleMouseMove);
+    window.removeEventListener('mouseup', handleMouseUp);
+    window.removeEventListener('touchmove', handleMouseMove);
+    window.removeEventListener('touchend', handleMouseUp);
+  };
 
-    return () => {
-      target.removeEventListener('mousedown', onMouseDown);
-      target.removeEventListener('touchstart', onMouseDown);
-      document.removeEventListener('mousemove', moveMouse);
-      document.removeEventListener('touchmove', moveMouse);
-      document.removeEventListener('mouseup', stopRotate);
-      document.removeEventListener('touchend', stopRotate);
-    };
-  }, [elementRef, dispatch, component]);
+  useEffect(() => {
+    const rotateHandle = rotateIconRef.current;
+    if (rotateHandle) {
+      rotateHandle.addEventListener('mousedown', handleMouseDown);
+      rotateHandle.addEventListener('touchstart', handleMouseDown);
+      return () => {
+        rotateHandle.removeEventListener('mousedown', handleMouseDown);
+        rotateHandle.removeEventListener('touchstart', handleMouseDown);
+      };
+    }
+  }, [rotateIconRef.current]);
 
-  return { rotate: component.rotate };
-}
+  return { rotation : finalRotationRef.current };
+};
 
 export default useRotate;
+
