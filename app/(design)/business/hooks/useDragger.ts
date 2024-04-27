@@ -10,8 +10,6 @@ type currentCoordinate = {
 }
 
 function useDragger(componentRef: React.RefObject<HTMLElement>, component: IComponent): currentCoordinate {
-  // if(!componentRef.current) return;
-
   const isClicked = useRef<boolean>(false);
   const dispatch: AppDispatch = useDispatch();
 
@@ -41,6 +39,8 @@ function useDragger(componentRef: React.RefObject<HTMLElement>, component: IComp
     }
 
     const onMouseDown = (e: MouseEvent | TouchEvent) => {
+      e.stopPropagation();
+      e.preventDefault();
       // First, assert that e.target is an Element to safely use the closest method.
       if (!(e.target instanceof Element)) {
         return;
@@ -66,6 +66,9 @@ function useDragger(componentRef: React.RefObject<HTMLElement>, component: IComp
     }
 
     const onMouseUp = (e: MouseEvent | TouchEvent) => {
+      e.stopPropagation();
+      e.preventDefault();
+
       isClicked.current = false;
       coords.current.lastX = target.offsetLeft;
       coords.current.lastY = target.offsetTop;
@@ -73,6 +76,8 @@ function useDragger(componentRef: React.RefObject<HTMLElement>, component: IComp
 
     const onMouseMove = (e: MouseEvent | TouchEvent) => {
       if (!isClicked.current) return;
+      e.stopPropagation();
+      e.preventDefault();
 
       const nextX = ((e.type.includes('touch')) ? (e as TouchEvent).touches[0].clientX : (e as MouseEvent).clientX) - coords.current.startX + coords.current.lastX;
       const nextY = ((e.type.includes('touch')) ? (e as TouchEvent).touches[0].clientY : (e as MouseEvent).clientY) - coords.current.startY + coords.current.lastY;

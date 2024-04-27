@@ -1,7 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
 import { IComponent } from "@/lib/features/components/IComponent";
-import {AppDispatch} from "@/lib/reduxStore";
 
 const useRotate = (elementRef: React.RefObject<HTMLElement>, rotateIconRef: React.RefObject<HTMLElement>, component: IComponent) => {
   const initialAngleRef = useRef<number>(0);
@@ -36,7 +34,7 @@ const useRotate = (elementRef: React.RefObject<HTMLElement>, rotateIconRef: Reac
   const handleMouseDown = (event: MouseEvent | TouchEvent) => {
     let clientX = event.type.includes('touch') ? (event as TouchEvent).touches[0].clientX : (event as MouseEvent).clientX;
     let clientY = event.type.includes('touch') ? (event as TouchEvent).touches[0].clientY : (event as MouseEvent).clientY;
-    // initialAngleRef.current = calculateAngle(event.clientX, event.clientY);
+
     let initialAngle = calculateAngle(clientX, clientY);
     if(!initialAngle) {
       console.error('Can not get initialAngleRef');
@@ -53,8 +51,9 @@ const useRotate = (elementRef: React.RefObject<HTMLElement>, rotateIconRef: Reac
     const currentTransform = window.getComputedStyle(elementRef.current).transform;
     initialRotationRef.current = getRotationDegrees(currentTransform);
     window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseup', handleMouseUp);
     window.addEventListener('touchmove', handleMouseMove);
+
+    window.addEventListener('mouseup', handleMouseUp);
     window.addEventListener('touchend', handleMouseUp);
   };
 
@@ -78,8 +77,9 @@ const useRotate = (elementRef: React.RefObject<HTMLElement>, rotateIconRef: Reac
 
   const handleMouseUp = () => {
     window.removeEventListener('mousemove', handleMouseMove);
-    window.removeEventListener('mouseup', handleMouseUp);
     window.removeEventListener('touchmove', handleMouseMove);
+
+    window.removeEventListener('mouseup', handleMouseUp);
     window.removeEventListener('touchend', handleMouseUp);
   };
 
@@ -99,4 +99,3 @@ const useRotate = (elementRef: React.RefObject<HTMLElement>, rotateIconRef: Reac
 };
 
 export default useRotate;
-
