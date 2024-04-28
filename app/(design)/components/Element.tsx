@@ -19,18 +19,28 @@ const Element: React.FC<ElementProps> = ({ elementWrapperDivRef, component, extr
   const currentComponent = useSelector((state: RootState) => state.components.currentComponent);
   const rotateIconRef = useRef(null);
   const resizeIconExtraElementBottomRightRef = useRef(null);
-  const elementWrapperDivRefBottomLeftRef = useRef(null);
+  const resizeIconExtraElementBottomLeftRef = useRef(null);
+  const resizeIconExtraElementTopRightRef = useRef(null);
 
-  // const { rotation } = useRotate(elementWrapperDivRef, rotateIconRef, component);
+  const resizeIconElementWrapperDivRefBottomLeftRef = useRef(null);
+  const resizeIconElementWrapperDivRefBottomRightRef = useRef(null);
+  const resizeIconElementWrapperDivRefTopRightRef = useRef(null);
+
+  const { rotation } = useRotate(elementWrapperDivRef, rotateIconRef, component);
   const activeRef: React.RefObject<HTMLElement> = extraElementRef?.current ? extraElementRef : elementWrapperDivRef;
   console.log('****************************************************************************************************')
   useResize(activeRef, resizeIconExtraElementBottomRightRef, component);
-  useResize(activeRef, elementWrapperDivRefBottomLeftRef, component);
+  useResize(activeRef, resizeIconExtraElementTopRightRef, component);
+  useResize(activeRef, resizeIconExtraElementBottomLeftRef, component);
+
+  useResize(activeRef, resizeIconElementWrapperDivRefBottomLeftRef, component);
+  useResize(activeRef, resizeIconElementWrapperDivRefBottomRightRef, component);
+  useResize(activeRef, resizeIconElementWrapperDivRefTopRightRef, component);
   // useResize(activeRef, resizeIconExtraElementBottomLeftRef, component);
 
-  // useEffect(() => {
-  //   dispatch(updateComponentRotation({ id: component.id, rotate: rotation }));
-  // }, [component.id, dispatch, rotation]);
+  useEffect(() => {
+    dispatch(updateComponentRotation({ id: component.id, rotate: rotation }));
+  }, [component.id, dispatch, rotation]);
 
   // const handleResize = (event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>, elementRef: React.RefObject<HTMLElement>) => {
   //   event.stopPropagation();
@@ -130,15 +140,15 @@ const Element: React.FC<ElementProps> = ({ elementWrapperDivRef, component, extr
             <div
               // onTouchStart={(e) => handleResize(e, extraElementRef)}
               // onMouseDown={(e) => handleResize(e, extraElementRef)}
-              // ref={resizeIconRef}
-              // className={`no-drag ${willShow()} absolute -top-[3px] -right-[3px] w-[50px] h-[50px] cursor-nwse-resize bg-green-500 z-[9999]`}
+              ref={resizeIconExtraElementTopRightRef}
+              className={`no-drag ${willShow()} absolute -top-[3px] -right-[3px] w-[15px] h-[15px] cursor-nwse-resize bg-green-500 z-[9999]`}
             >
             </div>
             <div
               // onTouchStart={(e) => handleResize(e, extraElementRef)}
               // onMouseDown={(e) => handleResize(e, extraElementRef)}
-              // ref={resizeIconExtraElementBottomLeftRef}
-              // className={`no-drag ${willShow()} absolute -bottom-[3px] -left-[3px] w-[15px] h-[15px] cursor-nwse-resize bg-green-500 z-[9999]`}
+              ref={resizeIconExtraElementBottomLeftRef}
+              className={`no-drag ${willShow()} absolute -bottom-[3px] -left-[3px] w-[15px] h-[15px] cursor-nwse-resize bg-green-500 z-[9999]`}
             >
             </div>
           </>
@@ -147,19 +157,19 @@ const Element: React.FC<ElementProps> = ({ elementWrapperDivRef, component, extr
               // onMouseDown={(e) => { e.stopPropagation(); component.resizeElement(elementWrapperDivRef, component)}}
               // onTouchStart={(e) => handleResize(e, elementWrapperDivRef)}
               // onMouseDown={(e) => handleResize(e, elementWrapperDivRef)}
-              // ref={resizeIconRef}
-              // className={`no-drag ${willShow()} absolute -bottom-[3px] -right-[3px] w-[15px] h-[15px] cursor-nwse-resize bg-green-500 z-[9999]`}
+              ref={resizeIconElementWrapperDivRefBottomRightRef}
+              className={`no-drag ${willShow()} absolute -bottom-[3px] -right-[3px] w-[15px] h-[15px] cursor-nwse-resize bg-green-500 z-[9999]`}
               ></div>
             <div
               // onTouchStart={(e) => handleResize(e, elementWrapperDivRef)}
               // onMouseDown={(e) => handleResize(e, elementWrapperDivRef)}
-              // ref={resizeIconRef}
-              // className={`no-drag ${willShow()} absolute -top-[3px] -right-[3px] w-[15px] h-[15px] cursor-nwse-resize bg-green-500 z-[9999]`}
+              ref={resizeIconElementWrapperDivRefTopRightRef}
+              className={`no-drag ${willShow()} absolute -top-[3px] -right-[3px] w-[15px] h-[15px] cursor-nwse-resize bg-green-500 z-[9999]`}
             ></div>
             <div
               // onMouseDown={(e) => handleResize(e, elementWrapperDivRef)}
               // onTouchStart={(e) => handleResize(e, elementWrapperDivRef)}
-              ref={elementWrapperDivRefBottomLeftRef}
+              ref={resizeIconElementWrapperDivRefBottomLeftRef}
               className={`no-drag ${willShow()} absolute -bottom-[3px] -left-[3px] w-[15px] h-[15px] cursor-nwse-resize bg-green-500 z-[9999]`}></div>
           </>
       }
