@@ -21,16 +21,16 @@ const Element: React.FC<ElementProps> = ({ elementWrapperDivRef, component, extr
   const resizeIconExtraElementBottomRightRef = useRef(null);
   const elementWrapperDivRefBottomLeftRef = useRef(null);
 
-  const { rotation } = useRotate(elementWrapperDivRef, rotateIconRef, component);
+  // const { rotation } = useRotate(elementWrapperDivRef, rotateIconRef, component);
   const activeRef: React.RefObject<HTMLElement> = extraElementRef?.current ? extraElementRef : elementWrapperDivRef;
   console.log('****************************************************************************************************')
   useResize(activeRef, resizeIconExtraElementBottomRightRef, component);
   useResize(activeRef, elementWrapperDivRefBottomLeftRef, component);
   // useResize(activeRef, resizeIconExtraElementBottomLeftRef, component);
 
-  useEffect(() => {
-    dispatch(updateComponentRotation({ id: component.id, rotate: rotation }));
-  }, [component.id, dispatch, rotation]);
+  // useEffect(() => {
+  //   dispatch(updateComponentRotation({ id: component.id, rotate: rotation }));
+  // }, [component.id, dispatch, rotation]);
 
   // const handleResize = (event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>, elementRef: React.RefObject<HTMLElement>) => {
   //   event.stopPropagation();

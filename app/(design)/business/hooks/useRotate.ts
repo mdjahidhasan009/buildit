@@ -32,6 +32,7 @@ const useRotate = (elementRef: React.RefObject<HTMLElement>, rotateIconRef: Reac
   };
 
   const handleMouseDown = (event: MouseEvent | TouchEvent) => {
+    // console.log('useRotate-handleMoveDown')
     let clientX = event.type.includes('touch') ? (event as TouchEvent).touches[0].clientX : (event as MouseEvent).clientX;
     let clientY = event.type.includes('touch') ? (event as TouchEvent).touches[0].clientY : (event as MouseEvent).clientY;
 
@@ -58,6 +59,7 @@ const useRotate = (elementRef: React.RefObject<HTMLElement>, rotateIconRef: Reac
   };
 
   const handleMouseMove = (event: MouseEvent | TouchEvent) => {
+    // console.log('useRotate-handleMouseMove')
     if (!elementRef.current) return;
 
     let clientX = event.type.includes('touch') ? (event as TouchEvent).touches[0].clientX : (event as MouseEvent).clientX;
@@ -76,6 +78,7 @@ const useRotate = (elementRef: React.RefObject<HTMLElement>, rotateIconRef: Reac
   };
 
   const handleMouseUp = () => {
+    // console.log('useRotate-handleMouseUp')
     window.removeEventListener('mousemove', handleMouseMove);
     window.removeEventListener('touchmove', handleMouseMove);
 

@@ -199,6 +199,7 @@ const useResize = (elementRef, resizeIconRef, component) => {
   const start = useRef({ x: 0, y: 0 });
 
   const handleMouseMove = useCallback((event) => {
+    console.log('useResize-handleMouseMove')
     if (!isResizing.current || !elementRef.current) return;
     const { clientX, clientY } = event.type.includes('touch') ? event.touches[0] : event;
     const deltaX = clientX - start.current.x;
@@ -211,6 +212,7 @@ const useResize = (elementRef, resizeIconRef, component) => {
   }, []);
 
   const handleMouseUp = useCallback(() => {
+    console.log('useResize-handleMouseUp')
     if (!isResizing.current) return;
     console.log('MouseUp - Resizing ends');
     isResizing.current = false;
@@ -222,9 +224,17 @@ const useResize = (elementRef, resizeIconRef, component) => {
       }));
       console.log(`MouseUp - Component size updated: ${elementRef.current.offsetWidth}x${elementRef.current.offsetHeight}`);
     }
+
+    document.removeEventListener("mousemove", handleMouseMove);
+    document.removeEventListener("touchmove", handleMouseMove);
+
+    document.removeEventListener("mouseup", handleMouseUp);
+    document.removeEventListener("mouseleave", handleMouseUp);
+    document.removeEventListener("touchend", handleMouseUp);
   }, [dispatch, elementRef, component.id]);
 
   const handleMouseDown = useCallback((event) => {
+    console.log('useResize-handleMouseDown')
     if (!elementRef.current) return;
     console.log('MouseDown - Resizing starts');
     isClickRef.current = true;
@@ -235,6 +245,13 @@ const useResize = (elementRef, resizeIconRef, component) => {
     start.current.x = clientX;
     start.current.y = clientY;
     console.log(`MouseDown - Start at: ${clientX}, ${clientY}`);
+
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("touchmove", handleMouseMove);
+
+    document.addEventListener("mouseup", handleMouseUp);
+    document.addEventListener("mouseleave", handleMouseUp);
+    document.addEventListener("touchend", handleMouseUp);
   }, [elementRef]);
 
   useEffect(() => {
@@ -244,10 +261,7 @@ const useResize = (elementRef, resizeIconRef, component) => {
       resizeIcon.addEventListener("touchstart", handleMouseDown);
     }
     // Handling global events here to ensure they are always in effect
-    document.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("touchmove", handleMouseMove);
-    document.addEventListener("mouseup", handleMouseUp);
-    document.addEventListener("touchend", handleMouseUp);
+
 
     return () => {
       if (resizeIcon) {
