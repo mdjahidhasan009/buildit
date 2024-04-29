@@ -10,8 +10,6 @@ type currentCoordinate = {
 }
 
 function useDragger(componentRef: React.RefObject<HTMLElement>, component: IComponent): currentCoordinate {
-  // if(!componentRef.current) return;
-
   const isClicked = useRef<boolean>(false);
   const dispatch: AppDispatch = useDispatch();
 
@@ -25,7 +23,82 @@ function useDragger(componentRef: React.RefObject<HTMLElement>, component: IComp
     startY: 0,
     lastX: 0,
     lastY: 0
-  })
+  });
+
+  const onMouseDown = (e: MouseEvent | TouchEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    if (!(e.target instanceof Element) || !componentRef.current) {
+      return;
+    }
+
+    if (e?.target?.closest('.no-drag')) {
+      return;
+    }
+
+    e.stopPropagation();
+    e.preventDefault();
+
+    isClicked.current = true;
+    coords.current.startX = e.type === 'touchstart' ? (e as TouchEvent).touches[0].clientX : (e as MouseEvent).clientX;
+    coords.current.startY = e.type === 'touchstart' ? (e as TouchEvent).touches[0].clientY : (e as MouseEvent).clientY;
+    coords.current.lastX = parseInt(window.getComputedStyle(componentRef.current).left);
+    coords.current.lastY = parseInt(window.getComputedStyle(componentRef.current).top);
+
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+    if(isTouchDevice) {
+      dispatch(setCurrentComponent(component));
+    }
+
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('touchmove', onMouseMove);
+
+    window.addEventListener('mouseleave', onMouseUp);
+    window.addEventListener('mouseup', onMouseUp);
+    window.addEventListener('touchend', onMouseUp);
+  }
+
+  const onMouseMove = (e: MouseEvent | TouchEvent) => {
+    const target = componentRef.current;
+    if (!target) {
+      console.error("Please provide component ref");
+      return;
+    }
+
+    if (!isClicked.current) return;
+    e.stopPropagation();
+    e.preventDefault();
+
+    const nextX = ((e.type.includes('touch')) ? (e as TouchEvent).touches[0].clientX : (e as MouseEvent).clientX) - coords.current.startX + coords.current.lastX;
+    const nextY = ((e.type.includes('touch')) ? (e as TouchEvent).touches[0].clientY : (e as MouseEvent).clientY) - coords.current.startY + coords.current.lastY;
+
+    target.style.top = `${nextY}px`;
+    target.style.left = `${nextX}px`;
+  }
+
+  const onMouseUp = (e: MouseEvent | TouchEvent) => {
+    const target = componentRef.current;
+    if (!target) {
+      console.error("Please provide component ref");
+      return;
+    }
+
+    e.stopPropagation();
+    e.preventDefault();
+
+    isClicked.current = false;
+    coords.current.lastX = target.offsetLeft;
+    coords.current.lastY = target.offsetTop;
+
+
+    window.removeEventListener('mousemove', onMouseMove);
+    window.removeEventListener('touchmove', onMouseMove);
+
+    window.removeEventListener('mouseleave', onMouseUp);
+    window.removeEventListener('touchend', onMouseUp);
+  }
 
   useEffect(() => {
     const target = componentRef.current;
@@ -40,64 +113,12 @@ function useDragger(componentRef: React.RefObject<HTMLElement>, component: IComp
       return;
     }
 
-    const onMouseDown = (e: MouseEvent | TouchEvent) => {
-      // First, assert that e.target is an Element to safely use the closest method.
-      if (!(e.target instanceof Element)) {
-        return;
-      }
-
-      // Check if the target element or any of its parents has a class that should prevent dragging
-      if (e?.target?.closest('.no-drag')) {
-        return; // This prevents dragging when resizing or rotating
-      }
-
-      e.stopPropagation();
-      e.preventDefault();
-
-      isClicked.current = true;
-      coords.current.startX = e.type === 'touchstart' ? (e as TouchEvent).touches[0].clientX : (e as MouseEvent).clientX;
-      coords.current.startY = e.type === 'touchstart' ? (e as TouchEvent).touches[0].clientY : (e as MouseEvent).clientY;
-
-      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-
-      if(isTouchDevice) {
-        dispatch(setCurrentComponent(component));
-      }
-    }
-
-    const onMouseUp = (e: MouseEvent | TouchEvent) => {
-      isClicked.current = false;
-      coords.current.lastX = target.offsetLeft;
-      coords.current.lastY = target.offsetTop;
-    }
-
-    const onMouseMove = (e: MouseEvent | TouchEvent) => {
-      if (!isClicked.current) return;
-
-      const nextX = ((e.type.includes('touch')) ? (e as TouchEvent).touches[0].clientX : (e as MouseEvent).clientX) - coords.current.startX + coords.current.lastX;
-      const nextY = ((e.type.includes('touch')) ? (e as TouchEvent).touches[0].clientY : (e as MouseEvent).clientY) - coords.current.startY + coords.current.lastY;
-
-      target.style.top = `${nextY}px`;
-      target.style.left = `${nextX}px`;
-    }
-
     target.addEventListener('mousedown', onMouseDown);
     target.addEventListener('touchstart', onMouseDown);
 
-    target.addEventListener('mouseup', onMouseUp);
-    target.addEventListener('touchend', onMouseUp);
-
-    container.addEventListener('mousemove', onMouseMove);
-    container.addEventListener('touchmove', onMouseMove);
-
-    container.addEventListener('mouseleave', onMouseUp);
-    container.addEventListener('touchend', onMouseUp);
-
     const cleanup = () => {
       target.removeEventListener('mousedown', onMouseDown);
-      target.removeEventListener('mouseup', onMouseUp);
-      container.removeEventListener('mousemove', onMouseMove);
-      container.removeEventListener('mouseleave', onMouseUp);
+      target.removeEventListener('touchstart', onMouseDown);
     }
 
     return cleanup;

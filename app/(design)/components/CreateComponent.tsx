@@ -39,9 +39,9 @@ const CreateComponent = ({ component } : { component: IComponent }) => {
     }
   }
 
-  useEffect(() => {
-    dispatch(updateComponentPosition({ id: component.id, left: currentXAxis, top: currentYAxis }));
-  }, [component.id, currentXAxis, currentYAxis, dispatch]);
+  // useEffect(() => {
+  //   dispatch(updateComponentPosition({ id: component.id, left: currentXAxis, top: currentYAxis }));
+  // }, [component.id, currentXAxis, currentYAxis, dispatch]);
 
   if(component.name === 'main_frame') {
     html =
