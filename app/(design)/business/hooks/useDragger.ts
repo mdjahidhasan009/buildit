@@ -26,17 +26,15 @@ function useDragger(componentRef: React.RefObject<HTMLElement>, component: IComp
   });
 
   const onMouseDown = (e: MouseEvent | TouchEvent) => {
-    // console.log('useDragger-onMouseDown')
     e.stopPropagation();
     e.preventDefault();
-    // First, assert that e.target is an Element to safely use the closest method.
-    if (!(e.target instanceof Element)) {
+
+    if (!(e.target instanceof Element) || !componentRef.current) {
       return;
     }
 
-    // Check if the target element or any of its parents has a class that should prevent dragging
     if (e?.target?.closest('.no-drag')) {
-      return; // This prevents dragging when resizing or rotating
+      return;
     }
 
     e.stopPropagation();
@@ -45,6 +43,8 @@ function useDragger(componentRef: React.RefObject<HTMLElement>, component: IComp
     isClicked.current = true;
     coords.current.startX = e.type === 'touchstart' ? (e as TouchEvent).touches[0].clientX : (e as MouseEvent).clientX;
     coords.current.startY = e.type === 'touchstart' ? (e as TouchEvent).touches[0].clientY : (e as MouseEvent).clientY;
+    coords.current.lastX = parseInt(window.getComputedStyle(componentRef.current).left);
+    coords.current.lastY = parseInt(window.getComputedStyle(componentRef.current).top);
 
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
@@ -61,7 +61,6 @@ function useDragger(componentRef: React.RefObject<HTMLElement>, component: IComp
   }
 
   const onMouseMove = (e: MouseEvent | TouchEvent) => {
-    // console.log('useDragger-onMouseMove')
     const target = componentRef.current;
     if (!target) {
       console.error("Please provide component ref");
@@ -80,7 +79,6 @@ function useDragger(componentRef: React.RefObject<HTMLElement>, component: IComp
   }
 
   const onMouseUp = (e: MouseEvent | TouchEvent) => {
-    // console.log('useDragger-onMouseUp')
     const target = componentRef.current;
     if (!target) {
       console.error("Please provide component ref");
@@ -118,23 +116,9 @@ function useDragger(componentRef: React.RefObject<HTMLElement>, component: IComp
     target.addEventListener('mousedown', onMouseDown);
     target.addEventListener('touchstart', onMouseDown);
 
-    // target.addEventListener('mouseup', onMouseUp);
-    // target.addEventListener('mouseleave', onMouseUp);
-    // target.addEventListener('touchend', onMouseUp);
-
-    // container.addEventListener('mousemove', onMouseMove);
-    // container.addEventListener('touchmove', onMouseMove);
-    //
-    // container.addEventListener('mouseleave', onMouseUp);
-    // container.addEventListener('touchend', onMouseUp);
-
     const cleanup = () => {
       target.removeEventListener('mousedown', onMouseDown);
       target.removeEventListener('touchstart', onMouseDown);
-
-      // target.removeEventListener('mouseup', onMouseUp);
-      // container.removeEventListener('mousemove', onMouseMove);
-      // container.removeEventListener('mouseleave', onMouseUp);
     }
 
     return cleanup;

@@ -1,6 +1,6 @@
 import { BsArrowsMove } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
-import { updateComponentRotation, updateComponentSize } from "@/lib/features/components/componentsSlice";
+import { updateComponentRotation } from "@/lib/features/components/componentsSlice";
 import { AppDispatch, RootState } from "@/lib/reduxStore";
 import { IComponent } from "@/lib/features/components/IComponent";
 import { isMobileDevice } from "@/lib/utils";
@@ -27,8 +27,7 @@ const Element: React.FC<ElementProps> = ({ elementWrapperDivRef, component, extr
   const resizeIconElementWrapperDivRefTopRightRef = useRef(null);
 
   const { rotation } = useRotate(elementWrapperDivRef, rotateIconRef, component);
-  const activeRef: React.RefObject<HTMLElement> = extraElementRef?.current ? extraElementRef : elementWrapperDivRef;
-  console.log('****************************************************************************************************')
+  const activeRef: React.RefObject<HTMLElement> = elementWrapperDivRef;
   useResize(activeRef, resizeIconExtraElementBottomRightRef, component);
   useResize(activeRef, resizeIconExtraElementTopRightRef, component);
   useResize(activeRef, resizeIconExtraElementBottomLeftRef, component);
@@ -36,7 +35,6 @@ const Element: React.FC<ElementProps> = ({ elementWrapperDivRef, component, extr
   useResize(activeRef, resizeIconElementWrapperDivRefBottomLeftRef, component);
   useResize(activeRef, resizeIconElementWrapperDivRefBottomRightRef, component);
   useResize(activeRef, resizeIconElementWrapperDivRefTopRightRef, component);
-  // useResize(activeRef, resizeIconExtraElementBottomLeftRef, component);
 
   useEffect(() => {
     dispatch(updateComponentRotation({ id: component.id, rotate: rotation }));
