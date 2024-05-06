@@ -13,7 +13,6 @@ const useResize = (elementRef: React.RefObject<HTMLElement>, resizeIconRef: Reac
   const handleMouseMove = useCallback((event: MouseEvent | TouchEvent) => {
     if (!isResizing.current || !elementRef.current) return;
 
-    // const { clientX, clientY } = event.type.includes('touch') ? event.touches[0] : event;
     let clientX = event.type.includes('touch') ? (event as TouchEvent).touches[0].clientX : (event as MouseEvent).clientX;
     let clientY = event.type.includes('touch') ? (event as TouchEvent).touches[0].clientY : (event as MouseEvent).clientY;
     const deltaX: number = clientX - start.current.x;
@@ -75,8 +74,6 @@ const useResize = (elementRef: React.RefObject<HTMLElement>, resizeIconRef: Reac
       resizeIcon.addEventListener("mousedown", handleMouseDown);
       resizeIcon.addEventListener("touchstart", handleMouseDown);
     }
-    // Handling global events here to ensure they are always in effect
-
 
     return () => {
       if (resizeIcon) {

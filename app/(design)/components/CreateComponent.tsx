@@ -233,16 +233,18 @@ const CreateComponent = ({ component } : { component: IComponent }) => {
           className='overflow-hidden'
           style={{
             width: component.width + 'px',
-            height: component.height + 'px',
-            borderRadius: `${component.radius}%`,
+            height: component.height + 'px'
           }}>
-          <Image
-              fill
-              objectFit="fill"
-              className='w-full h-full pointer-events-none select-none'
-              src={component.image}
-              alt="image"
-          />
+            <Image
+                fill
+                objectFit="fill"
+                className='w-full h-full pointer-events-none select-none'
+                src={component.image}
+                alt="image"
+                style={{
+                  borderRadius: `${component.radius}%`,
+                }}
+            />
         </div>
         {currentComponent?.id === component.id &&
             <div

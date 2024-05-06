@@ -40,77 +40,6 @@ const Element: React.FC<ElementProps> = ({ elementWrapperDivRef, component, extr
     dispatch(updateComponentRotation({ id: component.id, rotate: rotation }));
   }, [component.id, dispatch, rotation]);
 
-  // const handleResize = (event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>, elementRef: React.RefObject<HTMLElement>) => {
-  //   event.stopPropagation();
-  //   if (!elementRef.current) return;
-  //
-  //   let isResizing = true;
-  //   let initialMouseX = 0;
-  //   let initialMouseY = 0;
-  //
-  //   if (event.type.startsWith('touch')) {
-  //     initialMouseX = (event as React.TouchEvent<HTMLDivElement>).touches[0].clientX;
-  //     initialMouseY = (event as React.TouchEvent<HTMLDivElement>).touches[0].clientY;
-  //   } else {
-  //     initialMouseX = (event as React.MouseEvent<HTMLDivElement>).clientX;
-  //     initialMouseY = (event as React.MouseEvent<HTMLDivElement>).clientY;
-  //   }
-  //   const initialDimensions = elementRef.current.getBoundingClientRect();
-  //
-  //   const moveMouse = (e: MouseEvent | TouchEvent) => {
-  //     event.stopPropagation();
-  //     if (!isResizing || !elementRef.current) return;
-  //
-  //     let currentX = 0;
-  //     let currentY = 0;
-  //
-  //     if (e.type.startsWith('touch')) {
-  //       currentX = (e as TouchEvent).touches[0].clientX;
-  //       currentY = (e as TouchEvent).touches[0].clientY;
-  //     } else {
-  //       currentX = (e as MouseEvent).clientX;
-  //       currentY = (e as MouseEvent).clientY;
-  //     }
-  //
-  //     const dx = currentX - initialMouseX;
-  //     const dy = currentY - initialMouseY;
-  //
-  //     // Determine the dimension change based on shape type
-  //     let newWidth, newHeight;
-  //     if (component?.type === 'circle') {
-  //       // For circles, use the maximum change in either direction to keep aspect ratio
-  //       const delta = Math.max(dx, dy);
-  //       newWidth = newHeight = initialDimensions.width + delta;
-  //     } else {
-  //       // For other shapes, width and height can change independently
-  //       newWidth = initialDimensions.width + dx;
-  //       newHeight = initialDimensions.height + dy;
-  //     }
-  //
-  //     // Directly manipulating styles for visual feedback during resize
-  //     elementRef.current.style.width = `${newWidth}px`;
-  //     elementRef.current.style.height = `${newHeight}px`;
-  //
-  //     const finalWidth = elementRef.current.offsetWidth;
-  //     const finalHeight = elementRef.current.offsetHeight;
-  //     dispatch(updateComponentSize({ id: component?.id, width: finalWidth, height: finalHeight }));
-  //   };
-  //
-  //   const mouseUp = () => {
-  //     isResizing = false;
-  //     document.removeEventListener('mousemove', moveMouse);
-  //     document.removeEventListener('touchmove', moveMouse);
-  //     document.removeEventListener('mouseup', mouseUp);
-  //     document.removeEventListener('touchend', mouseUp);
-  //   };
-  //
-  //   document.addEventListener('mousemove', moveMouse);
-  //   document.addEventListener('touchmove', moveMouse);
-  //   document.addEventListener('touchend', mouseUp);
-  //   document.addEventListener('mouseup', mouseUp);
-  //
-  // };
-
   const willShow = () => {
     const isMobile = isMobileDevice();
 
@@ -129,22 +58,16 @@ const Element: React.FC<ElementProps> = ({ elementWrapperDivRef, component, extr
         extraElementRef?.current
           ? <>
             <div
-              // onTouchStart={(e) => handleResize(e, extraElementRef)}
-              // onMouseDown={(e) => handleResize(e, extraElementRef)}
               ref={resizeIconExtraElementBottomRightRef}
               className={`no-drag ${willShow()} absolute -bottom-[3px] -right-[3px] w-[15px] h-[15px] cursor-nwse-resize bg-green-500 z-[9999]`}
             >
             </div>
             <div
-              // onTouchStart={(e) => handleResize(e, extraElementRef)}
-              // onMouseDown={(e) => handleResize(e, extraElementRef)}
               ref={resizeIconExtraElementTopRightRef}
               className={`no-drag ${willShow()} absolute -top-[3px] -right-[3px] w-[15px] h-[15px] cursor-nwse-resize bg-green-500 z-[9999]`}
             >
             </div>
             <div
-              // onTouchStart={(e) => handleResize(e, extraElementRef)}
-              // onMouseDown={(e) => handleResize(e, extraElementRef)}
               ref={resizeIconExtraElementBottomLeftRef}
               className={`no-drag ${willShow()} absolute -bottom-[3px] -left-[3px] w-[15px] h-[15px] cursor-nwse-resize bg-green-500 z-[9999]`}
             >
@@ -152,21 +75,14 @@ const Element: React.FC<ElementProps> = ({ elementWrapperDivRef, component, extr
           </>
           : <>
             <div
-              // onMouseDown={(e) => { e.stopPropagation(); component.resizeElement(elementWrapperDivRef, component)}}
-              // onTouchStart={(e) => handleResize(e, elementWrapperDivRef)}
-              // onMouseDown={(e) => handleResize(e, elementWrapperDivRef)}
               ref={resizeIconElementWrapperDivRefBottomRightRef}
               className={`no-drag ${willShow()} absolute -bottom-[3px] -right-[3px] w-[15px] h-[15px] cursor-nwse-resize bg-green-500 z-[9999]`}
               ></div>
             <div
-              // onTouchStart={(e) => handleResize(e, elementWrapperDivRef)}
-              // onMouseDown={(e) => handleResize(e, elementWrapperDivRef)}
               ref={resizeIconElementWrapperDivRefTopRightRef}
               className={`no-drag ${willShow()} absolute -top-[3px] -right-[3px] w-[15px] h-[15px] cursor-nwse-resize bg-green-500 z-[9999]`}
             ></div>
             <div
-              // onMouseDown={(e) => handleResize(e, elementWrapperDivRef)}
-              // onTouchStart={(e) => handleResize(e, elementWrapperDivRef)}
               ref={resizeIconElementWrapperDivRefBottomLeftRef}
               className={`no-drag ${willShow()} absolute -bottom-[3px] -left-[3px] w-[15px] h-[15px] cursor-nwse-resize bg-green-500 z-[9999]`}></div>
           </>
