@@ -5,36 +5,36 @@ import { AppDispatch, RootState } from "@/lib/reduxStore";
 import { IComponent } from "@/lib/features/components/IComponent";
 import { isMobileDevice } from "@/lib/utils";
 import useRotate from "@/app/(design)/business/hooks/useRotate";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, RefObject, FC } from "react";
 import useResize from "@/app/(design)/business/hooks/useResize";
 
 interface ElementProps {
-  elementWrapperDivRef: React.RefObject<HTMLElement>;
+  elementWrapperDivRef: RefObject<HTMLElement>;
   component: IComponent;
-  extraElementRef?: React.RefObject<HTMLElement>;
+  extraElementRef?: RefObject<HTMLElement>;
 }
 
-const Element: React.FC<ElementProps> = ({ elementWrapperDivRef, component, extraElementRef = null }) => {
+const Element: FC<ElementProps> = ({ elementWrapperDivRef, component, extraElementRef = null }) => {
   const dispatch  = useDispatch<AppDispatch>();
   const currentComponent = useSelector((state: RootState) => state.components.currentComponent);
   const rotateIconRef = useRef(null);
-  const resizeIconExtraElementBottomRightRef = useRef(null);
-  const resizeIconExtraElementBottomLeftRef = useRef(null);
-  const resizeIconExtraElementTopRightRef = useRef(null);
+  const resizeIconBottomRightRef = useRef(null);
+  const resizeIconBottomLeftRef = useRef(null);
+  const resizeIconTopRightRef = useRef(null);
 
   const resizeIconElementWrapperDivRefBottomLeftRef = useRef(null);
   const resizeIconElementWrapperDivRefBottomRightRef = useRef(null);
   const resizeIconElementWrapperDivRefTopRightRef = useRef(null);
 
   const { rotation } = useRotate(elementWrapperDivRef, rotateIconRef, component);
-  const activeRef: React.RefObject<HTMLElement> = elementWrapperDivRef;
-  useResize(activeRef, resizeIconExtraElementBottomRightRef, component);
-  useResize(activeRef, resizeIconExtraElementTopRightRef, component);
-  useResize(activeRef, resizeIconExtraElementBottomLeftRef, component);
+  const activeRef: RefObject<HTMLElement> = extraElementRef ? extraElementRef : elementWrapperDivRef;
+  useResize(activeRef, resizeIconBottomRightRef, component);
+  useResize(activeRef, resizeIconBottomLeftRef, component);
+  useResize(activeRef, resizeIconTopRightRef, component);
 
-  useResize(activeRef, resizeIconElementWrapperDivRefBottomLeftRef, component);
-  useResize(activeRef, resizeIconElementWrapperDivRefBottomRightRef, component);
-  useResize(activeRef, resizeIconElementWrapperDivRefTopRightRef, component);
+  useResize(activeRef, resizeIconBottomRightRef, component);
+  useResize(activeRef, resizeIconBottomLeftRef, component);
+  useResize(activeRef, resizeIconTopRightRef, component);
 
   useEffect(() => {
     dispatch(updateComponentRotation({ id: component.id, rotate: rotation }));
@@ -58,32 +58,32 @@ const Element: React.FC<ElementProps> = ({ elementWrapperDivRef, component, extr
         extraElementRef?.current
           ? <>
             <div
-              ref={resizeIconExtraElementBottomRightRef}
+              ref={resizeIconBottomRightRef}
               className={`no-drag ${willShow()} absolute -bottom-[3px] -right-[3px] w-[15px] h-[15px] cursor-nwse-resize bg-green-500 z-[9999]`}
             >
             </div>
             <div
-              ref={resizeIconExtraElementTopRightRef}
+              ref={resizeIconTopRightRef}
               className={`no-drag ${willShow()} absolute -top-[3px] -right-[3px] w-[15px] h-[15px] cursor-nwse-resize bg-green-500 z-[9999]`}
             >
             </div>
             <div
-              ref={resizeIconExtraElementBottomLeftRef}
+              ref={resizeIconBottomLeftRef}
               className={`no-drag ${willShow()} absolute -bottom-[3px] -left-[3px] w-[15px] h-[15px] cursor-nwse-resize bg-green-500 z-[9999]`}
             >
             </div>
           </>
           : <>
             <div
-              ref={resizeIconElementWrapperDivRefBottomRightRef}
+              ref={resizeIconBottomRightRef}
               className={`no-drag ${willShow()} absolute -bottom-[3px] -right-[3px] w-[15px] h-[15px] cursor-nwse-resize bg-green-500 z-[9999]`}
               ></div>
             <div
-              ref={resizeIconElementWrapperDivRefTopRightRef}
+              ref={resizeIconTopRightRef}
               className={`no-drag ${willShow()} absolute -top-[3px] -right-[3px] w-[15px] h-[15px] cursor-nwse-resize bg-green-500 z-[9999]`}
             ></div>
             <div
-              ref={resizeIconElementWrapperDivRefBottomLeftRef}
+              ref={resizeIconBottomLeftRef}
               className={`no-drag ${willShow()} absolute -bottom-[3px] -left-[3px] w-[15px] h-[15px] cursor-nwse-resize bg-green-500 z-[9999]`}></div>
           </>
       }

@@ -2,7 +2,7 @@
 
 import { BsTrash } from "react-icons/bs";
 import Element from "./Element";
-import {useEffect, useRef} from "react";
+import { JSX, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/lib/reduxStore";
 import {
@@ -17,7 +17,7 @@ import useDragger from "@/app/(design)/business/hooks/useDragger";
 const CreateComponent = ({ component } : { component: IComponent }) => {
 
   const randValue = Math.floor(Math.random() * 100);
-  let html: React.JSX.Element = <div></div>;
+  let html: JSX.Element = <div></div>;
 
   const elementWrapperDivRef = useRef(null);
   const extraElementRef = useRef(null);
@@ -38,10 +38,6 @@ const CreateComponent = ({ component } : { component: IComponent }) => {
       dispatch(setCurrentComponent(component));
     }
   }
-
-  // useEffect(() => {
-  //   dispatch(updateComponentPosition({ id: component.id, left: currentXAxis, top: currentYAxis }));
-  // }, [component.id, currentXAxis, currentYAxis, dispatch]);
 
   if(component.name === 'main_frame') {
     html =

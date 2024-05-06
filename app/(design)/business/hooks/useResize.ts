@@ -25,6 +25,7 @@ const useResize = (elementRef: React.RefObject<HTMLElement>, resizeIconRef: Reac
       newWidth = lastDimensions.current.width + deltaX;
       newHeight = lastDimensions.current.height + deltaY;
     }
+
     elementRef.current.style.width = `${newWidth}px`;
     elementRef.current.style.height = `${newHeight}px`;
   }, [component?.type, elementRef]);
