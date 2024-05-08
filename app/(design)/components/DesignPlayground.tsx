@@ -1,6 +1,6 @@
 "use client";
 
-import CreateComponent from "@/app/(design)/components/CreateComponent";
+import CreateComponent from "@/app/(design)/components/CreateComponent/CreateComponent";
 import {useSelector} from "react-redux";
 import {RootState} from "@/lib/reduxStore";
 

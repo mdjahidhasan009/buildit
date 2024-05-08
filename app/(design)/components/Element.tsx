@@ -22,12 +22,8 @@ const Element: FC<ElementProps> = ({ elementWrapperDivRef, component, extraEleme
   const resizeIconBottomLeftRef = useRef(null);
   const resizeIconTopRightRef = useRef(null);
 
-  const resizeIconElementWrapperDivRefBottomLeftRef = useRef(null);
-  const resizeIconElementWrapperDivRefBottomRightRef = useRef(null);
-  const resizeIconElementWrapperDivRefTopRightRef = useRef(null);
-
   const { rotation } = useRotate(elementWrapperDivRef, rotateIconRef, component);
-  const activeRef: RefObject<HTMLElement> = extraElementRef ? extraElementRef : elementWrapperDivRef;
+  const activeRef: RefObject<HTMLElement> = (extraElementRef && extraElementRef.current) ? extraElementRef : elementWrapperDivRef;
   useResize(activeRef, resizeIconBottomRightRef, component);
   useResize(activeRef, resizeIconBottomLeftRef, component);
   useResize(activeRef, resizeIconTopRightRef, component);
