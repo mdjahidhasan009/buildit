@@ -81,29 +81,31 @@ export default function HeaderWrapper() {
     }
 
     return (
-        <Header>
-            <div>
-                {pathname.includes('dashboard') && (
+      <Header>
+          <meta charSet="UTF-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+          <div>
+              {pathname.includes('dashboard') && (
+                <button
+                  onClick={createDesign}
+                  className='py-2 px-6 overflow-hidden text-center bg-[#8b3dff] text-white rounded-[3px] font-medium hover:bg-[#9553f8]'
+                >
+                    Create a Design
+                </button>
+              )}
+              {pathname.includes('design') && (
+                <div className="flex justify-center items-center gap-2 text-gray-300">
                     <button
-                        onClick={createDesign}
-                        className='py-2 px-6 overflow-hidden text-center bg-[#8b3dff] text-white rounded-[3px] font-medium hover:bg-[#9553f8]'
-                    >
-                        Create a Design
+                      disabled={loading}
+                      onClick={saveImage}
+                      className="px-3 py-[6px] outline-none bg-[#252627] rounded-sm">{loading ? 'Saving...' : 'Save'}</button>
+                    <button
+                      onClick={downloadImage}
+                      className="px-3 py-[6px] outline-none bg-[#252627] rounded-sm">Download
                     </button>
-                )}
-                {pathname.includes('design') && (
-                    <div className="flex justify-center items-center gap-2 text-gray-300">
-                        <button
-                            disabled={loading}
-                            onClick={saveImage}
-                            className="px-3 py-[6px] outline-none bg-[#252627] rounded-sm">{loading ? 'Saving...' : 'Save'}</button>
-                        <button
-                            onClick={downloadImage}
-                            className="px-3 py-[6px] outline-none bg-[#252627] rounded-sm">Download
-                        </button>
-                    </div>
-                )}
-            </div>
-        </Header>
+                </div>
+              )}
+          </div>
+      </Header>
     );
 }

@@ -13,17 +13,20 @@ export default function HeaderWrapper() {
     }
 
     return (
-        <Header>
-            <div>
-                {pathname.includes('dashboard') && (
-                    <button
-                        onClick={createDesign}
-                        className='py-2 px-6 overflow-hidden text-center bg-[#8b3dff] text-white rounded-[3px] font-medium hover:bg-[#9553f8]'
-                    >
-                        Create a Design
-                    </button>
-                )}
-            </div>
-        </Header>
+      <Header>
+        <meta charSet="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+        <div>
+          {pathname.includes('dashboard') && (
+            <button
+              onClick={createDesign}
+              className='py-2 px-6 overflow-hidden text-center bg-[#8b3dff] text-white rounded-[3px] font-medium hover:bg-[#9553f8]'
+            >
+              Create a Design
+            </button>
+          )}
+        </div>
+      </Header>
     );
 }

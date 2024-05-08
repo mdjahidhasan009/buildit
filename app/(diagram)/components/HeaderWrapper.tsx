@@ -11,10 +11,13 @@ export default function HeaderWrapper() {
     const diagramId = pathname.split('/diagram/')[1];
 
     return (
-        <Header>
-            {diagramId && (
-                <WorkspaceHeader />
-            )}
-        </Header>
+      <Header>
+          <meta charSet="UTF-8"/>
+          <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+          {diagramId && (
+            <WorkspaceHeader/>
+          )}
+      </Header>
     );
 }

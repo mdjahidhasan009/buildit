@@ -22,8 +22,11 @@ export default function Header({ children } : { children?: any }) {
         "border-b border-white/20 bg-black shadow-xl shadow-black/40"
       )}
     >
-      <Home />
-      <Message />
+      <meta charSet="UTF-8"/>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+      <Home/>
+      <Message/>
 
       {sessionStatus !== "loading" && (
         <div className={cn("flex items-center justify-center")}>
