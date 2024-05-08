@@ -26,6 +26,8 @@ function useDragger(componentRef: React.RefObject<HTMLElement>, component: IComp
   });
 
   const onMouseDown = (e: MouseEvent | TouchEvent) => {
+
+    if (!e.type.includes('touch') && (e as MouseEvent).button == 2) return;  // Checking if the right mouse button was pressed
     e.stopPropagation();
     e.preventDefault();
 
