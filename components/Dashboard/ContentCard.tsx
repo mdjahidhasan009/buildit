@@ -64,8 +64,6 @@ export default function ContentCard({ contents, routePath } : ContentProps) {
         const title = (
           hoveredElement.querySelector('[data-id="title"]') as HTMLSpanElement
         ).innerText;
-        console.log(id)
-        console.log(title)
 
         if (id && title) {
           e.preventDefault();

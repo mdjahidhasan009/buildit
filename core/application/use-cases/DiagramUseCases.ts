@@ -6,7 +6,7 @@ export class DiagramUseCases {
 
     async create (diagramData: Partial<Diagram> & { userId: string }): Promise<Diagram> {
         const allDiagramOfUser = await this.diagramRepository.getAllOfUser(diagramData?.userId);
-        console.log(allDiagramOfUser);
+
         const countOfDiagramOfUser = allDiagramOfUser.length;
         if(countOfDiagramOfUser >= 10) {
             throw new Error('You have reached the limit of 10 diagrams per user');

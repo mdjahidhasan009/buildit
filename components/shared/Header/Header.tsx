@@ -18,7 +18,7 @@ export default function Header({ children, sidenavToggleComponent } : { children
   return (
     <header
       className={cn(
-        "sticky top-0 z-40 flex h-16 items-center justify-between px-[18px] font-medium",
+        "sticky top-0 z-40 flex min-h-16 items-center justify-between px-[18px] font-medium",
         "border-b border-white/20 bg-black shadow-xl shadow-black/40"
       )}
     >

@@ -1,16 +1,10 @@
 "use client";
 import { cn } from "@/lib/cn";
-import { ArrowLeft } from "lucide-react";
-import { useSession } from "next-auth/react";
+import { Home as HomeIcon } from "lucide-react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
 import Kbd from "@/components/shared/ui/Kbd";
 
 export default function Home() {
-  const router = useRouter();
-  const pathname = usePathname();
-
-  const { status: sessionStatus } = useSession();
 
   return (
     <div>
@@ -27,7 +21,7 @@ export default function Home() {
         )}
       >
         <div className={cn("flex items-center gap-2")}>
-          <ArrowLeft
+          <HomeIcon
             size={16}
             className={cn(
               "translate-x-0.5",
@@ -36,10 +30,9 @@ export default function Home() {
             )}
             aria-hidden="true"
           />
-          Dashboard
+          <span className="hidden md:block">Dashboard</span>
         </div>
-
-        <Kbd keys={["B"]} />
+        <span className="hidden md:block"><Kbd keys={["B"]} /></span>
       </Link>
     </div>
   );

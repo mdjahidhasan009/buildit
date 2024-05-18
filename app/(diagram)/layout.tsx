@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { cn } from "@/lib/cn";
 import { SUPPORTED_FONT_STYLES as fonts } from "@/lib/fonts";
 import Providers from "@/contexts/Providers";
-import HeaderWrapper from "@/app/(diagram)/components/HeaderWrapper";
+import DiagramHeaderWrapper from "@/app/(diagram)/components/DiagramHeaderWrapper";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -31,7 +31,7 @@ export default function RootLayout({
         )}
       >
         <Providers>
-          <HeaderWrapper />
+          <DiagramHeaderWrapper />
           <main>{children}</main>
         </Providers>
       </body>

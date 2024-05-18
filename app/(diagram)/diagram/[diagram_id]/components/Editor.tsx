@@ -63,8 +63,8 @@ const Editor = ()  => {
         },
         autofocus: true,
         onReady: () => {
-          console.log("Editor.js is ready to work!");
-          console.log(editor);
+          // console.log("Editor.js is ready to work!");
+          // console.log(editor);
         },
 
         holder: 'editorjs',

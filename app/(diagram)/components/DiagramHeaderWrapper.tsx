@@ -6,7 +6,7 @@ import React from "react";
 import WorkspaceHeader from "@/app/(diagram)/diagram/[diagram_id]/components/WorkspaceHeader";
 import {usePathname} from "next/navigation";
 
-export default function HeaderWrapper() {
+export default function DiagramHeaderWrapper() {
     const pathname = usePathname();
     const diagramId = pathname.split('/diagram/')[1];
 

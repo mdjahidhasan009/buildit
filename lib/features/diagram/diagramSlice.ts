@@ -564,9 +564,7 @@ export const diagramSlice = createSlice({
         initDiagramData: (state, action) => {
             const { data } = action.payload;
             const { title, editorData, elements } = data;
-            console.log(title)
-            console.log(editorData)
-            console.log(elements)
+
             state.title = title;
             state.editorData = editorData;
             state.diagramData = {
