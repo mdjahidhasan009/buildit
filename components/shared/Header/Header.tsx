@@ -8,10 +8,10 @@ import Message from "./Message";
 import Social from "./Social";
 import Help from "./Help";
 import Auth from "./Auth";
-import React from "react";
+import React, {ReactNode} from "react";
 import '../../../app/globals.css';
 
-export default function Header({ children } : { children?: any }) {
+export default function Header({ children, sidenavToggleComponent } : { children?: React.ReactNode, sidenavToggleComponent?: ReactNode }) {
   const { status: sessionStatus } = useSession();
 
 
@@ -25,14 +25,14 @@ export default function Header({ children } : { children?: any }) {
       <meta charSet="UTF-8"/>
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-      <Home/>
+      {sidenavToggleComponent ? sidenavToggleComponent : <Home />}
       <Message/>
 
       {sessionStatus !== "loading" && (
         <div className={cn("flex items-center justify-center")}>
           {children}
-          <Social/>
-          <Help/>
+          {/*<Social/>*/}
+          {/*<Help/>*/}
           <Auth/>
         </div>
       )}

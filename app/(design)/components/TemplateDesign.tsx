@@ -22,7 +22,7 @@ const TemplateDesign: FC<TemplateDesignProps> = ({ type }) => {
 
     return (
         <>
-            <div className={`grid gap-2 ${type ? ' grid-cols-2 ' : ' grid-cols-4 mt-5'}`}>
+            <div className={`grid gap-2 m-4 mt-5 ${type ? ' grid-cols-2 ' : ' grid-cols-4'}`}>
                 {
                     templates.map((template: any, index: number) =>
                         (

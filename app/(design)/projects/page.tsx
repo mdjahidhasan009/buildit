@@ -9,21 +9,22 @@ import {IDesign} from "@/lib/types";
 
 const Projects = () => {
   const [designs, setDesigns] = useState<IDesign[]>([]);
-  const { data: fetchedPropjects } = useApi('api/v1/designs/user/designs');
-  let type = '';
+  const { data: fetchedProjects } = useApi('api/v1/designs/user/designs');
 
   useEffect(() => {
-    if(fetchedPropjects?.data?.designs) {
-      setDesigns(fetchedPropjects?.data?.designs);
+    if(fetchedProjects?.data?.designs) {
+      setDesigns(fetchedProjects?.data?.designs);
     }
-  }, [fetchedPropjects]);
+  }, [fetchedProjects]);
 
   return (
     <div className='h-[88vh] overflow-x-auto flex justify-start items-start scrollbar-hide w-full '>
-      <div className={`grid  ${type ? ' grid-cols-2 ' : ' grid-cols-4 ' } gap-2 mt-5 w-full`}>
+      <div className={`grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 m-4 w-full`}>
         {
           designs.map((design, index) =>
-            <DesignCard key={design.id || index} design={design} type={type} />
+            <div className="m-2" key={index}>
+              <DesignCard key={design.id || index} design={design} />
+            </div>
           )
         }
       </div>

@@ -131,8 +131,8 @@ h6.ce-header{
   color: white;
 }
 
-.ce-toolbar__plus:hover,
-.ce-toolbar__settings-btn:hover,
+.ce-toolbar__plus,
+.ce-toolbar__settings-btn,
 .cdx-loader,
 .cdx-button {
   color: white;

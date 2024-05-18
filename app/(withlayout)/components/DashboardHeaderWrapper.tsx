@@ -1,10 +1,10 @@
 "use client"
 
-import Header from "../../../components/shared/Header";
+import Header from "../../../components/shared/Header/Header";
 import {usePathname, useRouter} from "next/navigation";
-import React from "react";
+import React, {ReactNode} from "react";
 
-export default function HeaderWrapper() {
+export default function DashboardHeaderWrapper({ sidenavToggleComponent } : { sidenavToggleComponent?: ReactNode }) {
     const pathname = usePathname();
     const router = useRouter();
 
@@ -13,7 +13,9 @@ export default function HeaderWrapper() {
     }
 
     return (
-      <Header>
+      <Header
+        sidenavToggleComponent={sidenavToggleComponent}
+      >
         <meta charSet="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 

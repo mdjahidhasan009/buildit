@@ -10,6 +10,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {closeSidebar} from "@/lib/features/ui/uiSlice";
 import {AppDispatch, RootState} from "@/lib/reduxStore";
 import useSidebarDrawer from "@/app/(design)/business/hooks/useSidebarDrawer";
+import {cn} from "@/lib/cn";
 
 const SideBarDrawer = ({ design_id = '' }) => {
   const dispatch: AppDispatch  = useDispatch();
@@ -22,14 +23,30 @@ const SideBarDrawer = ({ design_id = '' }) => {
     dispatch(closeSidebar());
   }
 
+  const sidebarClasses = cn(
+    'bg-[#252627]',
+    'h-full',
+    'fixed',
+    'transition-all duration-700',
+    'w-[50vw] md:w-[350px]',
+    'z-30',
+    !isSidebarOpen ? {
+      'p-0 left-[-50vw] md:left-[-350px]': true
+    } : {
+      'px-3 left-[75px] py-3': true
+    }
+  );
+
   return (
     <div
-      className={`${!isSidebarOpen ? 'p-0 -left-[350px]' : 'px-8 left-[75px] py-5'} bg-[#252627] h-full fixed transition-all w-[350px] z-30 duration-700`}>
+      // className={`${!isSidebarOpen ? 'p-0 left-[-50vw] md:-left-[350px]' : 'px-3 left-[75px] py-3'} bg-[#252627] h-full fixed transition-all duration-700 w-[50vw] md:w-[350px] z-30 `}>
+      className={sidebarClasses}>
       <div
         onClick={handleOnClick}
         className='flex absolute justify-center items-center bg-[#252527] w-[20px] -right-2 text-slate-300 top-[40%] cursor-pointer h-[100px] rounded-full'
       >
-        <MdKeyboardArrowLeft/></div>
+        <MdKeyboardArrowLeft/>
+      </div>
       {
         selectedSidebarItemName === 'design' && <div>
             <TemplateDesign type='main'/>
@@ -63,7 +80,7 @@ const SideBarDrawer = ({ design_id = '' }) => {
           </div>
       }
       {
-        selectedSidebarItemName === 'project' && <Projects type='main' designId={design_id}/>
+        selectedSidebarItemName === 'project' && <Projects designId={design_id}/>
       }
       {
         selectedSidebarItemName === 'initImage' &&

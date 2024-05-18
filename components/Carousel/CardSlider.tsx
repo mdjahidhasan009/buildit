@@ -21,7 +21,8 @@ const CardSlider: React.FC<IReactNode> = ({ children }) => {
       }
 
       if (firstCardWidthRef.current) {
-        const cardPerView = Math.round(carouselRef.current.offsetWidth / firstCardWidthRef.current) ;
+        const offset = carouselRef.current.offsetWidth - 20;
+        const cardPerView = Math.round(offset / firstCardWidthRef.current) ;
         const carouselChildren = Array.from(carouselRef.current.children);
 
         carouselChildren.slice(-cardPerView).reverse().forEach((card, index) => {
@@ -126,13 +127,13 @@ const CardSlider: React.FC<IReactNode> = ({ children }) => {
   };
 
   const wrappedChildren = Children.map(children, (child, index) => (
-    <div key={index} className="card flex-shrink-0 bg-black">
+    <div key={index} className="card flex-shrink-0">
       {child}
     </div>
   ));
 
   return (
-    <div ref={wrapperRef} className="wrapper relative w-full max-w-[1100px] mx-auto rounded-lg">
+    <div ref={wrapperRef} className="wrapper relative w-full h-full max-w-[1100px] mx-auto rounded-lg">
       <i
         onClick={(e) => { e.stopPropagation(); handleArrowClick('left')}}
         className="absolute top-1/2 left-[-22px] z-10 w-12 h-12 cursor-pointer text-black flex justify-center items-center text-2xl rounded-full shadow-md bg-white transition-transform transform -translate-y-1/2"
@@ -141,12 +142,12 @@ const CardSlider: React.FC<IReactNode> = ({ children }) => {
       </i>
       <div
         ref={carouselRef}
-        className="carousel">
+        className="carousel h-full">
         {wrappedChildren}
       </div>
       <i
         onClick={(e) => { e.stopPropagation(); handleArrowClick('right')}}
-        className="absolute top-1/2 right-[-22px] z-10 w-12 h-12 cursor-pointer text-black flex justify-center items-center text-2xl rounded-full shadow-md bg-white transition-transform transform -translate-y-1/2"
+        className="absolute top-1/2 right-[-16px] z-10 w-12 h-12 cursor-pointer text-black flex justify-center items-center text-2xl rounded-full shadow-md bg-white transition-transform transform -translate-y-1/2"
       >
         <FaAngleRight />
       </i>

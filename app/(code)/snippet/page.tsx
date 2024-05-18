@@ -24,7 +24,8 @@ export default function Page() {
   return (
     <div
       className={cn(
-        "flex w-[576px] flex-col rounded-xl p-5",
+        // "flex w-[576px] flex-col rounded-xl p-5",
+        "flex w-5/6 md:w-[576px] flex-col rounded-xl p-5",
         "border border-white/20 bg-black shadow-xl shadow-black/40"
       )}
     >

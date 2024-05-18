@@ -16,7 +16,7 @@ interface Design {
   updatedAt: string;
 }
 
-const DesignCard = ({ design, type }: { design: Design; type: string }) => {
+const DesignCard = ({ design }: { design: Design }) => {
   const { fetchData } = useApi(`api/v1/designs/user`, 'DELETE');
 
   const deleteDesign = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -32,17 +32,18 @@ const DesignCard = ({ design, type }: { design: Design; type: string }) => {
   };
 
   return (
-    <div className={`w-full relative group`}>
+    <div className={`h-[200px] w-full relative group`}>
       <Link
         href={`/design/${design?.id}`}
-        className={`w-full h-full block bg-[#ffffff12] rounded-md ${type ? '' : ' p-4 '}`}
+        className={`w-full h-full block bg-gray-700 rounded-md`}
       >
-        <div className="relative w-full h-full aspect-w-1 aspect-h-1">
+        {/*<div className="relative w-full h-full aspect-w-1 aspect-h-1">*/}
+        <div className="relative w-full h-full">
           <Image
             src={design?.imageUrl}
             alt="Design image"
             fill
-            objectFit="cover"
+            objectFit="scale-down"
             className="rounded-md"
           />
         </div>

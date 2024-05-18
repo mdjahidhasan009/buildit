@@ -192,7 +192,7 @@ export default function ContentCard({ contents, routePath } : ContentProps) {
         </p>
       </div>
 
-      <ul ref={listContainerRef} className={cn("grid grid-cols-2 gap-3")}>
+      <ul ref={listContainerRef} className={cn("grid sm:grid-cols-1 md:grid-cols-2 gap-3")}>
         <DialogPrimitive.Root
           open={dialogOpen}
           onOpenChange={setDialogOpen}

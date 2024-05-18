@@ -20,23 +20,23 @@ const Page = () => {
   }, [data]);
 
   return (
-    <div className='pt-5'>
+    <div className='w-full'>
       <div
-        className='w-full flex justify-center items-center h-[250px] bg-gradient-to-r from-[#4c76cf] to-[#552ab8] relative rounded-md overflow-hidden'>
+        className='w-full flex justify-center items-center h-[150px] bg-gradient-to-r from-[#4c76cf] to-[#552ab8] relative rounded-md overflow-hidden'>
         <div>
           <h2 className='text-3xl pb-10 pt-6 font-semibold text-white'>What will you design today?</h2>
         </div>
       </div>
       <div>
         <h2 className='text-xl py-6 font-semibold text-white'>Your recent designs</h2>
-        <div className=" ">
+        <div className="h-[40vh] ">
           {loading ? (
             <div>Loading...</div>
           ) : (
             <CardSlider>
-              {designs.map((design, index) => (
-                <DesignCard design={design} key={design?.id} type=""/>
-              ))}
+                {designs.map((design, index) => (
+                  <DesignCard design={design} key={design?.id} />
+                ))}
             </CardSlider>
           )}
         </div>
