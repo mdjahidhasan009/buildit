@@ -7,6 +7,7 @@ import { Snap } from "@/lib/snap";
 import { useState } from "react";
 import { cn } from "@/lib/cn";
 import { AnimatePresence, motion } from "framer-motion";
+import {useDispatch} from "react-redux";
 
 type ButtonType = "DEFAULT" | "SUCCESS" | "FAILURE" | "LOADING";
 
@@ -27,6 +28,7 @@ interface Button {
 
 export default function Actions() {
   const { status: sessionStatus } = useSession();
+  const dispatch = useDispatch();
 
   const statusIcons = {
     SUCCESS: <Check size={16} aria-hidden="true" />,
@@ -45,7 +47,7 @@ export default function Actions() {
         DEFAULT: <Link size={16} aria-hidden="true" />,
         ...statusIcons,
       },
-      action: () => Snap("COPY_LINK"),
+      action: () => Snap("COPY_LINK", dispatch),
       isDisabled: sessionStatus === "unauthenticated",
       hotKey: {
         key: "meta+shift+c",
@@ -64,7 +66,7 @@ export default function Actions() {
         DEFAULT: <Copy size={16} aria-hidden="true" />,
         ...statusIcons,
       },
-      action: () => Snap("COPY_IMAGE"),
+      action: () => Snap("COPY_IMAGE", dispatch),
       hotKey: {
         key: "meta+c",
       },
@@ -79,7 +81,7 @@ export default function Actions() {
         DEFAULT: <ImageIcon size={16} aria-hidden="true" />,
         ...statusIcons,
       },
-      action: () => Snap("DOWNLOAD_IMAGE"),
+      action: () => Snap("DOWNLOAD_IMAGE", dispatch),
       hotKey: {
         key: "meta+s",
         options: {

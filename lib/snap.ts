@@ -1,16 +1,16 @@
-"use client";
 import * as htmlToImage from 'html-to-image';
 import { saveAs } from "file-saver";
 import {update} from "@/lib/features/snippet/snippetSlice";
-import {useDispatch} from "react-redux";
+import {Dispatch} from "redux";
 
 export async function Snap(
-  mode: "COPY_LINK" | "COPY_IMAGE" | "DOWNLOAD_IMAGE"
+  mode: "COPY_LINK" | "COPY_IMAGE" | "DOWNLOAD_IMAGE",
+  dispatch: Dispatch
 ): Promise<void> {
   const editorDiv = document.getElementById("screenshot");
 
   // const update = useStore.getState().update;
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   if (!editorDiv) {
     return;
