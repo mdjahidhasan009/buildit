@@ -132,18 +132,6 @@ export default memo(function Select<
         dispatch(update({ type: "hasCustomTheme", value: false }));
       }
     }
-
-
-    // dispatch(
-    //   update(
-    //     type,
-    //     get[type].valueForKey(value) as LanguageDefinition &
-    //       ThemeDefinition &
-    //       FontDefinition
-    //   )
-    // )
-
-
   }
 
   return (
