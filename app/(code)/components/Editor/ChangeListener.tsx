@@ -12,7 +12,6 @@ export default function ChangeListener() {
   const prevState = useRef<AppState | null>(null);
   const pendingSave = useRef<boolean>(false);
   const state = useSelector((state: RootState) => state.snippet);
-  const timeOutRef = useRef<NodeJS.Timeout | null>(null);
 
   const { fetchData: updateSnippet, data: updatedSnippet, error: updateError } = useApi("/api/v1/snippets", "PATCH");
 
@@ -26,24 +25,23 @@ export default function ChangeListener() {
           pendingSave.current = true;
         }
 
-        timeOutRef.current = setTimeout(() => {
           if (!isEqual(prevState.current, state)) {
             prevState.current = state;
-            updateSnippet(state);
+            updateSnippet(state)
+              .then(() => {})
+              .finally(() => {
+                pendingSave.current = false;
+              })
+              .catch(() => {})
           }
-
-          pendingSave.current = false;
-        }, 3000);
-
-        return () => {
-          clearTimeout(timeOutRef.current as NodeJS.Timeout);
-        };
       } else if (pendingSave.current) {
         dispatch(update({ type: "message", value: "IDLE" }));
         pendingSave.current = false;
       }
-    }, 2500) // Adjust debounce delay as needed
+    }, 2500)
   ).current;
+
+
 
   useEffect(() => {
     // Initialize prevState on the first render
@@ -52,14 +50,6 @@ export default function ChangeListener() {
     } else {
       debouncedHandleStateChange(state);
     }
-
-    return (() => {
-      // clearTimeout(debouncedHandleStateChange as NodeJS.Timeout);
-      if (timeOutRef.current) {
-        clearTimeout(timeOutRef.current);
-        timeOutRef.current = null; // Reset the ref after clearing the timeout
-      }
-    })
   }, [state]);
 
   useEffect(() => {

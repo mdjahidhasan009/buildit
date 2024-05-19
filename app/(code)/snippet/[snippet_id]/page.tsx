@@ -31,7 +31,6 @@ const Page = ({ params }: { params: { snippet_id: string } }) => {
 
   useEffect(() => {
     if(data) {
-      // useStore.getState().setAppState(data as ISnippet);
       dispatch(setAppState(data as ISnippet));
       const userId = (session as Session)?.user?.id; //at next-auth already have issue but not fixed yet https://github.com/nextauthjs/next-auth/issues/7132
       setIsEditable(userId === data?.userId);

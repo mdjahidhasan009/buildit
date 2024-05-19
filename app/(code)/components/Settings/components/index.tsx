@@ -22,7 +22,6 @@ export default function Settings() {
   const animationControls = useAnimationControls();
   const isDragging = useMotionValue(false);
 
-  // const hasCustomTheme = useStore((state) => state.hasCustomTheme);
   const hasCustomTheme = useSelector((state: RootState) => state.snippet.hasCustomTheme);
 
   return (

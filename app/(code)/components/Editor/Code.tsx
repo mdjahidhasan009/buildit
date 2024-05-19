@@ -1,11 +1,6 @@
 "use client";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-interface CodeProps {
-  placeholder: string;
-  initialValue?: string;
-}
-
 import { EditorView } from "@codemirror/view";
 import createTheme from "@uiw/codemirror-themes";
 import { hslToHsla as adjustLightness, generateColors } from "@/lib/colors";
@@ -19,6 +14,8 @@ import {update} from "@/lib/features/snippet/snippetSlice";
 import {SUPPORTED_LANGUAGES} from "@/lib/languages";
 import {find} from "@/lib/find";
 import {RootState} from "@/lib/reduxStore";
+import {SUPPORTED_THEMES} from "@/lib/themes";
+import {SUPPORTED_FONT_STYLES} from "@/lib/fonts";
 
 export default function Code({ editable = false }: { editable: boolean }) {
   const dispatch = useDispatch();
@@ -31,14 +28,14 @@ export default function Code({ editable = false }: { editable: boolean }) {
   const hasCustomTheme = useSelector((state: RootState) => state.snippet.hasCustomTheme);
   const code = useSelector((state: RootState) => state.snippet.code);
   const language = useSelector((state: RootState) => state.snippet.language);
-  const theme = useSelector((state: RootState) => state.snippet.theme);
-  const fontFamily = useSelector((state: RootState) => state.snippet.fontFamily);
+  const themeId = useSelector((state: RootState) => state.snippet.theme);
+  const theme = find(SUPPORTED_THEMES, themeId);
+  const fontFamilyId = useSelector((state: RootState) => state.snippet.fontFamily);
+  const fontFamily = find(SUPPORTED_FONT_STYLES, fontFamilyId);
   const fontSize = useSelector((state: RootState) => state.snippet.fontSize);
   const lineNumbers = useSelector((state: RootState) => state.snippet.lineNumbers);
   const customColors = useSelector((state: RootState) => state.snippet.customColors);
 
-
-  // const update = useStore((state) => state.update);
 
   const baseColors = useMemo(() => {
     return hasCustomTheme ? customColors : theme.baseColors;
@@ -50,7 +47,6 @@ export default function Code({ editable = false }: { editable: boolean }) {
 
   useEffect(() => {
     async function loadLanguage() {
-      // const lang = (await language.extension()) as any;
       const langExtension = find(SUPPORTED_LANGUAGES, language);
       const lang = await (langExtension?.extension()) as any;
 
@@ -222,7 +218,6 @@ export default function Code({ editable = false }: { editable: boolean }) {
     ],
   });
 
-  // const debouncedUpdate = debounce(update, 300);
   const debouncedUpdateCode = useCallback(debounce((newCode: string) => {
     dispatch(update({ type: "code", value: newCode }));
   }, 300), [dispatch]);

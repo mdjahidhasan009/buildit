@@ -1,7 +1,6 @@
 import { cn } from "@/lib/cn";
 import { find } from "@/lib/find";
 import { SUPPORTED_LANGUAGES } from "@/lib/languages";
-// import { useStore } from "@/lib/store";
 import * as SelectPrimitive from "@radix-ui/react-select";
 import {
   FontDefinition,
@@ -15,7 +14,7 @@ import { SUPPORTED_FONT_STYLES } from "@/lib/fonts";
 import { ChevronDown } from "lucide-react";
 import {useDispatch, useSelector} from "react-redux";
 import {update} from "@/lib/features/snippet/snippetSlice";
-import {RootState} from "@/lib/reduxStore";
+import { RootState } from "@/lib/reduxStore";
 
 export default memo(function Select<
   T extends LanguageDefinition | ThemeDefinition | FontDefinition
@@ -118,18 +117,13 @@ export default memo(function Select<
   ////TODO: have to fix this
   const handleValueChange = (value: string) => {
 
+    debugger
     if(type === 'language') {
       dispatch(update({ type, value }));
-    } else {
-      dispatch(
-        update({
-            type,
-            value: get [type].valueForKey(value) as LanguageDefinition &
-              ThemeDefinition &
-              FontDefinition
-          }
-        )
-      )
+    } else if(type === 'theme') {
+      dispatch(update({ type, value }));
+    } else if(type === 'fontFamily') {
+      dispatch(update({ type, value }));
     }
 
     if (type === "theme") {

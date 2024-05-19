@@ -55,8 +55,8 @@ export type AppState = {
   code: string | null;
   // language: LanguageDefinition;
   language: string;
-  theme: ThemeDefinition;
-  fontFamily: FontDefinition;
+  theme: string;
+  fontFamily: string;
   fontSize: string;
   lineNumbers: boolean;
   padding: string;

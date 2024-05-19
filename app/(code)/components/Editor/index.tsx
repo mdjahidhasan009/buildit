@@ -1,4 +1,3 @@
-"use client";
 import { cn } from "@/lib/cn";
 import Views from "./Views";
 import Wrapper from "./Wrapper";

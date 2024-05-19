@@ -1,14 +1,13 @@
 import {cn} from "@/lib/cn";
+import {ReactNode} from "react";
 
-export function Control({
-                            htmlFor,
-                            label,
-                            children,
-                        }: {
+type ControlProps = {
     htmlFor: string;
     label: string;
-    children: React.ReactNode;
-}) {
+    children: ReactNode;
+};
+
+export function Control({ htmlFor, label, children } : ControlProps) {
     return (
         <div
             className={cn("relative flex min-w-max flex-col justify-between gap-3 ")}

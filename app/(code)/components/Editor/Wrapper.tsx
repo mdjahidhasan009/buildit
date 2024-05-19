@@ -1,10 +1,11 @@
-// import { useStore } from "@/lib/store";
 import { useEffect, useMemo, useRef, useState } from "react";
 import chroma from "chroma-js";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/cn";
 import {useSelector} from "react-redux";
 import {RootState} from "@/lib/reduxStore";
+import {find} from "@/lib/find";
+import {SUPPORTED_THEMES} from "@/lib/themes";
 
 export default function Wrapper({ children }: { children: React.ReactNode }) {
   const [marginTop, setMarginTop] = useState(15);
@@ -12,7 +13,8 @@ export default function Wrapper({ children }: { children: React.ReactNode }) {
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   const hasCustomTheme = useSelector((state: RootState) => state.snippet.hasCustomTheme);
-  const theme = useSelector((state: RootState) => state.snippet.theme);
+  const themeId = useSelector((state: RootState) => state.snippet.theme);
+  const theme = find(SUPPORTED_THEMES, themeId);
   const customColors = useSelector((state: RootState) => state.snippet.customColors);
   const colorMode = useSelector((state: RootState) => state.snippet.colorMode);
   const padding = useSelector((state: RootState) => state.snippet.padding);
