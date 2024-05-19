@@ -29,13 +29,13 @@ export function prepare(body: any): Partial<PreparedAppState> {
     data.code = body.code === "" ? null : body.code;
   }
   if (body.language) {
-    data.language = body.language.id;
+    data.language = body.language;
   }
   if (body.theme) {
-    data.theme = body.theme.id;
+    data.theme = body.theme;
   }
   if (body.fontFamily) {
-    data.fontFamily = body.fontFamily.id;
+    data.fontFamily = body.fontFamily;
   }
   if (body.fontSize) {
     data.fontSize = body.fontSize;

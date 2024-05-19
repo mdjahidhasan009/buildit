@@ -117,7 +117,6 @@ export default memo(function Select<
   ////TODO: have to fix this
   const handleValueChange = (value: string) => {
 
-    debugger
     if(type === 'language') {
       dispatch(update({ type, value }));
     } else if(type === 'theme') {
