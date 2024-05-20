@@ -6,8 +6,18 @@ import {BASE_COLOR_MODES} from "@/lib/values";
 import Angle from "@/app/(code)/components/Settings/components/Angle";
 import Switch from "@/app/(code)/components/Settings/components/Switch";
 import {Control} from "@/app/(code)/components/Settings/components/Control";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "@/lib/reduxStore";
+import {update} from "@/lib/features/snippet/snippetSlice";
 
 export function CustomThemeControls() {
+    const dispatch = useDispatch();
+    const grain = useSelector((state: RootState) => state.snippet.grain);
+
+    const handleGrainChange = (value: boolean) => {
+        dispatch(update({ type: "grain", value }));
+    };
+
     return (
         <motion.div
             initial={{ opacity: 0 }}
@@ -28,7 +38,7 @@ export function CustomThemeControls() {
                 <Angle />
             </Control>
             <Control htmlFor="grain" label="Grain">
-                <Switch type="grain" />
+                <Switch type="grain" currentValue={grain} onCheckedChange={handleGrainChange} />
             </Control>
         </motion.div>
     );

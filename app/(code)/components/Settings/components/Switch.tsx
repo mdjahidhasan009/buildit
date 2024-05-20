@@ -1,27 +1,19 @@
 import { cn } from "@/lib/cn";
-// import { useStore } from "@/lib/store";
 import { memo } from "react";
 import * as SwitchPrimitive from "@radix-ui/react-switch";
-import {useDispatch, useSelector} from "react-redux";
-import {update} from "@/lib/features/snippet/snippetSlice";
-import {RootState} from "@/lib/reduxStore";
 
-export default memo(function Switch({
-  type,
-}: {
+interface SwitchProps {
   type: "lineNumbers" | "grain";
-}) {
-  // const value = useStore((state) => state[type]);
-  const dispatch = useDispatch();
-  const value = useSelector((state: RootState) => state.snippet[type]);
+  currentValue: boolean;
+  onCheckedChange: (value: boolean) => void;
+}
 
-  // const update = useStore((state) => state.update);
-
+export default memo(function Switch({ type, currentValue, onCheckedChange }: SwitchProps) {
   return (
     <div className={cn("flex h-full items-center")}>
       <SwitchPrimitive.Root
-        checked={value}
-        onCheckedChange={(value: boolean) => dispatch(update({ type, value }))}
+        checked={currentValue}
+        onCheckedChange={onCheckedChange}
         className={cn(
           "inline-flex h-6 w-[44px] shrink-0 items-center rounded-full",
           "outline-none",
