@@ -1,28 +1,25 @@
-// import { useStore } from "@/lib/store";
 import { memo } from "react";
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
 import { cn } from "@/lib/cn";
-import {useDispatch, useSelector} from "react-redux";
-import {update} from "@/lib/features/snippet/snippetSlice";
-import {RootState} from "@/lib/reduxStore";
+
+interface ChoicesProps {
+  type: string;
+  choices: string[];
+  currentValue: string;
+  onValueChange: (value: string) => void;
+}
 
 export default memo(function Choices({
-  type,
-  choices,
-}: {
-  type: "fontSize" | "padding" | "colorMode";
-  choices: string[];
-}) {
-  // const value = useStore((state) => state[type]);
-  const dispatch = useDispatch();
-  const value = useSelector((state: RootState) => state.snippet[type]);
-  // const update = useStore((state) => state.update);
-
+   type,
+   choices,
+   currentValue,
+   onValueChange,
+ }: ChoicesProps) {
   return (
     <RadioGroupPrimitive.Root
-      defaultValue={value}
-      value={value}
-      onValueChange={(value: string) => dispatch(update({ type, value }))}
+      defaultValue={currentValue}
+      value={currentValue}
+      onValueChange={onValueChange}
       className={cn("flex h-full items-center justify-center")}
     >
       <div className={cn("flex h-full gap-3")}>

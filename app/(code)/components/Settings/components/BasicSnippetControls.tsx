@@ -18,6 +18,8 @@ export function BasicSnippetControls() {
     const language = useSelector((state: RootState) => state.snippet.language);
     const theme = useSelector((state: RootState) => state.snippet.theme);
     const fontFamily = useSelector((state: RootState) => state.snippet.fontFamily);
+    const fontSize = useSelector((state: RootState) => state.snippet.fontSize);
+    const padding = useSelector((state: RootState) => state.snippet.padding);
 
     const handleLineNumbersChange = (value: boolean) => {
         dispatch(update({ type: "lineNumbers", value }));
@@ -38,6 +40,14 @@ export function BasicSnippetControls() {
 
     const handleFontFamilyChange = (value: string) => {
         dispatch(update({ type: "fontFamily", value }));
+    };
+
+    const handleFontSizeChange = (value: string) => {
+        dispatch(update({ type: "fontSize", value }));
+    };
+
+    const handlePaddingChange = (value: string) => {
+        dispatch(update({ type: "padding", value }));
     };
 
     return (
@@ -77,7 +87,12 @@ export function BasicSnippetControls() {
               />
           </Control>
           <Control htmlFor="fontSize" label="Font Size">
-              <Choices type="fontSize" choices={BASE_FONT_SIZES} />
+              <Choices
+                type="fontSize"
+                choices={BASE_FONT_SIZES}
+                currentValue={fontSize}
+                onValueChange={handleFontSizeChange}
+              />
           </Control>
           <Control htmlFor="lineNumbers" label="Line numbers">
               <Switch
@@ -87,7 +102,12 @@ export function BasicSnippetControls() {
               />
           </Control>
           <Control htmlFor="padding" label="Padding">
-              <Choices type="padding" choices={BASE_PADDING_VALUES} />
+              <Choices
+                type="padding"
+                choices={BASE_PADDING_VALUES}
+                currentValue={padding}
+                onValueChange={handlePaddingChange}
+              />
           </Control>
       </div>
     );
