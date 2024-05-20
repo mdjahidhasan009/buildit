@@ -15,12 +15,14 @@ export type ThemeDefinition = {
   label: string;
   baseColors: string[];
   class?: string;
+  type: string;
 };
 
 export type LanguageDefinition = {
   id: string;
   label: string;
   extension: () => Promise<Extension>;
+  type: string;
 };
 
 export type FontDefinition = {
@@ -28,6 +30,7 @@ export type FontDefinition = {
   label: string;
   variable: string;
   class: string;
+  type: string;
 };
 
 export type Message =

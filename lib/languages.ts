@@ -19,6 +19,7 @@ export const SUPPORTED_LANGUAGES: LanguageDefinition[] = [
       import("@codemirror/lang-javascript").then(({ javascript }) =>
         javascript({ jsx: true, typescript: true })
       ),
+    type: "language"
   },
   {
     id: "javascript",
@@ -27,11 +28,13 @@ export const SUPPORTED_LANGUAGES: LanguageDefinition[] = [
       import("@codemirror/lang-javascript").then(({ javascript }) =>
         javascript({ jsx: true })
       ),
+    type: "language"
   },
   {
     id: "java",
     label: "Java",
     extension: () => import("@codemirror/lang-java").then(({ java }) => java()),
+    type: "language"
   },
   {
     id: "kotlin",
@@ -41,6 +44,7 @@ export const SUPPORTED_LANGUAGES: LanguageDefinition[] = [
         importLegacy(),
         import("@codemirror/legacy-modes/mode/clike"),
       ]).then(([cb, m]) => cb(m.kotlin)),
+    type: "language"
   },
   {
     id: "ruby",
@@ -50,11 +54,14 @@ export const SUPPORTED_LANGUAGES: LanguageDefinition[] = [
         importLegacy(),
         import("@codemirror/legacy-modes/mode/ruby"),
       ]).then(([cb, m]) => cb(m.ruby)),
+    type: "language"
+
   },
   {
     id: "css",
     label: "CSS",
     extension: () => import("@codemirror/lang-css").then(({ css }) => css()),
+    type: "language"
   },
   {
     id: "html",
@@ -63,47 +70,56 @@ export const SUPPORTED_LANGUAGES: LanguageDefinition[] = [
       import("@codemirror/lang-html").then(({ html }) =>
         html({ matchClosingTags: true, autoCloseTags: true })
       ),
+    type: "language"
   },
   {
     id: "php",
     label: "PHP",
     extension: () => import("@codemirror/lang-php").then(({ php }) => php()),
+    type: "language"
   },
   {
     id: "python",
     label: "Python",
     extension: () =>
       import("@codemirror/lang-python").then(({ python }) => python()),
+    type: "language"
   },
   {
     id: "markdown",
     label: "Markdown",
     extension: () =>
       import("@codemirror/lang-markdown").then(({ markdown }) => markdown()),
+    type: "language"
   },
   {
     id: "rust",
     label: "Rust",
     extension: () => import("@codemirror/lang-rust").then(({ rust }) => rust()),
+    type: "language"
   },
   {
     id: "cpp",
     label: "C++",
     extension: () => import("@codemirror/lang-cpp").then(({ cpp }) => cpp()),
+    type: "language"
   },
   {
     id: "xml",
     label: "XML",
     extension: () => import("@codemirror/lang-xml").then(({ xml }) => xml()),
+    type: "language"
   },
   {
     id: "json",
     label: "JSON",
     extension: () => import("@codemirror/lang-json").then(({ json }) => json()),
+    type: "language"
   },
   {
     id: "sql",
     label: "SQL",
     extension: () => import("@codemirror/lang-sql").then(({ sql }) => sql()),
+    type: "language"
   },
 ];
