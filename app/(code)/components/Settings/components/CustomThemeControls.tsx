@@ -47,9 +47,9 @@ export function CustomThemeControls() {
           <Control htmlFor="gradientAngle" label="Gradient angle">
               <Angle />
           </Control>
-          <Control htmlFor="grain" label="Grain">
-              <Switch type="grain" currentValue={grain} onCheckedChange={handleGrainChange} />
-          </Control>
+          {/*<Control htmlFor="grain" label="Grain">*/}
+          {/*    <Switch type="grain" currentValue={grain} onCheckedChange={handleGrainChange} />*/}
+          {/*</Control>*/}
       </motion.div>
     );
 }

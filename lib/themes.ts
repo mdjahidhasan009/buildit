@@ -12,7 +12,6 @@ export const SUPPORTED_THEMES: ThemeDefinition[] = [
   {
     id: "cotton_candy",
     label: "Cotton Candy",
-
     baseColors: ["#c4b5fd", "#c084fc"],
     type: "theme"
   },
