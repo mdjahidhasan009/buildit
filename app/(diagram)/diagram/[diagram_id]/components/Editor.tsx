@@ -93,7 +93,7 @@ const Editor = ()  => {
 
   return (
     <div>
-      <div id='editorjs' className='ml-10'></div>
+      <div id='editorjs' className='ml-5'></div>
     </div>
   )
 }

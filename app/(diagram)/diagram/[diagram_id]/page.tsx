@@ -38,17 +38,17 @@ const Page = ({params}:any) => {
   return (
     <div>
       {/* Workspace Layout  */}
-      <div className='grid grid-cols-1 md:grid-cols-2'>
+      <div className='grid grid-cols-1 lg:grid-cols-2'>
         {/* Document  */}
         {(loading)
           ? <div>Loading</div>
           : (
             <>
-              <div style={{height: "100%"}}>
+              <div className="h-full p-2">
                 <Editor />
               </div>
               {/* Whiteboard/canvas  */}
-              <div className='border-l' style={{height: "100%"}}>
+              <div className='border-l-0 lg:border-l h-full p-2'>
                 <Canvas />
               </div>
             </>

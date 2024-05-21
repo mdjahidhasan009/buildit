@@ -133,6 +133,7 @@ export default function ContentCard({ contents, routePath } : ContentProps) {
       setAllData(prev =>
           prev.map(item => item.id === payload?.id ? { ...item, title: res?.data?.title } : item)
       );
+      setDialogOpen(false);
     }
   }
 

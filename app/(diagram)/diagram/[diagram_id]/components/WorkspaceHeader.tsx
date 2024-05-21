@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button'
-import { Link, Save } from 'lucide-react'
+import { Save } from 'lucide-react'
 import React from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {RootState} from "@/lib/reduxStore";
@@ -32,17 +32,10 @@ function WorkspaceHeader() {
             editorData,
             diagramData
         })
-
-        // saveEditor();
-        // saveExcalidrawState();
     }
   return (
     <div className='p-3 gap-2 md:gap-10 flex justify-between items-center'>
       <div className='flex pr-0 md:pr-20 border-b items-center'>
-        {/*<Image src={'/logo-1.png'}*/}
-        {/*  alt='logo'*/}
-        {/*  height={40}*/}
-        {/*  width={40} />*/}
         <input
             className="bg-black outline-none"
             placeholder="Enter File Name"
@@ -51,11 +44,12 @@ function WorkspaceHeader() {
       </div>
       <div className='flex items-center gap-4'>
         <Button
-          // className='h-8 text-[12px] gap-2 bg-yellow-500 hover:bg-yellow-600'
           className='px-3 py-[6px] outline-none bg-[#252627] rounded-sm'
-          onClick={()=>onSave()}
+          onClick={onSave}
         >
-          <Save className='h-4 w-4 pr-1' /> Save </Button>
+          <Save className='h-4 w-4 pr-1' />
+          {loading ? 'Saving...' : 'Save'}
+        </Button>
       </div>
     </div>
   )

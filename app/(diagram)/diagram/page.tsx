@@ -19,10 +19,10 @@ export default function Page() {
     }
 
     if(!data) return;
-    const diagrams = data?.data?.diagrams as Diagram[] || []; // Type assertion here
+    const diagrams = data?.data?.diagrams as Diagram[] || [];
 
     return (
-        <div className="min-h-[100vh] min-w-[100vw] grid place-items-center">
+        <div className="h-full min-w-[100vw] grid place-items-center">
             <div
                 className={cn(
                     "flex w-5/6 md:w-[576px] flex-col rounded-xl p-5",
