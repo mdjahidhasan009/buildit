@@ -13,7 +13,6 @@ interface UseApiResponse<T> {
   fetchData: (body: BodyInit | object | FormData | null, urlParams?: string) => Promise<any>;
 }
 
-// const useApi = (url, method = 'GET') => {
 const useApi = <T = any>(
   url: string,
   method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH" = "GET",
@@ -26,10 +25,7 @@ const useApi = <T = any>(
   const [loading, setLoading] = useState<boolean>(method === 'GET');
 
   const fetchData = async (body: any, urlParams = '') => {
-    // if(!body) return null;
-
     const baseURL = (process.env.NODE_ENV === 'production' ? `${process.env.NEXT_PUBLIC_PRODUCTION_URL}` : `${process.env.NEXT_PUBLIC_LOCAL_URL}`) + '/';
-
     let tempUrl = urlParams !== '' ? url + urlParams : url;
     const apiUrl = `${baseURL}${tempUrl}`;
     setLoading(true);

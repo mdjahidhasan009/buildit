@@ -3,8 +3,9 @@ import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { cn } from "@/lib/cn";
 import Loader from "@/components/shared/ui/Loader";
 import { Trash } from "lucide-react";
+import {IContentDeletePayload} from "@/components/shared/ContentCard/type";
 
-export default memo(function DeleteDialog({
+export default function DeleteDialog({
   id,
   title,
   action,
@@ -12,14 +13,13 @@ export default memo(function DeleteDialog({
 }: {
   id: string;
   title: string | undefined;
-  action: ({ id }: { id: string }) => void;
+  action: ({ id }: IContentDeletePayload) => void;
   isLoading: boolean;
 }) {
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
-
         action({ id });
       }}
     >
@@ -62,4 +62,4 @@ export default memo(function DeleteDialog({
       </div>
     </form>
   );
-});
+};

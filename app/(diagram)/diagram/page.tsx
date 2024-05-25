@@ -3,15 +3,31 @@
 import { redirect } from "next/navigation";
 import { cn } from "@/lib/cn";
 import Button from "@/components/Dashboard/Button";
-import ContentCard from "@/components/Dashboard/ContentCard";
-import { serialize } from "@/lib/serialize";
+import ContentCard from "@/components/shared/ContentCard/ContentCard";
 import { useSession } from "next-auth/react";
 import useApi from "@/utils/useApi";
 import { Diagram } from "@/core/domain/entities/Diagram";
+import React, {useEffect} from "react";
+import {setIsDialogOpen, setRoutePath} from "@/lib/features/content/contentSlice";
+import {useDispatch, useSelector} from "react-redux";
+import {setAllDiagrams} from "@/lib/features/diagram/diagramSlice";
+import {IContentDeletePayload, IContentRenamePayload} from "@/components/shared/ContentCard/type";
+import {RootState} from "@/lib/reduxStore";
 
 export default function Page() {
     const { data, error, loading } = useApi('/api/v1/diagrams');
+    const { fetchData: rename, loading: renameLoading } = useApi('/api/v1/diagrams', 'PATCH');
+    const { fetchData: deleteElement, loading: deleteLoading } = useApi('/api/v1/diagrams', 'DELETE');
     const { data: session, status: sessionStatus } = useSession();
+    const dispatch = useDispatch();
+    const diagrams: Diagram[] | [] = useSelector((state: RootState) => state.diagram?.diagrams);
+
+    useEffect(() => {
+      if(data?.data) {
+        dispatch(setAllDiagrams({ diagrams: data?.data?.diagrams || [] }));
+        dispatch(setRoutePath({ routePath: "diagrams" }))
+      }
+    }, [dispatch, data])
 
 
     if (sessionStatus === "unauthenticated") {
@@ -19,7 +35,22 @@ export default function Page() {
     }
 
     if(!data) return;
-    const diagrams = data?.data?.diagrams as Diagram[] || [];
+
+  const handleRenameADiagram = async (payload: IContentRenamePayload) => {
+    const res = await rename(payload);
+    if (res?.data?.id) {
+      dispatch(setAllDiagrams({ diagrams: diagrams.map(item => item.id === payload.id ? res.data : item) }));
+      dispatch(setIsDialogOpen({ value: false }));
+    }
+  }
+
+  const handleDeleteADiagram = async (payload: IContentDeletePayload) => {
+    const res = await deleteElement(payload, `?id=${payload?.id}`);
+    if (res?.data?.id) {
+      dispatch(setAllDiagrams({ diagrams: diagrams.filter(item => item.id !== payload?.id ) }));
+      dispatch(setIsDialogOpen({ value: false }));
+    }
+  }
 
     return (
         <div className="h-full min-w-[100vw] grid place-items-center">
@@ -38,13 +69,18 @@ export default function Page() {
                                 <div className={cn("flex w-full items-center justify-between")}>
                                     <h2 className={cn("text-xl font-extrabold")}>Diagrams</h2>
 
-                                    <Button dataCount={diagrams.length} routePath="diagrams"/>
+                                    <Button dataCount={diagrams.length} />
                                 </div>
 
-                                <ContentCard
-                                    contents={serialize(diagrams)}
-                                    routePath="diagrams"
-                                />
+                              <ContentCard<Diagram>
+                                states={{
+                                  contents: diagrams,
+                                  isRenaming: renameLoading,
+                                  isDeleting: deleteLoading
+                                }}
+                                handleRename={handleRenameADiagram}
+                                handleDelete={handleDeleteADiagram}
+                              />
                             </>
                         )
                 }
