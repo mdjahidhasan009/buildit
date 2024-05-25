@@ -1,7 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {ContentCardType, DialogProps} from "@/components/shared/ContentCard/type";
-import {ISnippet} from "@/app/(code)/constants/ISnippet";
-import {Diagram} from "@/core/domain/entities/Diagram";
 
 interface ContentState {
   type: ContentCardType | "";

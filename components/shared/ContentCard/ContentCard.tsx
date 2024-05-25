@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/lib/reduxStore";
 import { setIsDialogOpen } from "@/lib/features/content/contentSlice";
 
-export default function ContentCardNew<T extends BaseContent>({ states, handleRename, handleDelete }: ContentCardProps<T>) {
+export default function ContentCard<T extends BaseContent>({ states, handleRename, handleDelete }: ContentCardProps<T>) {
   const dispatch = useDispatch();
   const { contents } = states;
   const isDialogOpen = useSelector((state: RootState) => state.content.isDialogOpen);

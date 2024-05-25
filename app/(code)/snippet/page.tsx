@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { cn } from "@/lib/cn";
 import Button from "@/components/Dashboard/Button";
-import ContentCard from "@/components/shared/ContentCard/ContentCardNew";
+import ContentCard from "@/components/shared/ContentCard/ContentCard";
 import { useSession } from "next-auth/react";
 import { ISnippet } from "@/app/(code)/constants/ISnippet";
 import {useDispatch, useSelector} from "react-redux";
