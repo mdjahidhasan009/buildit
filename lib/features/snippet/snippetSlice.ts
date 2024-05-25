@@ -1,8 +1,5 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {createSlice, PayloadAction, createAsyncThunk} from '@reduxjs/toolkit';
 import {DEFAULT_VALUES} from "@/lib/values";
-import {find} from "@/lib/find";
-import {SUPPORTED_THEMES} from "@/lib/themes";
-import {SUPPORTED_FONT_STYLES} from "@/lib/fonts";
 import {ISnippet} from "@/app/(code)/constants/ISnippet";
 import {AppState} from "@/lib/types";
 
@@ -15,7 +12,6 @@ type UpdateActionPayload = {
   value: AppState[keyof AppState];
 };
 
-type UpdateCustomColorsPayload = Pick<AppState, 'customColors'>;
 
 export const appSlice = createSlice({
   name: 'app',
@@ -30,14 +26,12 @@ export const appSlice = createSlice({
       }
     },
     setAppState: (state, action: PayloadAction<ISnippet>) => {
-      const snippet = action.payload;
+      const snippet : ISnippet = action.payload;
       state.message = DEFAULT_VALUES.message;
-      // state.hasCustomTheme = Boolean(snippet.theme === "custom") || DEFAULT_VALUES.hasCustomTheme;
       state.hasCustomTheme = Boolean(snippet.theme === "custom") || DEFAULT_VALUES.hasCustomTheme;
       state.id = snippet.id;
       state.title = snippet.title;
       state.code = snippet.code;
-      // state.language = find(SUPPORTED_LANGUAGES, snippet.language);
       state.language = snippet.language;
       state.theme = snippet.theme;
       state.fontFamily = snippet.fontFamily;
@@ -53,39 +47,30 @@ export const appSlice = createSlice({
       state.angle = snippet.angle;
       state.grain = snippet.grain;
     },
-    // setCustomColor: (state, action) => {
-    //   const { color, index } = action.payload;
-    //   console.log(state);
-    //   state.customColors[index] = color;
-    // },
+    setAllSnippets: (state, action: PayloadAction<{ allSnippets: ISnippet[] }>) => {
+      const { allSnippets } = action.payload;
+      state.allSnippets = allSnippets;
+    },
     setCustomColor(state, action: PayloadAction<{ index: number; color: string }>) {
       const { index, color } = action.payload;
-      // Make sure the index is within the bounds of the customColors array
       if (index >= 0 && index < state.customColors.length) {
         state.customColors[index] = color;
       }
     },
-    // addCustomColor: (state, action) => {
-    //   const { color } = action.payload;
-    //   state.customColors.push(color);
-    // },
     addCustomColor(state, action: PayloadAction<{ color: string }>) {
       const { color } = action.payload;
       state.customColors.push(color);
     },
-    // removeCustomColor: (state, action) => {
-    //   const { index } = action.payload;
-    //   state.customColors.splice(index, 1);
-    //   // state.customColors.splice(0, state.customColors.length, ...(snippet.customColors ?? []));
-    //
-    // },
     removeCustomColor(state, action: PayloadAction<{ index: number }>) {
       const { index } = action.payload;
       state.customColors.splice(index, 1);
     },
   },
+
 });
 
-export const { update, setAppState, setCustomColor, addCustomColor, removeCustomColor } = appSlice.actions;
+export const { update, setAppState, setCustomColor,
+  addCustomColor, removeCustomColor, setAllSnippets
+} = appSlice.actions;
 
 export default appSlice.reducer;

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {initialState, IComponent} from "@/lib/features/components/IComponent";
+import { initialState, IComponent } from "@/lib/features/components/IComponent";
 
 export const componentsSlice = createSlice({
   name: 'components',

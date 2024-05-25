@@ -6,6 +6,8 @@ import { useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import Loader from "@/components/shared/ui/Loader";
 import useApi from "@/utils/useApi";
+import {RootState} from "@/lib/reduxStore";
+import {useSelector} from "react-redux";
 
 type ButtonType = "DEFAULT" | "SUCCESS" | "ERROR";
 
@@ -38,8 +40,9 @@ const buttons: Record<ButtonType, Button> = {
   },
 };
 
-export default function Button({ dataCount, routePath }: { dataCount: number, routePath: string }) {
+export default function Button({ dataCount }: { dataCount: number }) {
   const [buttonState, setButtonState] = useState<ButtonType>("DEFAULT");
+  const routePath = useSelector((state: RootState) => state.content.routePath) || "";
 
   const router = useRouter();
   const { fetchData: create, data, error, loading: createLoading } = useApi(`/api/v1/${routePath}`, 'POST');

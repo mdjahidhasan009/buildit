@@ -10,6 +10,7 @@ export const BASE_PADDING_VALUES: string[] = ["16", "32", "64", "128"];
 export const BASE_COLOR_MODES: any[] = ["rgb", "lrgb", "lab", "lch", "hsl"];
 
 export const DEFAULT_VALUES: AppStatus & AppState = {
+  allSnippets: [],
   message: "IDLE",
   hasCustomTheme: false,
   id: null,
@@ -22,8 +23,6 @@ export const DEFAULT_VALUES: AppStatus & AppState = {
   lineNumbers: true,
   padding: BASE_PADDING_VALUES.at(1)!,
   customColors: SUPPORTED_THEMES.at(1)!.baseColors,
-  // customColors: ['red'],
-  // customColors: [],
   colorMode: BASE_COLOR_MODES.at(0)!,
   angle: 145,
   grain: false,

@@ -1,26 +1,19 @@
-import { memo, useState } from "react";
+"use client"
+
+import { useState } from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { cn } from "@/lib/cn";
 import Loader from "@/components/shared/ui/Loader";
 import { Edit3 } from "lucide-react";
+import { IContentRenameProps } from "@/components/shared/ContentCard/type";
 
-export default memo(function RenameDialog({
-  id,
-  title,
-  action,
-  isLoading,
-}: {
-  id: string;
-  title: string | undefined;
-  action: ({ id, title }: { id: string; title: string; }) => void;
-  isLoading: boolean;
-}) {
+const RenameDialog = ({ id, title, action, isLoading }: IContentRenameProps) => {
   const [localInputValue, setLocalInputValue] = useState(title ?? "");
+
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
-
         if (localInputValue !== title) {
           action({ id, title: localInputValue });
         }
@@ -78,4 +71,6 @@ export default memo(function RenameDialog({
       </div>
     </form>
   );
-});
+};
+
+export default RenameDialog;
