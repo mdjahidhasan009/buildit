@@ -14,7 +14,7 @@ export default function ContentCard<T extends BaseContent>({ states, handleRenam
   const isDialogOpen = useSelector((state: RootState) => state.content.isDialogOpen);
 
   const handleDialogOpen = (value: boolean) => {
-    dispatch(setIsDialogOpen({ value }));
+    dispatch(setIsDialogOpen(value));
   }
 
   return (

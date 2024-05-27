@@ -47,9 +47,8 @@ export const appSlice = createSlice({
       state.angle = snippet.angle;
       state.grain = snippet.grain;
     },
-    setAllSnippets: (state, action: PayloadAction<{ allSnippets: ISnippet[] }>) => {
-      const { allSnippets } = action.payload;
-      state.allSnippets = allSnippets;
+    setAllSnippets: (state, action: PayloadAction<ISnippet[]>) => {
+      state.allSnippets = action.payload;
     },
     setCustomColor(state, action: PayloadAction<{ index: number; color: string }>) {
       const { index, color } = action.payload;
@@ -57,9 +56,8 @@ export const appSlice = createSlice({
         state.customColors[index] = color;
       }
     },
-    addCustomColor(state, action: PayloadAction<{ color: string }>) {
-      const { color } = action.payload;
-      state.customColors.push(color);
+    addCustomColor(state, action: PayloadAction<string>) {
+      state.customColors.push(action.payload);
     },
     removeCustomColor(state, action: PayloadAction<{ index: number }>) {
       const { index } = action.payload;

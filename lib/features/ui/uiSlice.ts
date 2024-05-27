@@ -1,6 +1,12 @@
-import { createSlice } from '@reduxjs/toolkit';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
-const initialState = {
+interface IInitialState {
+  isSidebarOpen: boolean;
+  selectedSidebarItemName: string;
+  selectedItemNameOfSidebar: string;
+}
+
+const initialState: IInitialState = {
   isSidebarOpen: false,
   selectedSidebarItemName: '',
   selectedItemNameOfSidebar: '',
@@ -15,7 +21,10 @@ export const uiSlice = createSlice({
       state.selectedSidebarItemName = '';
       state.selectedItemNameOfSidebar = '';
     },
-    setSidebarItemAndItemNameOfSelectedSidebarAndIsSidebarOpen: (state, action) => {
+    setSidebarItemAndItemNameOfSelectedSidebarAndIsSidebarOpen: (state, action: PayloadAction<{
+      selectedSidebarItemName: string;
+      selectedItemNameOfSidebar: string;
+    }>) => {
       state.isSidebarOpen = true;
       state.selectedSidebarItemName = action.payload.selectedSidebarItemName;
       state.selectedItemNameOfSidebar = action.payload.selectedItemNameOfSidebar;

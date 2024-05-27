@@ -1,20 +1,20 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {createSlice, Draft, PayloadAction} from '@reduxjs/toolkit';
 import { initialState, IComponent } from "@/lib/features/components/IComponent";
 
 export const componentsSlice = createSlice({
   name: 'components',
   initialState,
   reducers: {
-    addComponent: (state, action: PayloadAction<Partial<IComponent>>) => {
+    addComponent: (state: Draft<typeof initialState>, action: PayloadAction<Partial<IComponent>>) => {
       state.components.push(action.payload as IComponent);
     },
-    setCurrentComponent: (state, action) => {
+    setCurrentComponent: (state: Draft<typeof initialState>, action) => {
       state.currentComponent = action.payload;
     },
-    setComponents: (state, action) => {
+    setComponents: (state: Draft<typeof initialState>, action) => {
       state.components = action.payload;
     },
-    updateComponent: (state, action: PayloadAction<{ id: number; changes: Partial<IComponent> }>) => {
+    updateComponent: (state: Draft<typeof initialState>, action: PayloadAction<{ id: number; changes: Partial<IComponent> }>) => {
       const { id, changes } = action.payload;
       const index = state.components.findIndex(component => component.id === id);
       if (index !== -1) {
@@ -26,10 +26,10 @@ export const componentsSlice = createSlice({
         }
       }
     },
-    removeComponent: (state, action: PayloadAction<number>) => {
+    removeComponent: (state: Draft<typeof initialState>, action: PayloadAction<number>) => {
       state.components = state.components.filter(component => component.id !== action.payload);
     },
-    updateComponentPosition: (state, action: PayloadAction<{ id: number; left: number; top: number }>) => {
+    updateComponentPosition: (state: Draft<typeof initialState>, action: PayloadAction<{ id: number; left: number; top: number }>) => {
       const { id, left, top } = action.payload;
       const componentIndex = state.components.findIndex(component => component.id === id);
       if (componentIndex !== -1) {
@@ -40,7 +40,7 @@ export const componentsSlice = createSlice({
         }
       }
     },
-    updateComponentSize: (state, action: PayloadAction<{ id: number; width: number; height: number }>) => {
+    updateComponentSize: (state: Draft<typeof initialState>, action: PayloadAction<{ id: number; width: number; height: number }>) => {
       const { id, width, height } = action.payload;
       const index = state.components.findIndex(component => component.id === id);
       if (index !== -1) {
@@ -51,7 +51,7 @@ export const componentsSlice = createSlice({
         }
       }
     },
-    updateComponentRotation: (state, action: PayloadAction<{ id: number; rotate: number }>) => {
+    updateComponentRotation: (state: Draft<typeof initialState>, action: PayloadAction<{ id: number; rotate: number }>) => {
       const { id, rotate } = action.payload;
       const index = state.components.findIndex(component => component.id === id);
       if (index !== -1) {

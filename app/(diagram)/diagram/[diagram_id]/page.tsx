@@ -23,13 +23,13 @@ const Page = ({params}:any) => {
       const editorData = diagram?.editorData;
 
 
-      dispatch(initDiagramData({
-        data: {
+      dispatch(initDiagramData(
+        {
           title,
           editorData,
           elements
         }
-      }))
+      ))
     }
   }, [data]);
 

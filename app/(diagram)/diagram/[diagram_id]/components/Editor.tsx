@@ -82,7 +82,7 @@ const Editor = ()  => {
     if(editorRef.current)
     {
       editorRef.current?.save().then((outputData) => {
-          dispatch(setEditorData({ data: outputData }))
+          dispatch(setEditorData(outputData))
         }).catch((error) => {
           console.error('Saving failed: ', error)
         });

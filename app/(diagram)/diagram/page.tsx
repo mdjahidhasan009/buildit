@@ -23,8 +23,8 @@ export default function Page() {
 
     useEffect(() => {
       if(data?.data) {
-        dispatch(setAllDiagrams({ diagrams: data?.data?.diagrams || [] }));
-        dispatch(setRoutePath({ routePath: "diagrams" }))
+        dispatch(setAllDiagrams(data?.data?.diagrams || []));
+        dispatch(setRoutePath("diagrams"))
       }
     }, [dispatch, data])
 
@@ -38,16 +38,16 @@ export default function Page() {
   const handleRenameADiagram = async (payload: IContentRenamePayload) => {
     const res = await rename(payload);
     if (res?.data?.id) {
-      dispatch(setAllDiagrams({ diagrams: diagrams.map(item => item.id === payload.id ? res.data : item) }));
-      dispatch(setIsDialogOpen({ value: false }));
+      dispatch(setAllDiagrams( diagrams.map(item => item.id === payload.id ? res.data : item)));
+      dispatch(setIsDialogOpen(false));
     }
   }
 
   const handleDeleteADiagram = async (payload: IContentDeletePayload) => {
     const res = await deleteElement(payload, `?id=${payload?.id}`);
     if (res?.data?.id) {
-      dispatch(setAllDiagrams({ diagrams: diagrams.filter(item => item.id !== payload?.id ) }));
-      dispatch(setIsDialogOpen({ value: false }));
+      dispatch(setAllDiagrams(diagrams.filter(item => item.id !== payload?.id )));
+      dispatch(setIsDialogOpen(false));
     }
   }
 

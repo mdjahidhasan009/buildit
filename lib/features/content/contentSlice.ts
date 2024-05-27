@@ -19,17 +19,14 @@ const contentSlice = createSlice({
   name: 'content',
   initialState,
   reducers: {
-    setRoutePath: (state, action: PayloadAction<{ routePath: string }>) => {
-      const { routePath } = action.payload;
-      state.routePath = routePath;
+    setRoutePath: (state, action: PayloadAction<string>) => {
+      state.routePath = action.payload;
     },
-    setIsDialogOpen: (state, action: PayloadAction<{ value: boolean }>) => {
-      const { value } = action.payload;
-      state.isDialogOpen = value;
+    setIsDialogOpen: (state, action: PayloadAction<boolean>) => {
+      state.isDialogOpen = action.payload;
     },
-    setDialogProps: (state, action) => {
-      const { value } = action.payload;
-      state.dialogProps = value;
+    setDialogProps: (state, action: PayloadAction<DialogProps>) => {
+      state.dialogProps = action.payload;
     }
   }
 });

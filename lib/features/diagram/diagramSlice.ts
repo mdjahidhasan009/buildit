@@ -23,29 +23,24 @@ export const diagramSlice = createSlice({
     name: 'diagram',
     initialState,
     reducers: {
-        setAllDiagrams: (state, action: PayloadAction<{ diagrams: Diagram[] }>) => {
-            const { diagrams } = action.payload;
-            state.diagrams = diagrams;
+        setAllDiagrams: (state, action: PayloadAction<Diagram[]>) => {
+            state.diagrams = action.payload;
         },
-        setTittle:(state, action) => {
-            const { data } = action.payload;
-            state.title = data;
+        setTittle:(state, action: PayloadAction<string>) => {
+            state.title = action.payload;
         },
-        setEditorData:(state, action) => {
-            const { data } = action.payload;
-            state.editorData = data;
+        setEditorData:(state, action: PayloadAction<any>) => {
+            state.editorData = action.payload;
         },
-        setDiagramData:(state, action) => {
-            const { data } = action.payload;
-            const { elements } = data;
+        setDiagramData:(state, action: PayloadAction<any>) => {
+            const elements = action.payload || [];
             state.diagramData = {
                 ...state.diagramData,
                     elements
             };
         },
-        initDiagramData: (state, action) => {
-            const { data } = action.payload;
-            const { title, editorData, elements } = data;
+        initDiagramData: (state, action: PayloadAction<{ title: string, editorData: any, elements: any[]}>) => {
+            const { title, editorData, elements } = action.payload;
 
             state.title = title;
             state.editorData = editorData;

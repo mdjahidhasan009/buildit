@@ -26,8 +26,8 @@ export default function Page() {
 
   useEffect(() => {
     if(data) {
-      dispatch(setAllSnippets({ allSnippets: data }));
-      dispatch(setRoutePath({ routePath: "snippets" }))
+      dispatch(setAllSnippets(data));
+      dispatch(setRoutePath("snippets"))
     }
   }, [dispatch, data])
 
@@ -40,16 +40,16 @@ export default function Page() {
   const handleRenameASnippet = async (payload: IContentRenamePayload) => {
     const res = await rename(payload);
     if (res?.data?.id) {
-      dispatch(setAllSnippets({ allSnippets: snippets.map(item => item.id === payload.id ? res.data : item) }));
-      dispatch(setIsDialogOpen({ value: false }));
+      dispatch(setAllSnippets(snippets.map(item => item.id === payload.id ? res.data : item)));
+      dispatch(setIsDialogOpen(false));
     }
   }
 
   const handleDeleteASnippet = async (payload: IContentDeletePayload) => {
     const res = await deleteElement(payload, `?id=${payload?.id}`);
     if (res?.data?.id) {
-      dispatch(setAllSnippets({ allSnippets: snippets.filter(item => item.id !== payload?.id ) }));
-      dispatch(setIsDialogOpen({ value: false }));
+      dispatch(setAllSnippets(snippets.filter(item => item.id !== payload?.id )));
+      dispatch(setIsDialogOpen(false));
     }
   }
 

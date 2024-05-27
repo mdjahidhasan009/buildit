@@ -17,7 +17,7 @@ function Canvas() {
       const clonedElements = JSON.parse(JSON.stringify(excalidrawElements));
       // const clonedAppState = JSON.parse(JSON.stringify(appState));
 
-      dispatch(setDiagramData({ data: { elements:  clonedElements } }));
+      dispatch(setDiagramData(clonedElements));
       // setWhiteBoardData({ data: clonedElements });
   }, 500), [dispatch]);
 

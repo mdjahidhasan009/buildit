@@ -65,7 +65,7 @@ export default function Picker() {
 
       {customColors.length < 3 && (
         <button
-          onClick={() => dispatch(addCustomColor({ color: chroma.random().hex() }))}
+          onClick={() => dispatch(addCustomColor(chroma.random().hex()))}
           className={cn(
             "flex h-full w-8 items-center justify-center rounded-lg",
             "select-none outline-none",

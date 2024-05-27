@@ -66,19 +66,10 @@ export interface IComponent {
   title?: string;
 }
 
-// export const initialState: Pick<DesignState, 'components'> = {
-//   components: [],
-// };
-
 interface ComponentState {
   components: IComponent[];
   currentComponent: Partial<IComponent> | null;
 }
-
-// export const initialState: { components: IComponent[] | [], currentComponent: IComponent | null } = {
-//   components: [],
-//   currentComponent: null,
-// };
 
 export const initialState: ComponentState = {
   components: [],

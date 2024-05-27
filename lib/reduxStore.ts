@@ -23,10 +23,8 @@ export const reduxStore = configureStore({
 export type RootState = ReturnType<typeof reduxStore.getState>;
 export type AppDispatch = typeof reduxStore.dispatch;
 
-// Since we use typescript, lets utilize `useDispatch`
 export const useDispatch = () => useDispatchBase<AppDispatch>();
 
-// And utilize `useSelector`
 export const useSelector = <TSelected = unknown>(
   selector: (state: RootState) => TSelected
 ): TSelected => useSelectorBase<RootState, TSelected>(selector);

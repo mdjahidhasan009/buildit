@@ -39,7 +39,7 @@ function WorkspaceHeader() {
             className="bg-black outline-none"
             placeholder="Enter File Name"
             value={title}
-            onChange={(e) => dispatch(setTittle({ data: e.target.value }))} />
+            onChange={(e) => dispatch(setTittle(e.target.value))} />
       </div>
       <div className='flex items-center gap-4'>
         <Button

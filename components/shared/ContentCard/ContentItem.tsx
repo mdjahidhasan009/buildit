@@ -22,7 +22,7 @@ export default function ContentItem<T extends BaseContent>({ key, contentItem, s
   const dialogProps = useSelector((state: RootState) => state.content.dialogProps);
 
   const handleSetDialogProps = (value: DialogProps) => {
-    dispatch(setDialogProps({ value }));
+    dispatch(setDialogProps(value));
   }
 
   // Type guard to check if contentItem has views property
