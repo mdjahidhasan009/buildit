@@ -4,9 +4,8 @@ import { HexColorInput, HexColorPicker } from "react-colorful";
 import Popover from "@/components/shared/ui/Popover";
 import { Minus, Plus } from "lucide-react";
 import chroma from "chroma-js";
-import {useDispatch, useSelector} from "react-redux";
+import {RootState, useDispatch, useSelector} from "@/lib/reduxStore";
 import {addCustomColor, removeCustomColor, setCustomColor} from "@/lib/features/snippet/snippetSlice";
-import {RootState} from "@/lib/reduxStore";
 
 export default function Picker() {
   // const customColors = useStore((state) => state.customColors);

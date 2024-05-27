@@ -4,10 +4,8 @@ import Picker from "@/app/(code)/components/Settings/components/Picker";
 import Choices from "@/app/(code)/components/Settings/components/Choices";
 import { BASE_COLOR_MODES } from "@/lib/values";
 import Angle from "@/app/(code)/components/Settings/components/Angle";
-import Switch from "@/app/(code)/components/Settings/components/Switch";
 import { Control } from "@/app/(code)/components/Settings/components/Control";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/lib/reduxStore";
+import {RootState, useDispatch, useSelector} from "@/lib/reduxStore";
 import { update } from "@/lib/features/snippet/snippetSlice";
 
 export function CustomThemeControls() {

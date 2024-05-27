@@ -1,8 +1,7 @@
 "use client";
 
 import CreateComponent from "@/app/(design)/components/CreateComponent/CreateComponent";
-import {useSelector} from "react-redux";
-import {RootState} from "@/lib/reduxStore";
+import {RootState, useSelector} from "@/lib/reduxStore";
 
 const DesignPlayground = () => {
   const components = useSelector((state: RootState) => state.components.components);

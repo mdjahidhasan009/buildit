@@ -12,9 +12,8 @@ import Paragraph from '@editorjs/paragraph';
 //@ts-ignore
 import Warning from '@editorjs/warning';
 
-import {useDispatch, useSelector} from "react-redux";
+import {RootState, useDispatch, useSelector} from "@/lib/reduxStore";
 import { setEditorData } from '@/lib/features/diagram/diagramSlice';
-import {RootState} from "@/lib/reduxStore";
 
 const Editor = ()  => {
   const editorData = useSelector((state: RootState) => state?.diagram?.editorData);

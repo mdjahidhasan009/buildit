@@ -1,8 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { Save } from 'lucide-react'
 import React from 'react'
-import {useDispatch, useSelector} from 'react-redux'
-import {RootState} from "@/lib/reduxStore";
+import {RootState, useDispatch, useSelector} from "@/lib/reduxStore";
 import {setTittle} from "@/lib/features/diagram/diagramSlice";
 import useApi from "@/utils/useApi";
 import {useSession} from "next-auth/react";

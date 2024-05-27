@@ -3,12 +3,11 @@
 import Editor from "../../components/Editor";
 import { useSession } from "next-auth/react";
 import useApi from "@/utils/useApi";
-// import {useStore} from "@/lib/store";
 import {useEffect, useState} from "react";
 import Loading from "@/app/(code)/snippet/[snippet_id]/loading";
 import {ISnippet} from "@/app/(code)/constants/ISnippet";
-import {useDispatch} from "react-redux";
 import {setAppState} from "@/lib/features/snippet/snippetSlice";
+import { useDispatch } from "@/lib/reduxStore";
 
 interface Session {
   user?: {

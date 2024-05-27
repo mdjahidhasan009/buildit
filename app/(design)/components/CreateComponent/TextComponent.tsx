@@ -1,8 +1,7 @@
 import Element from "@/app/(design)/components/Element";
 import {BsTrash} from "react-icons/bs";
 import {useRef} from "react";
-import {RootState} from "@/lib/reduxStore";
-import { useSelector} from "react-redux";
+import {RootState, useSelector} from "@/lib/reduxStore";
 import useDragger from "@/app/(design)/business/hooks/useDragger";
 import {IComponent} from "@/lib/features/components/IComponent";
 import useComponentActions from "@/app/(design)/components/CreateComponent/hooks/useComponentActions";

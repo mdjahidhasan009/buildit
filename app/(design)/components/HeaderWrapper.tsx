@@ -4,8 +4,7 @@
 import Header from "../../../components/shared/Header/Header";
 import toast from "react-hot-toast";
 import * as htmlToImage from "html-to-image";
-import {useSelector} from "react-redux";
-import {RootState} from "@/lib/reduxStore";
+import {RootState, useSelector} from "@/lib/reduxStore";
 import useApi from "@/utils/useApi";
 import {usePathname, useRouter} from "next/navigation";
 import React from "react";

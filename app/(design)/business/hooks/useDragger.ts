@@ -1,8 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { IComponent } from "@/lib/features/components/IComponent";
 import {setCurrentComponent} from "@/lib/features/components/componentsSlice";
-import {AppDispatch} from "@/lib/reduxStore";
-import {useDispatch} from "react-redux";
+import { useDispatch, AppDispatch } from "@/lib/reduxStore";
 
 type currentCoordinate = {
   currentXAxis: number,

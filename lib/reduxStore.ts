@@ -1,11 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
+import {
+  useDispatch as useDispatchBase,
+  useSelector as useSelectorBase,
+} from 'react-redux';
+
 import componentsReducer from "@/lib/features/components/componentsSlice";
 import uiReducer from "@/lib/features/ui/uiSlice";
 import snippetReducer from "@/lib/features/snippet/snippetSlice";
 import diagramReducer from "@/lib/features/diagram/diagramSlice";
 import contentReducer from "@/lib/features/content/contentSlice";
 
-export const store = configureStore({
+export const reduxStore = configureStore({
   reducer: {
     components: componentsReducer,
     ui: uiReducer,
@@ -15,5 +20,13 @@ export const store = configureStore({
   },
 });
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof reduxStore.getState>;
+export type AppDispatch = typeof reduxStore.dispatch;
+
+// Since we use typescript, lets utilize `useDispatch`
+export const useDispatch = () => useDispatchBase<AppDispatch>();
+
+// And utilize `useSelector`
+export const useSelector = <TSelected = unknown>(
+  selector: (state: RootState) => TSelected
+): TSelected => useSelectorBase<RootState, TSelected>(selector);

@@ -6,10 +6,9 @@ import { Check, X, Code } from "lucide-react";
 import Loader from "@/components/shared/ui/Loader";
 import { cn } from "@/lib/cn";
 import { AnimatePresence, motion } from "framer-motion";
-import {useDispatch, useSelector} from "react-redux";
+import {RootState, useDispatch, useSelector} from "@/lib/reduxStore";
 import {update} from "@/lib/features/snippet/snippetSlice";
 import {debounce} from "@/lib/debounce";
-import {RootState} from "@/lib/reduxStore";
 
 interface ContentState {
   id: string;

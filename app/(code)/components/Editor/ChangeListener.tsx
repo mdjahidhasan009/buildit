@@ -1,11 +1,10 @@
 import { useEffect, useRef } from "react";
 import {update} from "@/lib/features/snippet/snippetSlice";
 import {debounce} from "@/lib/debounce";
-import {useDispatch, useSelector} from "react-redux";
+import {RootState, useDispatch, useSelector} from "@/lib/reduxStore";
 import {AppState} from "@/lib/types";
 import useApi from "@/utils/useApi";
 import isEqual from 'lodash.isequal';
-import {RootState} from "@/lib/reduxStore";
 
 export default function ChangeListener() {
   const dispatch = useDispatch();

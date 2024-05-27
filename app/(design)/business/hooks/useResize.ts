@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch } from "@/lib/reduxStore";
 import { updateComponentSize } from "@/lib/features/components/componentsSlice";
 import { IComponent } from "@/lib/features/components/IComponent";
 

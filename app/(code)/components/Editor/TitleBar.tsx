@@ -4,9 +4,8 @@ import { useRef } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import Tooltip from "@/components/shared/ui/Tooltip";
 import { Info } from "lucide-react";
-import {useDispatch, useSelector} from "react-redux";
+import {RootState, useDispatch, useSelector} from "@/lib/reduxStore";
 import {update} from "@/lib/features/snippet/snippetSlice";
-import {RootState} from "@/lib/reduxStore";
 
 export default function TitleBar({ editable = false }: { editable: boolean }) {
   const dispatch = useDispatch();

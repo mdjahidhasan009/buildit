@@ -6,8 +6,7 @@ import { useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import Loader from "@/components/shared/ui/Loader";
 import useApi from "@/utils/useApi";
-import {RootState} from "@/lib/reduxStore";
-import {useSelector} from "react-redux";
+import {RootState, useSelector} from "@/lib/reduxStore";
 
 type ButtonType = "DEFAULT" | "SUCCESS" | "ERROR";
 

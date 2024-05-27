@@ -1,14 +1,13 @@
 "use client";
 
-import { useDispatch, useSelector } from "react-redux";
+import {RootState, useDispatch, useSelector} from "@/lib/reduxStore";
 import { updateComponent } from "@/lib/features/components/componentsSlice";
-import { AppDispatch, RootState } from "@/lib/reduxStore";
 import { DesignProperty, IComponent } from "@/lib/features/components/IComponent";
 import { cn } from "@/lib/cn";
 import React from "react";
 
 const ComponentPropertiesPanel: React.FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
   const currentComponent = useSelector((state: RootState) => state.components.currentComponent);
 
   const removeBackground = () => {

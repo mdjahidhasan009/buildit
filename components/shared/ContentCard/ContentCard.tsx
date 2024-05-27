@@ -5,8 +5,7 @@ import { cn } from "@/lib/cn";
 import ContentItem from "@/components/shared/ContentCard/ContentItem";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import {BaseContent, ContentCardProps, DialogProps} from "@/components/shared/ContentCard/type";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/lib/reduxStore";
+import {RootState, useDispatch, useSelector} from "@/lib/reduxStore";
 import { setIsDialogOpen } from "@/lib/features/content/contentSlice";
 
 export default function ContentCard<T extends BaseContent>({ states, handleRename, handleDelete }: ContentCardProps<T>) {

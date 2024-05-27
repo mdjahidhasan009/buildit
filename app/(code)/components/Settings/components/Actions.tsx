@@ -7,7 +7,7 @@ import { Snap } from "@/lib/snap";
 import { useState } from "react";
 import { cn } from "@/lib/cn";
 import { AnimatePresence, motion } from "framer-motion";
-import {useDispatch} from "react-redux";
+import { useDispatch } from "@/lib/reduxStore";
 
 type ButtonType = "DEFAULT" | "SUCCESS" | "FAILURE" | "LOADING";
 

@@ -5,12 +5,11 @@ import {FaFolder, FaShapes} from "react-icons/fa";
 import {GoCloud} from "react-icons/go";
 import {TfiText} from "react-icons/tfi";
 import {RxTransparencyGrid} from "react-icons/rx";
-import {useDispatch, useSelector} from "react-redux";
+import {RootState, useDispatch, useSelector} from "@/lib/reduxStore";
 import {setSidebarItemAndItemNameOfSelectedSidebarAndIsSidebarOpen} from "@/lib/features/ui/uiSlice";
-import {AppDispatch, RootState} from "@/lib/reduxStore";
 
 const SideBar = () => {
-  const dispatch: AppDispatch  = useDispatch();
+  const dispatch= useDispatch();
   const selectedSidebarItemName = useSelector((state: RootState) => state.ui.selectedSidebarItemName);
 
   const handleOnClick = (type: string, name: string) => {

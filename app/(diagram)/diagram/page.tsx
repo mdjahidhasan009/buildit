@@ -9,10 +9,9 @@ import useApi from "@/utils/useApi";
 import { Diagram } from "@/core/domain/entities/Diagram";
 import React, {useEffect} from "react";
 import {setIsDialogOpen, setRoutePath} from "@/lib/features/content/contentSlice";
-import {useDispatch, useSelector} from "react-redux";
+import {RootState, useDispatch, useSelector} from "@/lib/reduxStore";
 import {setAllDiagrams} from "@/lib/features/diagram/diagramSlice";
 import {IContentDeletePayload, IContentRenamePayload} from "@/components/shared/ContentCard/type";
-import {RootState} from "@/lib/reduxStore";
 
 export default function Page() {
     const { data, error, loading } = useApi('/api/v1/diagrams');

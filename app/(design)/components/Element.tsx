@@ -1,7 +1,6 @@
 import { BsArrowsMove } from "react-icons/bs";
-import { useDispatch, useSelector } from "react-redux";
+import {RootState, useDispatch, useSelector} from "@/lib/reduxStore";
 import { updateComponentRotation } from "@/lib/features/components/componentsSlice";
-import { AppDispatch, RootState } from "@/lib/reduxStore";
 import { IComponent } from "@/lib/features/components/IComponent";
 import { isMobileDevice } from "@/lib/utils";
 import useRotate from "@/app/(design)/business/hooks/useRotate";
@@ -15,7 +14,7 @@ interface ElementProps {
 }
 
 const Element: FC<ElementProps> = ({ elementWrapperDivRef, component, extraElementRef = null }) => {
-  const dispatch  = useDispatch<AppDispatch>();
+  const dispatch  = useDispatch();
   const currentComponent = useSelector((state: RootState) => state.components.currentComponent);
   const rotateIconRef = useRef(null);
   const resizeIconBottomRightRef = useRef(null);

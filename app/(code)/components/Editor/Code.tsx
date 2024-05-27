@@ -9,11 +9,10 @@ import { useCodeMirror } from "@uiw/react-codemirror";
 import { debounce } from "@/lib/debounce";
 import { useHotkeys } from "react-hotkeys-hook";
 import { cn } from "@/lib/cn";
-import {useDispatch, useSelector} from "react-redux";
+import {RootState, useDispatch, useSelector} from "@/lib/reduxStore";
 import {update} from "@/lib/features/snippet/snippetSlice";
 import {SUPPORTED_LANGUAGES} from "@/lib/languages";
 import {find} from "@/lib/find";
-import {RootState} from "@/lib/reduxStore";
 import {SUPPORTED_THEMES} from "@/lib/themes";
 import {SUPPORTED_FONT_STYLES} from "@/lib/fonts";
 

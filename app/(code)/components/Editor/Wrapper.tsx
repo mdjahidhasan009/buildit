@@ -2,8 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import chroma from "chroma-js";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/cn";
-import {useSelector} from "react-redux";
-import {RootState} from "@/lib/reduxStore";
+import {RootState, useSelector} from "@/lib/reduxStore";
 import {find} from "@/lib/find";
 import {SUPPORTED_THEMES} from "@/lib/themes";
 

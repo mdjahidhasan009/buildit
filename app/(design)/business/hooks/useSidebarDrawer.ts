@@ -1,12 +1,11 @@
 import createComponentFactory from "@/utils/createComponentFactory";
-import { AppDispatch, RootState } from "@/lib/reduxStore";
 import { addComponent, setCurrentComponent, updateComponent } from "@/lib/features/components/componentsSlice";
-import { useDispatch, useSelector } from "react-redux";
+import {RootState, useDispatch, useSelector} from "@/lib/reduxStore";
 
 const componentFactory = createComponentFactory();
 
 const useSidebarDrawer = () => {
-    const dispatch = useDispatch<AppDispatch>();
+    const dispatch = useDispatch();
     const components = useSelector((state: RootState) => state.components.components);
 
     const createShape = (name: string, type: string) => {

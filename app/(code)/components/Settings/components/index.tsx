@@ -7,8 +7,7 @@ import {
 } from "framer-motion";
 import { useRef, useState } from "react";
 import Actions from "./Actions";
-import {useSelector} from "react-redux";
-import {RootState} from "@/lib/reduxStore";
+import {RootState, useSelector} from "@/lib/reduxStore";
 import DraggableHandle from "@/app/(code)/components/Settings/components/DraggableHandle";
 import {CustomThemeControls} from "@/app/(code)/components/Settings/components/CustomThemeControls";
 import {BasicSnippetControls} from "@/app/(code)/components/Settings/components/BasicSnippetControls";

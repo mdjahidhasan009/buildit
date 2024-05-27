@@ -4,11 +4,10 @@ const Editor = dynamic(() => import("@/app/(diagram)/diagram/[diagram_id]/compon
 const Canvas = dynamic(() => import("@/app/(diagram)/diagram/[diagram_id]/components/Canvas"), { ssr: false });
 import dynamic from "next/dynamic";
 import useApi from "@/utils/useApi";
-import {useDispatch, useSelector} from "react-redux";
+import {RootState, useDispatch, useSelector} from "@/lib/reduxStore";
 import {
   initDiagramData,
 } from "@/lib/features/diagram/diagramSlice";
-import {RootState} from "@/lib/reduxStore";
 
 const Page = ({params}:any) => {
   const diagramState = useSelector((state: RootState) => state.diagram);

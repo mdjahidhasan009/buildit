@@ -1,9 +1,8 @@
 import React, { useCallback, useRef, useState } from 'react'
 import { Excalidraw, MainMenu, WelcomeScreen, getSceneVersion } from "@excalidraw/excalidraw";
-import {useDispatch, useSelector} from "react-redux";
+import {RootState, useDispatch, useSelector} from "@/lib/reduxStore";
 import { setDiagramData } from "@/lib/features/diagram/diagramSlice";
 import { debounce } from "@/lib/debounce";
-import {RootState} from "@/lib/reduxStore";
 
 function Canvas() {
   const [whiteBoardData,setWhiteBoardData] = useState<any>();

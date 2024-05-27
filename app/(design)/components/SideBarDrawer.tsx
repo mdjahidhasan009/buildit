@@ -6,14 +6,13 @@ import MyImages from "./MyImages";
 import Projects from "./Projects";
 import InitialImage from "./InitialImage";
 import BackgroundImages from "./BackgroundImages";
-import {useDispatch, useSelector} from "react-redux";
+import {RootState, useDispatch, useSelector} from "@/lib/reduxStore";
 import {closeSidebar} from "@/lib/features/ui/uiSlice";
-import {AppDispatch, RootState} from "@/lib/reduxStore";
 import useSidebarDrawer from "@/app/(design)/business/hooks/useSidebarDrawer";
 import {cn} from "@/lib/cn";
 
 const SideBarDrawer = ({ design_id = '' }) => {
-  const dispatch: AppDispatch  = useDispatch();
+  const dispatch = useDispatch();
   const isSidebarOpen = useSelector((state: RootState) => state.ui.isSidebarOpen);
   const selectedSidebarItemName = useSelector((state: RootState) => state.ui.selectedSidebarItemName);
 

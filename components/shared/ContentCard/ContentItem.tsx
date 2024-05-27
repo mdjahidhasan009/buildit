@@ -11,8 +11,7 @@ import {
   ContentItemProps,
   DialogProps,
 } from "@/components/shared/ContentCard/type";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/lib/reduxStore";
+import {RootState, useDispatch, useSelector} from "@/lib/reduxStore";
 import { setDialogProps } from "@/lib/features/content/contentSlice";
 import { ISnippet } from "@/app/(code)/constants/ISnippet";
 

@@ -1,7 +1,5 @@
 import { cn } from "@/lib/cn";
-// import { useStore } from "@/lib/store";
-import {useSelector} from "react-redux";
-import {RootState} from "@/lib/reduxStore";
+import {RootState, useSelector} from "@/lib/reduxStore";
 
 export default function ThemeBubble({
   style,

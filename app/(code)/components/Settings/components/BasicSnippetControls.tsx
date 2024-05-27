@@ -7,8 +7,7 @@ import Choices from "@/app/(code)/components/Settings/components/Choices";
 import { BASE_FONT_SIZES, BASE_PADDING_VALUES } from "@/lib/values";
 import Switch from "@/app/(code)/components/Settings/components/Switch";
 import { Control } from "@/app/(code)/components/Settings/components/Control";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/lib/reduxStore";
+import {RootState, useDispatch, useSelector} from "@/lib/reduxStore";
 import { update } from "@/lib/features/snippet/snippetSlice";
 import { getInitialValue, renderOption } from "@/app/(code)/components/Select/selectUtils";
 

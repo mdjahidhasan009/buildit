@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch } from "@/lib/reduxStore";
 import { removeComponent, setCurrentComponent } from "@/lib/features/components/componentsSlice";
 import {IComponent} from "@/lib/features/components/IComponent";
 

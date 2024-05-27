@@ -1,9 +1,8 @@
 import { cn } from "@/lib/cn";
 // import { useStore } from "@/lib/store";
 import * as SliderPrimitive from "@radix-ui/react-slider";
-import {useDispatch, useSelector} from "react-redux";
+import {RootState, useDispatch, useSelector} from "@/lib/reduxStore";
 import {update} from "@/lib/features/snippet/snippetSlice";
-import {RootState} from "@/lib/reduxStore";
 
 export default function Angle() {
   // const customColorsCount = useStore((state) => state.customColors.length);
