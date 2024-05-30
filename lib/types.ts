@@ -1,8 +1,7 @@
 import {Extension} from "@codemirror/state";
-import {Snippet} from "@/core/domain/entities/Snippet";
-import {ISnippet, SnippetViews} from "@/app/(code)/constants/ISnippet";
 import {IComponent} from "@/lib/features/components/IComponent";
 import {ReactNode} from "react";
+import {ISnippet} from "@/app/(code)/constants/Snippet";
 
 export type ChoiceDefinition = {
   id: string;
@@ -55,8 +54,8 @@ export type AppStatus = {
 export type AppState = {
   allSnippets: ISnippet[];
   id: string | null;
-  title: string | null;
-  code: string | null;
+  title: string | "";
+  code: string | "";
   // language: LanguageDefinition;
   language: string;
   theme: string;

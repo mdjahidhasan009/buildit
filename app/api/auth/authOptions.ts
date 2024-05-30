@@ -14,11 +14,10 @@ export const authOptions = {
   adapter: PrismaAdapter(prisma),
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    // @ts-ignore
-    async session({ session, user }) {
-      // @ts-ignore
+    async session({ session, user }: any) {
       session.user.id = user.id;
       return session;
     },
   },
-};
+}
+// as const;

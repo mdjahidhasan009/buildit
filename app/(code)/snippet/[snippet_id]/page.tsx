@@ -5,9 +5,9 @@ import { useSession } from "next-auth/react";
 import useApi from "@/utils/useApi";
 import {useEffect, useState} from "react";
 import Loading from "@/app/(code)/snippet/[snippet_id]/loading";
-import {ISnippet} from "@/app/(code)/constants/ISnippet";
 import {setAppState} from "@/lib/features/snippet/snippetSlice";
 import { useDispatch } from "@/lib/reduxStore";
+import {ISnippet} from "@/app/(code)/constants/Snippet";
 
 interface Session {
   user?: {
@@ -45,7 +45,7 @@ const Page = ({ params }: { params: { snippet_id: string } }) => {
           ? <Loading />
           : (
             <Editor
-              views={data?.views?.count ? data?.views?.count : 0}
+              views={data?.viewCount}
               editable={isEditable}
               isAuthenticated={isAuthenticated}
             />

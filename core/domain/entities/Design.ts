@@ -1,5 +1,3 @@
-import { JsonValue } from 'type-fest';
-
 export interface Design {
   id?: string;
   userId: string;

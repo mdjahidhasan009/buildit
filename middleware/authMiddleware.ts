@@ -19,7 +19,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 // import { getSession } from "next-auth/react";
-import { getServerSession }  from "next-auth";
+import { getServerSession }  from "next-auth/next";
 import {authOptions} from "@/app/api/auth/authOptions";
 // import {getSession} from "@/lib/auth";
 

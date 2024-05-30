@@ -1,12 +1,9 @@
 {
   "compilerOptions": {
+    "baseUrl": ".", // Set baseUrl
     "typeRoots": ["./node_modules/@types", "./types"],
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -18,14 +15,10 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
+    "plugins": [{ "name": "next" }],
     "paths": {
       "@/*": ["./*"],
-//      "*": ["types/*.d.ts"]
+//      "shared-types/*": ["types/shared-types/*"]
     }
   },
   "include": [

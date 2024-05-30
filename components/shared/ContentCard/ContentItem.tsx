@@ -13,7 +13,7 @@ import {
 } from "@/components/shared/ContentCard/type";
 import {RootState, useDispatch, useSelector} from "@/lib/reduxStore";
 import { setDialogProps } from "@/lib/features/content/contentSlice";
-import { ISnippet } from "@/app/(code)/constants/ISnippet";
+import {ISnippet} from "@/app/(code)/constants/Snippet";
 
 export default function ContentItem<T extends BaseContent>({ key, contentItem, states, handleDelete, handleRename }: ContentItemProps<T>) {
   const dispatch = useDispatch();
@@ -59,8 +59,8 @@ export default function ContentItem<T extends BaseContent>({ key, contentItem, s
                   day: "numeric",
                 }).format(new Date(contentItem.createdAt))}
               </span>
-              {hasViews(contentItem) && contentItem.views ? (
-                <span>{contentItem.views.count.toLocaleString() ?? "?"} views</span>
+              {hasViews(contentItem) && contentItem.viewCount ? (
+                <span>{contentItem.viewCount.toLocaleString() ?? "?"} views</span>
               ) : null}
             </div>
           </Link>

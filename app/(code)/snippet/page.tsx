@@ -5,15 +5,13 @@ import { cn } from "@/lib/cn";
 import Button from "@/components/Dashboard/Button";
 import ContentCard from "@/components/shared/ContentCard/ContentCard";
 import { useSession } from "next-auth/react";
-import { ISnippet } from "@/app/(code)/constants/ISnippet";
 import {RootState, useDispatch, useSelector} from "@/lib/reduxStore";
 import {setAllSnippets} from "@/lib/features/snippet/snippetSlice";
 import React, {useEffect} from "react";
 import useApi from "@/utils/useApi";
 import {setIsDialogOpen, setRoutePath} from "@/lib/features/content/contentSlice";
 import {IContentDeletePayload, IContentRenamePayload} from "@/components/shared/ContentCard/type";
-import * as ContextMenuPrimitive from "@radix-ui/react-context-menu";
-import {LinkIcon} from "lucide-react";
+import {ISnippet} from "@/app/(code)/constants/Snippet";
 
 export default function Page() {
   const { data, error, loading } = useApi('/api/v1/snippets');

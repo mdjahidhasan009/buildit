@@ -84,10 +84,11 @@ model Snippet {
   lineNumbers Boolean @default(true)
   padding     String  @default("32")
 
-  customColors Json?   @default("{}")
+  customColors String[] @default(["#38bdf8", "#3b82f6"])
   colorMode    String  @default("rgb")
   angle        Int     @default(145)
   grain        Boolean @default(false)
+  viewCount    Int @default(0)
 
   createdAt DateTime @default(now()) @map(name: "created_at")
   updatedAt DateTime @default(now()) @map(name: "updated_at")
@@ -95,19 +96,8 @@ model Snippet {
   userId String
   user   User   @relation(fields: [userId], references: [id])
 
-  views View?
-
   @@index([userId])
   @@map(name: "snippets")
-}
-
-model View {
-  count Int @default(0)
-
-  snippet   Snippet @relation(fields: [snippetId], references: [id], onDelete: Cascade)
-  snippetId String  @unique
-
-  @@map(name: "views")
 }
 
 // from first project

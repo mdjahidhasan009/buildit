@@ -12,7 +12,7 @@ export default function DeleteDialog({
   isLoading,
 }: {
   id: string;
-  title: string | undefined;
+  title: string | undefined | null;
   action: ({ id }: IContentDeletePayload) => void;
   isLoading: boolean;
 }) {

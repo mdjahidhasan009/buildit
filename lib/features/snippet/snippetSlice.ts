@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction, createAsyncThunk} from '@reduxjs/toolkit';
 import {DEFAULT_VALUES} from "@/lib/values";
-import {ISnippet} from "@/app/(code)/constants/ISnippet";
 import {AppState} from "@/lib/types";
+import {ISnippet} from "@/app/(code)/constants/Snippet";
 
 const initialState: AppState = {
   ...DEFAULT_VALUES
@@ -30,8 +30,8 @@ export const appSlice = createSlice({
       state.message = DEFAULT_VALUES.message;
       state.hasCustomTheme = Boolean(snippet.theme === "custom") || DEFAULT_VALUES.hasCustomTheme;
       state.id = snippet.id;
-      state.title = snippet.title;
-      state.code = snippet.code;
+      state.title = snippet.title || DEFAULT_VALUES.title;
+      state.code = snippet.code || DEFAULT_VALUES.code;
       state.language = snippet.language;
       state.theme = snippet.theme;
       state.fontFamily = snippet.fontFamily;

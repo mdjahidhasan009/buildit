@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { requestHandler } from "@/utils/requestHandlerFactory";
 import {SnippetUseCases} from "@/core/application/use-cases/snippetUseCases";
 import {PrismaSnippetRepository} from "@/infrastructure/adapters/prismaSnippetRepository";
-import {PrismaViewRepository} from "@/infrastructure/adapters/prismaViewRepository";
 
 export const GET = async (req: NextRequest) => {
   try {
@@ -11,8 +10,7 @@ export const GET = async (req: NextRequest) => {
     if (earlyAbortResponse) return earlyAbortResponse;
 
     const snippetRepository = new PrismaSnippetRepository();
-    const viewRepository = new PrismaViewRepository();
-    const snippetUseCases = new SnippetUseCases(snippetRepository, viewRepository);
+    const snippetUseCases = new SnippetUseCases(snippetRepository);
     const snippet = await snippetUseCases.getSnippets(userId as string);
 
     return new NextResponse(JSON.stringify(snippet), { status: 200 });
@@ -33,8 +31,7 @@ export const PATCH = async (req: NextRequest) => {
     }
 
     const snippetRepository = new PrismaSnippetRepository();
-    const viewRepository = new PrismaViewRepository();
-    const snippetUseCases = new SnippetUseCases(snippetRepository, viewRepository);
+    const snippetUseCases = new SnippetUseCases(snippetRepository);
     const updatedSnippet = await snippetUseCases.updateSnippet(body.id, { ...body, userId } );
 
     // return new NextResponse(JSON.stringify(updatedSnippet), { status: 200 });
@@ -56,8 +53,7 @@ export const POST = async (req: NextRequest) => {
     }
 
     const snippetRepository = new PrismaSnippetRepository();
-    const viewRepository = new PrismaViewRepository();
-    const snippetUseCases = new SnippetUseCases(snippetRepository, viewRepository);
+    const snippetUseCases = new SnippetUseCases(snippetRepository);
 
     const createdSnippet = await snippetUseCases.createSnippet({ ...body, userId } );
 
@@ -76,8 +72,7 @@ export const DELETE = async (req: NextRequest) => {
     if (earlyAbortResponse) return earlyAbortResponse;
 
     const snippetRepository = new PrismaSnippetRepository();
-    const viewRepository = new PrismaViewRepository();
-    const snippetUseCases = new SnippetUseCases(snippetRepository, viewRepository);
+    const snippetUseCases = new SnippetUseCases(snippetRepository);
     const { searchParams } = new URL(req.url);
     const id = searchParams.get("id");
     if(!id) {

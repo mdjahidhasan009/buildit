@@ -3,7 +3,6 @@ import { DiagramUseCases } from "@/core/application/use-cases/DiagramUseCases";
 import { requestHandler } from "@/utils/requestHandlerFactory";
 import {NextRequest, NextResponse} from "next/server";
 import {PrismaSnippetRepository} from "@/infrastructure/adapters/prismaSnippetRepository";
-import {PrismaViewRepository} from "@/infrastructure/adapters/prismaViewRepository";
 import {SnippetUseCases} from "@/core/application/use-cases/snippetUseCases";
 
 export const GET = async (req: NextRequest) => {

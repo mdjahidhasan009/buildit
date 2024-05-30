@@ -1,6 +1,6 @@
 export interface BaseContent {
   id: string;
-  title?: string;
+  title?: string | null;
   createdAt: Date;
 }
 
@@ -9,7 +9,7 @@ export type ContentCardType = "RENAME" | "DELETE";
 export interface DialogProps {
   type: ContentCardType;
   id: string;
-  title: string | undefined;
+  title: string | undefined | null;
 }
 
 export interface ContentCardProps<T extends BaseContent> {
@@ -45,7 +45,7 @@ export interface ContentItemProps<T> {
 
 export interface IContentRenameProps {
   id: string;
-  title: string | undefined;
+  title: string | undefined | null;
   action: (payload: IContentRenamePayload) => void;
   isLoading: boolean;
 }

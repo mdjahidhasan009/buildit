@@ -1,12 +1,7 @@
-export interface SnippetViews {
-  count: number;
-  snippetId: string;
-}
-
-export interface ISnippet {
+export interface Snippet {
   id: string;
-  title: string;
-  code: string;
+  title?: string | null;
+  code?: string | null;
   language: string;
   theme: string;
   fontFamily: string;
@@ -20,5 +15,5 @@ export interface ISnippet {
   createdAt: Date;
   updatedAt: Date;
   userId: string;
-  views: SnippetViews;
+  viewCount: number;
 }
