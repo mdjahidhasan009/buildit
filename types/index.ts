@@ -1,1 +1,1 @@
-export * from '@/types/snippet';
+export * from '@/types/shared-types/snippet';

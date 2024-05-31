@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": ".", // Set baseUrl
-    "typeRoots": ["./node_modules/@types", "./types"],
+    "typeRoots": ["./node_modules/@types", "./types/vendors", "./types/global"],
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
@@ -17,8 +16,7 @@
     "incremental": true,
     "plugins": [{ "name": "next" }],
     "paths": {
-      "@/*": ["./*"],
-//      "shared-types/*": ["types/shared-types/*"]
+      "@/*": ["./*"]
     }
   },
   "include": [
