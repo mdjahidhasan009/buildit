@@ -2,12 +2,12 @@ import { PrismaClient } from '@prisma/client';
 
 import { ISnippetRepository } from '@/core/application/ports/ISnippetRepository';
 import {prepare} from "@/lib/prepare";
-import {ISnippetEntry} from "@/core/domain/entities/Snippet";
+import {ISnippetEntity} from "@/core/domain/entities/Snippet";
 
 const prisma = new PrismaClient();
 
 export class PrismaSnippetRepository implements ISnippetRepository {
-  async create(snippetData: Partial<ISnippetEntry> & { userId: string }): Promise<ISnippetEntry> {
+  async create(snippetData: Partial<ISnippetEntity> & { userId: string }): Promise<ISnippetEntity> {
     // Destructure `userId` from `snippetData` to ensure it is always defined
     const {userId, ...body} = snippetData;
 
@@ -23,7 +23,7 @@ export class PrismaSnippetRepository implements ISnippetRepository {
     return createdSnippet;
   }
 
-  async getAllByUserId(userId: string): Promise<ISnippetEntry[]> {
+  async getAllByUserId(userId: string): Promise<ISnippetEntity[]> {
     const snippets = await prisma.snippet.findMany({
       where: { userId }
     });
@@ -31,7 +31,7 @@ export class PrismaSnippetRepository implements ISnippetRepository {
     return snippets;
   }
 
-  async getById(id: string): Promise<ISnippetEntry | null> {
+  async getById(id: string): Promise<ISnippetEntity | null> {
     const snippet = await prisma.snippet.findUnique({
       where: {id}
     });
@@ -39,7 +39,7 @@ export class PrismaSnippetRepository implements ISnippetRepository {
     return snippet;
   }
 
-  async update(id: string, snippetData: Partial<ISnippetEntry>): Promise<ISnippetEntry | null> {
+  async update(id: string, snippetData: Partial<ISnippetEntity>): Promise<ISnippetEntity | null> {
     const { userId, ...body } = snippetData;
 
     const updatedSnippet = await prisma.snippet.update({
@@ -50,7 +50,7 @@ export class PrismaSnippetRepository implements ISnippetRepository {
     return updatedSnippet;
   }
 
-  async increaseViewCount(snippetId: string): Promise<ISnippetEntry | null> {
+  async increaseViewCount(snippetId: string): Promise<ISnippetEntity | null> {
     const updatedSnippet = await prisma.snippet.update({
       where: { id: snippetId },
       data: {
@@ -63,7 +63,7 @@ export class PrismaSnippetRepository implements ISnippetRepository {
     return updatedSnippet;
   }
 
-  async delete(id: string, userId: string): Promise<ISnippetEntry | boolean> {
+  async delete(id: string, userId: string): Promise<ISnippetEntity | boolean> {
     const snippet = await prisma.snippet.findUnique({
       where: { id, userId },
     });

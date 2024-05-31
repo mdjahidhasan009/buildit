@@ -1,10 +1,10 @@
-import {ISnippetEntry} from "@/core/domain/entities/Snippet";
+import {ISnippetEntity} from "@/core/domain/entities/Snippet";
 
 export interface ISnippetRepository {
-  create(snippetData: Partial<ISnippetEntry>): Promise<ISnippetEntry>;
-  getById(id: string): Promise<ISnippetEntry | null>;
-  update(id: string, snippetData: Partial<ISnippetEntry>): Promise<ISnippetEntry | null>;
-  delete(id: string, userId: string): Promise<ISnippetEntry | boolean>;
-  getAllByUserId(userId: string): Promise<ISnippetEntry[]>;
-  increaseViewCount(snippetId: string): Promise<ISnippetEntry | null>;
+  create(snippetData: Partial<ISnippetEntity>): Promise<ISnippetEntity>;
+  getById(id: string): Promise<ISnippetEntity | null>;
+  update(id: string, snippetData: Partial<ISnippetEntity>): Promise<ISnippetEntity | null>;
+  delete(id: string, userId: string): Promise<ISnippetEntity | boolean>;
+  getAllByUserId(userId: string): Promise<ISnippetEntity[]>;
+  increaseViewCount(snippetId: string): Promise<ISnippetEntity | null>;
 }

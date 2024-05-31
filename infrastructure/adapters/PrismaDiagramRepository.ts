@@ -1,52 +1,59 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Prisma } from "@prisma/client";
 import { IDiagramRepository } from "@/core/application/ports/IDiagramRepository";
-import { Diagram } from "@/core/domain/entities/Diagram";
+import { IDiagramEntry } from "@/core/domain/entities/Diagram";
 
 const prisma = new PrismaClient();
 
 export class PrismaDiagramRepository implements IDiagramRepository {
-    // async create(diagramData: Partial<Diagram> & { userId: string, fileName: string; editorData: object, diagramData: object }): Promise<Diagram> {
-    async create(diagramData: Partial<Diagram> & { userId: string } ): Promise<Diagram> {
+    async create(diagramData: Partial<IDiagramEntry> & { userId: string } ): Promise<IDiagramEntry> {
         const createdDiagram = await prisma.diagram.create({
-            data: diagramData,
+            data: {
+                ...diagramData,
+                editorData: diagramData.editorData ?? Prisma.JsonNull,
+                diagramData: diagramData.diagramData ?? Prisma.JsonNull,
+            }
         })
-        return createdDiagram as Diagram;
+        return createdDiagram;
     };
 
-    async update(id: string, diagramData: Partial<Diagram>): Promise<Diagram> {
+    async update(id: string, diagramData: Partial<IDiagramEntry>): Promise<IDiagramEntry> {
         const updatedDiagram = await prisma.diagram.update({
             where: { id },
-            data: diagramData
+            data: {
+                ...diagramData,
+                editorData: diagramData.editorData ?? Prisma.JsonNull,
+                diagramData: diagramData.diagramData ?? Prisma.JsonNull,
+            }
         })
 
-        return updatedDiagram as Diagram;
+        return updatedDiagram;
     }
 
-    async getById(id: string): Promise<Diagram | null> {
+    async getById(id: string): Promise<IDiagramEntry | null> {
         const diagram = await prisma.diagram.findUnique({
             where: { id }
         });
 
-        return diagram as Diagram;
+        return diagram;
     }
 
-    async delete(id: string): Promise<Diagram> {
+    async delete(id: string): Promise<IDiagramEntry> {
         const deletedDiagram = await prisma.diagram.delete({
             where: { id },
         })
 
-        return deletedDiagram as Diagram;
+        return deletedDiagram;
     }
 
-    async getAll(): Promise<Diagram[]> {
+    async getAll(): Promise<IDiagramEntry[]> {
         const diagrams = await prisma.diagram.findMany();
-        return diagrams as Diagram[];
+        return diagrams;
     }
 
-    async getAllOfUser(userId: string): Promise<Diagram[]> {
+    async getAllOfUser(userId: string): Promise<IDiagramEntry[]> {
         const diagrams = await prisma.diagram.findMany({
             where: { userId }
         });
-        return diagrams as Diagram[];
+        return diagrams;
     }
 }

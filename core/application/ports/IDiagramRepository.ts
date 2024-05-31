@@ -1,10 +1,10 @@
-import {Diagram} from "@/core/domain/entities/Diagram";
+import {IDiagramEntry} from "@/core/domain/entities/Diagram";
 
 export interface IDiagramRepository {
-    create(diagramData: Partial<Diagram> & { userId: string }): Promise<Diagram>;
-    update(id: string, diagramData: Partial<Diagram>): Promise<Diagram>;
-    getById(id: string): Promise<Diagram | null>;
-    delete(id: string): Promise<Diagram>;
-    getAll(): Promise<Diagram[]>;
-    getAllOfUser(userId: string): Promise<Diagram[]>;
+    create(diagramData: Partial<IDiagramEntry> & { userId: string }): Promise<IDiagramEntry>;
+    update(id: string, diagramData: Partial<IDiagramEntry>): Promise<IDiagramEntry>;
+    getById(id: string): Promise<IDiagramEntry | null>;
+    delete(id: string): Promise<IDiagramEntry>;
+    getAll(): Promise<IDiagramEntry[]>;
+    getAllOfUser(userId: string): Promise<IDiagramEntry[]>;
 }

@@ -6,12 +6,12 @@ import Button from "@/components/Dashboard/Button";
 import ContentCard from "@/components/shared/ContentCard/ContentCard";
 import { useSession } from "next-auth/react";
 import useApi from "@/utils/useApi";
-import { Diagram } from "@/core/domain/entities/Diagram";
 import React, {useEffect} from "react";
 import {setIsDialogOpen, setRoutePath} from "@/lib/features/content/contentSlice";
 import {RootState, useDispatch, useSelector} from "@/lib/reduxStore";
 import {setAllDiagrams} from "@/lib/features/diagram/diagramSlice";
 import {IContentDeletePayload, IContentRenamePayload} from "@/components/shared/ContentCard/type";
+import {IDiagram} from "@/app/(diagram)/constants/Diagram";
 
 export default function Page() {
     const { data, error, loading } = useApi('/api/v1/diagrams');
@@ -19,7 +19,7 @@ export default function Page() {
     const { fetchData: deleteElement, loading: deleteLoading } = useApi('/api/v1/diagrams', 'DELETE');
     const { data: session, status: sessionStatus } = useSession();
     const dispatch = useDispatch();
-    const diagrams: Diagram[] | [] = useSelector((state: RootState) => state.diagram?.diagrams);
+    const diagrams: IDiagram[] | [] = useSelector((state: RootState) => state.diagram?.diagrams);
 
     useEffect(() => {
       if(data?.data) {
@@ -71,7 +71,7 @@ export default function Page() {
                                     <Button dataCount={diagrams.length} />
                                 </div>
 
-                              <ContentCard<Diagram>
+                              <ContentCard<IDiagram>
                                 states={{
                                   contents: diagrams,
                                   isRenaming: renameLoading,

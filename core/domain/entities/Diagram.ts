@@ -1,9 +1,3 @@
-export interface Diagram {
-    id: string;
-    userId: string;
-    title?: string;
-    editorData?: object;
-    diagramData?: object;
-    createdAt: Date;
-    updatedAt: Date;
-}
+import { Diagram } from "@/types";
+
+export interface IDiagramEntry extends Diagram {}

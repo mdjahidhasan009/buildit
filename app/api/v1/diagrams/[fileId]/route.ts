@@ -2,7 +2,6 @@ import {NextRequest, NextResponse} from "next/server";
 import {requestHandler} from "@/utils/requestHandlerFactory";
 import {PrismaDiagramRepository} from "@/infrastructure/adapters/PrismaDiagramRepository";
 import {DiagramUseCases} from "@/core/application/use-cases/DiagramUseCases";
-import {diagramSlice} from "@/lib/features/diagram/diagramSlice";
 
 export const GET = async (req: NextRequest, params: {params: { fileId: string }}) => {
     const [_, userId ='', earlyAbortResponse] =

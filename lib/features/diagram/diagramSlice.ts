@@ -1,9 +1,9 @@
+import { IDiagram } from "@/app/(diagram)/constants/Diagram";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {Diagram} from "@/core/domain/entities/Diagram";
 
 interface IInitialState {
     title: string;
-    diagrams: Diagram[] | [];
+    diagrams: IDiagram[] | [];
     editorData: any;
     diagramData: {
         elements: any[];
@@ -23,7 +23,7 @@ export const diagramSlice = createSlice({
     name: 'diagram',
     initialState,
     reducers: {
-        setAllDiagrams: (state, action: PayloadAction<Diagram[]>) => {
+        setAllDiagrams: (state, action: PayloadAction<IDiagram[]>) => {
             state.diagrams = action.payload;
         },
         setTittle:(state, action: PayloadAction<string>) => {
