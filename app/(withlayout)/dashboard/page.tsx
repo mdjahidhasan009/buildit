@@ -5,7 +5,7 @@ import 'react-multi-carousel/lib/styles.css';
 import useApi from "@/utils/useApi";
 import CardSlider from "@/components/Carousel/CardSlider";
 import DesignCard from "@/components/shared/DesignCard";
-import {IDesign} from "@/lib/types";
+import {IDesign} from "@/app/(design)/constants/Design";
 
 const Page = () => {
   const [designs, setDesigns] = useState<IDesign[]>([]);

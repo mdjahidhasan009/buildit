@@ -1,12 +1,13 @@
 import {createSlice, Draft, PayloadAction} from '@reduxjs/toolkit';
-import { initialState, IComponent } from "@/lib/features/components/IComponent";
+import { initialState } from "@/lib/features/components/IComponent";
+import {IDesignComponent} from "@/app/(design)/constants/Design";
 
 export const componentsSlice = createSlice({
   name: 'components',
   initialState,
   reducers: {
-    addComponent: (state: Draft<typeof initialState>, action: PayloadAction<Partial<IComponent>>) => {
-      state.components.push(action.payload as IComponent);
+    addComponent: (state: Draft<typeof initialState>, action: PayloadAction<Partial<IDesignComponent>>) => {
+      state.components.push(action.payload as IDesignComponent);
     },
     setCurrentComponent: (state: Draft<typeof initialState>, action) => {
       state.currentComponent = action.payload;
@@ -14,7 +15,7 @@ export const componentsSlice = createSlice({
     setComponents: (state: Draft<typeof initialState>, action) => {
       state.components = action.payload;
     },
-    updateComponent: (state: Draft<typeof initialState>, action: PayloadAction<{ id: number; changes: Partial<IComponent> }>) => {
+    updateComponent: (state: Draft<typeof initialState>, action: PayloadAction<{ id: number; changes: Partial<IDesignComponent> }>) => {
       const { id, changes } = action.payload;
       const index = state.components.findIndex(component => component.id === id);
       if (index !== -1) {

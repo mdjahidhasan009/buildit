@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
-import { IComponent } from "@/lib/features/components/IComponent";
+import {IDesignComponent} from "@/app/(design)/constants/Design";
 
-const useRotate = (elementRef: React.RefObject<HTMLElement>, rotateIconRef: React.RefObject<HTMLElement>, component: IComponent) => {
+const useRotate = (elementRef: React.RefObject<HTMLElement>, rotateIconRef: React.RefObject<HTMLElement>, component: IDesignComponent) => {
   const initialAngleRef = useRef<number>(0);
   const initialRotationRef = useRef<number>(0);
   const finalRotationRef = useRef<number>(0);

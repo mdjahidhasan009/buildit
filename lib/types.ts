@@ -1,7 +1,7 @@
 import {Extension} from "@codemirror/state";
-import {IComponent} from "@/lib/features/components/IComponent";
 import {ReactNode} from "react";
 import {ISnippet} from "@/app/(code)/constants/Snippet";
+import {IDesignComponent} from "@/app/(design)/constants/Design";
 
 export type ChoiceDefinition = {
   id: string;
@@ -71,14 +71,14 @@ export type AppState = {
   hasCustomTheme: boolean;
 };
 
-export interface IDesign {
-  id: string;
-  userId: string;
-  components: IComponent[];
-  imageUrl: string;
-  createdAt: string;
-  updatedAt: string;
-}
+// export interface IDesign {
+//   id: string;
+//   userId: string;
+//   components: IDesignComponent[];
+//   imageUrl: string;
+//   createdAt: string;
+//   updatedAt: string;
+// }
 
 export interface IReactNode {
   children: ReactNode;

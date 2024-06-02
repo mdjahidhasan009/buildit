@@ -1,8 +1,8 @@
 import Image from "next/image";
-import {IComponent} from "@/lib/features/components/IComponent";
 import useComponentActions from "@/app/(design)/components/CreateComponent/hooks/useComponentActions";
+import {IDesignComponent} from "@/app/(design)/constants/Design";
 
-const MainFrameComponent = ({ component } : { component: IComponent }) => {
+const MainFrameComponent = ({ component } : { component: IDesignComponent }) => {
   const { handleSetCurrentComponent } = useComponentActions(component);
 
   return (

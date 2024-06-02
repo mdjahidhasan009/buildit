@@ -1,8 +1,8 @@
 import { useDispatch } from "@/lib/reduxStore";
 import { removeComponent, setCurrentComponent } from "@/lib/features/components/componentsSlice";
-import {IComponent} from "@/lib/features/components/IComponent";
+import {IDesignComponent} from "@/app/(design)/constants/Design";
 
-const useComponentActions = (component: IComponent) => {
+const useComponentActions = (component: IDesignComponent) => {
   const dispatch = useDispatch();
   const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 

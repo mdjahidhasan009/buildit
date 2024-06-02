@@ -4,11 +4,11 @@ import toast from "react-hot-toast";
 import useApi from "@/utils/useApi";
 import {redirect, useRouter} from 'next/navigation'
 import {FC, useEffect} from "react";
-import {IComponent} from "@/lib/features/components/IComponent";
+import {IDesignComponent} from "@/app/(design)/constants/Design";
 
 interface TemplateData {
   id: string;
-  components: IComponent[];
+  components: IDesignComponent[];
   imageUrl: string;
   createdAt: string;
   updatedAt: string;

@@ -4,19 +4,11 @@ import useApi from "@/utils/useApi";
 import toast from "react-hot-toast";
 import Image from 'next/image';
 
-import {IComponent} from "@/lib/features/components/IComponent";
 import React from "react";
+import {IDesign} from "@/app/(design)/constants/Design";
 
-interface Design {
-  id: string;
-  userId: string;
-  components: IComponent[];
-  imageUrl: string;
-  createdAt: string;
-  updatedAt: string;
-}
 
-const DesignCard = ({ design }: { design: Design }) => {
+const DesignCard = ({ design }: { design: IDesign }) => {
   const { fetchData } = useApi(`api/v1/designs/user`, 'DELETE');
 
   const deleteDesign = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -40,7 +32,7 @@ const DesignCard = ({ design }: { design: Design }) => {
         {/*<div className="relative w-full h-full aspect-w-1 aspect-h-1">*/}
         <div className="relative w-full h-full">
           <Image
-            src={design?.imageUrl}
+            src={design?.imageUrl || ""}
             alt="Design image"
             fill
             objectFit="scale-down"

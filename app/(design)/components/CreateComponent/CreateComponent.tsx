@@ -1,12 +1,12 @@
 "use client";
 
-import { IComponent } from "@/lib/features/components/IComponent";
 import ShapeComponent from "@/app/(design)/components/CreateComponent/ShapeComponent";
 import TextComponent from "@/app/(design)/components/CreateComponent/TextComponent";
 import ImageComponent from "@/app/(design)/components/CreateComponent/ImageComponent";
 import MainFrameComponent from "@/app/(design)/components/CreateComponent/MainFrameComponent";
+import {IDesignComponent} from "@/app/(design)/constants/Design";
 
-const CreateComponent = ({ component } : { component: IComponent }) => {
+const CreateComponent = ({ component } : { component: IDesignComponent }) => {
 
   if (component.name === 'shape') {
     return <ShapeComponent component={component} />;

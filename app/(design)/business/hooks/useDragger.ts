@@ -1,14 +1,14 @@
 import React, { useEffect, useRef } from "react";
-import { IComponent } from "@/lib/features/components/IComponent";
 import {setCurrentComponent} from "@/lib/features/components/componentsSlice";
 import { useDispatch, AppDispatch } from "@/lib/reduxStore";
+import {IDesignComponent} from "@/app/(design)/constants/Design";
 
 type currentCoordinate = {
   currentXAxis: number,
   currentYAxis: number,
 }
 
-function useDragger(componentRef: React.RefObject<HTMLElement>, component: IComponent): currentCoordinate {
+function useDragger(componentRef: React.RefObject<HTMLElement>, component: IDesignComponent): currentCoordinate {
   const isClicked = useRef<boolean>(false);
   const dispatch: AppDispatch = useDispatch();
 

@@ -3,24 +3,14 @@
 import {FC, useEffect, useState} from "react";
 import DesignCard from "../../../components/shared/DesignCard";
 import useApi from "../../../utils/useApi";
-import {IComponent} from "@/lib/features/components/IComponent";
-
-
-interface Design {
-  id: string;
-  userId: string;
-  components: IComponent[];
-  imageUrl: string;
-  createdAt: string;
-  updatedAt: string;
-}
+import {IDesign} from "@/app/(design)/constants/Design";
 
 interface ProjectsProps {
   designId: string;
 }
 
 const Projects: FC<ProjectsProps> = ({ designId }) => {
-  const [designs, setDesigns] = useState<Design[]>([]);
+  const [designs, setDesigns] = useState<IDesign[]>([]);
   const { data } = useApi('api/v1/designs/user/designs', 'GET');
 
   useEffect(() => {
@@ -35,7 +25,7 @@ const Projects: FC<ProjectsProps> = ({ designId }) => {
       <div className={`grid grid-cols-1 md:grid-cols-2 gap-1 mt-5 w-full min-h-[200px]`}>
         {
           designs.map((design, index) =>
-              design.id !== designId &&
+              design.id.toString() !== designId &&
                 <DesignCard key={index} design={design} />
           )
         }

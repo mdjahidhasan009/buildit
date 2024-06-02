@@ -1,15 +1,15 @@
 import { BsArrowsMove } from "react-icons/bs";
 import {RootState, useDispatch, useSelector} from "@/lib/reduxStore";
 import { updateComponentRotation } from "@/lib/features/components/componentsSlice";
-import { IComponent } from "@/lib/features/components/IComponent";
 import { isMobileDevice } from "@/lib/utils";
 import useRotate from "@/app/(design)/business/hooks/useRotate";
 import { useEffect, useRef, RefObject, FC } from "react";
 import useResize from "@/app/(design)/business/hooks/useResize";
+import {IDesignComponent} from "@/app/(design)/constants/Design";
 
 interface ElementProps {
   elementWrapperDivRef: RefObject<HTMLElement>;
-  component: IComponent;
+  component: IDesignComponent;
   extraElementRef?: RefObject<HTMLElement>;
 }
 

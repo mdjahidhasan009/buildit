@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useRef } from "react";
 import { useDispatch } from "@/lib/reduxStore";
 import { updateComponentSize } from "@/lib/features/components/componentsSlice";
-import { IComponent } from "@/lib/features/components/IComponent";
+import {IDesignComponent} from "@/app/(design)/constants/Design";
 
-const useResize = (elementRef: React.RefObject<HTMLElement>, resizeIconRef: React.RefObject<HTMLElement>, component: IComponent) => {
+const useResize = (elementRef: React.RefObject<HTMLElement>, resizeIconRef: React.RefObject<HTMLElement>, component: IDesignComponent) => {
   const dispatch = useDispatch();
   const isClickRef = useRef(false);
   const isResizing = useRef(false);

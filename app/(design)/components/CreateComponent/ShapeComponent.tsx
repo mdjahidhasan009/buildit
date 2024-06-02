@@ -2,11 +2,11 @@ import React, { useRef } from 'react';
 import {RootState, useSelector} from "@/lib/reduxStore";
 import Element from "../Element";
 import { BsTrash } from "react-icons/bs";
-import {IComponent} from "@/lib/features/components/IComponent";
 import useDragger from "@/app/(design)/business/hooks/useDragger";
 import useComponentActions from "@/app/(design)/components/CreateComponent/hooks/useComponentActions";
+import {IDesignComponent} from "@/app/(design)/constants/Design";
 
-const ShapeComponent = ({ component } : { component: IComponent }) => {
+const ShapeComponent = ({ component } : { component: IDesignComponent }) => {
   const elementWrapperDivRef = useRef(null);
   const extraElementRef = useRef(null);
   const { handleSetCurrentComponent, handleRemoveComponent } = useComponentActions(component);

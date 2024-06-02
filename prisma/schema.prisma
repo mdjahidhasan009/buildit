@@ -100,7 +100,6 @@ model Snippet {
   @@map(name: "snippets")
 }
 
-// from first project
 model BackgroundImage {
   id        String   @id @default(cuid())
   imageUrl  String

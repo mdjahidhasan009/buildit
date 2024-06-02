@@ -3,10 +3,10 @@ import {BsTrash} from "react-icons/bs";
 import {useRef} from "react";
 import {RootState, useSelector} from "@/lib/reduxStore";
 import useDragger from "@/app/(design)/business/hooks/useDragger";
-import {IComponent} from "@/lib/features/components/IComponent";
 import useComponentActions from "@/app/(design)/components/CreateComponent/hooks/useComponentActions";
+import {IDesignComponent} from "@/app/(design)/constants/Design";
 
-const TextComponent = ({ component } : { component: IComponent }) => {
+const TextComponent = ({ component } : { component: IDesignComponent }) => {
   const elementWrapperDivRef = useRef(null);
   const { handleSetCurrentComponent, handleRemoveComponent } = useComponentActions(component);
   const currentComponent = useSelector((state: RootState) => state.components.currentComponent);

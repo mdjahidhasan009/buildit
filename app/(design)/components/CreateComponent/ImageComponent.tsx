@@ -1,13 +1,13 @@
 import Element from "@/app/(design)/components/Element";
 import Image from "next/image";
 import {BsTrash} from "react-icons/bs";
-import {IComponent} from "@/lib/features/components/IComponent";
 import {RootState, useSelector} from "@/lib/reduxStore";
 import {useRef} from "react";
 import useDragger from "@/app/(design)/business/hooks/useDragger";
 import useComponentActions from "@/app/(design)/components/CreateComponent/hooks/useComponentActions";
+import {IDesignComponent} from "@/app/(design)/constants/Design";
 
-const ImageComponent = ({ component } : { component: IComponent }) => {
+const ImageComponent = ({ component } : { component: IDesignComponent }) => {
   const elementWrapperDivRef = useRef(null);
   const extraElementRef = useRef(null);
   const { handleSetCurrentComponent, handleRemoveComponent } = useComponentActions(component);

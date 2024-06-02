@@ -4,8 +4,7 @@ import {useEffect, useState} from "react";
 
 import useApi from "@/utils/useApi";
 import DesignCard from "@/components/shared/DesignCard";
-import {IComponent} from "@/lib/features/components/IComponent";
-import {IDesign} from "@/lib/types";
+import {IDesign} from "@/app/(design)/constants/Design";
 
 const Projects = () => {
   const [designs, setDesigns] = useState<IDesign[]>([]);
