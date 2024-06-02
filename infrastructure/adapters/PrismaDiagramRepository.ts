@@ -9,8 +9,8 @@ export class PrismaDiagramRepository implements IDiagramRepository {
         const createdDiagram = await prisma.diagram.create({
             data: {
                 ...diagramData,
-                editorData: diagramData.editorData ?? Prisma.JsonNull,
-                diagramData: diagramData.diagramData ?? Prisma.JsonNull,
+                editorData: diagramData.editorData ?? {},
+                diagramData: diagramData.diagramData ?? {},
             }
         })
         return createdDiagram;
@@ -21,8 +21,8 @@ export class PrismaDiagramRepository implements IDiagramRepository {
             where: { id },
             data: {
                 ...diagramData,
-                editorData: diagramData.editorData ?? Prisma.JsonNull,
-                diagramData: diagramData.diagramData ?? Prisma.JsonNull,
+                editorData: diagramData.editorData ?? {},
+                diagramData: diagramData.diagramData ?? {},
             }
         })
 

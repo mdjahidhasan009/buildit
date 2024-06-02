@@ -1,7 +1,7 @@
 import { IDesignRepository } from '../ports/IDesignRepository';
 import { ITemplateRepository } from '../ports/ITemplateRepository';
 import { IImageStorageService } from '../ports/IImageStorageService';
-import { Design } from '@/core/domain/entities/Design';
+import { IDesignEntry } from '@/core/domain/entities/Design';
 
 export class DesignUseCases {
   constructor(
@@ -10,7 +10,7 @@ export class DesignUseCases {
     private imageStorageService: IImageStorageService
   ) {}
 
-  async createDesign(userId: string, componentsString: string | File, base64Image: string): Promise<Design> {
+  async createDesign(userId: string, componentsString: string | File, base64Image: string): Promise<IDesignEntry> {
     let components: JSON | undefined;
     try {
       if (componentsString) {
@@ -27,17 +27,17 @@ export class DesignUseCases {
     // Assuming components is already an object; adjust if it's a JSON string that needs parsing.
     // The base64Image parameter is expected to be a base64 string of the image.
     const imageUrl = await this.imageStorageService.uploadImage(base64Image, { folder: "designs", uniqueFilename: true });
-    const design = await this.designRepository.create({
+    const IdesignEntry = await this.designRepository.create({
       // id: "",
       userId,
       components: [components],
       imageUrl
     });
-    return design;
+    return IdesignEntry;
   }
 
 
-  async updateDesign(design_id: string, componentsString: string | File, base64Image: string): Promise<Design> {
+  async updateDesign(design_id: string, componentsString: string | File, base64Image: string): Promise<IDesignEntry> {
     let components: any | undefined;
     try {
       if (componentsString) {
@@ -54,7 +54,7 @@ export class DesignUseCases {
 
     const oldDesign = await this.designRepository.getById(design_id);
     if(!oldDesign) {
-      throw new Error('Design not found');
+      throw new Error('IDesignEntry not found');
     }
 
     let oldDesignImageUrl = oldDesign?.imageUrl;
@@ -66,28 +66,28 @@ export class DesignUseCases {
     if(!imageUrl) {
       throw new Error('Error uploading image');
     }
-    const componentsDesign: JSON = components?.design || {};
-    const design = await this.designRepository.update(design_id, {
+    const componentsDesign: JSON = components?.IdesignEntry || {};
+    const IdesignEntry = await this.designRepository.update(design_id, {
       components: componentsDesign,
       imageUrl,
     });
 
-    return design;
+    return IdesignEntry;
   }
 
-  async getDesignById(id: string): Promise<Design | null> {
+  async getDesignById(id: string): Promise<IDesignEntry | null> {
     return this.designRepository.getById(id);
   }
 
-  async getUserDesigns(userId: string): Promise<Design[]> {
+  async getUserDesigns(userId: string): Promise<IDesignEntry[]> {
     return this.designRepository.findByUserId(userId);
   }
 
-  async getUserDesignById(userId: string, designId: string): Promise<Design | null> {
+  async getUserDesignById(userId: string, designId: string): Promise<IDesignEntry | null> {
     return this.designRepository.getUserDesignById(userId, designId);
   }
 
-  async createDesignFromTemplateForUser(userId: string, templateId: string): Promise<Design> {
+  async createDesignFromTemplateForUser(userId: string, templateId: string): Promise<IDesignEntry> {
     const template = await this.templateRepository.getById(templateId);
     if (!template) {
       throw new Error('Template not found');
