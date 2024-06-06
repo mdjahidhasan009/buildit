@@ -68,10 +68,10 @@ export class PrismaDesignRepository implements IDesignRepository {
     });
 
     // Transform each designs to ensure 'components' conforms to 'object | undefined'
-    const safeDesigns = designs.map(IdesignEntry => ({
-      ...IdesignEntry,
-      components: typeof IdesignEntry.components === 'object' && IdesignEntry.components !== null ? IdesignEntry.components : undefined,
-      imageUrl: IdesignEntry.imageUrl !== null ? IdesignEntry.imageUrl : undefined, // Ensure 'imageUrl' conforms to 'string | undefined'
+    const safeDesigns = designs.map(design => ({
+      ...design,
+      components: typeof design.components === 'object' && design.components !== null ? design.components : undefined,
+      imageUrl: design.imageUrl !== null ? design.imageUrl : undefined, // Ensure 'imageUrl' conforms to 'string | undefined'
     }));
 
     return safeDesigns;

@@ -10,7 +10,7 @@ const DesignPlayground = () => {
   return (
     <div
       className={`flex justify-center relative items-center h-full ${!currentComponent ? 'w-full' : 'w-full lg:w-[calc(100%-250px)] overflow-hidden'}`}>
-      <div className='m-w-[650px] m-h-[480px] flex justify-center items-center overflow-hidden'>
+      <div className='max-w-[650px] max-h-[480px] flex justify-center items-center overflow-hidden'>
         <div id='main_design' className='w-auto relative h-auto overflow-hidden'>
           {
             components.map((component, index) => (

@@ -3,12 +3,16 @@ import {FaTrash} from "react-icons/fa";
 import useApi from "@/utils/useApi";
 import toast from "react-hot-toast";
 import Image from 'next/image';
+import React, {FC} from "react";
 
-import React from "react";
 import {IDesign} from "@/app/(design)/constants/Design";
+import BaseCard from "@/components/ui/BaseCard";
 
+interface DesignCardProps {
+  design: IDesign;
+}
 
-const DesignCard = ({ design }: { design: IDesign }) => {
+const DesignCard: FC<DesignCardProps> = ({ design }) => {
   const { fetchData } = useApi(`api/v1/designs/user`, 'DELETE');
 
   const deleteDesign = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -24,30 +28,15 @@ const DesignCard = ({ design }: { design: IDesign }) => {
   };
 
   return (
-    <div className={`h-[200px] w-full relative group`}>
-      <Link
-        href={`/design/${design?.id}`}
-        className={`w-full h-full block bg-gray-700 rounded-md`}
-      >
-        {/*<div className="relative w-full h-full aspect-w-1 aspect-h-1">*/}
-        <div className="relative w-full h-full">
-          <Image
-            src={design?.imageUrl || ""}
-            alt="Design image"
-            fill
-            objectFit="scale-down"
-            className="rounded-md"
-          />
-        </div>
-      </Link>
+    <BaseCard imageUrl={design?.imageUrl || ""} link={`/design/${design?.id}`}>
       <button
         onClick={deleteDesign}
-        className="absolute hidden cursor-pointer top-1 right-2 text-red-500 p-2 transition-all duration-500 group-hover:block z-50"
+        className="absolute hidden cursor-pointer top-[-5px] right-[-4px] text-red-500 p-2 transition-all duration-500 group-hover:block z-50"
         style={{ outline: 'none' }}
       >
         <FaTrash />
       </button>
-    </div>
+    </BaseCard>
   );
 };
 

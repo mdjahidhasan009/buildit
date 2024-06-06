@@ -127,7 +127,7 @@ const CardSlider: React.FC<IReactNode> = ({ children }) => {
   };
 
   const wrappedChildren = Children.map(children, (child, index) => (
-    <div key={index} className="card flex-shrink-0">
+    <div key={index} className="card flex justify-center items-center">
       {child}
     </div>
   ));

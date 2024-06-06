@@ -2,8 +2,8 @@ import TemplateDesign from "@/app/(design)/components/TemplateDesign";
 
 const Templates = () => {
   return (
-    <div>
-      <TemplateDesign type=""/>
+    <div className="w-full h-full">
+      <TemplateDesign gridClass="grid-cols-4"/>
     </div>
   )
 }
