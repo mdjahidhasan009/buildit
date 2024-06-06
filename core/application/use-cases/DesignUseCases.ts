@@ -66,7 +66,8 @@ export class DesignUseCases {
     if(!imageUrl) {
       throw new Error('Error uploading image');
     }
-    const componentsDesign: JSON = components?.IdesignEntry || {};
+    const componentsDesign: JSON = components?.design || {};
+
     const IdesignEntry = await this.designRepository.update(design_id, {
       components: componentsDesign,
       imageUrl,

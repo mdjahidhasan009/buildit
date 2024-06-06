@@ -1,7 +1,7 @@
 "use client";
 
 import React, {useEffect, useState} from 'react'
-import 'react-multi-carousel/lib/styles.css';
+// import 'react-multi-carousel/lib/styles.css';
 import useApi from "@/utils/useApi";
 import CardSlider from "@/components/Carousel/CardSlider";
 import DesignCard from "@/components/shared/DesignCard";

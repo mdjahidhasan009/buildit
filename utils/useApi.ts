@@ -1,11 +1,5 @@
 import {useEffect, useState} from "react";
 
-interface UseApiOptions {
-  method?: "GET" | "POST" | "PUT" | "DELETE";
-  body?: BodyInit | object | FormData | null;
-  headers?: HeadersInit;
-}
-
 interface UseApiResponse<T> {
   data: T | null;
   error: Error | null;

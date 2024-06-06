@@ -6,10 +6,11 @@ import useApi from "@/utils/useApi";
 import Template from "@/components/shared/Template";
 
 interface TemplateDesignProps {
-    type: "main" | ""; // 'type' can be "main" or an empty string
+    gridClass: string;
+
 }
 
-const TemplateDesign: FC<TemplateDesignProps> = ({ type }) => {
+const TemplateDesign: FC<TemplateDesignProps> = ({ gridClass }) => {
     const [templates, setTemplates] = useState([]);
 
     const { data, error } = useApi('api/v1/designs/templates');
@@ -22,11 +23,11 @@ const TemplateDesign: FC<TemplateDesignProps> = ({ type }) => {
 
     return (
         <>
-            <div className={`grid gap-2 m-4 mt-5 ${type ? ' grid-cols-2 ' : ' grid-cols-4'}`}>
+            <div className={`grid gap-2 m-4 mt-5 ${gridClass}`}>
                 {
                     templates.map((template: any, index: number) =>
                         (
-                          <Template key={index} index={index} template={template} type={type} />
+                          <Template key={index} index={index} template={template} />
                         )
                     )
                 }

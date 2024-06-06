@@ -27,7 +27,7 @@ const SideBarDrawer = ({ design_id = '' }) => {
     'h-full',
     'fixed',
     'transition-all duration-700',
-    'w-[50vw] md:w-[350px]',
+    'w-[70vw] md:w-[350px]',
     'z-30',
     !isSidebarOpen ? {
       'p-0 left-[-50vw] md:left-[-350px]': true
@@ -48,19 +48,25 @@ const SideBarDrawer = ({ design_id = '' }) => {
       </div>
       {
         selectedSidebarItemName === 'design' && <div>
-            <TemplateDesign type='main'/>
+            <TemplateDesign gridClass="grid-cols-2"/>
           </div>
       }
       {
         selectedSidebarItemName === 'shape' &&
           <div className='grid grid-cols-3'>
-            <div onClick={() => createShape('shape', 'rect')}
-                 className='h-[90px] bg-[#3c3c3d] cursor-pointer'></div>
-            <div onClick={() => createShape('shape', 'circle')}
-                 className='h-[90px] bg-[#3c3c3d] cursor-pointer rounded-full'></div>
-            <div onClick={() => createShape('shape', 'trangle')}
-                 style={{clipPath: 'polygon(50% 0, 100% 100%, 0 100%)'}}
-                 className='h-[90px] bg-[#3c3c3d] cursor-pointer'></div>
+            <div
+              onClick={() => createShape('shape', 'rect')}
+              className='h-[90px] bg-[#3c3c3d] cursor-pointer'
+            />
+            <div
+              onClick={() => createShape('shape', 'circle')}
+              className='h-[90px] bg-[#3c3c3d] cursor-pointer rounded-full'
+            />
+            <div
+              onClick={() => createShape('shape', 'trangle')}
+              style={{clipPath: 'polygon(50% 0, 100% 100%, 0 100%)'}}
+              className='h-[90px] bg-[#3c3c3d] cursor-pointer'
+            />
           </div>
       }
       {

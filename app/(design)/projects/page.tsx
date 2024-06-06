@@ -21,7 +21,7 @@ const Projects = () => {
       <div className={`grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 m-4 w-full`}>
         {
           designs.map((design, index) =>
-            <div className="m-2" key={index}>
+            <div className="" key={index}>
               <DesignCard key={design.id || index} design={design} />
             </div>
           )
