@@ -5,6 +5,10 @@ import {DesignUseCases} from "@/core/application/use-cases/DesignUseCases";
 import {PrismaTemplateRepository} from "@/infrastructure/adapters/PrismaTemplateRepository";
 import {CloudinaryService} from "@/infrastructure/services/CloudinaryService";
 
+export const config = {
+  runtime: "edge",
+};
+
 export async function GET(req: NextRequest){
   console.log('start')
   // const [_] = await requestHandler({ requireAuth: true, expectBody: false })(req);
