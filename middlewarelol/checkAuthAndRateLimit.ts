@@ -1,7 +1,7 @@
 import {NextRequest, NextResponse} from "next/server";
 import {Session} from "next-auth";
-import {authMiddleware} from "@/middleware/authMiddleware";
-import {rateLimitMiddleware} from "@/middleware/rateLimitMiddleware";
+import {authMiddleware} from "@/middlewarelol/authMiddleware";
+import {rateLimitMiddleware} from "@/middlewarelol/rateLimitMiddleware";
 
 const checkAuthAndRateLimit = async (req: NextRequest): Promise<NextResponse<unknown> | Session | null> => {
   if (!req) {

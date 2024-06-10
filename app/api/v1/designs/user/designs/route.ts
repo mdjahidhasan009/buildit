@@ -6,9 +6,11 @@ import {PrismaTemplateRepository} from "@/infrastructure/adapters/PrismaTemplate
 import {CloudinaryService} from "@/infrastructure/services/CloudinaryService";
 
 export async function GET(req: NextRequest){
-  const [_, userId, earlyAbortRequest] = await requestHandler({ requireAuth: true, expectBody: false })(req);
-  if (earlyAbortRequest) return earlyAbortRequest;
-  if(!userId) return new Response(JSON.stringify({ message: "Authentication required" }), { status: 401, headers: { 'Content-Type': 'application/json' } });
+  console.log('start')
+  // const [_] = await requestHandler({ requireAuth: true, expectBody: false })(req);
+  // if (earlyAbortRequest) return earlyAbortRequest;
+
+  if(!req?.userId) return new Response(JSON.stringify({ message: "Authentication required" }), { status: 401, headers: { 'Content-Type': 'application/json' } });
 
   const prismaDesignRepository = new PrismaDesignRepository();
   const prismaTemplateRepository = new PrismaTemplateRepository();
@@ -16,7 +18,7 @@ export async function GET(req: NextRequest){
   const designUseCases = new DesignUseCases(prismaDesignRepository, prismaTemplateRepository, cloudinaryService);
 
   try {
-    const designs = await designUseCases.getUserDesigns(userId);
+    const designs = await designUseCases.getUserDesigns(req?.userId);
     return new Response(JSON.stringify({ status: 'success', data: { designs } }), { status: 200, headers: { 'Content-Type': 'application/json' } });
     // return NextResponse.json(
     //   {
