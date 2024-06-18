@@ -3,15 +3,11 @@ import { PrismaDesignRepository } from "@/infrastructure/adapters/PrismaDesignRe
 import { DesignUseCases } from "@/core/application/use-cases/DesignUseCases";
 import { PrismaTemplateRepository } from "@/infrastructure/adapters/PrismaTemplateRepository";
 import { CloudinaryService } from "@/infrastructure/services/CloudinaryService";
-import {auth} from "@/auth";
+import {getUserId} from "@/utils/authUtils";
 
 export async function GET(req: NextRequest) {
-  const session = await auth();
-  const userId = session?.user?.id;
-
-  if (!userId) {
-    return new Response(JSON.stringify({ message: "Authentication required12" }), { status: 401, headers: { 'Content-Type': 'application/json' } });
-  }
+  const { userId, response } = await getUserId();
+  if (!userId) return response;
 
   const prismaDesignRepository = new PrismaDesignRepository();
   const prismaTemplateRepository = new PrismaTemplateRepository();

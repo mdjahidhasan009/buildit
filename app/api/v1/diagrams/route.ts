@@ -1,32 +1,27 @@
 import { PrismaDiagramRepository } from "@/infrastructure/adapters/PrismaDiagramRepository";
 import { DiagramUseCases } from "@/core/application/use-cases/DiagramUseCases";
-import { requestHandler } from "@/utils/requestHandlerFactory";
 import {NextRequest, NextResponse} from "next/server";
-import {PrismaSnippetRepository} from "@/infrastructure/adapters/prismaSnippetRepository";
-import {SnippetUseCases} from "@/core/application/use-cases/snippetUseCases";
+import {getUserId} from "@/utils/authUtils";
+import {extractBodyFromRequest} from "@/utils/requestHelpers";
 
 export const GET = async (req: NextRequest) => {
-    const [ body, userId, earlyAbortResponse ] = await requestHandler({ requireAuth: true, expectBody: false })(req);
-    if (earlyAbortResponse) {
-        return earlyAbortResponse;
-    }
-
-    if(!userId) {
-        return new Response(JSON.stringify({ status: 'error', message: 'Unauthorized' }), { status: 401, headers: { 'Content-Type': 'application/json' } });
-    }
+    const { userId, response } = await getUserId();
+    if (!userId) return response;
 
     const diagramRepository = new PrismaDiagramRepository();
     const diagramUseCases = new DiagramUseCases(diagramRepository);
     const diagrams = await diagramUseCases.getAllOfUser(userId);
 
-    // return new NextResponse(JSON.stringify(diagrams), { status: 200 });
     return new Response(JSON.stringify({ status: 'success', data: { diagrams } }), { status: 200, headers: { 'Content-Type': 'application/json' } });
-    // return new Response(JSON.stringify({ status:'success', data: { diagrams } }), { status: 200, headers: { 'Content-Type': 'application/json' } });
 }
 export const POST = async (req: NextRequest) => {
-    const [ body, userId, earlyAbortResponse ] = await requestHandler({ requireAuth: true, expectBody: true })(req);
-    // If commonMiddleware produced a NextResponse(error response), terminate early
-    if (earlyAbortResponse) return earlyAbortResponse;
+    const { userId, response } = await getUserId();
+    if (!userId) return response;
+
+    let body = await extractBodyFromRequest(req);
+    if(!body) {
+        return new Response(JSON.stringify({ status: 'error', message: 'Please add the body' }), { status: 404, headers: { 'Content-Type': 'application/json' } });
+    }
 
     const diagramRepository = new PrismaDiagramRepository();
     const diagramUseCase = new DiagramUseCases(diagramRepository);
@@ -37,13 +32,14 @@ export const POST = async (req: NextRequest) => {
 }
 
 export const PATCH = async (req: NextRequest) => {
-    const [body, userId ='', earlyAbortResponse] =
-        await requestHandler({ requireAuth: true, expectBody: true })(req);
-    if(earlyAbortResponse && earlyAbortResponse.status !== 403) return earlyAbortResponse; //as it can be use publicly also
+    const { userId, response } = await getUserId();
+    if (!userId) return response;
 
-    if(!userId) {
-        return new Response(JSON.stringify({ stats: 'error', message: "Unauthorized"}), { status: 401, headers: { 'Content-Type': 'application-json' }});
+    let body = await extractBodyFromRequest(req);
+    if(!body) {
+        return new Response(JSON.stringify({ status: 'error', message: 'Please add the body' }), { status: 404, headers: { 'Content-Type': 'application/json' } });
     }
+
     const id = body?.id;
     if(!id) {
         return new Response(JSON.stringify({ status: 'error', message: 'Please add the id' }), { status: 404, headers: { 'Content-Type': 'application/json' } });
@@ -62,9 +58,8 @@ export const PATCH = async (req: NextRequest) => {
 
 export const DELETE = async (req: NextRequest) => {
     try {
-        const [ , userId, earlyAbortResponse ] = await requestHandler({ requireAuth: true, expectBody: false })(req);
-        // If commonMiddleware produced a NextResponse(error response), terminate early
-        if (earlyAbortResponse) return earlyAbortResponse;
+        const { userId, response } = await getUserId();
+        if (!userId) return response;
 
         const diagramRepository = new PrismaDiagramRepository();
         const diagramUseCase = new DiagramUseCases(diagramRepository);
@@ -83,6 +78,5 @@ export const DELETE = async (req: NextRequest) => {
     } catch (e) {
         console.error(e);
         return new Response(JSON.stringify({ code: "INTERNAL_SERVER_ERROR" }), { status: 400, headers: { 'Content-Type': 'application/json' } });
-        // return new NextResponse(JSON.stringify({ code: "INTERNAL_SERVER_ERROR", detail: e.message }), { status: 500 });
     }
 }

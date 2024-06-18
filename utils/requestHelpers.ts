@@ -11,3 +11,18 @@ export function extractParamFromRequest(req: NextRequest, paramName: string = "i
   const { searchParams } = new URL(req.url);
   return searchParams.get(paramName);
 }
+
+/**
+ * Extracts body data from the request.
+ *
+ * @param req - The incoming Next.js request object.
+ * @returns The body data if found, or null otherwise.
+ */
+export async function extractBodyFromRequest(req: NextRequest): Promise<any> {
+  try {
+    return await req.json();
+  } catch (error) {
+    console.error('Invalid Json', error);
+    return null;
+  }
+}
