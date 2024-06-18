@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import checkAuthAndRateLimit from "@/middlewarelol/checkAuthAndRateLimit";
 import { Session } from "next-auth";
 
 function createRequestHandler(options: { requireAuth?: boolean; expectBody?: boolean } = { requireAuth: true, expectBody: true }) {
