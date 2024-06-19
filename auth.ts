@@ -1,15 +1,7 @@
 import NextAuth from "next-auth"
-import { PrismaClient } from "@prisma/client"
 import { PrismaAdapter } from "@auth/prisma-adapter"
-import { PrismaNeon } from "@prisma/adapter-neon"
-import { Pool } from "@neondatabase/serverless"
 import authConfig from "@/auth.config";
-
-const neon = new Pool({
-  connectionString: process.env.DIRECT_DATABASE_URL,
-})
-const adapter = new PrismaNeon(neon)
-const prisma = new PrismaClient({ adapter })
+import { prisma } from "@/utils/prismaClient";
 
 export const {
   handlers,
