@@ -11,7 +11,7 @@ async function main() {
     create: {
       email: 'admin@admin.com',
       name: 'Admin',
-      password,
+      // password,
     },
   });
   console.log({ user });

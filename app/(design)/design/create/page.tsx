@@ -1,6 +1,6 @@
 "use client";
 
-import {useEffect, useRef, useState} from 'react';
+import {Suspense, useEffect, useRef, useState} from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import * as htmlToImage from 'html-to-image';
 import RotateLoader from "react-spinners/RotateLoader";
@@ -69,20 +69,26 @@ const CreateDesign = () => {
     }
 
     return (
-        <div className="w-screen h-screen flex justify-center items-center relative">
-            <div ref={divRef} className="relative w-auto h-auto overflow-auto">
-                <CreateComponent component={obj} />
+      <div className="w-screen h-screen flex justify-center items-center relative">
+          <div ref={divRef} className="relative w-auto h-auto overflow-auto">
+              <CreateComponent component={obj} />
+          </div>
+          {
+            loading &&
+            <div
+              className='left-0 top-0 w-full h-full flex justify-center items-center bg-black absolute'
+            >
+                <RotateLoader color='white' />
             </div>
-            {
-                loading &&
-                <div
-                    className='left-0 top-0 w-full h-full flex justify-center items-center bg-black absolute'
-                >
-                    <RotateLoader color='white' />
-                </div>
-            }
-        </div>
+          }
+      </div>
     )
 };
 
-export default CreateDesign;
+export default function WrappedCreateDesign() {
+    return (
+      <Suspense fallback={<div>Loading...</div>}>
+          <CreateDesign />
+      </Suspense>
+    );
+}

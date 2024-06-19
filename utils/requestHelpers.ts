@@ -20,6 +20,8 @@ export function extractParamFromRequest(req: NextRequest, paramName: string = "i
  */
 export async function extractBodyFromRequest(req: NextRequest): Promise<any> {
   try {
+    if(!req) return null;
+
     return await req.json();
   } catch (error) {
     console.error('Invalid Json', error);
