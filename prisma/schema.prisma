@@ -3,7 +3,7 @@
 
 generator client {
   provider   = "prisma-client-js"
-  previewFeatures = ["driverAdapters"]
+  // previewFeatures = ["driverAdapters"]
   // engineType = "library"
 }
 
@@ -14,7 +14,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  directUrl = env("DIRECT_DATABASE_URL")
+  // directUrl = env("DIRECT_DATABASE_URL")
 }
 
 model Account {
