@@ -8,3 +8,10 @@ declare module "next-auth" {
     } & DefaultSession["user"];
   }
 }
+
+// this process is known as module augmentation
+declare module "next/server" {
+  interface NextRequest {
+    userId?: string;
+  }
+}

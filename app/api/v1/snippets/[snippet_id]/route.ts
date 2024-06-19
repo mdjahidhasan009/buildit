@@ -1,12 +1,12 @@
 import {NextRequest, NextResponse} from "next/server";
-import {requestHandler} from "@/utils/requestHandlerFactory";
 import {PrismaSnippetRepository} from "@/infrastructure/adapters/prismaSnippetRepository";
 import {SnippetUseCases} from "@/core/application/use-cases/snippetUseCases";
+import {getUserId} from "@/utils/authUtils";
 
 export const GET = async (req: NextRequest, params: {params: { snippet_id: string }}) => {
   try {
-    const [_, userId ='', earlyAbortResponse] = await requestHandler({ requireAuth: true, expectBody: false })(req);
-    if(earlyAbortResponse && earlyAbortResponse.status !== 403) return earlyAbortResponse; //as it can be use publicly also
+    const { userId, response } = await getUserId();
+    if (!userId) return response;
 
     const snippetId = params?.params?.snippet_id as string;
     if(!snippetId) throw new Error("Snippet ID is required");

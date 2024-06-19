@@ -1,6 +1,8 @@
-import { authOptions } from "../authOptions";
-import NextAuth from "next-auth/next";
+// import { handlers } from "@/auth"
+// export const { GET, POST } = handlers
+//
+// export const runtime = "edge"
 
-const handler = NextAuth(authOptions);
+import { handlers } from '@/auth';
 
-export { handler as GET, handler as POST };
+export const { GET, POST } = handlers;

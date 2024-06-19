@@ -32,7 +32,7 @@ export type FontDefinition = {
   type: string;
 };
 
-export type Message =
+export type TMessage =
   | "SUCCESS"
   | "ERROR"
   | "UNAUTHORIZED"
@@ -47,7 +47,7 @@ export type Message =
   | "CLIPBOARD_API_NOT_SUPPORTED";
 
 export type AppStatus = {
-  message: Message;
+  message: TMessage;
   hasCustomTheme: boolean;
 };
 

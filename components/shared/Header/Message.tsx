@@ -1,7 +1,7 @@
 import {useEffect, useRef, useState} from "react";
 // import { useStore } from "@/lib/store";
 import { usePathname } from "next/navigation";
-import { Message } from "@/lib/types";
+import { TMessage } from "@/lib/types";
 import { Check, X, Code } from "lucide-react";
 import Loader from "@/components/shared/ui/Loader";
 import { cn } from "@/lib/cn";
@@ -17,7 +17,7 @@ interface ContentState {
   additionalClasses?: string;
 }
 
-const CONTENT_STATES: Partial<Record<Message, ContentState>> = {
+const CONTENT_STATES: Partial<Record<TMessage, ContentState>> = {
   SUCCESS: {
     id: "success",
     text: "Changes Saved",
@@ -98,7 +98,7 @@ export default function Message() {
       setShowMessage(false);
     } else {
       setShowMessage(true);
-      setContent(CONTENT_STATES[message as Message]!);
+      setContent(CONTENT_STATES[message as TMessage]!);
 
       if (message !== "PENDING") {
         debouncedUpdateMessage("IDLE");
