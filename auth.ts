@@ -1,74 +1,15 @@
-// import NextAuth from "next-auth"
-// import { PrismaAdapter } from "@auth/prisma-adapter"
-// import authConfig from "@/auth.config";
-// import { prisma } from "@/utils/prismaClient";
-//
-// export const {
-//   handlers,
-//   auth,
-//   signIn,
-//   signOut,
-//   unstable_update: update,
-// } = NextAuth({
-//   adapter: PrismaAdapter(prisma),
-//   callbacks: {
-//     async session({ session, user }: any) {
-//       session.user.id = user.id;
-//       return session;
-//     },
-//   },
-//   ...authConfig
-// })
-
 import NextAuth from 'next-auth';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import prisma from './prisma/prisma';
-import github from 'next-auth/providers/github';
+import GitHub from "next-auth/providers/github";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  session: { strategy: 'jwt' },
+  providers: [GitHub],
   adapter: PrismaAdapter(prisma),
-  pages: {
-    signIn: '/login',
-  },
-  providers: [
-    github,
-  ],
   callbacks: {
-    authorized({ auth, request: { nextUrl } }) {
-      const isLoggedIn = !!auth?.user;
-      const paths = ['/profile', '/client-side'];
-      const isProtected = paths.some((path) =>
-        nextUrl.pathname.startsWith(path)
-      );
-
-      if (isProtected && !isLoggedIn) {
-        const redirectUrl = new URL('/api/auth/signin', nextUrl.origin);
-        redirectUrl.searchParams.append('callbackUrl', nextUrl.href);
-        return Response.redirect(redirectUrl);
-      }
-      return true;
-    },
-    jwt: ({ token, user }) => {
-      if (user) {
-        const u = user as unknown as any;
-        return {
-          ...token,
-          id: u.id,
-          randomKey: u.randomKey,
-        };
-      }
-      return token;
-    },
-    session(params) {
-      return {
-        ...params.session,
-        user: {
-          ...params.session.user,
-          id: params.token.id as string,
-          randomKey: params.token.randomKey,
-        },
-      };
+    async session({ session, user }: any) {
+      session.user.id = user.id;
+      return session;
     },
   },
 });
