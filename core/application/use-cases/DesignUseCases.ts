@@ -54,7 +54,7 @@ export class DesignUseCases {
 
     const oldDesign = await this.designRepository.getById(design_id);
     if(!oldDesign) {
-      throw new Error('IDesignEntry not found');
+      throw new Error('Could Not find design with the given id');
     }
 
     let oldDesignImageUrl = oldDesign?.imageUrl;

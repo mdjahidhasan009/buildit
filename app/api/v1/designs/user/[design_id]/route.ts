@@ -31,7 +31,7 @@ export async function PUT (req: NextRequest, params: { params: { design_id: stri
   if (!userId) return response;
 
   const data = await req.formData();
-  const base64Image = data.get('image')
+  const base64Image = data.get('image');
   let componentsString: string | File = data.get('design') || "";
   const { params: { design_id } }  = params;
 

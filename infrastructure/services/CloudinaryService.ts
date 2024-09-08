@@ -1,5 +1,3 @@
-// infrastructure/services/CloudinaryService.ts
-
 import { v2 as cloudinary } from 'cloudinary';
 import { IImageStorageService } from '@/core/application/ports/IImageStorageService';
 
@@ -46,14 +44,6 @@ export class CloudinaryService implements IImageStorageService {
    */
   async deleteImage(imageUrl: string): Promise<void> {
     return new Promise((resolve, reject) => {
-      // cloudinary.uploader.destroy(publicId, {}, (error, result) => {
-      //   if (error) {
-      //     console.error('Cloudinary Delete Error:', error);
-      //     reject(error);
-      //   } else {
-      //     resolve();
-      //   }
-      // });
       const splitImage = imageUrl.split('/');
       const imageFile = splitImage[splitImage.length - 1];
       const imageName = imageFile.split('.')[0];
